@@ -114,9 +114,90 @@
             pointer-events: none;
             z-index: 0;
         }
+
+        /* Візерунок "Сова" */
+        .phone-frame.pattern-owl {
+            background: #17212b;
+            position: relative;
+        }
+        .phone-frame.pattern-owl::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><circle cx="35" cy="40" r="8" fill="%231da1f2"/><circle cx="65" cy="40" r="8" fill="%231da1f2"/><circle cx="35" cy="40" r="3" fill="white"/><circle cx="65" cy="40" r="3" fill="white"/><path d="M40 60 Q50 70 60 60" stroke="%231da1f2" fill="none" stroke-width="3"/><text x="20" y="25" font-size="30" fill="%231da1f2" opacity="0.2">ꜰ</text></svg>');
+            background-repeat: repeat;
+            background-size: 120px 120px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Візерунок "Метелик" */
+        .phone-frame.pattern-butterfly {
+            background: linear-gradient(145deg, #17212b, #1a2f3f);
+            position: relative;
+        }
+        .phone-frame.pattern-butterfly::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.12"><path d="M30,40 Q45,20 60,40 Q45,35 30,40" fill="%231da1f2"/><path d="M40,45 Q50,65 60,45 Q50,55 40,45" fill="%231da1f2"/><text x="15" y="70" font-size="35" fill="%231da1f2" opacity="0.2">𓆦</text></svg>');
+            background-repeat: repeat;
+            background-size: 130px 130px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Візерунок "Місяць/Зірки" */
+        .phone-frame.pattern-moon {
+            background: #17212b;
+            position: relative;
+        }
+        .phone-frame.pattern-moon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.12"><circle cx="30" cy="30" r="5" fill="%231da1f2"/><circle cx="70" cy="60" r="4" fill="%231da1f2"/><circle cx="50" cy="80" r="3" fill="%231da1f2"/><path d="M75 20 Q85 25 75 30" stroke="%231da1f2" fill="none" stroke-width="2"/><text x="20" y="50" font-size="40" fill="%231da1f2" opacity="0.15">☾</text></svg>');
+            background-repeat: repeat;
+            background-size: 140px 140px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Візерунок "Райдуга" */
+        .phone-frame.pattern-rainbow {
+            background: linear-gradient(125deg, #17212b, #1e3445);
+            position: relative;
+        }
+        .phone-frame.pattern-rainbow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path d="M20,60 Q50,30 80,60" stroke="%231da1f2" fill="none" stroke-width="3"/><path d="M20,70 Q50,45 80,70" stroke="%231da1f2" fill="none" stroke-width="3"/><path d="M20,80 Q50,60 80,80" stroke="%231da1f2" fill="none" stroke-width="3"/><text x="40" y="40" font-size="30" fill="%231da1f2" opacity="0.2">⌒</text></svg>');
+            background-repeat: repeat;
+            background-size: 120px 120px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .phone-frame.pattern-hummingbird .top-nav::after,
         .phone-frame.pattern-hummingbird .bottom-nav::after {
-            display: none; /* Запобігаємо накладанню */
+            display: none;
         }
 
         /* Загальні стилі для контенту поверх візерунків */
@@ -129,7 +210,11 @@
         /* Затемнення фону для читабельності тексту на візерунках */
         .phone-frame.pattern-waves .screen,
         .phone-frame.pattern-dots .screen,
-        .phone-frame.pattern-hummingbird .screen {
+        .phone-frame.pattern-hummingbird .screen,
+        .phone-frame.pattern-owl .screen,
+        .phone-frame.pattern-butterfly .screen,
+        .phone-frame.pattern-moon .screen,
+        .phone-frame.pattern-rainbow .screen {
             background: transparent;
         }
 
@@ -1694,7 +1779,7 @@
         /* Patterns selector */
         .patterns-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 8px;
             margin-top: 8px;
         }
@@ -1703,12 +1788,16 @@
             background: #2c3e50;
             border: 2px solid #3a4a5a;
             border-radius: 16px;
-            padding: 16px 8px;
+            padding: 12px 4px;
             text-align: center;
             cursor: pointer;
             color: white;
             font-size: 12px;
             backdrop-filter: blur(2px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
         }
 
         .pattern-option:hover {
@@ -1724,7 +1813,7 @@
 
         .pattern-preview {
             font-size: 24px;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .notifications-panel {
@@ -2185,6 +2274,22 @@
                     <div class="pattern-preview">𓅪</div>
                     <div>Колібрі</div>
                 </div>
+                <div class="pattern-option" onclick="selectPattern('owl')">
+                    <div class="pattern-preview">ꜰ</div>
+                    <div>Сова</div>
+                </div>
+                <div class="pattern-option" onclick="selectPattern('butterfly')">
+                    <div class="pattern-preview">𓆦</div>
+                    <div>Метелик</div>
+                </div>
+                <div class="pattern-option" onclick="selectPattern('moon')">
+                    <div class="pattern-preview">☾</div>
+                    <div>Місяць</div>
+                </div>
+                <div class="pattern-option" onclick="selectPattern('rainbow')">
+                    <div class="pattern-preview">⌒</div>
+                    <div>Райдуга</div>
+                </div>
             </div>
             <div class="modal-actions" style="margin-top: 16px;">
                 <button class="modal-btn save" onclick="closeModal('patternsModal')">Готово</button>
@@ -2322,7 +2427,7 @@
             if (!phoneFrame) return;
             
             // Видаляємо всі класи візерунків
-            phoneFrame.classList.remove('pattern-default', 'pattern-waves', 'pattern-dots', 'pattern-hummingbird');
+            phoneFrame.classList.remove('pattern-default', 'pattern-waves', 'pattern-dots', 'pattern-hummingbird', 'pattern-owl', 'pattern-butterfly', 'pattern-moon', 'pattern-rainbow');
             
             // Додаємо вибраний клас
             phoneFrame.classList.add(`pattern-${pattern}`);
@@ -2341,10 +2446,12 @@
             document.querySelectorAll('.pattern-option').forEach(opt => {
                 opt.classList.remove('active');
             });
-            const activeIndex = savedPattern === 'default' ? 0 : 
-                               savedPattern === 'waves' ? 1 :
-                               savedPattern === 'dots' ? 2 : 3;
-            document.querySelectorAll('.pattern-option')[activeIndex].classList.add('active');
+            
+            const patterns = ['default', 'waves', 'dots', 'hummingbird', 'owl', 'butterfly', 'moon', 'rainbow'];
+            const activeIndex = patterns.indexOf(savedPattern);
+            if (activeIndex >= 0) {
+                document.querySelectorAll('.pattern-option')[activeIndex].classList.add('active');
+            }
         };
 
         // Вибрати візерунок
@@ -2848,7 +2955,6 @@
             if (screenId === 'profileScreen') {
                 loadProfilePosts();
             }
-            // Візерунок вже глобальний, нічого додатково не треба
         };
 
         window.switchMode = function(mode) {
