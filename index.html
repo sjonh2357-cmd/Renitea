@@ -279,6 +279,7 @@
             position: absolute;
             top: 0;
             left: 0;
+            pointer-events: none;
         }
 
         .logo-upload-input {
@@ -385,6 +386,7 @@
             position: absolute;
             top: 0;
             left: 0;
+            pointer-events: none;
         }
 
         .profile-info {
@@ -586,6 +588,7 @@
             position: absolute;
             top: 0;
             left: 0;
+            pointer-events: none;
         }
 
         .chat-type-switch {
@@ -1682,6 +1685,10 @@
             border-color: #1da1f2;
         }
 
+        .visa-item:hover .visa-overlay {
+            opacity: 1;
+        }
+
         .visa-video {
             position: absolute;
             top: 0;
@@ -1690,6 +1697,7 @@
             height: 100%;
             object-fit: cover;
             z-index: 1;
+            pointer-events: none;
         }
 
         .visa-overlay {
@@ -1707,6 +1715,7 @@
             color: white;
             opacity: 0;
             backdrop-filter: blur(2px);
+            pointer-events: none;
         }
 
         .visa-item:hover .visa-overlay {
@@ -1719,6 +1728,7 @@
             position: relative;
             z-index: 2;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            pointer-events: none;
         }
 
         .visa-date {
@@ -1726,6 +1736,7 @@
             position: relative;
             z-index: 2;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            pointer-events: none;
         }
 
         .moments-text {
@@ -1822,6 +1833,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
+            cursor: pointer;
         }
 
         .big-circle-image:hover {
@@ -1847,6 +1859,7 @@
             z-index: 10;
             opacity: 0;
             backdrop-filter: blur(2px);
+            pointer-events: none;
         }
 
         .circle-action {
@@ -1856,6 +1869,8 @@
             gap: 4px;
             color: white;
             font-size: 12px;
+            pointer-events: auto;
+            cursor: pointer;
         }
 
         .circle-action svg {
@@ -1877,6 +1892,7 @@
             position: absolute;
             top: 0;
             left: 0;
+            pointer-events: none;
         }
 
         .big-circle-header {
@@ -1927,6 +1943,7 @@
             justify-content: center;
             color: white;
             font-size: 36px;
+            cursor: pointer;
         }
 
         .big-circle-add:hover {
@@ -2632,11 +2649,6 @@
         </div>
     </div>
 
-    <input type="file" id="videoUploadInput" accept="video/*,image/*" style="display: none;">
-    <input type="file" id="profileVideoUpload" accept="video/*,image/*" style="display: none;">
-    <input type="file" id="profilePostUpload" accept="video/*,image/*" style="display: none;">
-    <input type="file" id="visaVideoUpload" accept="video/*,image/*" style="display: none;">
-
     <script>
         // ========== ДАНІ ==========
         let currentUser = {
@@ -2880,7 +2892,7 @@
             const sw = document.getElementById('prioritySortSwitch');
             sw.classList.toggle('active', prioritySortEnabled);
             addNotification('⚡ PrioritySort', prioritySortEnabled ? 'Сортування чатів увімкнено' : 'Сортування чатів вимкнено');
-            loadChats(); // одразу пересортувати
+            loadChats();
         };
 
         // ========== STYQLY SAFE ==========
@@ -3023,33 +3035,152 @@
             }, 300);
         };
 
-        // ========== ЗАВАНТАЖЕННЯ ==========
-        window.uploadVisaVideo = function(index) {
-            if (!safaSettings.photo) {
-                showNotificationDetail('Спроба завантажити зображення (заборонено Styqly Safe)');
-                return;
-            }
-            currentVisaIndex = index;
-            const input = document.getElementById('visaVideoUpload');
-            input.onchange = handleVisaVideoUpload;
-            input.click();
-        };
-
-        function handleVisaVideoUpload(event) {
-            const file = event.target.files[0];
-            if (file && currentVisaIndex !== null) {
+        // ========== ФУНКЦІЯ ДЛЯ КРУЖЕЧКІВ ==========
+        window.uploadCircleVideo = function(index) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'video/*,image/*';
+            input.style.display = 'none';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
                 const url = URL.createObjectURL(file);
-                savedVideos.visas[currentVisaIndex] = url;
+                
+                if (!savedVideos.circles) savedVideos.circles = {};
+                savedVideos.circles[index] = url;
                 saveVideos();
                 
-                const visaDiv = document.getElementById(`visa-${currentVisaIndex}`);
+                const circleItems = document.querySelectorAll('.big-circle-item');
+                const targetCircle = circleItems[index + 1];
+                
+                if (targetCircle) {
+                    const imageDiv = targetCircle.querySelector('.big-circle-image');
+                    if (imageDiv) {
+                        const overlay = imageDiv.querySelector('.circle-overlay');
+                        const overlayHTML = overlay ? overlay.outerHTML : '';
+                        
+                        if (file.type.startsWith('video/')) {
+                            imageDiv.innerHTML = `
+                                <video src="${url}" loop muted playsinline autoplay style="width:100%; height:100%; object-fit:cover; pointer-events:none;"></video>
+                                ${overlayHTML}
+                            `;
+                        } else {
+                            imageDiv.innerHTML = `
+                                <img src="${url}" style="width:100%; height:100%; object-fit:cover; pointer-events:none;">
+                                ${overlayHTML}
+                            `;
+                        }
+                    }
+                }
+            };
+            
+            document.body.appendChild(input);
+            input.click();
+            setTimeout(() => document.body.removeChild(input), 1000);
+        };
+
+        // ========== ФУНКЦІЯ ДЛЯ АВАТАРА ПРОФІЛЮ ==========
+        window.uploadProfileVideo = function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'video/*,image/*';
+            input.style.display = 'none';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const url = URL.createObjectURL(file);
+                
+                if (!savedVideos.profile) savedVideos.profile = {};
+                savedVideos.profile.avatar = url;
+                saveVideos();
+                
+                const avatarDiv = document.getElementById('profileAvatar');
+                if (avatarDiv) {
+                    avatarDiv.innerHTML = '';
+                    
+                    if (file.type.startsWith('video/')) {
+                        const video = document.createElement('video');
+                        video.src = url;
+                        video.loop = true;
+                        video.muted = true;
+                        video.playsinline = true;
+                        video.autoplay = true;
+                        video.style.width = '100%';
+                        video.style.height = '100%';
+                        video.style.objectFit = 'cover';
+                        video.style.pointerEvents = 'none';
+                        avatarDiv.appendChild(video);
+                    } else {
+                        const img = document.createElement('img');
+                        img.src = url;
+                        img.style.width = '100%';
+                        img.style.height = '100%';
+                        img.style.objectFit = 'cover';
+                        img.style.pointerEvents = 'none';
+                        avatarDiv.appendChild(img);
+                    }
+                }
+            };
+            
+            document.body.appendChild(input);
+            input.click();
+            setTimeout(() => document.body.removeChild(input), 1000);
+        };
+
+        // ========== ФУНКЦІЯ ДЛЯ ПОСТІВ ПРОФІЛЮ ==========
+        window.uploadProfilePost = function(index) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'video/*,image/*';
+            input.style.display = 'none';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const url = URL.createObjectURL(file);
+                
+                if (!savedVideos.profile) savedVideos.profile = {};
+                savedVideos.profile[`post_${index}`] = url;
+                saveVideos();
+                
+                loadProfilePosts();
+            };
+            
+            document.body.appendChild(input);
+            input.click();
+            setTimeout(() => document.body.removeChild(input), 1000);
+        };
+
+        // ========== ФУНКЦІЯ ДЛЯ ВІЗ ==========
+        window.uploadVisaVideo = function(index) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'video/*,image/*';
+            input.style.display = 'none';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const url = URL.createObjectURL(file);
+                
+                if (!savedVideos.visas) savedVideos.visas = {};
+                savedVideos.visas[index] = url;
+                saveVideos();
+                
+                const visaDiv = document.getElementById(`visa-${index}`);
                 if (visaDiv) {
-                    const place = visaData[currentVisaIndex].place;
-                    const date = visaData[currentVisaIndex].date;
+                    const place = visaData[index].place;
+                    const date = visaData[index].date;
                     
                     if (file.type.startsWith('video/')) {
                         visaDiv.innerHTML = `
-                            <video class="visa-video" src="${url}" loop muted playsinline autoplay></video>
+                            <video class="visa-video" src="${url}" loop muted playsinline autoplay style="pointer-events:none;"></video>
                             <div class="visa-overlay">
                                 <div class="visa-place">${place}</div>
                                 <div class="visa-date">${date}</div>
@@ -3057,7 +3188,7 @@
                         `;
                     } else {
                         visaDiv.innerHTML = `
-                            <img src="${url}" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:1;">
+                            <img src="${url}" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:1; pointer-events:none;">
                             <div class="visa-overlay">
                                 <div class="visa-place">${place}</div>
                                 <div class="visa-date">${date}</div>
@@ -3065,71 +3196,12 @@
                         `;
                     }
                 }
-            }
-            currentVisaIndex = null;
-        }
-
-        window.uploadCircleVideo = function(index) {
-            currentCircleIndex = index;
-            const input = document.getElementById('videoUploadInput');
-            input.onchange = handleCircleVideoUpload;
+            };
+            
+            document.body.appendChild(input);
             input.click();
+            setTimeout(() => document.body.removeChild(input), 1000);
         };
-
-        function handleCircleVideoUpload(event) {
-            const file = event.target.files[0];
-            if (file && currentCircleIndex !== null) {
-                const url = URL.createObjectURL(file);
-                savedVideos.circles[currentCircleIndex] = url;
-                saveVideos();
-                loadBigCircles();
-            }
-            currentCircleIndex = null;
-        }
-
-        window.uploadProfileVideo = function() {
-            const input = document.getElementById('profileVideoUpload');
-            input.onchange = handleProfileVideoUpload;
-            input.click();
-        };
-
-        function handleProfileVideoUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const url = URL.createObjectURL(file);
-                savedVideos.profile.avatar = url;
-                saveVideos();
-                
-                const avatarDiv = document.getElementById('profileAvatar');
-                if (file.type.startsWith('video/')) {
-                    avatarDiv.innerHTML = `<video src="${url}" loop muted playsinline autoplay style="width:100%; height:100%; object-fit:cover;"></video>`;
-                } else {
-                    avatarDiv.innerHTML = `<img src="${url}" style="width:100%; height:100%; object-fit:cover;">`;
-                }
-            }
-        }
-
-        window.uploadProfilePost = function(index) {
-            if (!safaSettings.photo) {
-                showNotificationDetail('Спроба завантажити зображення (заборонено Styqly Safe)');
-                return;
-            }
-            currentProfilePostIndex = index;
-            const input = document.getElementById('profilePostUpload');
-            input.onchange = handleProfilePostUpload;
-            input.click();
-        };
-
-        function handleProfilePostUpload(event) {
-            const file = event.target.files[0];
-            if (file && currentProfilePostIndex !== null) {
-                const url = URL.createObjectURL(file);
-                savedVideos.profile[`post_${currentProfilePostIndex}`] = url;
-                saveVideos();
-                loadProfilePosts();
-            }
-            currentProfilePostIndex = null;
-        }
 
         function loadProfilePosts() {
             const grid = document.getElementById('profilePostsGrid');
@@ -3144,9 +3216,9 @@
                 let content = '';
                 if (url) {
                     if (url.includes('blob:')) {
-                        content = `<video src="${url}" loop muted playsinline autoplay style="width:100%; height:100%; object-fit:cover;"></video>`;
+                        content = `<video src="${url}" loop muted playsinline autoplay style="width:100%; height:100%; object-fit:cover; pointer-events:none;"></video>`;
                     } else {
-                        content = `<img src="${url}" style="width:100%; height:100%; object-fit:cover;">`;
+                        content = `<img src="${url}" style="width:100%; height:100%; object-fit:cover; pointer-events:none;">`;
                     }
                 } else {
                     content = `<div style="width:100%; height:100%; background:#2c3e50;"></div>`;
@@ -3216,6 +3288,7 @@
                 if (svg) svg.style.display = 'none';
                 logoImage.style.display = 'block';
                 logoImage.src = url;
+                logoImage.style.pointerEvents = 'none';
             }
         };
 
@@ -3307,12 +3380,12 @@
                 let content = '';
                 if (savedVideo) {
                     if (savedVideo.includes('blob:')) {
-                        content = `<video src="${savedVideo}" loop muted playsinline autoplay style="width:100%; height:100%; object-fit:cover;"></video>`;
+                        content = `<video src="${savedVideo}" loop muted playsinline autoplay style="width:100%; height:100%; object-fit:cover; pointer-events:none;"></video>`;
                     } else {
-                        content = `<img src="${savedVideo}" style="width:100%; height:100%; object-fit:cover;">`;
+                        content = `<img src="${savedVideo}" style="width:100%; height:100%; object-fit:cover; pointer-events:none;">`;
                     }
                 } else {
-                    content = `<img src="${c.defaultImage}" style="width:100%; height:100%; object-fit:cover;">`;
+                    content = `<img src="${c.defaultImage}" style="width:100%; height:100%; object-fit:cover; pointer-events:none;">`;
                 }
                 
                 circlesHtml += `
@@ -3427,7 +3500,7 @@
                     if (savedVideo) {
                         visasHtml += `
                             <div class="visa-item" id="visa-${index}" onclick="uploadVisaVideo(${index})">
-                                <video class="visa-video" src="${savedVideo}" loop muted playsinline autoplay></video>
+                                <video class="visa-video" src="${savedVideo}" loop muted playsinline autoplay style="pointer-events:none;"></video>
                                 <div class="visa-overlay">
                                     <div class="visa-place">${visa.place}</div>
                                     <div class="visa-date">${visa.date}</div>
@@ -3451,9 +3524,9 @@
             if (savedVideos.profile?.avatar) {
                 const url = savedVideos.profile.avatar;
                 if (url.includes('blob:')) {
-                    avatarDiv.innerHTML = `<video src="${url}" loop muted playsinline autoplay style="width:100%; height:100%; object-fit:cover;"></video>`;
+                    avatarDiv.innerHTML = `<video src="${url}" loop muted playsinline autoplay style="width:100%; height:100%; object-fit:cover; pointer-events:none;"></video>`;
                 } else {
-                    avatarDiv.innerHTML = `<img src="${url}" style="width:100%; height:100%; object-fit:cover;">`;
+                    avatarDiv.innerHTML = `<img src="${url}" style="width:100%; height:100%; object-fit:cover; pointer-events:none;">`;
                 }
             }
             
@@ -3469,11 +3542,10 @@
             
             let sorted = [...chats];
             if (prioritySortEnabled) {
-                // Пріоритет: онлайн, потім за часом
                 sorted.sort((a, b) => {
                     if (a.online && !b.online) return -1;
                     if (!a.online && b.online) return 1;
-                    return b.time.localeCompare(a.time); // новіші зверху
+                    return b.time.localeCompare(a.time);
                 });
             }
             
