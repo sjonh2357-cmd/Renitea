@@ -873,6 +873,106 @@
             backdrop-filter: blur(2px);
         }
 
+        /* ===== ОНОВЛЕНІ ГОЛОСОВІ ПОВІДОМЛЕННЯ ===== */
+        .voice-message {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 200px;
+        }
+
+        .drop-container {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .drop-container:hover {
+            transform: scale(1.05);
+        }
+
+        .drop-circle {
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(29, 161, 242, 0.3);
+        }
+
+        .drop {
+            position: absolute;
+            width: 24px;
+            height: 30px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            top: 7px;
+            left: 10px;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .drop-container.state-normal .drop-circle {
+            background: white;
+            border: 2px solid #1da1f2;
+        }
+        .drop-container.state-normal .drop {
+            background: #1da1f2;
+            box-shadow: 0 0 15px rgba(29, 161, 242, 0.5);
+        }
+
+        .drop-container.state-active .drop-circle {
+            background: #1da1f2;
+            border: 2px solid white;
+        }
+        .drop-container.state-active .drop {
+            background: white;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .voice-wave {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 40px;
+            flex: 1;
+        }
+
+        .voice-bar {
+            width: 4px;
+            background: #1da1f2;
+            border-radius: 2px;
+            transition: height 0.1s ease;
+            box-shadow: 0 0 5px rgba(29, 161, 242, 0.5);
+        }
+
+        .voice-bar.white {
+            background: white;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .voice-duration {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            min-width: 35px;
+        }
+
+        .message.mine .voice-bar {
+            background: white;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .message.mine .drop-container.state-normal .drop-circle {
+            background: white;
+            border: 2px solid white;
+        }
+        .message.mine .drop-container.state-normal .drop {
+            background: white;
+        }
+
+        /* ===== РЕГУЛЯРНІ ПОВІДОМЛЕННЯ ===== */
         .message {
             max-width: 75%;
             padding: 6px 10px;
@@ -966,6 +1066,60 @@
         .chat-send:hover {
             background: #1a8cd8;
             transform: scale(1.1);
+        }
+
+        /* Кнопка запису */
+        .record-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #2c3e50;
+            border: 2px solid #3a4a5a;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .record-btn:hover {
+            border-color: #1da1f2;
+            transform: scale(1.05);
+        }
+
+        .record-btn.recording {
+            border-color: #1da1f2;
+            animation: btnPulse 1.5s infinite ease;
+        }
+
+        @keyframes btnPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .record-btn .drop-container {
+            width: 30px;
+            height: 30px;
+        }
+
+        .record-btn .drop-circle {
+            width: 30px;
+            height: 30px;
+        }
+
+        .record-btn .drop {
+            width: 16px;
+            height: 20px;
+            top: 4px;
+            left: 6px;
+        }
+
+        .record-btn .drop-container.state-normal .drop-circle {
+            background: #1da1f2;
+            border: 2px solid white;
+        }
+        .record-btn .drop-container.state-normal .drop {
+            background: white;
         }
 
         .threads-feed {
@@ -2135,7 +2289,41 @@
                 <div class="chat-type-btn" onclick="switchChatType('anon')">Анонімні</div>
             </div>
 
-            <div id="regularChats" class="chats-container"></div>
+            <div id="regularChats" class="chats-container">
+                <!-- Чат з Анною -->
+                <div class="chat-item" onclick="openChat(1)">
+                    <div class="chat-avatar" style="background-image: url('https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
+                    <div class="chat-info">
+                        <div class="chat-name-row">
+                            <span class="chat-name">Анна</span>
+                            <span class="chat-time">12:34</span>
+                        </div>
+                        <div class="chat-preview">Голосове повідомлення</div>
+                    </div>
+                </div>
+                <!-- Чат з Максом -->
+                <div class="chat-item" onclick="openChat(2)">
+                    <div class="chat-avatar" style="background-image: url('https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
+                    <div class="chat-info">
+                        <div class="chat-name-row">
+                            <span class="chat-name">Макс</span>
+                            <span class="chat-time">11:20</span>
+                        </div>
+                        <div class="chat-preview">Привіт!</div>
+                    </div>
+                </div>
+                <!-- Чат з Катею -->
+                <div class="chat-item" onclick="openChat(3)">
+                    <div class="chat-avatar" style="background-image: url('https://images.pexels.com/photos/1036622/pexels-photo-1036622.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
+                    <div class="chat-info">
+                        <div class="chat-name-row">
+                            <span class="chat-name">Катя</span>
+                            <span class="chat-time">10:15</span>
+                        </div>
+                        <div class="chat-preview">Як справи?</div>
+                    </div>
+                </div>
+            </div>
             
             <div id="anonChats" class="chats-container" style="display: none;">
                 <div class="anon-container">
@@ -2258,8 +2446,71 @@
                 </div>
                 <div class="chat-messages" id="chatMessages">
                     <div class="chat-date">Сьогодні</div>
+                    
+                    <!-- Текстові повідомлення -->
+                    <div class="message other">
+                        Привіт!
+                        <div class="message-time">12:30</div>
+                    </div>
+                    
+                    <div class="message mine">
+                        Як справи?
+                        <div class="message-time">12:31</div>
+                    </div>
+                    
+                    <!-- Голосове повідомлення від співрозмовника -->
+                    <div class="message other">
+                        <div class="voice-message">
+                            <div class="drop-container state-normal" onclick="playVoiceMessage(this)">
+                                <div class="drop-circle"></div>
+                                <div class="drop"></div>
+                            </div>
+                            <div class="voice-wave" id="voiceWave1">
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-duration">0:24</span>
+                        </div>
+                        <div class="message-time">12:32</div>
+                    </div>
+                    
+                    <!-- Голосове повідомлення від мене -->
+                    <div class="message mine">
+                        <div class="voice-message">
+                            <div class="drop-container state-normal" onclick="playVoiceMessage(this)">
+                                <div class="drop-circle"></div>
+                                <div class="drop"></div>
+                            </div>
+                            <div class="voice-wave" id="voiceWave2">
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-duration">0:18</span>
+                        </div>
+                        <div class="message-time">12:33</div>
+                    </div>
                 </div>
                 <div class="chat-input-area">
+                    <div class="record-btn" id="recordBtn" onclick="toggleRecording()">
+                        <div class="drop-container state-normal">
+                            <div class="drop-circle"></div>
+                            <div class="drop"></div>
+                        </div>
+                    </div>
                     <input type="text" class="chat-input" id="chatInput" placeholder="Написати..." onkeypress="if(event.key==='Enter') sendMessage()">
                     <button class="chat-send" onclick="sendMessage()">➤</button>
                 </div>
@@ -2740,7 +2991,9 @@
         let messages = {
             1: [
                 { text: 'Привіт!', mine: false, time: '12:30' },
-                { text: 'Як справи?', mine: true, time: '12:31' }
+                { text: 'Як справи?', mine: true, time: '12:31' },
+                { text: 'Голосове повідомлення', mine: false, time: '12:32', voice: true },
+                { text: 'Голосове повідомлення', mine: true, time: '12:33', voice: true }
             ],
             2: [{ text: 'Як справи?', mine: false, time: '11:20' }],
             3: [{ text: 'Привіт', mine: false, time: '10:15' }]
@@ -2759,6 +3012,11 @@
         let currentCircleIndex = null;
         let currentProfilePostIndex = null;
         let currentVisaIndex = null;
+        let isRecording = false;
+        let audioContext = null;
+        let analyser = null;
+        let source = null;
+        let currentPlayingVoice = null;
 
         const languages = [
             { code: 'uk', name: 'Українська', flag: '🇺🇦' },
@@ -3534,7 +3792,134 @@
             loadChats();
             updateNotifications();
             updateSafaSwitches();
+
+            // Ініціалізуємо голосові елементи
+            initVoiceMessages();
         };
+
+        function initVoiceMessages() {
+            // Додаємо обробники для голосових повідомлень
+            const voiceMessages = document.querySelectorAll('.voice-message .drop-container');
+            voiceMessages.forEach(drop => {
+                drop.addEventListener('click', function() {
+                    playVoiceMessage(this);
+                });
+            });
+        }
+
+        function playVoiceMessage(element) {
+            // Зупиняємо попереднє програвання
+            if (currentPlayingVoice) {
+                clearInterval(currentPlayingVoice.interval);
+                const prevDrop = currentPlayingVoice.element;
+                prevDrop.classList.remove('state-active');
+                prevDrop.classList.add('state-normal');
+                
+                const prevWave = prevDrop.closest('.voice-message')?.querySelectorAll('.voice-bar');
+                if (prevWave) {
+                    prevWave.forEach(bar => {
+                        bar.style.height = '20px';
+                    });
+                }
+            }
+            
+            // Активуємо поточне повідомлення
+            element.classList.remove('state-normal');
+            element.classList.add('state-active');
+            
+            // Знаходимо голосову лінію
+            const waveBars = element.closest('.voice-message')?.querySelectorAll('.voice-bar');
+            
+            let timeLeft = 30;
+            const interval = setInterval(() => {
+                if (waveBars) {
+                    waveBars.forEach((bar, i) => {
+                        const randomIntensity = 0.5 + Math.random() * 0.5;
+                        bar.style.height = `${20 + randomIntensity * 20}px`;
+                    });
+                }
+                
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    element.classList.remove('state-active');
+                    element.classList.add('state-normal');
+                    if (waveBars) {
+                        waveBars.forEach(bar => {
+                            bar.style.height = '20px';
+                        });
+                    }
+                    currentPlayingVoice = null;
+                }
+            }, 100);
+            
+            currentPlayingVoice = {
+                element: element,
+                interval: interval
+            };
+        }
+
+        // Функція для запису голосу
+        async function toggleRecording() {
+            const btn = document.getElementById('recordBtn');
+            
+            if (!isRecording) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    
+                    btn.classList.add('recording');
+                    isRecording = true;
+                    
+                    audioContext = new AudioContext();
+                    analyser = audioContext.createAnalyser();
+                    source = audioContext.createMediaStreamSource(stream);
+                    source.connect(analyser);
+                    
+                    analyser.fftSize = 256;
+                    const dataArray = new Uint8Array(analyser.frequencyBinCount);
+                    
+                    // Знаходимо краплю в кнопці
+                    const drop = btn.querySelector('.drop');
+                    
+                    function animate() {
+                        if (!isRecording) return;
+                        
+                        analyser.getByteFrequencyData(dataArray);
+                        
+                        let sum = 0;
+                        for (let i = 0; i < 10; i++) {
+                            sum += dataArray[i];
+                        }
+                        const avg = sum / 10 / 255;
+                        const intensity = Math.min(1, avg * 1.5);
+                        
+                        // Легка анімація краплі
+                        const scale = 1 + intensity * 0.2;
+                        drop.style.transform = `rotate(-45deg) scale(${scale})`;
+                        
+                        requestAnimationFrame(animate);
+                    }
+                    
+                    animate();
+                    
+                } catch (err) {
+                    console.error('Помилка мікрофона:', err);
+                    btn.classList.remove('recording');
+                }
+            } else {
+                // Зупинка запису
+                btn.classList.remove('recording');
+                isRecording = false;
+                
+                if (audioContext) {
+                    audioContext.close();
+                }
+                
+                // Скидаємо краплю
+                const drop = btn.querySelector('.drop');
+                drop.style.transform = 'rotate(-45deg) scale(1)';
+            }
+        }
 
         function loadChats() {
             const container = document.getElementById('regularChats');
@@ -3604,17 +3989,49 @@
             
             const msgs = messages[id] || [];
             let messagesHtml = '<div class="chat-date">Сьогодні</div>';
-            messagesHtml += msgs.map(m => `
-                <div class="message ${m.mine ? 'mine' : 'other'}">
-                    ${m.text}
-                    <div class="message-time">${m.time}</div>
-                </div>
-            `).join('');
+            
+            msgs.forEach(m => {
+                if (m.voice) {
+                    messagesHtml += `
+                        <div class="message ${m.mine ? 'mine' : 'other'}">
+                            <div class="voice-message">
+                                <div class="drop-container state-normal">
+                                    <div class="drop-circle"></div>
+                                    <div class="drop"></div>
+                                </div>
+                                <div class="voice-wave">
+                                    <div class="voice-bar"></div>
+                                    <div class="voice-bar"></div>
+                                    <div class="voice-bar"></div>
+                                    <div class="voice-bar"></div>
+                                    <div class="voice-bar"></div>
+                                    <div class="voice-bar"></div>
+                                    <div class="voice-bar"></div>
+                                    <div class="voice-bar"></div>
+                                    <div class="voice-bar"></div>
+                                </div>
+                                <span class="voice-duration">0:24</span>
+                            </div>
+                            <div class="message-time">${m.time}</div>
+                        </div>
+                    `;
+                } else {
+                    messagesHtml += `
+                        <div class="message ${m.mine ? 'mine' : 'other'}">
+                            ${m.text}
+                            <div class="message-time">${m.time}</div>
+                        </div>
+                    `;
+                }
+            });
             
             document.getElementById('chatMessages').innerHTML = messagesHtml;
             
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById('chatRoomScreen').classList.add('active');
+            
+            // Ініціалізуємо голосові повідомлення в чаті
+            initVoiceMessages();
         };
 
         window.sendMessage = function() {
@@ -3633,9 +4050,14 @@
             if (!messages[currentChatId]) messages[currentChatId] = [];
             messages[currentChatId].push({ text, mine: true, time: timeStr });
             
-            document.getElementById('chatMessages').innerHTML += `
-                <div class="message mine">${text}<div class="message-time">${timeStr}</div></div>
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message mine';
+            messageDiv.innerHTML = `
+                ${text}
+                <div class="message-time">${timeStr}</div>
             `;
+            
+            document.getElementById('chatMessages').appendChild(messageDiv);
             input.value = '';
         };
 
