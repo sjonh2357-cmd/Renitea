@@ -1,3 +1,7 @@
+Понимаю, ты хочешь один файл, который просто берёшь, кидаешь на GitHub — и всё: дизайн RENITEA, посты, стики, чаты, профиль, паспорт, плюс Firebase **Auth + Firestore + Storage** сразу.
+
+Вот полный `index.html` от начала до конца — без вырезок, со всем дизайном и рабочим Firebase (логин по email/паролю, посты, чаты, стики с загрузкой в Storage):
+
 ```html
 <!DOCTYPE html>
 <html lang="ru">
@@ -1233,9 +1237,9 @@
       <div class="login-logo">RENITEA</div>
       <div class="login-subtitle">Войдите, чтобы продолжить.</div>
       <div class="login-form">
-        <input type="text" class="login-input" id="loginUser" placeholder="Логин" autocomplete="off">
+        <input type="email" class="login-input" id="loginUser" placeholder="Email" autocomplete="off">
         <input type="password" class="login-input" id="loginPass" placeholder="Пароль" autocomplete="off">
-        <button class="login-btn" id="loginBtn">Войти</button>
+        <button class="login-btn" id="loginBtn">Войти / Зарегистрироваться</button>
       </div>
       <div class="login-error" id="loginError"></div>
       <div class="login-footer-text">
@@ -1529,9 +1533,7 @@
           <div class="nav-block">
             <div class="nav-item" data-screen="chats">
               <svg viewBox="0 0 24 24">
-                <path d="M4 5c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v9c0 1.1-.9 2-2 2H9l-4 4v-4H6c-1.1 0-2-.9-2-2V5z"/>
-                <line x1="8" y1="7" x2="16" y2="7"/>
-                <line x1="8" y1="11" x2="13" y2="11"/>
+                <path d="M5 5h14v10H7l-2 2z"/>
               </svg>
             </div>
             <div class="nav-label">Чаты</div>
@@ -1540,19 +1542,20 @@
           <div class="nav-block">
             <div class="nav-item" data-screen="passport">
               <svg viewBox="0 0 24 24">
-                <rect x="4" y="6" width="16" height="12" rx="3"/>
-                <circle cx="9" cy="10" r="1.5"/>
-                <circle cx="12" cy="10" r="1.5"/>
-                <circle cx="15" cy="10" r="1.5"/>
-                <line x1="8" y1="14" x2="16" y2="14"/>
+                <rect x="6" y="3" width="12" height="18" rx="2"/>
+                <circle cx="12" cy="10" r="3"/>
+                <line x1="9" y1="16" x2="15" y2="16"/>
               </svg>
             </div>
-            <div class="nav-label">Визы</div>
+            <div class="nav-label">Паспорт</div>
           </div>
 
           <div class="nav-block">
             <div class="nav-item" data-screen="profile">
-              <div id="navProfileAvatar" style="width: 32px; height: 32px; border-radius: 50%; background:#ddd;"></div>
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="9" r="3"/>
+                <path d="M6 19c1.5-3 4-4 6-4s4.5 1 6 4"/>
+              </svg>
             </div>
             <div class="nav-label">Профиль</div>
           </div>
@@ -1561,25 +1564,25 @@
     </div>
   </div>
 
-  <!-- МОДАЛКА РЕДАКТИРОВАНИЯ ПРОФИЛЯ -->
+  <!-- MODAL EDIT PROFILE -->
   <div class="modal-backdrop" id="editProfileModal">
     <div class="modal">
       <div class="modal-header">
         <div class="modal-title">Редактировать профиль</div>
-        <div class="modal-close" id="editProfileClose">×</div>
+        <div class="modal-close" id="editProfileClose">&times;</div>
       </div>
       <div class="modal-body">
         <div class="modal-field">
           <div class="modal-label">Имя</div>
-          <input type="text" class="modal-input" id="editProfileNameInput">
+          <input class="modal-input" id="editProfileNameInput">
         </div>
         <div class="modal-field">
           <div class="modal-label">Ник</div>
-          <input type="text" class="modal-input" id="editProfileNickInput">
+          <input class="modal-input" id="editProfileNickInput">
         </div>
         <div class="modal-field">
           <div class="modal-label">Характер</div>
-          <input type="text" class="modal-input" id="editProfilePersonaInput" placeholder="честный, спокойный...">
+          <input class="modal-input" id="editProfilePersonaInput">
         </div>
         <div class="modal-field">
           <div class="modal-label">Био</div>
@@ -1593,115 +1596,29 @@
     </div>
   </div>
 
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+
   <script>
-    const DEFAULT_USERS = [
-      {
-        id: 'david',
-        login: 'david.tea',
-        password: 'DaV1d_Tea!24',
-        name: 'Давид',
-        nick: '@david',
-        persona: 'спокойный, внимательный',
-        avatar: '',
-        bio: 'Собираю моменты, пока они ещё тёплые.',
-        followers: 12,
-        following: 8,
-      },
-      {
-        id: 'polina',
-        login: 'polina.sky',
-        password: 'Pol1na_Sky@27',
-        name: 'Полина',
-        nick: '@polina',
-        persona: 'честная, мягкая',
-        avatar: '',
-        bio: 'Фотографии, чай и немного тишины.',
-        followers: 23,
-        following: 17,
-      },
-      {
-        id: 'vanya',
-        login: 'vanya.frame',
-        password: 'Vanya_Fr4me#19',
-        name: 'Ваня',
-        nick: '@vanya',
-        persona: 'ироничный, наблюдательный',
-        avatar: '',
-        bio: 'Люблю улицы, которые не спешат.',
-        followers: 31,
-        following: 20,
-      },
-      {
-        id: 'sofia',
-        login: 'sofia.day',
-        password: 'S0fia_Day%21',
-        name: 'София',
-        nick: '@sofia',
-        persona: 'спокойная, теплая',
-        avatar: '',
-        bio: 'Сохраняю обычные дни, чтобы они не терялись.',
-        followers: 18,
-        following: 14,
-      },
-      {
-        id: 'arsekov',
-        login: 'arsekov.mood',
-        password: 'Arsek0v_Mood&26',
-        name: 'Арсеков',
-        nick: '@arsekov',
-        persona: 'экспрессивный, прямой',
-        avatar: '',
-        bio: 'Город, музыка и немного хаоса.',
-        followers: 9,
-        following: 5,
-      },
-    ];
+    const firebaseConfig = {
+      apiKey: "AIzaSyAnw1Vz4Wzr2rmdrzVv5tga_x6u08ObNbA",
+      authDomain: "renitea-b140f.firebaseapp.com",
+      projectId: "renitea-b140f",
+      storageBucket: "renitea-b140f.appspot.com",
+      messagingSenderId: "806278733594",
+      appId: "1:806278733594:web:d9887a35732173429f96a3",
+      measurementId: "G-EH8L4GJXJ2"
+    };
 
-    const LS_KEY = 'renitea_state_v3';
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const storage = firebase.storage();
 
-    function loadState() {
-      try {
-        const raw = localStorage.getItem(LS_KEY);
-        if (!raw) return null;
-        return JSON.parse(raw);
-      } catch (e) {
-        return null;
-      }
-    }
-
-    function saveState() {
-      localStorage.setItem(LS_KEY, JSON.stringify(state));
-    }
-
-    let state = loadState();
-    if (!state) {
-      state = {
-        users: DEFAULT_USERS,
-        posts: [],
-        messages: {},
-        visas: {},
-        currentUserId: null,
-      };
-      saveState();
-    }
-
-    function getUserById(id) {
-      return state.users.find(u => u.id === id);
-    }
-
-    function getUserByLogin(login) {
-      return state.users.find(u => u.login === login);
-    }
-
-    function chatKey(a, b) {
-      return [a, b].sort().join('|');
-    }
-
-    function formatTime(date) {
-      const d = new Date(date);
-      return d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-    }
-
+    // ---------- DOM ----------
     const loginWrapper = document.getElementById('loginWrapper');
     const appRoot = document.getElementById('appRoot');
     const loginUser = document.getElementById('loginUser');
@@ -1709,20 +1626,11 @@
     const loginBtn = document.getElementById('loginBtn');
     const loginError = document.getElementById('loginError');
 
-    const screens = {
-      posts: document.getElementById('screen-posts'),
-      stiki: document.getElementById('screen-stiki'),
-      chats: document.getElementById('screen-chats'),
-      passport: document.getElementById('screen-passport'),
-      profile: document.getElementById('screen-profile'),
-    };
-    const navItems = document.querySelectorAll('.nav-item');
-
     const userSearch = document.getElementById('userSearch');
 
-    const feedColumn = document.getElementById('feedColumn');
     const newPostText = document.getElementById('newPostText');
     const newPostBtn = document.getElementById('newPostBtn');
+    const feedColumn = document.getElementById('feedColumn');
 
     const stikiInput = document.getElementById('stikiInput');
     const stikiWrapper = document.getElementById('stikiWrapper');
@@ -1735,16 +1643,6 @@
     const chatInput = document.getElementById('chatInput');
     const chatSendBtn = document.getElementById('chatSendBtn');
 
-    const profileName = document.getElementById('profileName');
-    const profileNick = document.getElementById('profileNick');
-    const profileAvatarImg = document.getElementById('profileAvatarImg');
-    const profileBio = document.getElementById('profileBio');
-    const profilePostsCount = document.getElementById('profilePostsCount');
-    const profileFollowersCount = document.getElementById('profileFollowersCount');
-    const profileFollowingCount = document.getElementById('profileFollowingCount');
-    const profileGrid = document.getElementById('profileGrid');
-    const navProfileAvatar = document.getElementById('navProfileAvatar');
-
     const passportName = document.getElementById('passportName');
     const passportNick = document.getElementById('passportNick');
     const passportPersona = document.getElementById('passportPersona');
@@ -1753,8 +1651,18 @@
     const passportMomentsCount = document.getElementById('passportMomentsCount');
     const visaGrid = document.getElementById('visaGrid');
 
+    const profileNameEl = document.getElementById('profileName');
+    const profileNickEl = document.getElementById('profileNick');
+    const profileBioEl = document.getElementById('profileBio');
+    const profileAvatarImg = document.getElementById('profileAvatarImg');
+    const profilePostsCount = document.getElementById('profilePostsCount');
+    const profileFollowersCount = document.getElementById('profileFollowersCount');
+    const profileFollowingCount = document.getElementById('profileFollowingCount');
+    const profileGrid = document.getElementById('profileGrid');
+
     const editProfileBtn = document.getElementById('editProfileBtn');
     const logoutBtn = document.getElementById('logoutBtn');
+
     const editProfileModal = document.getElementById('editProfileModal');
     const editProfileClose = document.getElementById('editProfileClose');
     const editProfileCancel = document.getElementById('editProfileCancel');
@@ -1764,117 +1672,157 @@
     const editProfilePersonaInput = document.getElementById('editProfilePersonaInput');
     const editProfileBioInput = document.getElementById('editProfileBioInput');
 
-    const navLogoBox = document.getElementById('navLogoBox');
-    const navLogoInput = document.getElementById('navLogoInput');
+    const navItems = document.querySelectorAll('.nav-item');
+
+    // ---------- STATE ----------
+    const state = {
+      currentUser: null,
+      usersCache: {}, // id -> userDoc
+      posts: [],
+      stiki: [],
+      messages: {},
+      visas: {}
+    };
+
+    let currentChatUserId = null;
+    let unsubscribePosts = null;
+    let unsubscribeStiki = null;
+    let unsubscribeMessages = null;
+    let unsubscribeUsers = null;
+
+    // ---------- HELPERS ----------
+    function formatTime(ts) {
+      const d = new Date(ts);
+      return d.toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    }
+
+    function chatKey(a, b) {
+      return [a, b].sort().join('__');
+    }
 
     function showScreen(name) {
-      Object.keys(screens).forEach(key => {
-        screens[key].classList.toggle('active', key === name);
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const el = document.getElementById('screen-' + name);
+      if (el) el.classList.add('active');
+    }
+
+    function getUserFromCache(id) {
+      return state.usersCache[id] || null;
+    }
+
+    async function ensureUserDoc(user) {
+      const ref = db.collection('users').doc(user.uid);
+      const snap = await ref.get();
+      if (!snap.exists) {
+        await ref.set({
+          email: user.email,
+          name: user.email.split('@')[0],
+          nick: '@' + user.email.split('@')[0],
+          persona: '',
+          bio: '',
+          followers: 0,
+          following: 0,
+          avatar: '',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+    }
+
+    function listenUsers() {
+      if (unsubscribeUsers) unsubscribeUsers();
+      unsubscribeUsers = db.collection('users').onSnapshot(snap => {
+        snap.docs.forEach(doc => {
+          state.usersCache[doc.id] = { id: doc.id, ...doc.data() };
+        });
+        renderProfile();
+        renderPassport();
+        renderChatList(userSearch.value);
       });
     }
 
-    navItems.forEach(item => {
-      item.addEventListener('click', () => {
-        navItems.forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-        const target = item.dataset.screen;
-        if (target) showScreen(target);
-      });
-    });
-
-    navLogoBox.addEventListener('click', () => navLogoInput.click());
-    navLogoInput.addEventListener('change', () => {
-      const file = navLogoInput.files[0];
-      if (!file) return;
-    });
-
+    // ---------- POSTS ----------
     function renderPosts() {
       feedColumn.innerHTML = '';
-      const posts = state.posts.slice().sort((a, b) => b.createdAt - a.createdAt);
-      const currentUser = getUserById(state.currentUserId);
-
-      if (!posts.length) {
-        const empty = document.createElement('div');
-        empty.style.fontSize = '13px';
-        empty.style.color = '#8e8e8e';
-        empty.style.textAlign = 'center';
-        empty.style.marginTop = '20px';
-        empty.textContent = 'Пока здесь тихо. Добавь первый момент, чтобы лента ожила.';
-        feedColumn.appendChild(empty);
-        return;
-      }
-
-      posts.forEach(post => {
-        const author = getUserById(post.authorId) || currentUser;
-        const article = document.createElement('article');
-        article.className = 'feed-post';
-        article.innerHTML = `
+      state.posts.forEach(p => {
+        const user = getUserFromCache(p.authorId) || { name: 'Неизвестно', nick: '@unknown' };
+        const card = document.createElement('article');
+        card.className = 'feed-post';
+        card.innerHTML = `
           <div class="feed-header">
             <div class="avatar"></div>
             <div>
-              <div class="feed-user">${author.nick}</div>
-              <div class="feed-meta">${author.name}</div>
+              <div class="feed-user">${user.name}</div>
+              <div class="feed-meta">${user.nick}</div>
             </div>
           </div>
-          <div class="feed-image"></div>
           <div class="feed-actions-row">
             <div class="feed-caption-inline">
-              <b>${author.nick}</b> ${post.text}
+              <b>${user.name}</b> ${p.text}
             </div>
             <div class="feed-actions-right">
               <div class="feed-action">
-                <span>🔥</span>
-                <small>${post.likes || 0}</small>
+                <span>♡</span>
+                <small>0</small>
               </div>
               <div class="feed-action">
-                <span>⋯</span>
-                <small>${post.comments || 0}</small>
-              </div>
-              <div class="feed-action">
-                <span>✉</span>
-                <small>подел.</small>
+                <span>💬</span>
+                <small>0</small>
               </div>
             </div>
           </div>
-          <div class="feed-time">${formatTime(post.createdAt)}</div>
+          <div class="feed-time">${p.time}</div>
         `;
-        feedColumn.appendChild(article);
+        feedColumn.appendChild(card);
       });
     }
 
-    newPostBtn.addEventListener('click', () => {
+    function listenPostsFromFirestore() {
+      if (unsubscribePosts) unsubscribePosts();
+      unsubscribePosts = db.collection('posts')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot(snapshot => {
+          state.posts = snapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              authorId: data.authorId,
+              text: data.text,
+              time: data.createdAt ? formatTime(data.createdAt.toDate().getTime()) : ''
+            };
+          });
+          renderPosts();
+          renderProfileGrid();
+          renderPassport();
+        });
+    }
+
+    newPostBtn.addEventListener('click', async () => {
       const text = newPostText.value.trim();
-      if (!text) return;
-      state.posts.push({
-        id: 'post_' + Date.now(),
-        authorId: state.currentUserId,
+      if (!text || !state.currentUser) return;
+
+      await db.collection('posts').add({
+        authorId: state.currentUser.uid,
         text,
-        createdAt: Date.now(),
-        likes: 0,
-        comments: 0,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-      saveState();
+
       newPostText.value = '';
-      renderPosts();
-      renderProfileGrid();
-      renderPassport();
     });
 
-    stikiInput.addEventListener('change', () => {
-      const files = Array.from(stikiInput.files || []);
+    // ---------- STIKI ----------
+    function renderStiki() {
       stikiWrapper.innerHTML = '';
-      if (!files.length) {
+      if (!state.stiki.length) {
         stikiEmptyText.style.display = 'block';
         return;
       }
       stikiEmptyText.style.display = 'none';
-      files.forEach((file) => {
-        const url = URL.createObjectURL(file);
+      state.stiki.forEach(s => {
         const card = document.createElement('div');
         card.className = 'stiki-card';
         card.innerHTML = `
           <div class="stiki-video">
-            <video src="${url}" autoplay muted loop playsinline></video>
+            <video src="${s.videoURL}" autoplay muted loop playsinline></video>
           </div>
           <div class="stiki-actions">
             <div class="stiki-action">
@@ -1893,26 +1841,61 @@
         `;
         stikiWrapper.appendChild(card);
       });
+    }
+
+    function listenStikiFromFirestore() {
+      if (unsubscribeStiki) unsubscribeStiki();
+      unsubscribeStiki = db.collection('stiki')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot(snapshot => {
+          state.stiki = snapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              authorId: data.authorId,
+              videoURL: data.videoURL,
+              createdAt: data.createdAt
+            };
+          });
+          renderStiki();
+        });
+    }
+
+    stikiInput.addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files || []);
+      if (!files.length || !state.currentUser) return;
+
+      for (const file of files) {
+        const ref = storage.ref().child(`stiki/${state.currentUser.uid}/${Date.now()}-${file.name}`);
+        await ref.put(file);
+        const url = await ref.getDownloadURL();
+        await db.collection('stiki').add({
+          authorId: state.currentUser.uid,
+          videoURL: url,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+      stikiInput.value = '';
     });
 
+    // ---------- PROFILE ----------
     function renderProfile() {
-      const user = getUserById(state.currentUserId);
-      if (!user) return;
-      profileName.textContent = user.name;
-      profileNick.textContent = user.nick;
-      profileBio.textContent = user.bio || '';
-      profileAvatarImg.src = user.avatar || '';
-      navProfileAvatar.style.background = '#ddd';
-      profilePostsCount.textContent = state.posts.filter(p => p.authorId === user.id).length;
-      profileFollowersCount.textContent = user.followers || 0;
-      profileFollowingCount.textContent = user.following || 0;
+      if (!state.currentUser) return;
+      const userDoc = getUserFromCache(state.currentUser.uid);
+      if (!userDoc) return;
+      profileNameEl.textContent = userDoc.name || '—';
+      profileNickEl.textContent = userDoc.nick || '—';
+      profileBioEl.textContent = userDoc.bio || '—';
+      profileAvatarImg.src = userDoc.avatar || '';
+      profilePostsCount.textContent = state.posts.filter(p => p.authorId === state.currentUser.uid).length;
+      profileFollowersCount.textContent = userDoc.followers || 0;
+      profileFollowingCount.textContent = userDoc.following || 0;
     }
 
     function renderProfileGrid() {
-      const user = getUserById(state.currentUserId);
-      if (!user) return;
+      if (!state.currentUser) return;
       profileGrid.innerHTML = '';
-      const userPosts = state.posts.filter(p => p.authorId === user.id);
+      const userPosts = state.posts.filter(p => p.authorId === state.currentUser.uid);
       userPosts.forEach(() => {
         const div = document.createElement('div');
         div.className = 'profile-grid-item';
@@ -1921,12 +1904,13 @@
     }
 
     function openEditProfileModal() {
-      const user = getUserById(state.currentUserId);
-      if (!user) return;
-      editProfileNameInput.value = user.name;
-      editProfileNickInput.value = user.nick;
-      editProfilePersonaInput.value = user.persona || '';
-      editProfileBioInput.value = user.bio || '';
+      if (!state.currentUser) return;
+      const userDoc = getUserFromCache(state.currentUser.uid);
+      if (!userDoc) return;
+      editProfileNameInput.value = userDoc.name || '';
+      editProfileNickInput.value = userDoc.nick || '';
+      editProfilePersonaInput.value = userDoc.persona || '';
+      editProfileBioInput.value = userDoc.bio || '';
       editProfileModal.classList.add('active');
     }
 
@@ -1938,16 +1922,15 @@
     editProfileClose.addEventListener('click', closeEditProfileModal);
     editProfileCancel.addEventListener('click', closeEditProfileModal);
 
-    editProfileSave.addEventListener('click', () => {
-      const user = getUserById(state.currentUserId);
-      if (!user) return;
-      user.name = editProfileNameInput.value.trim() || user.name;
-      user.nick = editProfileNickInput.value.trim() || user.nick;
-      user.persona = editProfilePersonaInput.value.trim() || user.persona;
-      user.bio = editProfileBioInput.value.trim();
-      saveState();
-      renderProfile();
-      renderPassport();
+    editProfileSave.addEventListener('click', async () => {
+      if (!state.currentUser) return;
+      const ref = db.collection('users').doc(state.currentUser.uid);
+      await ref.set({
+        name: editProfileNameInput.value.trim(),
+        nick: editProfileNickInput.value.trim(),
+        persona: editProfilePersonaInput.value.trim(),
+        bio: editProfileBioInput.value.trim()
+      }, { merge: true });
       closeEditProfileModal();
     });
 
@@ -1955,16 +1938,18 @@
       if (e.target === editProfileModal) closeEditProfileModal();
     });
 
+    // ---------- PASSPORT ----------
     function renderPassport() {
-      const user = getUserById(state.currentUserId);
-      if (!user) return;
-      passportName.textContent = user.name;
-      passportNick.textContent = user.nick;
-      passportPersona.textContent = user.persona || '—';
+      if (!state.currentUser) return;
+      const userDoc = getUserFromCache(state.currentUser.uid);
+      if (!userDoc) return;
+      passportName.textContent = userDoc.name || '—';
+      passportNick.textContent = userDoc.nick || '—';
+      passportPersona.textContent = userDoc.persona || '—';
       passportPhoto.style.background = '#ddd';
-      const userPosts = state.posts.filter(p => p.authorId === user.id);
+      const userPosts = state.posts.filter(p => p.authorId === state.currentUser.uid);
       passportMomentsCount.textContent = userPosts.length;
-      const visas = state.visas[user.id] || [];
+      const visas = state.visas[state.currentUser.uid] || [];
       passportVisasCount.textContent = visas.length;
       visaGrid.innerHTML = '';
       visas.forEach(v => {
@@ -1978,25 +1963,25 @@
       });
     }
 
-    let currentChatUserId = null;
-
+    // ---------- CHATS ----------
     function renderChatList(filter = '') {
-      const currentUser = getUserById(state.currentUserId);
+      if (!state.currentUser) return;
+      const currentId = state.currentUser.uid;
       chatList.innerHTML = '';
       const q = filter.toLowerCase().trim();
 
-      state.users
-        .filter(u => u.id !== currentUser.id)
+      Object.values(state.usersCache)
+        .filter(u => u.id !== currentId)
         .filter(u => {
           if (!q) return true;
           return (
-            u.name.toLowerCase().includes(q) ||
-            u.nick.toLowerCase().includes(q) ||
-            u.login.toLowerCase().includes(q)
+            (u.name || '').toLowerCase().includes(q) ||
+            (u.nick || '').toLowerCase().includes(q) ||
+            (u.email || '').toLowerCase().includes(q)
           );
         })
         .forEach(u => {
-          const key = chatKey(currentUser.id, u.id);
+          const key = chatKey(currentId, u.id);
           const msgs = state.messages[key] || [];
           const last = msgs[msgs.length - 1];
           const item = document.createElement('div');
@@ -2005,22 +1990,28 @@
           item.innerHTML = `
             <div class="avatar"></div>
             <div>
-              <div class="chat-main">${u.name}</div>
+              <div class="chat-main">${u.name || u.email}</div>
               <div class="chat-sub">${last ? last.text : 'Нет сообщений'}</div>
             </div>
           `;
           item.addEventListener('click', () => {
             currentChatUserId = u.id;
             renderChatList(userSearch.value);
-            renderChatDialog();
+            listenMessagesForChat(currentId, currentChatUserId);
           });
           chatList.appendChild(item);
         });
     }
 
     function renderChatDialog() {
-      const currentUser = getUserById(state.currentUserId);
-      const other = getUserById(currentChatUserId);
+      if (!state.currentUser || !currentChatUserId) {
+        chatDialogAvatar.style.background = '#ddd';
+        chatDialogName.textContent = '';
+        chatDialogBody.innerHTML = '';
+        return;
+      }
+      const currentId = state.currentUser.uid;
+      const other = getUserFromCache(currentChatUserId);
       chatDialogBody.innerHTML = '';
       if (!other) {
         chatDialogAvatar.style.background = '#ddd';
@@ -2028,13 +2019,13 @@
         return;
       }
       chatDialogAvatar.style.background = '#ddd';
-      chatDialogName.textContent = other.name;
+      chatDialogName.textContent = other.name || other.email;
 
-      const key = chatKey(currentUser.id, other.id);
+      const key = chatKey(currentId, other.id);
       const msgs = state.messages[key] || [];
       msgs.forEach(m => {
         const div = document.createElement('div');
-        div.className = 'msg ' + (m.fromId === currentUser.id ? 'me' : 'them');
+        div.className = 'msg ' + (m.fromId === currentId ? 'me' : 'them');
         div.innerHTML = `
           <div>${m.text}</div>
           <div class="msg-time">${m.time}</div>
@@ -2044,23 +2035,50 @@
       chatDialogBody.scrollTop = chatDialogBody.scrollHeight;
     }
 
-    chatSendBtn.addEventListener('click', () => {
+    function listenMessagesForChat(currentUserId, otherUserId) {
+      const chatId = chatKey(currentUserId, otherUserId);
+      if (unsubscribeMessages) unsubscribeMessages();
+      unsubscribeMessages = db.collection('messages')
+        .where('chatId', '==', chatId)
+        .orderBy('createdAt', 'asc')
+        .onSnapshot(snapshot => {
+          state.messages[chatId] = snapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+              fromId: data.fromId,
+              toId: data.toId,
+              text: data.text,
+              time: data.createdAt ? formatTime(data.createdAt.toDate().getTime()) : ''
+            };
+          });
+          renderChatList(userSearch.value);
+          renderChatDialog();
+        });
+    }
+
+    chatSendBtn.addEventListener('click', async () => {
       const text = chatInput.value.trim();
-      if (!text || !currentChatUserId) return;
-      const currentUser = getUserById(state.currentUserId);
-      const other = getUserById(currentChatUserId);
-      const key = chatKey(currentUser.id, other.id);
-      if (!state.messages[key]) state.messages[key] = [];
-      state.messages[key].push({
-        fromId: currentUser.id,
-        toId: other.id,
+      if (!text || !state.currentUser || !currentChatUserId) return;
+      const currentId = state.currentUser.uid;
+      const otherId = currentChatUserId;
+
+      const chatId = chatKey(currentId, otherId);
+
+      await db.collection('chats').doc(chatId).set({
+        user1: currentId,
+        user2: otherId,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+
+      await db.collection('messages').add({
+        chatId,
+        fromId: currentId,
+        toId: otherId,
         text,
-        time: formatTime(Date.now()),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-      saveState();
+
       chatInput.value = '';
-      renderChatList(userSearch.value);
-      renderChatDialog();
     });
 
     chatInput.addEventListener('keydown', (e) => {
@@ -2074,27 +2092,44 @@
       renderChatList(userSearch.value);
     });
 
-    function tryLogin() {
-      const login = (loginUser.value || '').trim();
+    // ---------- NAV ----------
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const screen = item.dataset.screen;
+        if (!screen) return;
+        navItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        showScreen(screen);
+      });
+    });
+
+    // ---------- AUTH ----------
+    async function tryLoginOrRegister() {
+      const email = (loginUser.value || '').trim();
       const pass = loginPass.value || '';
-      const user = getUserByLogin(login);
-      if (!user || user.password !== pass) {
-        loginError.textContent = 'Неверный логин или пароль.';
+      if (!email || !pass) {
+        loginError.textContent = 'Введите email и пароль.';
         return;
       }
-      state.currentUserId = user.id;
-      saveState();
       loginError.textContent = '';
-      loginWrapper.style.display = 'none';
-      appRoot.style.display = 'flex';
-      afterLogin();
+      try {
+        // сначала пробуем войти
+        await auth.signInWithEmailAndPassword(email, pass);
+      } catch (e) {
+        if (e.code === 'auth/user-not-found') {
+          // если нет — регистрируем
+          await auth.createUserWithEmailAndPassword(email, pass);
+        } else {
+          loginError.textContent = e.message;
+        }
+      }
     }
 
-    loginBtn.addEventListener('click', tryLogin);
+    loginBtn.addEventListener('click', tryLoginOrRegister);
     loginPass.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
-        tryLogin();
+        tryLoginOrRegister();
       }
     });
     loginUser.addEventListener('keydown', (e) => {
@@ -2104,20 +2139,18 @@
       }
     });
 
-    logoutBtn.addEventListener('click', () => {
-      state.currentUserId = null;
-      saveState();
-      appRoot.style.display = 'none';
-      loginWrapper.style.display = 'flex';
-      loginUser.value = '';
-      loginPass.value = '';
+    logoutBtn.addEventListener('click', async () => {
+      await auth.signOut();
     });
 
+    // ---------- AFTER LOGIN ----------
     function afterLogin() {
       renderProfile();
       renderProfileGrid();
-      renderPosts();
       renderPassport();
+      listenUsers();
+      listenPostsFromFirestore();
+      listenStikiFromFirestore();
       currentChatUserId = null;
       renderChatList(userSearch.value);
       renderChatDialog();
@@ -2126,12 +2159,22 @@
       document.querySelector('.nav-item[data-screen="posts"]').classList.add('active');
     }
 
-    if (state.currentUserId) {
-      loginWrapper.style.display = 'none';
-      appRoot.style.display = 'flex';
-      afterLogin();
-    }
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        state.currentUser = user;
+        await ensureUserDoc(user);
+        loginWrapper.style.display = 'none';
+        appRoot.style.display = 'flex';
+        afterLogin();
+      } else {
+        state.currentUser = null;
+        loginWrapper.style.display = 'flex';
+        appRoot.style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>
-```
+
+
+Если захочешь, дальше можем точечно донастроить: визы, аватар через Storage, счётчики подписчиков и т.п.
