@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>RENITEA</title>
+  <title>RENITEA — закрытая лента</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * {
@@ -441,89 +441,32 @@
       color: #8e8e8e;
     }
 
-    .stories-bar {
-      max-width: 600px;
+    .stiki-composer {
+      max-width: 520px;
       margin: 0 auto 12px auto;
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-    }
-
-    .stories-bar::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    .stories-bar::-webkit-scrollbar-thumb {
-      background: #c9bba3;
-      border-radius: 999px;
-    }
-
-    .story-item {
-      flex: 0 0 auto;
-      width: 64px;
+      background: #fffdf7;
+      border-radius: 12px;
+      border: 1px solid #e0d5c2;
+      padding: 10px 12px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      font-size: 11px;
-      color: #333;
-      cursor: pointer;
-    }
-
-    .story-avatar-wrap {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      padding: 2px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 4px;
-      position: relative;
-      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-    }
-
-    .story-avatar-wrap.self {
-      background: linear-gradient(135deg, #ff6cab, #ffdd59, #4cd964, #34aadc, #5856d6);
-    }
-
-    .story-avatar-wrap.self::after {
-      content: "+";
-      position: absolute;
-      right: -2px;
-      bottom: -2px;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: #0095f6;
-      color: #fff;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #fff;
-    }
-
-    .story-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: #ddd;
-      border: 2px solid #fff;
-    }
-
-    .story-item:hover {
-      transform: translateY(-1px);
-    }
-
-    .stiki-upload {
-      max-width: 520px;
-      margin: 0 auto 10px auto;
-      display: flex;
       gap: 8px;
-      align-items: center;
       font-size: 13px;
-      flex-wrap: wrap;
+    }
+
+    .stiki-composer input[type="file"] {
+      font-size: 12px;
+    }
+
+    .stiki-composer button {
+      align-self: flex-end;
+      border-radius: 999px;
+      border: none;
+      padding: 6px 14px;
+      font-size: 12px;
+      background: #111;
+      color: #fff;
+      cursor: pointer;
     }
 
     .stiki-wrapper {
@@ -1324,47 +1267,15 @@
 
         <!-- СТИКИ -->
         <section class="screen" id="screen-stiki">
-          <div class="stories-bar">
-            <div class="story-item">
-              <div class="story-avatar-wrap self">
-                <div class="story-avatar"></div>
-              </div>
-              <span>Вы</span>
-            </div>
-            <div class="story-item">
-              <div class="story-avatar-wrap">
-                <div class="story-avatar"></div>
-              </div>
-              <span>Давид</span>
-            </div>
-            <div class="story-item">
-              <div class="story-avatar-wrap">
-                <div class="story-avatar"></div>
-              </div>
-              <span>Полина</span>
-            </div>
-            <div class="story-item">
-              <div class="story-avatar-wrap">
-                <div class="story-avatar"></div>
-              </div>
-              <span>Ваня</span>
-            </div>
-            <div class="story-item">
-              <div class="story-avatar-wrap">
-                <div class="story-avatar"></div>
-              </div>
-              <span>София</span>
-            </div>
+          <div class="stiki-composer">
+            <div>Опубликовать стик</div>
+            <input type="file" id="stikiInput" accept="video/*">
+            <button id="stikiPublishBtn">Опубликовать</button>
           </div>
-
-          <div class="stiki-upload">
-            <span>Стики:</span>
-            <input type="file" id="stikiInput" accept="video/*" multiple>
+          <div class="stiki-empty" id="stikiEmptyText">
+            тут пока что тихо, вы можете это исправить
           </div>
           <div class="stiki-wrapper" id="stikiWrapper"></div>
-          <div class="stiki-empty" id="stikiEmptyText">
-            Сейчас пусто, но вы можете это исправить.
-          </div>
         </section>
 
         <!-- ЧАТЫ -->
@@ -1649,6 +1560,7 @@
     const feedPublishBtn = document.getElementById('feedPublishBtn');
 
     const stikiInput = document.getElementById('stikiInput');
+    const stikiPublishBtn = document.getElementById('stikiPublishBtn');
     const stikiWrapper = document.getElementById('stikiWrapper');
     const stikiEmptyText = document.getElementById('stikiEmptyText');
 
@@ -1702,7 +1614,7 @@
       messages: {},
       visas: {},
       viewProfileUserId: null,
-      stikiReactions: {} // {stikiId: {emoji: count}}
+      stikiReactions: {}
     };
 
     let currentChatUserId = null;
@@ -1904,26 +1816,23 @@
         });
     }
 
-    stikiInput.addEventListener('change', async () => {
+    stikiPublishBtn.addEventListener('click', async () => {
       if (!state.currentUser) return;
-      const files = Array.from(stikiInput.files || []);
-      if (!files.length) return;
-
-      for (const file of files) {
-        try {
-          const ref = storage.ref().child(`stiki/${state.currentUser.uid}/${Date.now()}-${file.name}`);
-          await ref.put(file);
-          const url = await ref.getDownloadURL();
-          await db.collection('stiki').add({
-            authorId: state.currentUser.uid,
-            videoURL: url,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        } catch (e) {
-          console.error('Ошибка загрузки стика', e);
-        }
+      const file = stikiInput.files[0];
+      if (!file) return;
+      try {
+        const ref = storage.ref().child(`stiki/${state.currentUser.uid}/${Date.now()}-${file.name}`);
+        await ref.put(file);
+        const url = await ref.getDownloadURL();
+        await db.collection('stiki').add({
+          authorId: state.currentUser.uid,
+          videoURL: url,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        stikiInput.value = '';
+      } catch (e) {
+        console.error('Ошибка загрузки стика', e);
       }
-      stikiInput.value = '';
     });
 
     function renderStiki() {
@@ -2165,13 +2074,14 @@
     }
 
     function listenMessagesForChat(currentUserId, otherUserId) {
-      const chatId = chatKey(currentUserId, otherUserId);
+      const key = chatKey(currentUserId, otherUserId);
+      const chatRef = db.collection('chats').doc(key);
       if (unsubscribeMessages) unsubscribeMessages();
-      unsubscribeMessages = db.collection('messages')
-        .where('chatId', '==', chatId)
+      unsubscribeMessages = chatRef
+        .collection('messages')
         .orderBy('createdAt', 'asc')
         .onSnapshot(snapshot => {
-          state.messages[chatId] = snapshot.docs.map(doc => {
+          state.messages[key] = snapshot.docs.map(doc => {
             const data = doc.data();
             return {
               fromId: data.fromId,
@@ -2191,10 +2101,11 @@
       const currentId = state.currentUser.uid;
       const otherId = currentChatUserId;
 
-      const chatId = chatKey(currentId, otherId);
+      const key = chatKey(currentId, otherId);
+      const chatRef = db.collection('chats').doc(key);
 
       try {
-        await db.collection('chats').doc(chatId).set({
+        await chatRef.set({
           user1: currentId,
           user2: otherId,
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -2202,17 +2113,15 @@
 
         const now = new Date();
 
-        await db.collection('messages').add({
-          chatId,
+        await chatRef.collection('messages').add({
           fromId: currentId,
           toId: otherId,
           text,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        // локально сразу добавляем, чтобы не было ощущения "пропало"
-        if (!state.messages[chatId]) state.messages[chatId] = [];
-        state.messages[chatId].push({
+        if (!state.messages[key]) state.messages[key] = [];
+        state.messages[key].push({
           fromId: currentId,
           toId: otherId,
           text,
@@ -2354,5 +2263,3 @@
   </script>
 </body>
 </html>
-
-Если что‑то из этого всё ещё ведёт себя не так, как ты ожидаешь — скажи конкретно, какой экран и какое действие, и добьём до идеала.
