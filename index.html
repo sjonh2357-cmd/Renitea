@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -35,23 +36,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background:
-        linear-gradient(rgba(10, 35, 20, 0.55), rgba(10, 35, 20, 0.55)),
-        radial-gradient(circle at top, #111827, #020617);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      background: #f5f0e6;
+      background-image:
+        radial-gradient(circle at 0 0, rgba(0,0,0,0.04) 0, transparent 40%),
+        radial-gradient(circle at 100% 100%, rgba(0,0,0,0.04) 0, transparent 40%);
+      background-size: 100% 100%, 100% 100%;
       z-index: 2000;
     }
 
     .login-card {
       width: 100%;
       max-width: 360px;
-      background: rgba(255, 253, 247, 0.96);
+      background: rgba(255, 253, 247, 0.98);
       border-radius: 16px;
       border: 1px solid #e0d5c2;
       padding: 24px 26px 20px 26px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
       text-align: center;
       backdrop-filter: blur(6px);
     }
@@ -238,7 +238,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: none; /* глушилка вместо реального лого */
+      display: none;
     }
 
     .nav-items {
@@ -351,6 +351,7 @@
       justify-content: center;
       margin-bottom: 4px;
       position: relative;
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
     }
 
     .story-avatar-wrap.self {
@@ -374,24 +375,11 @@
       border: 2px solid #fff;
     }
 
-    .story-avatar-wrap.red {
-      background: linear-gradient(135deg, #ff0000, #ff6b6b);
-    }
-
-    .story-avatar-wrap.yellow {
-      background: linear-gradient(135deg, #ffb300, #ffdd55);
-    }
-
-    .story-avatar-wrap.green {
-      background: linear-gradient(135deg, #00c853, #aeea00);
-    }
-
     .story-avatar {
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background: #111827;
-      object-fit: cover;
+      background: #ddd;
       border: 2px solid #fff;
     }
 
@@ -431,9 +419,16 @@
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #4b5563, #111827);
-      object-fit: cover;
-      flex-shrink: 0;
+      background: #ddd;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 30%, #f5f5f5, #d4d4d4);
     }
 
     .feed-user {
@@ -493,17 +488,6 @@
       margin-top: 2px;
     }
 
-    .hashtag {
-      color: #00376b;
-      cursor: pointer;
-      font-size: 12px;
-      margin-left: 4px;
-    }
-
-    .hashtag:hover {
-      text-decoration: underline;
-    }
-
     .feed-time {
       padding: 4px 12px 10px 12px;
       font-size: 10px;
@@ -524,7 +508,6 @@
       font-size: 13px;
     }
 
-    .new-post-form input,
     .new-post-form textarea {
       border-radius: 8px;
       border: 1px solid #e0d5c2;
@@ -532,9 +515,6 @@
       font-size: 13px;
       outline: none;
       background: #fffdf7;
-    }
-
-    .new-post-form textarea {
       resize: vertical;
       min-height: 60px;
     }
@@ -604,17 +584,6 @@
       background-image: radial-gradient(circle at top, #4b5563, #020617);
     }
 
-    .stiki-info {
-      position: absolute;
-      left: 12px;
-      bottom: 12px;
-      right: 60px;
-      font-size: 13px;
-      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-      padding: 10px;
-      border-radius: 12px;
-    }
-
     .stiki-actions {
       position: absolute;
       right: 10px;
@@ -636,6 +605,14 @@
     .stiki-action small {
       font-size: 11px;
       margin-top: 2px;
+    }
+
+    .stiki-empty {
+      max-width: 520px;
+      margin: 20px auto 0 auto;
+      font-size: 13px;
+      color: #8e8e8e;
+      text-align: center;
     }
 
     /* CHATS */
@@ -852,9 +829,8 @@
       width: 80px;
       height: 80px;
       border-radius: 12px;
-      background: radial-gradient(circle at top, #4b5563, #020617);
+      background: #ddd;
       overflow: hidden;
-      object-fit: cover;
       border: 2px solid rgba(148,163,184,0.8);
     }
 
@@ -923,7 +899,7 @@
       height: 56px;
       border-radius: 50%;
       padding: 2px;
-      background: linear-gradient(135deg, #f9a825, #ffeb3b);
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -934,8 +910,7 @@
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background: radial-gradient(circle at top, #4b5563, #020617);
-      object-fit: cover;
+      background: #ddd;
       border: 2px solid #fff;
     }
 
@@ -987,7 +962,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      background: radial-gradient(circle at top, #4b5563, #020617);
+      background: #ddd;
     }
 
     .profile-info {
@@ -1244,7 +1219,6 @@
       .profile-header {
         margin: 0 0 12px 0;
       }
-      .profile-tabs,
       .profile-grid {
         margin: 0;
       }
@@ -1291,31 +1265,31 @@
               <span>Вы</span>
             </div>
             <div class="story-item">
-              <div class="story-avatar-wrap red">
+              <div class="story-avatar-wrap">
                 <div class="story-avatar"></div>
               </div>
               <span>Давид</span>
             </div>
             <div class="story-item">
-              <div class="story-avatar-wrap yellow">
+              <div class="story-avatar-wrap">
                 <div class="story-avatar"></div>
               </div>
               <span>Полина</span>
             </div>
             <div class="story-item">
-              <div class="story-avatar-wrap green">
+              <div class="story-avatar-wrap">
                 <div class="story-avatar"></div>
               </div>
               <span>Ваня</span>
             </div>
             <div class="story-item">
-              <div class="story-avatar-wrap yellow">
+              <div class="story-avatar-wrap">
                 <div class="story-avatar"></div>
               </div>
               <span>София</span>
             </div>
             <div class="story-item">
-              <div class="story-avatar-wrap red">
+              <div class="story-avatar-wrap">
                 <div class="story-avatar"></div>
               </div>
               <span>Арсеков</span>
@@ -1341,22 +1315,28 @@
               <span>Вы</span>
             </div>
             <div class="story-item">
-              <div class="story-avatar-wrap red">
+              <div class="story-avatar-wrap">
                 <div class="story-avatar"></div>
               </div>
               <span>Давид</span>
             </div>
             <div class="story-item">
-              <div class="story-avatar-wrap yellow">
+              <div class="story-avatar-wrap">
                 <div class="story-avatar"></div>
               </div>
               <span>Полина</span>
             </div>
             <div class="story-item">
-              <div class="story-avatar-wrap green">
+              <div class="story-avatar-wrap">
                 <div class="story-avatar"></div>
               </div>
               <span>Ваня</span>
+            </div>
+            <div class="story-item">
+              <div class="story-avatar-wrap">
+                <div class="story-avatar"></div>
+              </div>
+              <span>София</span>
             </div>
           </div>
 
@@ -1364,27 +1344,9 @@
             <span>Стики:</span>
             <input type="file" id="stikiInput" accept="video/*" multiple>
           </div>
-          <div class="stiki-wrapper" id="stikiWrapper">
-            <div class="stiki-card">
-              <div class="stiki-video"></div>
-              <div class="stiki-info">
-                городской вечер · 🔥 210 · 💬 32
-              </div>
-              <div class="stiki-actions">
-                <div class="stiki-action">
-                  <span>🔥</span>
-                  <small>210</small>
-                </div>
-                <div class="stiki-action">
-                  <span>💬</span>
-                  <small>32</small>
-                </div>
-                <div class="stiki-action">
-                  <span>✉</span>
-                  <small>подел.</small>
-                </div>
-              </div>
-            </div>
+          <div class="stiki-wrapper" id="stikiWrapper"></div>
+          <div class="stiki-empty" id="stikiEmptyText">
+            Пока нет стиков. Залей короткое видео, чтобы лента ожила.
           </div>
         </section>
 
@@ -1395,7 +1357,7 @@
 
             <div class="chat-dialog" id="chatDialog">
               <div class="chat-dialog-header">
-                <div class="chat-dialog-header-left" style="display:flex;align-items:center;gap:8px;">
+                <div style="display:flex;align-items:center;gap:8px;">
                   <div class="avatar" id="chatDialogAvatar"></div>
                   <div class="chat-dialog-name" id="chatDialogName"></div>
                 </div>
@@ -1485,9 +1447,7 @@
               </div>
             </div>
 
-            <div class="visa-grid" id="visaGrid">
-              <!-- карточки виз -->
-            </div>
+            <div class="visa-grid" id="visaGrid"></div>
           </div>
         </section>
 
@@ -1520,9 +1480,7 @@
                 <span><b id="profileFollowersCount">0</b> подписчиков</span>
                 <span><b id="profileFollowingCount">0</b> подписки</span>
               </div>
-              <div class="profile-bio" id="profileBio">
-                —
-              </div>
+              <div class="profile-bio" id="profileBio">—</div>
               <div class="profile-tags" id="profileTags">
                 <div class="tag">фото</div>
                 <div class="tag">путешествия</div>
@@ -1594,7 +1552,7 @@
 
           <div class="nav-block">
             <div class="nav-item" data-screen="profile">
-              <div id="navProfileAvatar" style="width: 32px; height: 32px; border-radius: 50%; background: radial-gradient(circle at top, #4b5563, #020617);"></div>
+              <div id="navProfileAvatar" style="width: 32px; height: 32px; border-radius: 50%; background:#ddd;"></div>
             </div>
             <div class="nav-label">Профиль</div>
           </div>
@@ -1636,7 +1594,6 @@
   </div>
 
   <script>
-    /* ====== ДАННЫЕ ПОЛЬЗОВАТЕЛЕЙ ====== */
     const DEFAULT_USERS = [
       {
         id: 'david',
@@ -1645,7 +1602,7 @@
         name: 'Давид',
         nick: '@david',
         persona: 'спокойный, внимательный',
-        avatar: '', // глушилка
+        avatar: '',
         bio: 'Собираю моменты, пока они ещё тёплые.',
         followers: 12,
         following: 8,
@@ -1700,7 +1657,7 @@
       },
     ];
 
-    const LS_KEY = 'renitea_state_v2';
+    const LS_KEY = 'renitea_state_v3';
 
     function loadState() {
       try {
@@ -1720,9 +1677,9 @@
     if (!state) {
       state = {
         users: DEFAULT_USERS,
-        posts: [], // {id, authorId, text, createdAt}
-        messages: {}, // key: chatKey, value: [{fromId,toId,text,time}]
-        visas: {}, // key: userId, value: [{title, note}]
+        posts: [],
+        messages: {},
+        visas: {},
         currentUserId: null,
       };
       saveState();
@@ -1745,7 +1702,6 @@
       return d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
     }
 
-    /* ====== ЭЛЕМЕНТЫ ====== */
     const loginWrapper = document.getElementById('loginWrapper');
     const appRoot = document.getElementById('appRoot');
     const loginUser = document.getElementById('loginUser');
@@ -1770,6 +1726,7 @@
 
     const stikiInput = document.getElementById('stikiInput');
     const stikiWrapper = document.getElementById('stikiWrapper');
+    const stikiEmptyText = document.getElementById('stikiEmptyText');
 
     const chatList = document.getElementById('chatList');
     const chatDialogAvatar = document.getElementById('chatDialogAvatar');
@@ -1810,7 +1767,6 @@
     const navLogoBox = document.getElementById('navLogoBox');
     const navLogoInput = document.getElementById('navLogoInput');
 
-    /* ====== НАВИГАЦИЯ ====== */
     function showScreen(name) {
       Object.keys(screens).forEach(key => {
         screens[key].classList.toggle('active', key === name);
@@ -1830,10 +1786,8 @@
     navLogoInput.addEventListener('change', () => {
       const file = navLogoInput.files[0];
       if (!file) return;
-      // глушилка: не показываем реальное изображение, но можем сохранить URL, если захочешь
     });
 
-    /* ====== ПОСТЫ ====== */
     function renderPosts() {
       feedColumn.innerHTML = '';
       const posts = state.posts.slice().sort((a, b) => b.createdAt - a.createdAt);
@@ -1906,11 +1860,14 @@
       renderPassport();
     });
 
-    /* ====== СТИКИ ====== */
     stikiInput.addEventListener('change', () => {
       const files = Array.from(stikiInput.files || []);
-      if (!files.length) return;
       stikiWrapper.innerHTML = '';
+      if (!files.length) {
+        stikiEmptyText.style.display = 'block';
+        return;
+      }
+      stikiEmptyText.style.display = 'none';
       files.forEach((file) => {
         const url = URL.createObjectURL(file);
         const card = document.createElement('div');
@@ -1938,7 +1895,6 @@
       });
     });
 
-    /* ====== ПРОФИЛЬ ====== */
     function renderProfile() {
       const user = getUserById(state.currentUserId);
       if (!user) return;
@@ -1946,7 +1902,7 @@
       profileNick.textContent = user.nick;
       profileBio.textContent = user.bio || '';
       profileAvatarImg.src = user.avatar || '';
-      navProfileAvatar.style.background = 'radial-gradient(circle at top, #4b5563, #020617)';
+      navProfileAvatar.style.background = '#ddd';
       profilePostsCount.textContent = state.posts.filter(p => p.authorId === user.id).length;
       profileFollowersCount.textContent = user.followers || 0;
       profileFollowingCount.textContent = user.following || 0;
@@ -1957,7 +1913,7 @@
       if (!user) return;
       profileGrid.innerHTML = '';
       const userPosts = state.posts.filter(p => p.authorId === user.id);
-      userPosts.forEach(p => {
+      userPosts.forEach(() => {
         const div = document.createElement('div');
         div.className = 'profile-grid-item';
         profileGrid.appendChild(div);
@@ -1999,14 +1955,13 @@
       if (e.target === editProfileModal) closeEditProfileModal();
     });
 
-    /* ====== ПАСПОРТ ====== */
     function renderPassport() {
       const user = getUserById(state.currentUserId);
       if (!user) return;
       passportName.textContent = user.name;
       passportNick.textContent = user.nick;
       passportPersona.textContent = user.persona || '—';
-      passportPhoto.style.background = 'radial-gradient(circle at top, #4b5563, #020617)';
+      passportPhoto.style.background = '#ddd';
       const userPosts = state.posts.filter(p => p.authorId === user.id);
       passportMomentsCount.textContent = userPosts.length;
       const visas = state.visas[user.id] || [];
@@ -2023,7 +1978,6 @@
       });
     }
 
-    /* ====== ЧАТЫ ====== */
     let currentChatUserId = null;
 
     function renderChatList(filter = '') {
@@ -2067,18 +2021,17 @@
     function renderChatDialog() {
       const currentUser = getUserById(state.currentUserId);
       const other = getUserById(currentChatUserId);
+      chatDialogBody.innerHTML = '';
       if (!other) {
-        chatDialogAvatar.style.background = 'radial-gradient(circle at top, #4b5563, #020617)';
+        chatDialogAvatar.style.background = '#ddd';
         chatDialogName.textContent = '';
-        chatDialogBody.innerHTML = '';
         return;
       }
-      chatDialogAvatar.style.background = 'radial-gradient(circle at top, #4b5563, #020617)';
+      chatDialogAvatar.style.background = '#ddd';
       chatDialogName.textContent = other.name;
 
       const key = chatKey(currentUser.id, other.id);
       const msgs = state.messages[key] || [];
-      chatDialogBody.innerHTML = '';
       msgs.forEach(m => {
         const div = document.createElement('div');
         div.className = 'msg ' + (m.fromId === currentUser.id ? 'me' : 'them');
@@ -2121,7 +2074,6 @@
       renderChatList(userSearch.value);
     });
 
-    /* ====== ЛОГИН / ЛОГАУТ ====== */
     function tryLogin() {
       const login = (loginUser.value || '').trim();
       const pass = loginPass.value || '';
@@ -2161,7 +2113,6 @@
       loginPass.value = '';
     });
 
-    /* ====== ПОСЛЕ ЛОГИНА ====== */
     function afterLogin() {
       renderProfile();
       renderProfileGrid();
@@ -2175,7 +2126,6 @@
       document.querySelector('.nav-item[data-screen="posts"]').classList.add('active');
     }
 
-    // Автовход, если уже есть currentUserId
     if (state.currentUserId) {
       loginWrapper.style.display = 'none';
       appRoot.style.display = 'flex';
@@ -2184,3 +2134,4 @@
   </script>
 </body>
 </html>
+```
