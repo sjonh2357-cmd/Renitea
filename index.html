@@ -2,15 +2,16 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>RENITEA</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RENITEA · своя лента</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <style>
+    /* ========== БАЗОВЫЕ СТИЛИ ========== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      transition: background-color .15s ease, transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
     }
 
     body {
@@ -24,39 +25,42 @@
       background-image: url('bg-nature.jpg');
       background-size: cover;
       background-position: center;
+      background-attachment: fixed;
     }
 
+    /* ========== LOGIN ========== */
     .login-wrapper {
       position: fixed;
       inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      background:
-        radial-gradient(circle at 0 0, rgba(0,0,0,0.45), transparent 40%),
-        radial-gradient(circle at 100% 100%, rgba(0,0,0,0.55), transparent 40%),
-        rgba(0,0,0,0.35);
+      background: radial-gradient(circle at 0 0, rgba(0,0,0,0.45), transparent 40%),
+                  radial-gradient(circle at 100% 100%, rgba(0,0,0,0.55), transparent 40%),
+                  rgba(0,0,0,0.35);
       z-index: 2000;
+      backdrop-filter: blur(8px);
     }
 
     .login-card {
       width: 100%;
-      max-width: 380px;
+      max-width: 400px;
+      margin: 16px;
       background: rgba(255, 253, 247, 0.96);
-      border-radius: 18px;
+      border-radius: 24px;
       border: 1px solid #e0d5c2;
-      padding: 22px 24px 18px 24px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+      padding: 28px 24px 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
       text-align: center;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
     }
 
     .login-logo {
-      font-size: 26px;
+      font-size: 32px;
       font-weight: 800;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       background: linear-gradient(135deg, #ff6cab, #ffdd59, #4cd964, #34aadc, #5856d6);
       -webkit-background-clip: text;
       background-clip: text;
@@ -64,17 +68,18 @@
     }
 
     .login-subtitle {
-      font-size: 13px;
+      font-size: 14px;
       color: #6b7280;
-      margin-bottom: 14px;
+      margin-bottom: 20px;
+      font-weight: 400;
     }
 
     .login-tabs {
       display: flex;
-      gap: 6px;
-      margin: 10px 0 14px 0;
+      gap: 8px;
+      margin: 16px 0 20px;
       background: #f3e8d9;
-      padding: 3px;
+      padding: 4px;
       border-radius: 999px;
     }
 
@@ -82,35 +87,38 @@
       flex: 1;
       border-radius: 999px;
       border: none;
-      padding: 6px 0;
-      font-size: 13px;
+      padding: 10px 0;
+      font-size: 15px;
+      font-weight: 500;
       cursor: pointer;
       background: transparent;
-      color: #6b7280;
-      font-weight: 500;
+      color: #5f5b55;
+      transition: all 0.2s;
     }
 
     .login-tab.active {
       background: #111;
       color: #fffdf7;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
 
     .login-form {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 14px;
+      margin-bottom: 12px;
     }
 
     .login-input {
       width: 100%;
-      border-radius: 8px;
-      border: 1px solid #e0d5c2;
-      padding: 8px 10px;
-      font-size: 13px;
+      border-radius: 14px;
+      border: 1.5px solid #e0d5c2;
+      padding: 12px 16px;
+      font-size: 15px;
       outline: none;
       background: #fffdf7;
       text-align: left;
+      transition: border-color 0.2s, background 0.2s;
     }
 
     .login-input:focus {
@@ -119,43 +127,56 @@
     }
 
     .login-file {
-      font-size: 12px;
+      font-size: 13px;
       text-align: left;
       color: #4b5563;
+      padding: 4px 0;
+    }
+
+    .login-file input {
+      margin-top: 4px;
+      font-size: 13px;
     }
 
     .login-btn {
-      margin-top: 4px;
+      margin-top: 8px;
       width: 100%;
-      border-radius: 8px;
+      border-radius: 40px;
       border: none;
-      padding: 8px 10px;
-      font-size: 14px;
+      padding: 14px 10px;
+      font-size: 16px;
       font-weight: 600;
       background: #111;
       color: #fff;
       cursor: pointer;
+      transition: all 0.2s;
     }
 
     .login-btn:hover {
       background: #000;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
     }
 
     .login-error {
-      min-height: 16px;
-      font-size: 12px;
+      min-height: 20px;
+      font-size: 13px;
       color: #b91c1c;
-      margin-bottom: 4px;
+      margin: 10px 0 6px;
       text-align: left;
+      font-weight: 500;
     }
 
     .login-footer-text {
-      font-size: 11px;
+      font-size: 12px;
       color: #9ca3af;
-      margin-top: 6px;
+      margin-top: 16px;
       text-align: left;
+      line-height: 1.5;
     }
 
     .login-footer-text b {
@@ -163,6 +184,7 @@
       color: #6b7280;
     }
 
+    /* ========== APP ========== */
     .app {
       flex: 1;
       display: none;
@@ -171,25 +193,30 @@
       overflow-y: auto;
       overflow-x: hidden;
       background: #f5f0e6;
-      background-image:
-        radial-gradient(circle at 0 0, rgba(0,0,0,0.04) 0, transparent 40%),
-        radial-gradient(circle at 100% 100%, rgba(0,0,0,0.04) 0, transparent 40%);
+      background-image: radial-gradient(circle at 0 0, rgba(0,0,0,0.03) 0, transparent 40%),
+                        radial-gradient(circle at 100% 100%, rgba(0,0,0,0.03) 0, transparent 40%);
       background-size: 100% 100%, 100% 100%;
     }
 
+    /* ========== TOPBAR ========== */
     .topbar {
-      height: 56px;
+      height: 60px;
       background: #fffdf7;
       border-bottom: 1px solid #e0d5c2;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px;
+      padding: 0 20px;
       flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+      background: rgba(255, 253, 247, 0.95);
     }
 
     .brand {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 800;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -203,26 +230,29 @@
     .topbar-right {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
     }
 
     .search {
-      width: 220px;
-      max-width: 50vw;
-      height: 32px;
+      width: 260px;
+      max-width: 40vw;
+      height: 40px;
       border-radius: 999px;
-      border: 1px solid #e0d5c2;
-      padding: 0 10px;
-      font-size: 13px;
+      border: 1.5px solid #e0d5c2;
+      padding: 0 18px;
+      font-size: 14px;
       outline: none;
       background: #fffdf7;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
     }
 
     .search:focus {
       border-color: #111;
       background: #ffffff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
+    /* ========== MAIN LAYOUT ========== */
     .main-row {
       flex: 1;
       display: flex;
@@ -235,20 +265,23 @@
     .content {
       flex: 1;
       overflow-y: auto;
-      padding: 12px 16px 16px 16px;
+      padding: 20px 24px 24px 24px;
       min-width: 0;
     }
 
+    /* ========== RIGHT NAVIGATION (DESKTOP) ========== */
     .right-nav {
-      width: 90px;
+      width: 96px;
       background: #fffdf7;
       border-left: 1px solid #e0d5c2;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 10px 0;
-      gap: 14px;
+      padding: 16px 0;
+      gap: 16px;
       flex-shrink: 0;
+      backdrop-filter: blur(8px);
+      background: rgba(255, 253, 247, 0.95);
     }
 
     .nav-logo-box {
@@ -264,16 +297,24 @@
       align-items: center;
       justify-content: center;
       color: #e5e7eb;
-      font-size: 11px;
+      font-size: 13px;
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .nav-logo-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
     }
 
     .nav-items {
-      margin-top: 10px;
+      margin-top: 12px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 20px;
       align-items: center;
       flex: 1;
       min-height: 0;
@@ -283,27 +324,29 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 4px;
     }
 
     .nav-item {
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 52px;
       border-radius: 999px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: all 0.2s;
     }
 
     .nav-item:hover {
       background-color: #f5f0e6;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
     }
 
     .nav-item svg {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
     }
 
     .nav-item svg * {
@@ -315,8 +358,9 @@
     }
 
     .nav-item.active {
-      background-color: #f0e6d5;
-      transform: translateY(-1px);
+      background-color: #ede3d3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
     }
 
     .nav-item.active svg * {
@@ -325,12 +369,14 @@
     }
 
     .nav-label {
-      font-size: 10px;
+      font-size: 11px;
+      font-weight: 500;
       color: #555;
       text-align: center;
       margin-top: 2px;
     }
 
+    /* ========== SCREENS ========== */
     .screen {
       display: none;
     }
@@ -339,134 +385,181 @@
       display: block;
     }
 
+    /* ========== POSTS (ЛЕНТА) ========== */
     .empty-feed-text {
       max-width: 600px;
-      margin: 40px auto 20px auto;
-      padding: 16px 18px;
-      border-radius: 12px;
-      border: 1px dashed #d4c7b3;
+      margin: 40px auto 30px auto;
+      padding: 24px 28px;
+      border-radius: 16px;
+      border: 2px dashed #d4c7b3;
       background: #fffdf7;
-      font-size: 14px;
+      font-size: 15px;
       text-align: center;
       color: #6b7280;
     }
 
     .feed-composer {
       max-width: 600px;
-      margin: 0 auto 16px auto;
+      margin: 0 auto 20px auto;
       background: #fffdf7;
-      border-radius: 12px;
-      border: 1px solid #e0d5c2;
-      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1.5px solid #e0d5c2;
+      padding: 16px 18px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      font-size: 13px;
+      gap: 12px;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
 
     .feed-composer textarea {
       width: 100%;
-      border-radius: 8px;
-      border: 1px solid #e0d5c2;
-      padding: 6px 8px;
+      border-radius: 12px;
+      border: 1.5px solid #e0d5c2;
+      padding: 12px 14px;
       resize: vertical;
-      min-height: 50px;
-      max-height: 120px;
+      min-height: 70px;
+      max-height: 150px;
       outline: none;
       background: #fffdf7;
-      font-size: 13px;
+      font-size: 14px;
+    }
+
+    .feed-composer textarea:focus {
+      border-color: #111;
+      background: #ffffff;
     }
 
     .feed-composer input[type="file"] {
-      font-size: 12px;
+      font-size: 13px;
+      padding: 4px 0;
     }
 
     .feed-composer button {
       align-self: flex-end;
       border-radius: 999px;
       border: none;
-      padding: 6px 14px;
-      font-size: 12px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
       background: #111;
       color: #fff;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .feed-composer button:hover {
+      background: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .feed-list {
       max-width: 600px;
-      margin: 0 auto 16px auto;
+      margin: 0 auto 20px auto;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 20px;
     }
 
     .feed-post {
       background: #fffdf7;
-      border-radius: 12px;
-      border: 1px solid #e0d5c2;
+      border-radius: 16px;
+      border: 1.5px solid #e0d5c2;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: box-shadow 0.2s;
     }
 
+    .feed-post:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    /* МАСШТАБИРОВАНИЕ ФОТО */
     .feed-post-image {
       width: 100%;
-      max-height: 420px;
+      max-height: 500px;
       background: #111;
       overflow: hidden;
+      cursor: zoom-in;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .feed-post-image img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       display: block;
+      transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+    }
+
+    .feed-post-image.zoomed {
+      cursor: zoom-out;
+      overflow: auto;
+    }
+
+    .feed-post-image.zoomed img {
+      transform: scale(2.5);
     }
 
     .feed-post-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 10px;
-      gap: 8px;
-      font-size: 13px;
+      padding: 12px 16px;
+      gap: 12px;
+      font-size: 14px;
+      border-top: 1px solid #f0e6d5;
     }
 
     .feed-post-text {
       flex: 1;
       color: #111827;
       word-break: break-word;
+      line-height: 1.5;
     }
 
     .feed-post-actions {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 4px;
-      font-size: 16px;
+      gap: 6px;
+      font-size: 18px;
     }
 
     .feed-post-actions button {
       border: none;
       background: transparent;
       cursor: pointer;
-      font-size: 16px;
-      padding: 0;
+      font-size: 20px;
+      padding: 4px;
       line-height: 1;
+      transition: transform 0.15s;
+    }
+
+    .feed-post-actions button:hover {
+      transform: scale(1.15);
     }
 
     .feed-post-actions small {
-      font-size: 11px;
+      font-size: 12px;
       color: #6b7280;
+      font-weight: 500;
     }
 
+    /* ========== РЕКОМЕНДАЦИИ ========== */
     .recommendations-title {
       max-width: 600px;
-      margin: 0 auto 8px auto;
-      font-size: 12px;
+      margin: 24px auto 12px auto;
+      font-size: 13px;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       color: #9ca3af;
+      font-weight: 600;
     }
 
     .recommendations-list {
@@ -474,79 +567,99 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .rec-card {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid #e0d5c2;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1.5px solid #e0d5c2;
       background: #fffdf7;
       cursor: pointer;
+      transition: all 0.2s;
     }
 
     .rec-card:hover {
       background: #f5ecdd;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+      border-color: #d4c7b3;
     }
 
     .rec-avatar {
-      width: 36px;
-      height: 36px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       background: #ddd;
       overflow: hidden;
       flex-shrink: 0;
     }
 
+    .rec-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
     .rec-main {
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 600;
+      margin-bottom: 2px;
     }
 
     .rec-sub {
-      font-size: 12px;
+      font-size: 13px;
       color: #8e8e8e;
     }
 
+    /* ========== СТИКИ ========== */
     .stiki-composer {
       max-width: 520px;
-      margin: 0 auto 12px auto;
+      margin: 0 auto 16px auto;
       background: #fffdf7;
-      border-radius: 12px;
-      border: 1px solid #e0d5c2;
-      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1.5px solid #e0d5c2;
+      padding: 16px 18px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      font-size: 13px;
+      gap: 12px;
+      font-size: 14px;
     }
 
     .stiki-composer input[type="file"] {
-      font-size: 12px;
+      font-size: 13px;
+      padding: 8px 0;
     }
 
     .stiki-composer button {
       align-self: flex-end;
       border-radius: 999px;
       border: none;
-      padding: 6px 14px;
-      font-size: 12px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
       background: #111;
       color: #fff;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .stiki-composer button:hover {
+      background: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .stiki-wrapper {
       max-width: 520px;
       margin: 0 auto;
-      height: calc(100vh - 56px - 16px - 40px);
+      height: calc(100vh - 60px - 80px);
       overflow-y: auto;
       scroll-snap-type: y mandatory;
+      border-radius: 20px;
     }
 
     .stiki-wrapper::-webkit-scrollbar {
@@ -560,13 +673,14 @@
 
     .stiki-card {
       position: relative;
-      height: calc(100vh - 56px - 32px - 40px);
-      margin-bottom: 16px;
-      border-radius: 18px;
+      height: calc(100vh - 60px - 100px);
+      margin-bottom: 20px;
+      border-radius: 24px;
       overflow: hidden;
       background: #000;
       color: #fff;
       scroll-snap-align: start;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
     }
 
     .stiki-video,
@@ -586,13 +700,13 @@
 
     .stiki-actions {
       position: absolute;
-      right: 10px;
-      bottom: 20px;
+      right: 12px;
+      bottom: 30px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 20px;
       align-items: center;
-      font-size: 20px;
+      font-size: 22px;
     }
 
     .stiki-action {
@@ -600,70 +714,104 @@
       flex-direction: column;
       align-items: center;
       cursor: pointer;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+      transition: transform 0.15s;
+    }
+
+    .stiki-action:hover {
+      transform: scale(1.1);
     }
 
     .stiki-action small {
-      font-size: 11px;
-      margin-top: 2px;
+      font-size: 12px;
+      margin-top: 4px;
+      font-weight: 500;
     }
 
     .stiki-reactions {
       position: absolute;
-      left: 10px;
-      bottom: 16px;
+      left: 12px;
+      bottom: 24px;
       display: flex;
-      gap: 8px;
-      background: rgba(0,0,0,0.35);
-      padding: 4px 6px;
+      gap: 12px;
+      background: rgba(0,0,0,0.5);
+      padding: 8px 14px;
       border-radius: 999px;
-      font-size: 16px;
+      font-size: 18px;
+      backdrop-filter: blur(8px);
     }
 
     .stiki-reaction {
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 2px;
-      font-size: 14px;
+      gap: 4px;
+      font-size: 16px;
+      transition: transform 0.15s;
+    }
+
+    .stiki-reaction:hover {
+      transform: scale(1.15);
     }
 
     .stiki-reaction small {
-      font-size: 11px;
+      font-size: 12px;
+      font-weight: 500;
     }
 
     .stiki-empty {
       max-width: 520px;
-      margin: 20px auto 0 auto;
-      font-size: 13px;
+      margin: 30px auto 0 auto;
+      font-size: 14px;
       color: #8e8e8e;
       text-align: center;
+      padding: 20px;
+      background: #fffdf7;
+      border-radius: 16px;
+      border: 1.5px dashed #d4c7b3;
     }
 
+    /* ========== ЧАТЫ (Telegram стиль) ========== */
     .chats-layout {
-      max-width: 980px;
+      max-width: 1000px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 320px minmax(0, 1fr);
-      gap: 12px;
-      height: calc(100vh - 56px - 32px);
+      grid-template-columns: 340px minmax(0, 1fr);
+      gap: 0;
+      height: calc(100vh - 60px - 40px);
       min-height: 0;
+      background: #fffdf7;
+      border-radius: 20px;
+      border: 1.5px solid #e0d5c2;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
     }
 
     .chat-list {
-      background: #fffdf7;
-      border-radius: 12px;
-      border: 1px solid #e0d5c2;
+      background: #faf7f2;
+      border-right: 1.5px solid #e0d5c2;
       overflow-y: auto;
       padding: 8px 0;
       min-height: 0;
     }
 
+    .chat-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .chat-list::-webkit-scrollbar-thumb {
+      background: #d4c7b3;
+      border-radius: 999px;
+    }
+
     .chat-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
+      gap: 14px;
+      padding: 14px 16px;
       cursor: pointer;
+      border-bottom: 1px solid #ede3d3;
+      transition: background 0.15s;
     }
 
     .chat-item:hover {
@@ -671,12 +819,12 @@
     }
 
     .chat-item.active {
-      background: #f0e6d5;
+      background: #ede3d3;
     }
 
     .chat-avatar {
-      width: 36px;
-      height: 36px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       background: #ddd;
       overflow: hidden;
@@ -689,15 +837,20 @@
       object-fit: cover;
     }
 
-    .chat-main {
-      font-size: 14px;
-      font-weight: 600;
+    .chat-info {
+      flex: 1;
+      min-width: 0;
     }
 
-    .chat-sub {
-      font-size: 12px;
+    .chat-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .chat-last-message {
+      font-size: 13px;
       color: #8e8e8e;
-      max-width: 180px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -705,185 +858,223 @@
 
     .chat-dialog {
       background: #fffdf7;
-      border-radius: 12px;
-      border: 1px solid #e0d5c2;
       display: flex;
       flex-direction: column;
       overflow: hidden;
       min-width: 0;
+      height: 100%;
     }
 
     .chat-dialog-header {
-      padding: 10px 12px;
-      border-bottom: 1px solid #e0d5c2;
+      padding: 14px 18px;
+      border-bottom: 1.5px solid #e0d5c2;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       justify-content: space-between;
+      background: #faf7f2;
     }
 
     .chat-dialog-header-left {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       cursor: pointer;
+      flex: 1;
     }
 
     .chat-dialog-body {
       flex: 1;
-      padding: 10px 12px;
+      padding: 18px 20px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      font-size: 13px;
+      gap: 16px;
+      font-size: 14px;
       min-height: 0;
+      background: #fcf9f5;
+    }
+
+    .chat-dialog-body::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .chat-dialog-body::-webkit-scrollbar-thumb {
+      background: #d4c7b3;
+      border-radius: 999px;
     }
 
     .msg {
-      max-width: 70%;
-      padding: 6px 10px;
-      border-radius: 16px;
-      line-height: 1.4;
+      max-width: 75%;
+      padding: 12px 16px;
+      border-radius: 20px;
+      line-height: 1.5;
       position: relative;
+      word-break: break-word;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
 
     .msg.me {
       margin-left: auto;
-      background: #f0e6d5;
+      background: #e3d9ca;
+      border-bottom-right-radius: 6px;
     }
 
     .msg.them {
-      background: #f5ecdd;
+      margin-right: auto;
+      background: #ffffff;
+      border: 1.5px solid #e9dfd3;
+      border-bottom-left-radius: 6px;
     }
 
     .msg-time {
-      font-size: 10px;
+      font-size: 11px;
       color: #8e8e8e;
-      margin-top: 2px;
+      margin-top: 6px;
+      text-align: right;
     }
 
     .chat-dialog-input {
-      border-top: 1px solid #e0d5c2;
-      padding: 8px 10px;
+      border-top: 1.5px solid #e0d5c2;
+      padding: 14px 18px;
       display: flex;
-      gap: 8px;
+      gap: 12px;
       align-items: center;
       flex-wrap: nowrap;
+      background: #faf7f2;
     }
 
     .chat-dialog-input input {
       flex: 1;
       border-radius: 999px;
-      border: 1px solid #e0d5c2;
-      padding: 6px 10px;
-      font-size: 13px;
+      border: 1.5px solid #e0d5c2;
+      padding: 12px 18px;
+      font-size: 14px;
       outline: none;
       min-width: 0;
       background: #fffdf7;
+      transition: border-color 0.2s;
+    }
+
+    .chat-dialog-input input:focus {
+      border-color: #111;
+      background: #ffffff;
     }
 
     .chat-dialog-input button {
       border-radius: 999px;
       border: none;
-      padding: 6px 14px;
-      font-size: 13px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
       background: #111;
       color: #fff;
       cursor: pointer;
       white-space: nowrap;
+      transition: all 0.2s;
     }
 
+    .chat-dialog-input button:hover {
+      background: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    /* ========== ПАСПОРТ ========== */
     .passport-layout {
-      max-width: 980px;
+      max-width: 1000px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      gap: 16px;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 20px;
     }
 
     .passport-card {
-      background: linear-gradient(135deg, #fffdf7, #f5ecdd);
-      border-radius: 18px;
-      border: 1px solid #e0d5c2;
-      padding: 14px 16px;
+      background: linear-gradient(145deg, #fffdf7, #f5ecdd);
+      border-radius: 24px;
+      border: 1.5px solid #e0d5c2;
+      padding: 24px 26px;
       position: relative;
       overflow: hidden;
       color: #111827;
-      box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.03), 0 8px 20px rgba(0,0,0,0.06);
     }
 
     .passport-chip {
       position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 32px;
-      height: 24px;
-      border-radius: 6px;
-      border: 1px solid rgba(148,163,184,0.8);
-      box-shadow: 0 0 0 1px rgba(148,163,184,0.6);
+      top: 24px;
+      right: 24px;
+      width: 40px;
+      height: 30px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(148,163,184,0.8);
+      box-shadow: 0 0 0 2px rgba(148,163,184,0.5);
       background: radial-gradient(circle at 0 0, #fef3c7, #e5e7eb);
     }
 
     .passport-stamp {
       position: absolute;
-      bottom: 16px;
-      right: 16px;
-      width: 80px;
-      height: 80px;
+      bottom: 24px;
+      right: 24px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
-      border: 2px dashed rgba(148,163,184,0.7);
+      border: 2.5px dashed rgba(148,163,184,0.7);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: 11px;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      opacity: 0.7;
-      background: rgba(255,253,247,0.6);
-      backdrop-filter: blur(2px);
+      letter-spacing: 0.15em;
+      opacity: 0.8;
+      background: rgba(255,253,247,0.7);
+      backdrop-filter: blur(4px);
+      color: #6b7280;
     }
 
     .passport-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
+      align-items: flex-start;
+      margin-bottom: 20px;
       position: relative;
       z-index: 1;
     }
 
     .passport-title {
-      font-size: 16px;
+      font-size: 20px;
       font-weight: 700;
+      margin-bottom: 4px;
     }
 
     .passport-meta {
-      font-size: 12px;
+      font-size: 13px;
       color: #6b7280;
     }
 
     .passport-id {
-      font-size: 11px;
+      font-size: 12px;
       color: #9ca3af;
-      margin-top: 4px;
+      margin-top: 6px;
+      font-family: monospace;
     }
 
     .passport-photo {
-      width: 80px;
-      height: 80px;
-      border-radius: 12px;
+      width: 90px;
+      height: 90px;
+      border-radius: 14px;
       background: #ddd;
       overflow: hidden;
-      border: 2px solid rgba(148,163,184,0.8);
+      border: 2.5px solid rgba(148,163,184,0.8);
       background-size: cover;
       background-position: center;
     }
 
     .passport-row {
       display: flex;
-      gap: 12px;
-      margin-top: 10px;
+      gap: 16px;
+      margin-top: 16px;
       align-items: flex-start;
       position: relative;
       z-index: 1;
@@ -891,116 +1082,140 @@
 
     .passport-fields {
       flex: 1;
-      font-size: 12px;
+      font-size: 13px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 6px 12px;
+      gap: 10px 18px;
     }
 
     .passport-field-label {
       font-size: 11px;
       color: #9ca3af;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
+      font-weight: 600;
     }
 
     .passport-field-value {
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 500;
+      margin-top: 2px;
     }
 
     .passport-stories-title {
-      margin-top: 12px;
-      font-size: 12px;
+      margin-top: 20px;
+      font-size: 13px;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       color: #9ca3af;
+      position: relative;
+      z-index: 1;
+      font-weight: 600;
+    }
+
+    .passport-stories-bar {
+      margin-top: 12px;
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 8px;
       position: relative;
       z-index: 1;
     }
 
-    .passport-stories-bar {
-      margin-top: 8px;
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      position: relative;
-      z-index: 1;
+    .passport-stories-bar::-webkit-scrollbar {
+      height: 3px;
+    }
+
+    .passport-stories-bar::-webkit-scrollbar-thumb {
+      background: #d4c7b3;
+      border-radius: 999px;
     }
 
     .passport-story-item {
       flex: 0 0 auto;
-      width: 64px;
+      width: 72px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-size: 11px;
+      font-size: 12px;
       color: #111827;
       cursor: pointer;
     }
 
     .passport-story-avatar-wrap {
-      width: 56px;
-      height: 56px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
-      padding: 2px;
+      padding: 2.5px;
       background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .passport-story-avatar {
-      width: 50px;
-      height: 50px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: #ddd;
-      border: 2px solid #fff;
+      border: 2.5px solid #fff;
     }
 
     .visa-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      align-content: start;
     }
 
     .visa-card {
       background: #fffdf7;
-      border-radius: 12px;
-      border: 1px solid #e0d5c2;
-      padding: 10px 12px;
-      font-size: 12px;
+      border-radius: 16px;
+      border: 1.5px solid #e0d5c2;
+      padding: 16px 18px;
+      font-size: 13px;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
 
+    .visa-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      border-color: #d4c7b3;
+    }
+
+    /* ========== ПРОФИЛЬ ========== */
     .profile-header {
-      max-width: 720px;
-      margin: 0 auto 16px auto;
+      max-width: 760px;
+      margin: 0 auto 24px auto;
       background: #fffdf7;
-      border-radius: 12px;
-      border: 1px solid #e0d5c2;
+      border-radius: 20px;
+      border: 1.5px solid #e0d5c2;
       overflow: hidden;
       position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
     }
 
     .profile-cover {
-      height: 140px;
+      height: 160px;
       background: radial-gradient(circle at top left, #3b4252, #111827);
       position: relative;
     }
 
     .profile-avatar {
-      width: 90px;
-      height: 90px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
       background: #ffffff;
       position: absolute;
-      left: 24px;
-      bottom: -45px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      left: 30px;
+      bottom: -55px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
       overflow: hidden;
       z-index: 2;
+      border: 4px solid #fff;
     }
 
     .profile-avatar img {
@@ -1011,7 +1226,7 @@
     }
 
     .profile-info {
-      padding: 56px 24px 16px 24px;
+      padding: 65px 30px 24px 30px;
       position: relative;
       z-index: 1;
     }
@@ -1019,37 +1234,37 @@
     .profile-top-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      gap: 16px;
       flex-wrap: wrap;
     }
 
     .profile-name-block {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 4px;
     }
 
     .profile-name {
-      font-size: 18px;
+      font-size: 24px;
       font-weight: 700;
     }
 
     .profile-username {
-      font-size: 13px;
+      font-size: 15px;
       color: #8e8e8e;
     }
 
     .profile-location {
-      font-size: 12px;
+      font-size: 13px;
       color: #8e8e8e;
-      margin-top: 2px;
+      margin-top: 4px;
     }
 
     .profile-actions {
       display: flex;
-      gap: 6px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
@@ -1058,46 +1273,67 @@
       border: none;
       background: #111;
       color: #fff;
-      padding: 6px 14px;
-      font-size: 12px;
+      padding: 10px 22px;
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
     }
 
     .btn-ghost {
       border-radius: 999px;
-      border: 1px solid #e0d5c2;
+      border: 1.5px solid #e0d5c2;
       background: #fffdf7;
       color: #111;
-      padding: 6px 12px;
-      font-size: 12px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 6px;
       white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .btn-ghost:hover {
+      background: #f5f0e6;
+      border-color: #d4c7b3;
+      transform: translateY(-2px);
     }
 
     .profile-stats {
       display: flex;
-      gap: 18px;
-      font-size: 13px;
-      margin-bottom: 8px;
+      gap: 28px;
+      font-size: 15px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
     }
 
+    .profile-stats span b {
+      font-size: 18px;
+      margin-right: 4px;
+    }
+
     .profile-bio {
-      font-size: 13px;
-      line-height: 1.4;
-      margin-bottom: 6px;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 12px;
     }
 
     .profile-grid {
-      max-width: 720px;
+      max-width: 760px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1106,11 +1342,17 @@
 
     .profile-grid-item {
       background: radial-gradient(circle at top, #4b5563, #020617);
-      height: 160px;
-      border-radius: 8px;
+      aspect-ratio: 1/1;
+      border-radius: 12px;
       background-position: center;
       background-size: cover;
       overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .profile-grid-item:hover {
+      transform: scale(0.98);
     }
 
     .profile-grid-item img {
@@ -1120,14 +1362,16 @@
       display: block;
     }
 
+    /* ========== MODAL ========== */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0,0,0,0.5);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 1000;
+      backdrop-filter: blur(4px);
     }
 
     .modal-backdrop.active {
@@ -1136,83 +1380,160 @@
 
     .modal {
       background: #ffffff;
-      border-radius: 16px;
-      padding: 16px 18px;
-      max-width: 360px;
-      width: 100%;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      border-radius: 24px;
+      padding: 24px 28px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
     }
 
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
 
     .modal-title {
-      font-size: 15px;
-      font-weight: 600;
+      font-size: 20px;
+      font-weight: 700;
     }
 
     .modal-close {
       cursor: pointer;
-      font-size: 18px;
+      font-size: 28px;
+      line-height: 1;
+      color: #8e8e8e;
+      transition: color 0.15s;
+    }
+
+    .modal-close:hover {
+      color: #111;
     }
 
     .modal-body {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      font-size: 13px;
+      gap: 16px;
+      font-size: 14px;
     }
 
     .modal-field {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
     }
 
     .modal-label {
-      font-size: 11px;
+      font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: #8e8e8e;
+      font-weight: 600;
     }
 
     .modal-input,
     .modal-textarea {
-      border-radius: 8px;
-      border: 1px solid #e0d5c2;
-      padding: 6px 8px;
-      font-size: 13px;
+      border-radius: 12px;
+      border: 1.5px solid #e0d5c2;
+      padding: 10px 14px;
+      font-size: 14px;
       outline: none;
       background: #fffdf7;
     }
 
+    .modal-input:focus,
+    .modal-textarea:focus {
+      border-color: #111;
+      background: #ffffff;
+    }
+
     .modal-textarea {
       resize: vertical;
-      min-height: 60px;
+      min-height: 80px;
       max-height: 160px;
     }
 
     .modal-footer {
-      margin-top: 12px;
+      margin-top: 24px;
       display: flex;
       justify-content: space-between;
-      gap: 8px;
+      gap: 12px;
       align-items: center;
       flex-wrap: wrap;
     }
 
     .modal-footer-right {
       display: flex;
-      gap: 8px;
+      gap: 10px;
     }
 
+    /* ========== МОБИЛЬНАЯ НАВИГАЦИЯ (Instagram стиль) ========== */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 75px;
+      background: rgba(255, 253, 247, 0.98);
+      border-top: 1.5px solid #e0d5c2;
+      justify-content: space-around;
+      align-items: center;
+      padding-bottom: env(safe-area-inset-bottom, 0);
+      z-index: 500;
+      backdrop-filter: blur(10px);
+    }
+
+    .mobile-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      height: 70px;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .mobile-nav-item:hover {
+      background: #f5f0e6;
+    }
+
+    .mobile-nav-item.active {
+      background: #ede3d3;
+    }
+
+    .mobile-nav-item svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .mobile-nav-item svg * {
+      stroke: #262626;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .mobile-nav-item.active svg * {
+      fill: #262626;
+      stroke: #262626;
+    }
+
+    .mobile-nav-label {
+      font-size: 11px;
+      font-weight: 500;
+      margin-top: 4px;
+      color: #555;
+    }
+
+    /* ========== MEDIA QUERIES ========== */
     @media (max-width: 900px) {
       .right-nav {
-        width: 72px;
+        width: 80px;
       }
       .chats-layout {
         grid-template-columns: 1fr;
@@ -1220,63 +1541,134 @@
       .passport-layout {
         grid-template-columns: 1fr;
       }
+      .content {
+        padding: 16px;
+      }
     }
 
     @media (max-width: 720px) {
       body {
         overflow-y: auto;
       }
+
       .main-row {
         flex-direction: column-reverse;
       }
+
       .right-nav {
-        width: 100%;
-        height: 64px;
-        border-left: none;
-        border-top: 1px solid #e0d5c2;
-        flex-direction: row;
-        justify-content: space-around;
-        padding: 6px 8px;
-      }
-      .nav-items {
-        flex-direction: row;
-        gap: 10px;
-        margin-top: 0;
-      }
-      .nav-label {
         display: none;
       }
+
+      .mobile-nav {
+        display: flex;
+      }
+
       .content {
-        padding: 8px 8px 72px 8px;
+        padding: 12px 12px 90px 12px;
       }
+
+      .topbar {
+        padding: 0 12px;
+      }
+
+      .search {
+        width: 180px;
+      }
+
       .stiki-wrapper {
-        height: calc(100vh - 56px - 64px - 32px);
+        height: calc(100vh - 60px - 75px - 30px);
       }
+
       .stiki-card {
-        height: calc(100vh - 56px - 64px - 48px);
+        height: calc(100vh - 60px - 75px - 50px);
       }
+
       .chats-layout {
         height: auto;
+        max-height: calc(100vh - 60px - 75px - 30px);
       }
+
       .chat-dialog {
-        min-height: 320px;
+        min-height: 400px;
       }
+
       .profile-header {
-        margin: 0 0 12px 0;
+        margin: 0 0 20px 0;
       }
+
       .profile-grid {
-        margin: 0;
+        gap: 4px;
+      }
+
+      .profile-avatar {
+        width: 90px;
+        height: 90px;
+        left: 20px;
+        bottom: -45px;
+      }
+
+      .profile-info {
+        padding: 55px 20px 20px 20px;
+      }
+
+      .passport-layout {
+        gap: 16px;
+      }
+
+      .feed-post-image.zoomed img {
+        transform: scale(1.8);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand {
+        font-size: 18px;
+      }
+
+      .search {
+        width: 140px;
+        height: 36px;
+        font-size: 13px;
+      }
+
+      .mobile-nav-item {
+        width: 60px;
+        height: 60px;
+      }
+
+      .mobile-nav-item svg {
+        width: 26px;
+        height: 26px;
+      }
+
+      .mobile-nav-label {
+        font-size: 10px;
+      }
+
+      .profile-top-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .profile-actions {
+        justify-content: flex-start;
+      }
+
+      .btn-primary,
+      .btn-ghost {
+        padding: 8px 16px;
+        font-size: 13px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- LOGIN -->
+  <!-- ========== LOGIN ========== -->
   <div class="login-wrapper" id="loginWrapper">
     <div class="login-card">
       <div class="login-logo">RENITEA</div>
-      <div class="login-subtitle">Закрытая лента для своих.</div>
+      <div class="login-subtitle">Закрытая лента для своих</div>
 
       <div class="login-tabs">
         <button class="login-tab active" data-tab="login">Войти</button>
@@ -1298,7 +1690,8 @@
         <input type="password" class="login-input" id="regPass" placeholder="Пароль">
         <input type="password" class="login-input" id="regPass2" placeholder="Повтор пароля">
         <div class="login-file">
-          Аватар: <input type="file" id="regAvatar" accept="image/*">
+          <label>Аватар:</label>
+          <input type="file" id="regAvatar" accept="image/*" style="width:100%; margin-top:4px;">
         </div>
         <button class="login-btn" id="registerBtn">Создать аккаунт</button>
       </div>
@@ -1306,12 +1699,12 @@
       <div class="login-error" id="loginError"></div>
       <div class="login-footer-text">
         Это закрытый доступ. Если вы здесь случайно — просто закройте вкладку.
-        <br>Проект: <b>Renitea</b>
+        <br>Проект: <b>Renitea</b> · своя атмосфера
       </div>
     </div>
   </div>
 
-  <!-- APP -->
+  <!-- ========== APP ========== -->
   <div class="app" id="appRoot">
     <header class="topbar">
       <div class="brand">RENITEA</div>
@@ -1322,10 +1715,10 @@
 
     <div class="main-row">
       <main class="content">
-        <!-- ПОСТЫ -->
+        <!-- ========== ПОСТЫ ========== -->
         <section class="screen active" id="screen-posts">
           <div class="feed-composer">
-            <div>Опубликовать в ленте</div>
+            <div style="font-weight:600; margin-bottom:4px;">Опубликовать в ленте</div>
             <textarea id="feedText" placeholder="Что у вас сегодня?"></textarea>
             <input type="file" id="feedImage" accept="image/*">
             <button id="feedPublishBtn">Опубликовать</button>
@@ -1334,27 +1727,27 @@
           <div class="feed-list" id="feedList"></div>
 
           <div class="empty-feed-text" id="feedEmptyText">
-            Лента пуста, но вы можете оживить ее.
+            ✨ Лента пуста, но вы можете оживить её первым моментом
           </div>
 
           <div class="recommendations-title">Рекомендации</div>
           <div class="recommendations-list" id="recommendationsList"></div>
         </section>
 
-        <!-- СТИКИ -->
+        <!-- ========== СТИКИ ========== -->
         <section class="screen" id="screen-stiki">
           <div class="stiki-composer">
-            <div>Опубликовать стик</div>
+            <div style="font-weight:600; margin-bottom:4px;">Опубликовать стик</div>
             <input type="file" id="stikiInput" accept="video/*">
             <button id="stikiPublishBtn">Опубликовать</button>
           </div>
           <div class="stiki-empty" id="stikiEmptyText">
-            тут пока что тихо, вы можете это исправить
+            🎬 Тут пока что тихо, вы можете это исправить
           </div>
           <div class="stiki-wrapper" id="stikiWrapper"></div>
         </section>
 
-        <!-- ЧАТЫ -->
+        <!-- ========== ЧАТЫ ========== -->
         <section class="screen" id="screen-chats">
           <div class="chats-layout">
             <div class="chat-list" id="chatList"></div>
@@ -1363,22 +1756,22 @@
               <div class="chat-dialog-header">
                 <div class="chat-dialog-header-left" id="chatHeaderProfile">
                   <div class="chat-avatar" id="chatDialogAvatar"></div>
-                  <div>
-                    <div class="chat-main" id="chatDialogName"></div>
-                    <div class="chat-sub" id="chatDialogNick"></div>
+                  <div class="chat-info">
+                    <div class="chat-name" id="chatDialogName"></div>
+                    <div class="chat-last-message" id="chatDialogNick"></div>
                   </div>
                 </div>
               </div>
               <div class="chat-dialog-body" id="chatDialogBody"></div>
               <div class="chat-dialog-input">
                 <input type="text" placeholder="Написать сообщение..." id="chatInput">
-                <button type="button" id="chatSendBtn">Отпр.</button>
+                <button type="button" id="chatSendBtn">Отправить</button>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- ПАСПОРТ -->
+        <!-- ========== ПАСПОРТ ========== -->
         <section class="screen" id="screen-passport">
           <div class="passport-layout">
             <div class="passport-card">
@@ -1445,6 +1838,12 @@
                   </div>
                   <span>Ночь</span>
                 </div>
+                <div class="passport-story-item">
+                  <div class="passport-story-avatar-wrap">
+                    <div class="passport-story-avatar"></div>
+                  </div>
+                  <span>Утро</span>
+                </div>
               </div>
             </div>
 
@@ -1452,7 +1851,7 @@
           </div>
         </section>
 
-        <!-- ПРОФИЛЬ -->
+        <!-- ========== ПРОФИЛЬ ========== -->
         <section class="screen" id="screen-profile">
           <div class="profile-header">
             <div class="profile-cover">
@@ -1486,7 +1885,7 @@
         </section>
       </main>
 
-      <!-- НАВИГАЦИЯ -->
+      <!-- ========== DESKTOP NAVIGATION ========== -->
       <aside class="right-nav">
         <div class="nav-logo-box" id="navLogoBox">RENI</div>
 
@@ -1547,9 +1946,56 @@
         </div>
       </aside>
     </div>
+
+    <!-- ========== MOBILE NAVIGATION (Instagram стиль) ========== -->
+    <div class="mobile-nav">
+      <div class="mobile-nav-item active" data-screen="posts">
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="4"/>
+          <rect x="6" y="6" width="12" height="8" rx="2"/>
+          <line x1="6" y1="17" x2="12" y2="17"/>
+          <line x1="14" y1="17" x2="18" y2="17"/>
+        </svg>
+        <span class="mobile-nav-label">Посты</span>
+      </div>
+
+      <div class="mobile-nav-item" data-screen="stiki">
+        <svg viewBox="0 0 24 24">
+          <rect x="7" y="3" width="10" height="18" rx="3"/>
+          <rect x="9" y="5" width="6" height="10" rx="2"/>
+          <line x1="9" y1="17" x2="12" y2="17"/>
+          <line x1="13" y1="17" x2="15" y2="17"/>
+        </svg>
+        <span class="mobile-nav-label">Стики</span>
+      </div>
+
+      <div class="mobile-nav-item" data-screen="chats">
+        <svg viewBox="0 0 24 24">
+          <path d="M5 5h14v10H7l-2 2z"/>
+        </svg>
+        <span class="mobile-nav-label">Чаты</span>
+      </div>
+
+      <div class="mobile-nav-item" data-screen="passport">
+        <svg viewBox="0 0 24 24">
+          <rect x="6" y="3" width="12" height="18" rx="2"/>
+          <circle cx="12" cy="10" r="3"/>
+          <line x1="9" y1="16" x2="15" y2="16"/>
+        </svg>
+        <span class="mobile-nav-label">Паспорт</span>
+      </div>
+
+      <div class="mobile-nav-item" data-screen="profile">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="9" r="3"/>
+          <path d="M6 19c1.5-3 4-4 6-4s4.5 1 6 4"/>
+        </svg>
+        <span class="mobile-nav-label">Профиль</span>
+      </div>
+    </div>
   </div>
 
-  <!-- MODAL EDIT PROFILE -->
+  <!-- ========== MODAL EDIT PROFILE ========== -->
   <div class="modal-backdrop" id="editProfileModal">
     <div class="modal">
       <div class="modal-header">
@@ -1559,19 +2005,19 @@
       <div class="modal-body">
         <div class="modal-field">
           <div class="modal-label">Имя</div>
-          <input class="modal-input" id="editProfileNameInput">
+          <input class="modal-input" id="editProfileNameInput" placeholder="Ваше имя">
         </div>
         <div class="modal-field">
-          <div class="modal-label">Ник</div>
-          <input class="modal-input" id="editProfileNickInput">
+          <div class="modal-label">Никнейм</div>
+          <input class="modal-input" id="editProfileNickInput" placeholder="@username">
         </div>
         <div class="modal-field">
           <div class="modal-label">Характер</div>
-          <input class="modal-input" id="editProfilePersonaInput">
+          <input class="modal-input" id="editProfilePersonaInput" placeholder="Например: мечтатель">
         </div>
         <div class="modal-field">
           <div class="modal-label">Био</div>
-          <textarea class="modal-textarea" id="editProfileBioInput"></textarea>
+          <textarea class="modal-textarea" id="editProfileBioInput" placeholder="Расскажите о себе..."></textarea>
         </div>
         <div class="modal-field">
           <div class="modal-label">Аватар</div>
@@ -1588,13 +2034,14 @@
     </div>
   </div>
 
-  <!-- Firebase -->
+  <!-- ========== FIREBASE ========== -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 
   <script>
+    // ========== FIREBASE CONFIG ==========
     const firebaseConfig = {
       apiKey: "AIzaSyAnw1Vz4Wzr2rmdrzVv5tga_x6u08ObNbA",
       authDomain: "renitea-b140f.firebaseapp.com",
@@ -1656,6 +2103,7 @@
       });
     }
 
+    // ========== DOM ELEMENTS ==========
     const loginWrapper = document.getElementById('loginWrapper');
     const appRoot = document.getElementById('appRoot');
 
@@ -1731,9 +2179,10 @@
     const editProfileAvatarInput = document.getElementById('editProfileAvatarInput');
     const modalLogoutBtn = document.getElementById('modalLogoutBtn');
 
-    const navItems = document.querySelectorAll('.nav-item');
+    const navItems = document.querySelectorAll('.nav-item, .mobile-nav-item');
     const recommendationsList = document.getElementById('recommendationsList');
 
+    // ========== STATE ==========
     const state = {
       currentUser: null,
       usersCache: {},
@@ -1752,6 +2201,7 @@
     let unsubscribeMessages = null;
     let unsubscribeUsers = null;
 
+    // ========== UTILS ==========
     function formatTime(ts) {
       const d = new Date(ts);
       return d.toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
@@ -1765,6 +2215,12 @@
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       const el = document.getElementById('screen-' + name);
       if (el) el.classList.add('active');
+      
+      // Синхронизация активного состояния между десктопной и мобильной навигацией
+      navItems.forEach(i => {
+        i.classList.remove('active');
+        if (i.dataset.screen === name) i.classList.add('active');
+      });
     }
 
     function getUserFromCache(id) {
@@ -1789,6 +2245,7 @@
       }
     }
 
+    // ========== LISTENERS ==========
     function listenUsers() {
       if (unsubscribeUsers) unsubscribeUsers();
       unsubscribeUsers = db.collection('users').onSnapshot(snap => {
@@ -1801,142 +2258,6 @@
         renderRecommendations();
       });
     }
-
-    loginTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        loginTabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        const target = tab.dataset.tab;
-
-        if (target === 'login') {
-          loginForm.style.display = 'flex';
-          registerForm.style.display = 'none';
-        } else {
-          loginForm.style.display = 'none';
-          registerForm.style.display = 'flex';
-        }
-
-        loginError.textContent = '';
-      });
-    });
-
-    loginBtn.addEventListener('click', async () => {
-      loginError.textContent = '';
-      const email = (loginEmail.value || '').trim();
-      const pass = loginPass.value || '';
-
-      if (!email || !pass) {
-        loginError.textContent = 'Заполни email и пароль.';
-        return;
-      }
-
-      try {
-        const cred = await auth.signInWithEmailAndPassword(email, pass);
-        await afterLogin(cred.user);
-      } catch (e) {
-        console.error(e);
-        loginError.textContent = e.code + ' — ' + (e.message || 'Ошибка входа.');
-      }
-    });
-
-    registerBtn.addEventListener('click', async () => {
-      loginError.textContent = '';
-      const name = regName.value.trim();
-      const nick = regNick.value.trim();
-      const email = regEmail.value.trim();
-      const pass = regPass.value;
-      const pass2 = regPass2.value;
-      const avatarFile = regAvatar.files[0] || null;
-
-      if (!name || !nick || !email || !pass || !pass2) {
-        loginError.textContent = 'Заполни все поля.';
-        return;
-      }
-      if (pass !== pass2) {
-        loginError.textContent = 'Пароли не совпадают.';
-        return;
-      }
-      if (pass.length < 6) {
-        loginError.textContent = 'Пароль должен быть не короче 6 символов.';
-        return;
-      }
-
-      try {
-        const cred = await auth.createUserWithEmailAndPassword(email, pass);
-        const user = cred.user;
-
-        let avatarBase64 = '';
-        if (avatarFile) {
-          const compressedBlob = await compressImage(avatarFile, 200, 0.7, 200);
-          avatarBase64 = await imageToBase64(compressedBlob);
-        }
-
-        await user.updateProfile({
-          displayName: name,
-          photoURL: avatarBase64 || null
-        });
-
-        await db.collection('users').doc(user.uid).set({
-          email,
-          name,
-          nick,
-          persona: '',
-          bio: '',
-          avatarBase64,
-          followers: 0,
-          following: 0,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        await afterLogin(user);
-      } catch (e) {
-        console.error(e);
-        loginError.textContent = e.code + ' — ' + (e.message || 'Ошибка при регистрации.');
-      }
-    });
-
-    loginPass.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        loginBtn.click();
-      }
-    });
-
-    regPass2.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        registerBtn.click();
-      }
-    });
-
-    feedPublishBtn.addEventListener('click', async () => {
-      if (!state.currentUser) return;
-      const text = (feedText.value || '').trim();
-      const file = feedImage.files[0];
-
-      if (!text || !file) {
-        alert('Нужны и текст, и фото.');
-        return;
-      }
-
-      try {
-        const compressedBlob = await compressImage(file, 1080, 0.8);
-        const imageBase64 = await imageToBase64(compressedBlob);
-
-        await db.collection('posts').add({
-          authorId: state.currentUser.uid,
-          text,
-          imageBase64,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        feedText.value = '';
-        feedImage.value = '';
-      } catch (e) {
-        console.error('Ошибка публикации поста', e);
-        alert('Не удалось опубликовать пост: ' + e.message);
-      }
-    });
 
     function listenPostsFromFirestore() {
       if (unsubscribePosts) unsubscribePosts();
@@ -1960,6 +2281,50 @@
         });
     }
 
+    function listenStikiFromFirestore() {
+      if (unsubscribeStiki) unsubscribeStiki();
+      unsubscribeStiki = db.collection('stiki')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot(snapshot => {
+          state.stiki = snapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              authorId: data.authorId,
+              videoURL: data.videoURL,
+              createdAt: data.createdAt
+            };
+          });
+          renderStiki();
+        });
+    }
+
+    function listenMessagesForChat(currentUserId, otherUserId) {
+      const key = chatKey(currentUserId, otherUserId);
+      const chatRef = db.collection('chats').doc(key);
+
+      if (unsubscribeMessages) unsubscribeMessages();
+
+      unsubscribeMessages = chatRef
+        .collection('messages')
+        .orderBy('createdAt', 'asc')
+        .onSnapshot(snapshot => {
+          state.messages[key] = snapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+              fromId: data.fromId,
+              toId: data.toId,
+              text: data.text,
+              time: data.createdAt ? formatTime(data.createdAt.toDate().getTime()) : ''
+            };
+          });
+
+          renderChatList(userSearch.value);
+          renderChatDialog();
+        });
+    }
+
+    // ========== RENDER FUNCTIONS ==========
     function renderFeed() {
       feedList.innerHTML = '';
       if (!state.posts.length) {
@@ -1977,7 +2342,17 @@
         const imgBlock = document.createElement('div');
         imgBlock.className = 'feed-post-image';
         if (post.imageBase64) {
-          imgBlock.innerHTML = `<img src="${post.imageBase64}" alt="">`;
+          const img = document.createElement('img');
+          img.src = post.imageBase64;
+          img.alt = '';
+          imgBlock.appendChild(img);
+          
+          // Масштабирование фото по клику
+          imgBlock.addEventListener('click', (e) => {
+            if (e.target === img || e.target === imgBlock) {
+              imgBlock.classList.toggle('zoomed');
+            }
+          });
         } else {
           imgBlock.style.height = '0';
           imgBlock.style.display = 'none';
@@ -2007,60 +2382,14 @@
       });
 
       feedList.querySelectorAll('.feed-fire-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
           const id = btn.dataset.id;
           if (!state.postReactions[id]) state.postReactions[id] = { fire: 0 };
           state.postReactions[id].fire += 1;
           renderFeed();
         });
       });
-    }
-
-    stikiPublishBtn.addEventListener('click', async () => {
-      if (!state.currentUser) return;
-      const file = stikiInput.files[0];
-      if (!file) {
-        alert('Выберите видео');
-        return;
-      }
-      
-      if (file.size > 15 * 1024 * 1024) {
-        alert('Видео слишком большое (макс 15 МБ). Сожмите перед загрузкой.');
-        return;
-      }
-      
-      try {
-        const ref = storage.ref().child(`stiki/${state.currentUser.uid}/${Date.now()}-${file.name}`);
-        await ref.put(file);
-        const url = await ref.getDownloadURL();
-        await db.collection('stiki').add({
-          authorId: state.currentUser.uid,
-          videoURL: url,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        stikiInput.value = '';
-      } catch (e) {
-        console.error('Ошибка загрузки стика', e);
-        alert('Ошибка: ' + e.message);
-      }
-    });
-
-    function listenStikiFromFirestore() {
-      if (unsubscribeStiki) unsubscribeStiki();
-      unsubscribeStiki = db.collection('stiki')
-        .orderBy('createdAt', 'desc')
-        .onSnapshot(snapshot => {
-          state.stiki = snapshot.docs.map(doc => {
-            const data = doc.data();
-            return {
-              id: doc.id,
-              authorId: data.authorId,
-              videoURL: data.videoURL,
-              createdAt: data.createdAt
-            };
-          });
-          renderStiki();
-        });
     }
 
     function renderStiki() {
@@ -2096,7 +2425,8 @@
       });
 
       stikiWrapper.querySelectorAll('.stiki-reaction').forEach(el => {
-        el.addEventListener('click', () => {
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
           const id = el.dataset.id;
           const emoji = el.dataset.emoji;
           if (!state.stikiReactions[id]) {
@@ -2157,75 +2487,6 @@
       });
     }
 
-    function openEditProfileModal() {
-      if (!state.currentUser) return;
-      const uid = state.currentUser.uid;
-      const userDoc = getUserFromCache(uid);
-      if (!userDoc) return;
-      editProfileNameInput.value = userDoc.name || '';
-      editProfileNickInput.value = userDoc.nick || '';
-      editProfilePersonaInput.value = userDoc.persona || '';
-      editProfileBioInput.value = userDoc.bio || '';
-      editProfileAvatarInput.value = '';
-      editProfileModal.classList.add('active');
-    }
-
-    function closeEditProfileModal() {
-      editProfileModal.classList.remove('active');
-    }
-
-    editProfileBtn.addEventListener('click', openEditProfileModal);
-    editProfileClose.addEventListener('click', closeEditProfileModal);
-    editProfileCancel.addEventListener('click', closeEditProfileModal);
-
-    editProfileSave.addEventListener('click', async () => {
-      if (!state.currentUser) return;
-      const uid = state.currentUser.uid;
-      const ref = db.collection('users').doc(uid);
-
-      let avatarBase64 = null;
-      const file = editProfileAvatarInput.files[0];
-
-      try {
-        if (file) {
-          const compressedBlob = await compressImage(file, 200, 0.7, 200);
-          avatarBase64 = await imageToBase64(compressedBlob);
-        }
-
-        const updateData = {
-          name: editProfileNameInput.value.trim(),
-          nick: editProfileNickInput.value.trim(),
-          persona: editProfilePersonaInput.value.trim(),
-          bio: editProfileBioInput.value.trim()
-        };
-
-        if (avatarBase64) {
-          updateData.avatarBase64 = avatarBase64;
-          await auth.currentUser.updateProfile({
-            photoURL: avatarBase64,
-            displayName: updateData.name
-          });
-        } else {
-          await auth.currentUser.updateProfile({
-            displayName: updateData.name
-          });
-        }
-
-        await ref.set(updateData, { merge: true });
-        closeEditProfileModal();
-      } catch (e) {
-        console.error('Ошибка обновления профиля', e);
-      }
-    });
-
-    editProfileModal.addEventListener('click', (e) => {
-      if (e.target === editProfileModal) closeEditProfileModal();
-    });
-
-    modalLogoutBtn.addEventListener('click', async () => {
-      await auth.signOut();
-    });
-
     function renderPassport() {
       if (!state.currentUser) return;
       const uid = state.currentUser.uid;
@@ -2269,10 +2530,11 @@
 
       if (!users.length) {
         const empty = document.createElement('div');
-        empty.style.padding = '10px 12px';
-        empty.style.fontSize = '13px';
+        empty.style.padding = '20px 16px';
+        empty.style.fontSize = '14px';
         empty.style.color = '#8e8e8e';
-        empty.textContent = 'Пока нет собеседников.';
+        empty.style.textAlign = 'center';
+        empty.textContent = 'Пока нет собеседников';
         chatList.appendChild(empty);
         return;
       }
@@ -2290,9 +2552,9 @@
           <div class="chat-avatar">
             ${avatarSrc ? `<img src="${avatarSrc}" alt="">` : ''}
           </div>
-          <div>
-            <div class="chat-main">${u.name || u.email}</div>
-            <div class="chat-sub">${last ? last.text : (u.nick || 'Нет сообщений')}</div>
+          <div class="chat-info">
+            <div class="chat-name">${u.name || u.email}</div>
+            <div class="chat-last-message">${last ? last.text : (u.nick || 'Нет сообщений')}</div>
           </div>
         `;
         item.addEventListener('click', () => {
@@ -2345,31 +2607,259 @@
       chatDialogBody.scrollTop = chatDialogBody.scrollHeight;
     }
 
-    function listenMessagesForChat(currentUserId, otherUserId) {
-      const key = chatKey(currentUserId, otherUserId);
-      const chatRef = db.collection('chats').doc(key);
+    function renderRecommendations() {
+      if (!state.currentUser || !recommendationsList) return;
+      const currentId = state.currentUser.uid;
+      const q = (userSearch.value || '').toLowerCase().trim();
+      recommendationsList.innerHTML = '';
 
-      if (unsubscribeMessages) unsubscribeMessages();
-
-      unsubscribeMessages = chatRef
-        .collection('messages')
-        .orderBy('createdAt', 'asc')
-        .onSnapshot(snapshot => {
-          state.messages[key] = snapshot.docs.map(doc => {
-            const data = doc.data();
-            return {
-              fromId: data.fromId,
-              toId: data.toId,
-              text: data.text,
-              time: data.createdAt ? formatTime(data.createdAt.toDate().getTime()) : ''
-            };
-          });
-
-          renderChatList(userSearch.value);
-          renderChatDialog();
+      Object.values(state.usersCache)
+        .filter(u => u.id !== currentId)
+        .filter(u => {
+          if (!q) return true;
+          return (
+            (u.name || '').toLowerCase().includes(q) ||
+            (u.nick || '').toLowerCase().includes(q) ||
+            (u.email || '').toLowerCase().includes(q)
+          );
+        })
+        .forEach(u => {
+          const avatarSrc = u.avatarBase64 || '';
+          const card = document.createElement('div');
+          card.className = 'rec-card';
+          card.innerHTML = `
+            <div class="rec-avatar">
+              ${avatarSrc ? `<img src="${avatarSrc}" alt="" style="width:100%;height:100%;object-fit:cover;">` : ''}
+            </div>
+            <div>
+              <div class="rec-main">${u.name || u.email}</div>
+              <div class="rec-sub">${u.nick || ''}</div>
+            </div>
+          `;
+          card.addEventListener('click', () => openProfile(u.id));
+          recommendationsList.appendChild(card);
         });
     }
 
+    // ========== ACTIONS ==========
+    function openProfile(userId) {
+      if (!userId) return;
+      state.viewProfileUserId = userId;
+      renderProfile();
+      renderProfileGrid();
+      showScreen('profile');
+    }
+
+    function openEditProfileModal() {
+      if (!state.currentUser) return;
+      const uid = state.currentUser.uid;
+      const userDoc = getUserFromCache(uid);
+      if (!userDoc) return;
+      editProfileNameInput.value = userDoc.name || '';
+      editProfileNickInput.value = userDoc.nick || '';
+      editProfilePersonaInput.value = userDoc.persona || '';
+      editProfileBioInput.value = userDoc.bio || '';
+      editProfileAvatarInput.value = '';
+      editProfileModal.classList.add('active');
+    }
+
+    function closeEditProfileModal() {
+      editProfileModal.classList.remove('active');
+    }
+
+    async function afterLogin(user) {
+      state.currentUser = user;
+      state.viewProfileUserId = user.uid;
+      await ensureUserDoc(user);
+      loginWrapper.style.display = 'none';
+      appRoot.style.display = 'flex';
+
+      listenUsers();
+      listenPostsFromFirestore();
+      listenStikiFromFirestore();
+
+      currentChatUserId = null;
+      renderChatList(userSearch.value);
+      renderChatDialog();
+      renderProfile();
+      renderProfileGrid();
+      renderRecommendations();
+      showScreen('posts');
+    }
+
+    // ========== EVENT LISTENERS ==========
+    // Login tabs
+    loginTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        loginTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const target = tab.dataset.tab;
+
+        if (target === 'login') {
+          loginForm.style.display = 'flex';
+          registerForm.style.display = 'none';
+        } else {
+          loginForm.style.display = 'none';
+          registerForm.style.display = 'flex';
+        }
+
+        loginError.textContent = '';
+      });
+    });
+
+    // Login
+    loginBtn.addEventListener('click', async () => {
+      loginError.textContent = '';
+      const email = (loginEmail.value || '').trim();
+      const pass = loginPass.value || '';
+
+      if (!email || !pass) {
+        loginError.textContent = 'Заполни email и пароль.';
+        return;
+      }
+
+      try {
+        const cred = await auth.signInWithEmailAndPassword(email, pass);
+        await afterLogin(cred.user);
+      } catch (e) {
+        console.error(e);
+        loginError.textContent = e.code + ' — ' + (e.message || 'Ошибка входа.');
+      }
+    });
+
+    // Register
+    registerBtn.addEventListener('click', async () => {
+      loginError.textContent = '';
+      const name = regName.value.trim();
+      const nick = regNick.value.trim();
+      const email = regEmail.value.trim();
+      const pass = regPass.value;
+      const pass2 = regPass2.value;
+      const avatarFile = regAvatar.files[0] || null;
+
+      if (!name || !nick || !email || !pass || !pass2) {
+        loginError.textContent = 'Заполни все поля.';
+        return;
+      }
+      if (pass !== pass2) {
+        loginError.textContent = 'Пароли не совпадают.';
+        return;
+      }
+      if (pass.length < 6) {
+        loginError.textContent = 'Пароль должен быть не короче 6 символов.';
+        return;
+      }
+
+      try {
+        const cred = await auth.createUserWithEmailAndPassword(email, pass);
+        const user = cred.user;
+
+        let avatarBase64 = '';
+        if (avatarFile) {
+          const compressedBlob = await compressImage(avatarFile, 200, 0.7, 200);
+          avatarBase64 = await imageToBase64(compressedBlob);
+        }
+
+        await user.updateProfile({
+          displayName: name,
+          photoURL: avatarBase64 || null
+        });
+
+        await db.collection('users').doc(user.uid).set({
+          email,
+          name,
+          nick,
+          persona: '',
+          bio: '',
+          avatarBase64,
+          followers: 0,
+          following: 0,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        await afterLogin(user);
+      } catch (e) {
+        console.error(e);
+        loginError.textContent = e.code + ' — ' + (e.message || 'Ошибка при регистрации.');
+      }
+    });
+
+    // Enter key for login/register
+    loginPass.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        loginBtn.click();
+      }
+    });
+
+    regPass2.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        registerBtn.click();
+      }
+    });
+
+    // Publish post
+    feedPublishBtn.addEventListener('click', async () => {
+      if (!state.currentUser) return;
+      const text = (feedText.value || '').trim();
+      const file = feedImage.files[0];
+
+      if (!text || !file) {
+        alert('Нужны и текст, и фото.');
+        return;
+      }
+
+      try {
+        const compressedBlob = await compressImage(file, 1080, 0.8);
+        const imageBase64 = await imageToBase64(compressedBlob);
+
+        await db.collection('posts').add({
+          authorId: state.currentUser.uid,
+          text,
+          imageBase64,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        feedText.value = '';
+        feedImage.value = '';
+      } catch (e) {
+        console.error('Ошибка публикации поста', e);
+        alert('Не удалось опубликовать пост: ' + e.message);
+      }
+    });
+
+    // Publish stik
+    stikiPublishBtn.addEventListener('click', async () => {
+      if (!state.currentUser) return;
+      const file = stikiInput.files[0];
+      if (!file) {
+        alert('Выберите видео');
+        return;
+      }
+      
+      if (file.size > 15 * 1024 * 1024) {
+        alert('Видео слишком большое (макс 15 МБ). Сожмите перед загрузкой.');
+        return;
+      }
+      
+      try {
+        const ref = storage.ref().child(`stiki/${state.currentUser.uid}/${Date.now()}-${file.name}`);
+        await ref.put(file);
+        const url = await ref.getDownloadURL();
+        await db.collection('stiki').add({
+          authorId: state.currentUser.uid,
+          videoURL: url,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        stikiInput.value = '';
+      } catch (e) {
+        console.error('Ошибка загрузки стика', e);
+        alert('Ошибка: ' + e.message);
+      }
+    });
+
+    // Send message
     chatSendBtn.addEventListener('click', async () => {
       const text = chatInput.value.trim();
       if (!text || !state.currentUser || !currentChatUserId) return;
@@ -2407,17 +2897,17 @@
       }
     });
 
+    // Search
     userSearch.addEventListener('input', () => {
       renderChatList(userSearch.value);
       renderRecommendations();
     });
 
+    // Navigation
     navItems.forEach(item => {
       item.addEventListener('click', () => {
         const screen = item.dataset.screen;
         if (!screen) return;
-        navItems.forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
 
         if (screen === 'profile') {
           state.viewProfileUserId = state.currentUser ? state.currentUser.uid : null;
@@ -2429,94 +2919,94 @@
       });
     });
 
+    // Edit profile modal
+    editProfileBtn.addEventListener('click', openEditProfileModal);
+    editProfileClose.addEventListener('click', closeEditProfileModal);
+    editProfileCancel.addEventListener('click', closeEditProfileModal);
+
+    editProfileModal.addEventListener('click', (e) => {
+      if (e.target === editProfileModal) closeEditProfileModal();
+    });
+
+    // Save profile
+    editProfileSave.addEventListener('click', async () => {
+      if (!state.currentUser) return;
+      const uid = state.currentUser.uid;
+      const ref = db.collection('users').doc(uid);
+
+      let avatarBase64 = null;
+      const file = editProfileAvatarInput.files[0];
+
+      try {
+        if (file) {
+          const compressedBlob = await compressImage(file, 200, 0.7, 200);
+          avatarBase64 = await imageToBase64(compressedBlob);
+        }
+
+        const updateData = {
+          name: editProfileNameInput.value.trim(),
+          nick: editProfileNickInput.value.trim(),
+          persona: editProfilePersonaInput.value.trim(),
+          bio: editProfileBioInput.value.trim()
+        };
+
+        if (avatarBase64) {
+          updateData.avatarBase64 = avatarBase64;
+          await auth.currentUser.updateProfile({
+            photoURL: avatarBase64,
+            displayName: updateData.name
+          });
+        } else {
+          await auth.currentUser.updateProfile({
+            displayName: updateData.name
+          });
+        }
+
+        await ref.set(updateData, { merge: true });
+        closeEditProfileModal();
+        renderProfile();
+        renderPassport();
+      } catch (e) {
+        console.error('Ошибка обновления профиля', e);
+        alert('Не удалось сохранить профиль');
+      }
+    });
+
+    // Logout
     logoutBtn.addEventListener('click', async () => {
       await auth.signOut();
     });
 
+    modalLogoutBtn.addEventListener('click', async () => {
+      await auth.signOut();
+    });
+
+    // Open profile from recommendations
     function openProfile(userId) {
       if (!userId) return;
       state.viewProfileUserId = userId;
       renderProfile();
       renderProfileGrid();
       showScreen('profile');
-      navItems.forEach(i => i.classList.remove('active'));
-      const profileNav = document.querySelector('.nav-item[data-screen="profile"]');
-      if (profileNav) profileNav.classList.add('active');
     }
 
-    function renderRecommendations() {
-      if (!state.currentUser || !recommendationsList) return;
-      const currentId = state.currentUser.uid;
-      const q = (userSearch.value || '').toLowerCase().trim();
-      recommendationsList.innerHTML = '';
-
-      Object.values(state.usersCache)
-        .filter(u => u.id !== currentId)
-        .filter(u => {
-          if (!q) return true;
-          return (
-            (u.name || '').toLowerCase().includes(q) ||
-            (u.nick || '').toLowerCase().includes(q) ||
-            (u.email || '').toLowerCase().includes(q)
-          );
-        })
-        .forEach(u => {
-          const avatarSrc = u.avatarBase64 || '';
-          const card = document.createElement('div');
-          card.className = 'rec-card';
-          card.innerHTML = `
-            <div class="rec-avatar">
-              ${avatarSrc ? `<img src="${avatarSrc}" alt="" style="width:100%;height:100%;object-fit:cover;">` : ''}
-            </div>
-            <div>
-              <div class="rec-main">${u.name || u.email}</div>
-              <div class="rec-sub">${u.nick || ''}</div>
-            </div>
-          `;
-          card.addEventListener('click', () => openProfile(u.id));
-          recommendationsList.appendChild(card);
-        });
-    }
-
-    chatHeaderProfile.addEventListener('click', () => {
-      if (!currentChatUserId) return;
-      openProfile(currentChatUserId);
-    });
-
+    // Open chat from profile
     profileMessageBtn.addEventListener('click', () => {
       if (!state.currentUser || !state.viewProfileUserId) return;
       const otherId = state.viewProfileUserId;
       if (otherId === state.currentUser.uid) return;
       currentChatUserId = otherId;
-      navItems.forEach(i => i.classList.remove('active'));
-      const chatsNav = document.querySelector('.nav-item[data-screen="chats"]');
-      if (chatsNav) chatsNav.classList.add('active');
       showScreen('chats');
       listenMessagesForChat(state.currentUser.uid, otherId);
     });
 
-    async function afterLogin(user) {
-      state.currentUser = user;
-      state.viewProfileUserId = user.uid;
-      await ensureUserDoc(user);
-      loginWrapper.style.display = 'none';
-      appRoot.style.display = 'flex';
+    // Open profile from chat header
+    chatHeaderProfile.addEventListener('click', () => {
+      if (!currentChatUserId) return;
+      openProfile(currentChatUserId);
+    });
 
-      listenUsers();
-      listenPostsFromFirestore();
-      listenStikiFromFirestore();
-
-      currentChatUserId = null;
-      renderChatList(userSearch.value);
-      renderChatDialog();
-      renderProfile();
-      renderProfileGrid();
-      renderRecommendations();
-      showScreen('posts');
-      navItems.forEach(i => i.classList.remove('active'));
-      document.querySelector('.nav-item[data-screen="posts"]').classList.add('active');
-    }
-
+    // Auth state observer
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         await afterLogin(user);
@@ -2525,7 +3015,18 @@
         state.viewProfileUserId = null;
         loginWrapper.style.display = 'flex';
         appRoot.style.display = 'none';
+        
+        // Cleanup subscriptions
+        if (unsubscribePosts) unsubscribePosts();
+        if (unsubscribeStiki) unsubscribeStiki();
+        if (unsubscribeMessages) unsubscribeMessages();
+        if (unsubscribeUsers) unsubscribeUsers();
       }
+    });
+
+    // Logo click - go to posts
+    document.getElementById('navLogoBox').addEventListener('click', () => {
+      showScreen('posts');
     });
   </script>
 </body>
