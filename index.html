@@ -9,29 +9,16 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-
-    /* ========== УНИКАЛЬНАЯ АЙДЕНТИКА RENITEA ========== */
-    :root {
-      --bg-primary: #f5f0eb;
-      --bg-card: #ffffff;
-      --border: #e8e0d5;
-      --text-primary: #2c241e;
-      --text-secondary: #8b7f6e;
-      --accent: #d4a373;
-      --accent-hover: #b88352;
-      --like: #e86a6a;
-      --comment: #6a9e86;
-      --share: #6a85b6;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
 
     body {
       min-height: 100vh;
-      background: var(--bg-primary);
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      background-attachment: fixed;
     }
 
-    /* ========== LOGIN — ФОН ПРИРОДЫ ========== */
+    /* LOGIN — ПРИРОДА */
     .login-wrapper {
       position: fixed;
       inset: 0;
@@ -47,7 +34,7 @@
       position: absolute;
       inset: 0;
       background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(2px);
+      backdrop-filter: blur(3px);
     }
 
     .login-card {
@@ -67,7 +54,7 @@
       font-size: 34px;
       font-weight: 800;
       letter-spacing: 4px;
-      background: linear-gradient(135deg, #d4a373, #b88352, #8b6b42);
+      background: linear-gradient(135deg, #ff6cab, #ffdd59, #4cd964, #34aadc, #5856d6);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -75,9 +62,8 @@
 
     .login-subtitle {
       font-size: 14px;
-      color: var(--text-secondary);
+      color: #6b7280;
       margin: 8px 0 24px;
-      font-style: italic;
     }
 
     .login-tabs {
@@ -97,18 +83,17 @@
       background: transparent;
       cursor: pointer;
       font-weight: 600;
-      color: var(--text-secondary);
+      color: #6b7280;
     }
 
     .login-tab.active {
-      background: var(--accent);
+      background: #1a1a2e;
       color: white;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .login-input {
       width: 100%;
-      border: 1.5px solid var(--border);
+      border: 1.5px solid #e0d5c2;
       border-radius: 16px;
       padding: 12px 16px;
       margin-bottom: 14px;
@@ -118,7 +103,7 @@
 
     .login-input:focus {
       outline: none;
-      border-color: var(--accent);
+      border-color: #d4a373;
     }
 
     .login-btn {
@@ -126,7 +111,7 @@
       border: none;
       border-radius: 40px;
       padding: 12px;
-      background: var(--accent);
+      background: #1a1a2e;
       color: white;
       font-weight: 600;
       cursor: pointer;
@@ -134,7 +119,7 @@
     }
 
     .login-btn:hover {
-      background: var(--accent-hover);
+      background: #d4a373;
       transform: translateY(-2px);
     }
 
@@ -144,18 +129,20 @@
       margin-top: 10px;
     }
 
-    /* ========== APP — УНИКАЛЬНАЯ СВЕТЛАЯ ТЕМА RENITEA ========== */
+    /* APP — АНИМЕ-ФОН */
     .app {
       display: none;
       flex-direction: column;
       min-height: 100vh;
-      background: var(--bg-primary);
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      background-attachment: fixed;
     }
 
     .topbar {
       height: 60px;
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -169,7 +156,7 @@
       font-size: 24px;
       font-weight: 800;
       letter-spacing: 3px;
-      background: linear-gradient(135deg, #d4a373, #b88352);
+      background: linear-gradient(135deg, #ff6cab, #ffdd59, #4cd964, #34aadc, #5856d6);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -178,15 +165,20 @@
     .search {
       width: 260px;
       border-radius: 60px;
-      border: 1px solid var(--border);
+      border: none;
       padding: 8px 16px;
-      background: var(--bg-primary);
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
       font-size: 14px;
+    }
+
+    .search::placeholder {
+      color: rgba(255, 255, 255, 0.6);
     }
 
     .search:focus {
       outline: none;
-      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.3);
     }
 
     .main-row {
@@ -204,8 +196,9 @@
     /* DESKTOP NAV */
     .right-nav {
       width: 80px;
-      background: var(--bg-card);
-      border-left: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -222,17 +215,17 @@
       justify-content: center;
       cursor: pointer;
       transition: all 0.2s;
-      color: var(--text-secondary);
+      color: rgba(255, 255, 255, 0.6);
     }
 
     .nav-item:hover {
-      background: #f0e9df;
-      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
     }
 
     .nav-item.active {
-      background: #f0e9df;
-      color: var(--accent);
+      background: rgba(255, 255, 255, 0.2);
+      color: #ff6cab;
     }
 
     .nav-item svg {
@@ -252,7 +245,7 @@
 
     .nav-label {
       font-size: 11px;
-      color: var(--text-secondary);
+      color: rgba(255, 255, 255, 0.6);
       margin-top: 4px;
     }
 
@@ -278,28 +271,35 @@
       display: block;
     }
 
-    /* FEED */
+    /* FEED — карточки постов */
     .feed-composer {
       max-width: 600px;
       margin: 0 auto 20px;
-      background: var(--bg-card);
+      background: rgba(30, 30, 46, 0.95);
       border-radius: 20px;
       padding: 16px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .feed-composer textarea {
       width: 100%;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 14px;
       padding: 12px;
       resize: vertical;
       min-height: 70px;
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
       font-size: 14px;
+    }
+
+    .feed-composer textarea::placeholder {
+      color: rgba(255, 255, 255, 0.5);
     }
 
     .feed-composer input[type="file"] {
       margin: 10px 0;
+      color: white;
     }
 
     .feed-composer button {
@@ -308,7 +308,7 @@
       border: none;
       border-radius: 40px;
       padding: 8px 24px;
-      background: var(--accent);
+      background: #d4a373;
       color: white;
       font-weight: 600;
       cursor: pointer;
@@ -323,10 +323,10 @@
     }
 
     .feed-post {
-      background: var(--bg-card);
+      background: rgba(30, 30, 46, 0.95);
       border-radius: 20px;
       overflow: hidden;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .post-header {
@@ -346,7 +346,7 @@
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      background: #f0e9df;
+      background: rgba(255, 255, 255, 0.2);
       overflow: hidden;
     }
 
@@ -359,18 +359,18 @@
     .post-author-name {
       font-weight: 600;
       font-size: 14px;
-      color: var(--text-primary);
+      color: white;
     }
 
     .post-date {
       font-size: 11px;
-      color: var(--text-secondary);
+      color: rgba(255, 255, 255, 0.5);
     }
 
     .feed-post-image {
       width: 100%;
       max-height: 500px;
-      background: #f0e9df;
+      background: #000;
       overflow: hidden;
       cursor: zoom-in;
       display: flex;
@@ -397,16 +397,16 @@
     .feed-post-text {
       padding: 12px 16px;
       font-size: 14px;
-      color: var(--text-primary);
+      color: rgba(255, 255, 255, 0.9);
     }
 
-    /* СТИЛИЗОВАННЫЕ ИКОНКИ — ЛАЙК, КОММЕНТ, ПОДЕЛИТЬСЯ */
+    /* СТИЛИЗОВАННЫЕ SVG-ИКОНКИ: ЛАЙК (сердечко), КОММЕНТАРИЙ, ПОДЕЛИТЬСЯ */
     .post-actions {
       display: flex;
       align-items: center;
       gap: 24px;
       padding: 8px 16px 12px;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .action-btn {
@@ -416,20 +416,31 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 20px;
       transition: all 0.2s;
-      color: var(--text-secondary);
+      color: rgba(255, 255, 255, 0.7);
       padding: 6px 12px;
       border-radius: 40px;
     }
 
     .action-btn:hover {
-      background: #f0e9df;
+      background: rgba(255, 255, 255, 0.1);
       transform: scale(1.02);
     }
 
-    .action-btn.liked {
-      color: var(--like);
+    .action-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .action-btn svg * {
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .action-btn.liked svg * {
+      fill: #ff6cab;
+      stroke: #ff6cab;
     }
 
     .action-count {
@@ -437,42 +448,56 @@
       font-weight: 500;
     }
 
+    /* СТИЛИЗОВАННАЯ КОРЗИНА (УДАЛЕНИЕ) */
     .delete-post-btn {
       background: none;
       border: none;
-      font-size: 16px;
       cursor: pointer;
-      color: var(--text-secondary);
-      padding: 4px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
       border-radius: 8px;
       transition: all 0.2s;
+      color: rgba(255, 255, 255, 0.5);
     }
 
     .delete-post-btn:hover {
-      color: var(--like);
-      background: #fef0f0;
+      color: #ff6cab;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .delete-post-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .delete-post-btn svg * {
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
     }
 
     /* ПРОФИЛЬ */
     .profile-header {
       max-width: 760px;
       margin: 0 auto 24px;
-      background: var(--bg-card);
+      background: rgba(30, 30, 46, 0.95);
       border-radius: 24px;
       overflow: hidden;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .profile-cover {
       height: 140px;
-      background: linear-gradient(135deg, #d4a373, #b88352);
       transition: background 0.3s;
     }
 
-    .profile-cover.pattern-1 { background: linear-gradient(135deg, #d4a373, #b88352); }
-    .profile-cover.pattern-2 { background: repeating-linear-gradient(45deg, #e8d5b5, #e8d5b5 20px, #d4a373 20px, #d4a373 40px); }
-    .profile-cover.pattern-3 { background: radial-gradient(circle at 20% 40%, #c9b896, #a8c9a5); }
-    .profile-cover.pattern-4 { background: linear-gradient(135deg, #f5f0eb 0%, #e8d5b5 100%); }
+    /* УЗОРЫ ХЕДЕРА */
+    .profile-cover.pattern-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .profile-cover.pattern-2 { background: repeating-linear-gradient(45deg, #ff6cab, #ff6cab 20px, #ffdd59 20px, #ffdd59 40px); }
+    .profile-cover.pattern-3 { background: radial-gradient(circle at 20% 40%, #4cd964, #34aadc); }
+    .profile-cover.pattern-4 { background: linear-gradient(135deg, #f5f0e6 0%, #e8d5b5 100%); }
 
     .profile-avatar-wrap {
       display: flex;
@@ -485,10 +510,9 @@
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      border: 4px solid var(--bg-card);
-      background: #f0e9df;
+      border: 4px solid rgba(30, 30, 46, 0.95);
+      background: rgba(255, 255, 255, 0.2);
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .profile-avatar img {
@@ -505,12 +529,12 @@
     .profile-name {
       font-size: 22px;
       font-weight: 700;
-      color: var(--text-primary);
+      color: white;
     }
 
     .profile-username {
       font-size: 14px;
-      color: var(--text-secondary);
+      color: rgba(255, 255, 255, 0.6);
       margin-bottom: 8px;
     }
 
@@ -518,10 +542,10 @@
       font-size: 14px;
       margin: 12px auto;
       padding: 12px 20px;
-      background: var(--bg-primary);
+      background: rgba(0, 0, 0, 0.3);
       border-radius: 20px;
       max-width: 80%;
-      color: var(--text-primary);
+      color: rgba(255, 255, 255, 0.9);
     }
 
     .profile-stats {
@@ -529,7 +553,7 @@
       justify-content: center;
       gap: 28px;
       margin: 16px 0;
-      color: var(--text-primary);
+      color: white;
     }
 
     .profile-stats span b {
@@ -553,13 +577,13 @@
     }
 
     .btn-primary {
-      background: var(--accent);
+      background: #d4a373;
       color: white;
     }
 
     .btn-ghost {
-      background: #f0e9df;
-      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
     }
 
     .profile-grid {
@@ -572,7 +596,7 @@
 
     .profile-grid-item {
       aspect-ratio: 1/1;
-      background: #f0e9df;
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
@@ -588,16 +612,16 @@
     .settings-panel {
       max-width: 600px;
       margin: 0 auto;
-      background: var(--bg-card);
+      background: rgba(30, 30, 46, 0.95);
       border-radius: 24px;
       padding: 24px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .settings-title {
       font-size: 20px;
       font-weight: 700;
-      color: var(--text-primary);
+      color: white;
       margin-bottom: 20px;
     }
 
@@ -624,30 +648,29 @@
     }
 
     .pattern-card.selected .pattern-preview {
-      border-color: var(--accent);
+      border-color: #d4a373;
       transform: scale(1.02);
     }
 
     .pattern-name {
       font-size: 12px;
-      color: var(--text-secondary);
+      color: rgba(255, 255, 255, 0.7);
     }
 
     .settings-btn {
       width: 100%;
       padding: 12px;
-      background: #f0e9df;
+      background: rgba(255, 255, 255, 0.2);
       border: none;
       border-radius: 40px;
-      color: var(--text-primary);
+      color: white;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
     }
 
     .settings-btn:hover {
-      background: var(--like);
-      color: white;
+      background: #ff6cab;
     }
 
     /* ЧАТЫ */
@@ -657,15 +680,15 @@
       display: grid;
       grid-template-columns: 320px 1fr;
       height: 70vh;
-      background: var(--bg-card);
+      background: rgba(30, 30, 46, 0.95);
       border-radius: 24px;
       overflow: hidden;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .chat-list {
-      background: #faf7f2;
-      border-right: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.3);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
       overflow-y: auto;
     }
 
@@ -675,23 +698,23 @@
       gap: 14px;
       padding: 14px;
       cursor: pointer;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       transition: background 0.2s;
     }
 
     .chat-item:hover {
-      background: #f0e9df;
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .chat-item.active {
-      background: #f0e9df;
+      background: rgba(255, 255, 255, 0.15);
     }
 
     .chat-avatar {
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background: #f0e9df;
+      background: rgba(255, 255, 255, 0.2);
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -709,12 +732,12 @@
 
     .chat-name {
       font-weight: 600;
-      color: var(--text-primary);
+      color: white;
     }
 
     .chat-last-message {
       font-size: 12px;
-      color: var(--text-secondary);
+      color: rgba(255, 255, 255, 0.5);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -727,8 +750,8 @@
 
     .chat-dialog-header {
       padding: 14px;
-      border-bottom: 1px solid var(--border);
-      background: #faf7f2;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.3);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -739,7 +762,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: #f0e9df;
+      background: rgba(255, 255, 255, 0.2);
       overflow: hidden;
     }
 
@@ -755,7 +778,7 @@
 
     .chat-dialog-header-name {
       font-weight: 600;
-      color: var(--text-primary);
+      color: white;
     }
 
     .chat-dialog-body {
@@ -765,7 +788,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      background: #faf7f2;
+      background: rgba(0, 0, 0, 0.2);
     }
 
     .msg {
@@ -777,37 +800,42 @@
 
     .msg.me {
       margin-left: auto;
-      background: var(--accent);
+      background: #d4a373;
       color: white;
     }
 
     .msg.them {
-      background: white;
-      color: var(--text-primary);
-      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
     }
 
     .chat-dialog-input {
       display: flex;
       gap: 12px;
       padding: 14px;
-      border-top: 1px solid var(--border);
-      background: white;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.3);
     }
 
     .chat-dialog-input input {
       flex: 1;
       border-radius: 40px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       padding: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
       font-size: 14px;
+    }
+
+    .chat-dialog-input input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
     }
 
     .chat-dialog-input button {
       border-radius: 40px;
       border: none;
       padding: 12px 24px;
-      background: var(--accent);
+      background: #d4a373;
       color: white;
       cursor: pointer;
       font-weight: 600;
@@ -817,10 +845,25 @@
     .stiki-composer {
       max-width: 520px;
       margin: 0 auto 16px;
-      background: var(--bg-card);
+      background: rgba(30, 30, 46, 0.95);
       border-radius: 20px;
       padding: 16px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .stiki-composer input {
+      color: white;
+    }
+
+    .stiki-composer button {
+      margin-top: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 40px;
+      padding: 10px;
+      background: #d4a373;
+      color: white;
+      cursor: pointer;
     }
 
     .stiki-wrapper {
@@ -876,17 +919,18 @@
     }
 
     .passport-card {
-      background: var(--bg-card);
+      background: rgba(30, 30, 46, 0.95);
       border-radius: 24px;
       padding: 24px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
     }
 
     .passport-photo {
       width: 80px;
       height: 80px;
       border-radius: 16px;
-      background: #f0e9df;
+      background: rgba(255, 255, 255, 0.2);
       background-size: cover;
     }
 
@@ -897,10 +941,11 @@
     }
 
     .visa-card {
-      background: var(--bg-card);
+      background: rgba(30, 30, 46, 0.95);
       border-radius: 16px;
       padding: 16px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
     }
 
     /* МОБИЛЬНАЯ НАВИГАЦИЯ */
@@ -911,8 +956,9 @@
       left: 0;
       right: 0;
       height: 70px;
-      background: var(--bg-card);
-      border-top: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
       justify-content: space-around;
       align-items: center;
       z-index: 500;
@@ -924,11 +970,11 @@
       align-items: center;
       width: 60px;
       cursor: pointer;
-      color: var(--text-secondary);
+      color: rgba(255, 255, 255, 0.6);
     }
 
     .mobile-nav-item.active {
-      color: var(--accent);
+      color: #ff6cab;
     }
 
     .mobile-nav-item svg {
@@ -944,7 +990,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.7);
       display: none;
       align-items: center;
       justify-content: center;
@@ -956,19 +1002,37 @@
     }
 
     .modal {
-      background: var(--bg-card);
+      background: #1e1e2e;
       border-radius: 24px;
       padding: 24px;
       max-width: 420px;
       width: 90%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal h3 {
+      color: white;
+      margin-bottom: 16px;
     }
 
     .modal input, .modal textarea {
       width: 100%;
       margin-bottom: 12px;
       border-radius: 12px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       padding: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+    }
+
+    .modal button {
+      border-radius: 40px;
+      border: none;
+      padding: 10px 20px;
+      background: #d4a373;
+      color: white;
+      cursor: pointer;
+      margin-right: 10px;
     }
 
     @media (max-width: 720px) {
@@ -982,7 +1046,7 @@
     .empty-feed-text, .recommendations-title {
       text-align: center;
       padding: 40px;
-      color: var(--text-secondary);
+      color: rgba(255, 255, 255, 0.6);
     }
 
     .recommendations-list {
@@ -995,19 +1059,27 @@
       align-items: center;
       gap: 14px;
       padding: 12px 16px;
-      background: var(--bg-card);
+      background: rgba(30, 30, 46, 0.95);
       border-radius: 16px;
       margin-bottom: 8px;
       cursor: pointer;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .rec-avatar {
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      background: #f0e9df;
+      background: rgba(255, 255, 255, 0.2);
       overflow: hidden;
+    }
+
+    .rec-card div strong {
+      color: white;
+    }
+
+    .rec-card div small {
+      color: rgba(255, 255, 255, 0.6);
     }
   </style>
 </head>
@@ -1033,7 +1105,7 @@
       <input type="email" id="regEmail" placeholder="Email">
       <input type="password" id="regPass" placeholder="Пароль">
       <input type="password" id="regPass2" placeholder="Повтор">
-      <div><label>Аватар:</label><input type="file" id="regAvatar" accept="image/*"></div>
+      <div style="margin: 10px 0;"><label style="color:#6b7280;">Аватар:</label><input type="file" id="regAvatar" accept="image/*"></div>
       <button class="login-btn" id="registerBtn">Создать</button>
     </div>
     <div class="login-error" id="loginError"></div>
@@ -1071,7 +1143,7 @@
               <div class="chat-dialog-header-avatar" id="chatDialogAvatar"></div>
               <div class="chat-dialog-header-info">
                 <div class="chat-dialog-header-name" id="chatDialogName"></div>
-                <div style="font-size:12px;color:var(--text-secondary);" id="chatDialogNick"></div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.5);" id="chatDialogNick"></div>
               </div>
             </div>
             <div class="chat-dialog-body" id="chatDialogBody"></div>
@@ -1103,10 +1175,10 @@
         <div class="settings-panel">
           <div class="settings-title">Оформление профиля</div>
           <div class="patterns-grid" id="patternSelector">
-            <div class="pattern-card" data-pattern="1"><div class="pattern-preview" style="background: linear-gradient(135deg, #d4a373, #b88352);"></div><div class="pattern-name">Карамель</div></div>
-            <div class="pattern-card" data-pattern="2"><div class="pattern-preview" style="background: repeating-linear-gradient(45deg, #e8d5b5, #e8d5b5 20px, #d4a373 20px, #d4a373 40px);"></div><div class="pattern-name">Зебра</div></div>
-            <div class="pattern-card" data-pattern="3"><div class="pattern-preview" style="background: radial-gradient(circle at 20% 40%, #c9b896, #a8c9a5);"></div><div class="pattern-name">Лес</div></div>
-            <div class="pattern-card" data-pattern="4"><div class="pattern-preview" style="background: linear-gradient(135deg, #f5f0eb 0%, #e8d5b5 100%);"></div><div class="pattern-name">Нежность</div></div>
+            <div class="pattern-card" data-pattern="1"><div class="pattern-preview" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div><div class="pattern-name">Космос</div></div>
+            <div class="pattern-card" data-pattern="2"><div class="pattern-preview" style="background: repeating-linear-gradient(45deg, #ff6cab, #ff6cab 20px, #ffdd59 20px, #ffdd59 40px);"></div><div class="pattern-name">Закат</div></div>
+            <div class="pattern-card" data-pattern="3"><div class="pattern-preview" style="background: radial-gradient(circle at 20% 40%, #4cd964, #34aadc);"></div><div class="pattern-name">Лето</div></div>
+            <div class="pattern-card" data-pattern="4"><div class="pattern-preview" style="background: linear-gradient(135deg, #f5f0e6 0%, #e8d5b5 100%);"></div><div class="pattern-name">Нежность</div></div>
           </div>
           <button class="settings-btn" id="logoutSettingsBtn">Выйти из аккаунта</button>
         </div>
@@ -1140,6 +1212,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 <script>
   // ========== FIREBASE CONFIG ==========
   const firebaseConfig = {
@@ -1321,6 +1394,7 @@
         persona: '',
         bio: '',
         avatarBase64: user.photoURL || '',
+        headerPattern: '1',
         followers: [],
         following: [],
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -1356,24 +1430,21 @@
     renderProfile();
   }
 
-  function saveHeaderPattern(pattern) {
-    localStorage.setItem('renitea_header_pattern', pattern);
-    if (profileCover) {
-      const patterns = {
-        '1': 'linear-gradient(135deg, #d4a373, #b88352)',
-        '2': 'repeating-linear-gradient(45deg, #e8d5b5, #e8d5b5 20px, #d4a373 20px, #d4a373 40px)',
-        '3': 'radial-gradient(circle at 20% 40%, #c9b896, #a8c9a5)',
-        '4': 'linear-gradient(135deg, #f5f0eb 0%, #e8d5b5 100%)'
-      };
-      profileCover.style.background = patterns[pattern] || patterns['1'];
-    }
+  function saveHeaderPatternToDB(pattern) {
+    if (!state.currentUser) return;
+    db.collection('users').doc(state.currentUser.uid).update({ headerPattern: pattern });
   }
 
-  function loadHeaderPattern() {
-    const saved = localStorage.getItem('renitea_header_pattern');
-    const pattern = saved || '1';
-    saveHeaderPattern(pattern);
-    return pattern;
+  function applyHeaderPattern(user) {
+    if (!profileCover) return;
+    const pattern = user.headerPattern || '1';
+    const patterns = {
+      '1': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      '2': 'repeating-linear-gradient(45deg, #ff6cab, #ff6cab 20px, #ffdd59 20px, #ffdd59 40px)',
+      '3': 'radial-gradient(circle at 20% 40%, #4cd964, #34aadc)',
+      '4': 'linear-gradient(135deg, #f5f0e6 0%, #e8d5b5 100%)'
+    };
+    profileCover.style.background = patterns[pattern] || patterns['1'];
   }
 
   // ========== RENDER FUNCTIONS ==========
@@ -1388,7 +1459,7 @@
     if (feedEmptyText) feedEmptyText.style.display = 'none';
 
     state.posts.forEach(post => {
-      const reactions = state.postReactions[post.id] || { fire: 0 };
+      const reactions = state.postReactions[post.id] || { like: 0 };
       const author = state.usersCache[post.authorId] || { name: 'Аноним', avatarBase64: '' };
       const isAuthor = state.currentUser && post.authorId === state.currentUser.uid;
       
@@ -1399,28 +1470,34 @@
         <div class="post-header">
           <div class="post-author-info">
             <div class="post-avatar-small">
-              ${author.avatarBase64 ? `<img src="${author.avatarBase64}">` : '<div style="width:36px;height:36px;background:#f0e9df;border-radius:50%;"></div>'}
+              ${author.avatarBase64 ? `<img src="${author.avatarBase64}">` : '<div style="width:36px;height:36px;background:rgba(255,255,255,0.2);border-radius:50%;"></div>'}
             </div>
             <div>
               <div class="post-author-name">${escapeHtml(author.name)}</div>
               <div class="post-date">${post.time || ''}</div>
             </div>
           </div>
-          ${isAuthor ? `<button class="delete-post-btn" data-id="${post.id}">🗑️</button>` : '<span style="color:#8b7f6e;">⋯</span>'}
+          ${isAuthor ? `
+            <button class="delete-post-btn" data-id="${post.id}">
+              <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/><line x1="18" y1="6" x2="18" y2="20a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V6"/></svg>
+            </button>
+          ` : '<span style="color:rgba(255,255,255,0.3);">⋯</span>'}
         </div>
         <div class="feed-post-image">
           ${post.imageBase64 ? `<img src="${post.imageBase64}">` : ''}
         </div>
         <div class="feed-post-text">${escapeHtml(post.text || '')}</div>
         <div class="post-actions">
-          <button class="action-btn fire-btn ${reactions.fire > 0 ? 'liked' : ''}" data-id="${post.id}">
-            🔥 <span class="action-count">${reactions.fire || 0}</span>
+          <button class="action-btn like-btn ${reactions.like > 0 ? 'liked' : ''}" data-id="${post.id}">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span class="action-count">${reactions.like || 0}</span>
           </button>
           <button class="action-btn comment-btn">
-            💬 <span class="action-count">0</span>
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span class="action-count">0</span>
           </button>
           <button class="action-btn share-btn" data-author="${post.authorId}">
-            ✉️
+            <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
           </button>
         </div>
       `;
@@ -1433,12 +1510,12 @@
       }
     });
     
-    document.querySelectorAll('.fire-btn').forEach(btn => {
+    document.querySelectorAll('.like-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const id = btn.dataset.id;
-        if (!state.postReactions[id]) state.postReactions[id] = { fire: 0 };
-        state.postReactions[id].fire += 1;
+        if (!state.postReactions[id]) state.postReactions[id] = { like: 0 };
+        state.postReactions[id].like += 1;
         renderFeed();
       });
     });
@@ -1471,7 +1548,7 @@
     if (!stikiWrapper) return;
     stikiWrapper.innerHTML = '';
     if (!state.stiki.length) {
-      stikiWrapper.innerHTML = '<div style="text-align:center;padding:40px;color:#8b7f6e;">🎬 Нет стиков</div>';
+      stikiWrapper.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.5);">🎬 Нет стиков</div>';
       return;
     }
     state.stiki.forEach(s => {
@@ -1520,6 +1597,20 @@
     if (passportNick) passportNick.textContent = user.nick || '—';
     if (passportPersona) passportPersona.textContent = user.persona || '—';
     
+    // Применяем хедер ТОЛЬКО для просматриваемого профиля
+    if (uid === state.currentUser.uid) {
+      applyHeaderPattern(user);
+    } else {
+      // Для чужого профиля — стандартный или свой узор
+      const patterns = {
+        '1': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        '2': 'repeating-linear-gradient(45deg, #ff6cab, #ff6cab 20px, #ffdd59 20px, #ffdd59 40px)',
+        '3': 'radial-gradient(circle at 20% 40%, #4cd964, #34aadc)',
+        '4': 'linear-gradient(135deg, #f5f0e6 0%, #e8d5b5 100%)'
+      };
+      profileCover.style.background = patterns[user.headerPattern || '1'];
+    }
+    
     const isOwn = (uid === state.currentUser.uid);
     
     if (profileActions) {
@@ -1565,13 +1656,13 @@
       if (p.imageBase64) {
         div.innerHTML = `<img src="${p.imageBase64}">`;
       } else {
-        div.style.background = '#f0e9df';
-        div.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#8b7f6e;">📷</div>';
+        div.style.background = 'rgba(255,255,255,0.1)';
+        div.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.5);">📷</div>';
       }
       profileGrid.appendChild(div);
     });
     if (userPosts.length === 0) {
-      profileGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#8b7f6e;">Нет постов</div>';
+      profileGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.5);">Нет постов</div>';
     }
   }
 
@@ -1595,13 +1686,11 @@
     }
   }
 
-  // ЧАТЫ — уникальный пользователь, не дублируется
   async function renderChatList(filter = '') {
     if (!chatList || !state.currentUser) return;
     const currentId = state.currentUser.uid;
     chatList.innerHTML = '';
     
-    // Получаем уникальных собеседников из сообщений
     const uniqueChatUsers = new Set();
     for (const key in state.messages) {
       const users = key.split('__');
@@ -1619,7 +1708,7 @@
     }
     
     if (!users.length) {
-      chatList.innerHTML = '<div style="padding:20px;text-align:center;color:#8b7f6e;">Нет активных чатов</div>';
+      chatList.innerHTML = '<div style="padding:20px;text-align:center;color:rgba(255,255,255,0.5);">Нет активных чатов</div>';
       return;
     }
     
@@ -1630,7 +1719,7 @@
       const item = document.createElement('div');
       item.className = 'chat-item' + (u.id === currentChatUserId ? ' active' : '');
       item.innerHTML = `
-        <div class="chat-avatar">${u.avatarBase64 ? `<img src="${u.avatarBase64}">` : '<div style="width:100%;height:100%;background:#f0e9df;border-radius:50%;"></div>'}</div>
+        <div class="chat-avatar">${u.avatarBase64 ? `<img src="${u.avatarBase64}">` : '<div style="width:100%;height:100%;background:rgba(255,255,255,0.2);border-radius:50%;"></div>'}</div>
         <div class="chat-info">
           <div class="chat-name">${escapeHtml(u.name || u.email)}</div>
           <div class="chat-last-message">${last ? escapeHtml(last.text.substring(0, 35)) : (u.nick || 'Нет сообщений')}</div>
@@ -1659,7 +1748,7 @@
     if (chatDialogName) chatDialogName.textContent = other.name || other.email;
     if (chatDialogNick) chatDialogNick.textContent = other.nick || '';
     if (chatDialogAvatar) {
-      chatDialogAvatar.innerHTML = other.avatarBase64 ? `<img src="${other.avatarBase64}">` : '<div style="width:100%;height:100%;background:#f0e9df;border-radius:50%;"></div>';
+      chatDialogAvatar.innerHTML = other.avatarBase64 ? `<img src="${other.avatarBase64}">` : '<div style="width:100%;height:100%;background:rgba(255,255,255,0.2);border-radius:50%;"></div>';
     }
     
     chatDialogBody.innerHTML = '';
@@ -1773,7 +1862,6 @@
     await ensureUserDoc(user);
     loginWrapper.style.display = 'none';
     appRoot.style.display = 'flex';
-    loadHeaderPattern();
     listenUsers();
     listenPosts();
     listenStiki();
@@ -1782,17 +1870,21 @@
     renderRecommendations('');
     showScreen('posts');
     
+    // Настройка выбора узора в настройках
     if (patternSelector) {
-      const currentPattern = localStorage.getItem('renitea_header_pattern') || '1';
+      const userDoc = getUserFromCache(user.uid);
+      const currentPattern = userDoc?.headerPattern || '1';
       document.querySelectorAll('.pattern-card').forEach(card => {
         card.classList.remove('selected');
         if (card.dataset.pattern === currentPattern) card.classList.add('selected');
-        card.addEventListener('click', () => {
+        card.addEventListener('click', async () => {
           const pattern = card.dataset.pattern;
-          saveHeaderPattern(pattern);
+          await db.collection('users').doc(user.uid).update({ headerPattern: pattern });
           document.querySelectorAll('.pattern-card').forEach(c => c.classList.remove('selected'));
           card.classList.add('selected');
-          localStorage.setItem('renitea_header_pattern', pattern);
+          if (state.viewProfileUserId === user.uid) {
+            applyHeaderPattern({ headerPattern: pattern });
+          }
         });
       });
     }
@@ -1891,6 +1983,7 @@
         
         await db.collection('users').doc(user.uid).set({
           email, name, nick, avatarBase64, bio: '', persona: '',
+          headerPattern: '1',
           followers: [],
           following: [],
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -2133,9 +2226,7 @@
     }
   });
 
-  console.log('RENITEA — полностью загружено. Уникальная светлая тема, 🔥 💬 ✉️, подписки, чаты с аватарками, рекомендации по поиску.');
+  console.log('RENITEA — полностью загружено. Аниме-фон, стилизованные SVG: ❤️ 💬 ➡️, корзина, хедер в БД, чаты без дублей, рекомендации по поиску.');
 </script>
 </body>
 </html>
-
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
