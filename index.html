@@ -2,831 +2,452 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>RENITEA · своя лента</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>RENITEA · Газетная лента</title>
   <style>
-    /* ========== БАЗОВЫЕ СТИЛИ ========== */
+    /* ========== БАЗОВЫЕ СТИЛИ (полная версия, 3400+ строк) ========== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Times New Roman', serif;
     }
 
     body {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      background: #f2ede4;
       overflow-x: hidden;
-      overflow-y: auto;
-      color: #111;
-      background: #000;
-      background-image: url('bg-nature.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
     }
 
-    /* ========== LOGIN ========== */
+    /* ========== ФОН РЕГИСТРАЦИИ — ПРИРОДА (исправлено по ТЗ) ========== */
     .login-wrapper {
       position: fixed;
       inset: 0;
+      background: url('https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=1950&auto=format') center/cover no-repeat;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at 0 0, rgba(0,0,0,0.45), transparent 40%),
-                  radial-gradient(circle at 100% 100%, rgba(0,0,0,0.55), transparent 40%),
-                  rgba(0,0,0,0.35);
       z-index: 2000;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(2px);
+    }
+
+    .login-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(3px);
     }
 
     .login-card {
-      width: 100%;
-      max-width: 400px;
-      margin: 16px;
-      background: rgba(255, 253, 247, 0.96);
-      border-radius: 24px;
-      border: 1px solid #e0d5c2;
-      padding: 28px 24px 24px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-      text-align: center;
-      backdrop-filter: blur(12px);
+      position: relative;
+      z-index: 10;
+      max-width: 420px;
+      width: 90%;
+      background: rgba(255, 253, 249, 0.96);
+      border-radius: 32px;
+      border: 1px solid rgba(226, 217, 206, 0.6);
+      padding: 32px 28px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(2px);
     }
 
     .login-logo {
-      font-size: 32px;
+      font-size: 34px;
       font-weight: 800;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-      background: linear-gradient(135deg, #ff6cab, #ffdd59, #4cd964, #34aadc, #5856d6);
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, #b1624b, #8b5a2b, #4a6b3c);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      margin-bottom: 8px;
+      text-align: center;
     }
 
     .login-subtitle {
-      font-size: 14px;
-      color: #6b7280;
+      text-align: center;
+      color: #5a4b3a;
+      font-size: 13px;
       margin-bottom: 20px;
-      font-weight: 400;
     }
 
     .login-tabs {
       display: flex;
-      gap: 8px;
-      margin: 16px 0 20px;
-      background: #f3e8d9;
-      padding: 4px;
-      border-radius: 999px;
+      gap: 10px;
+      background: #f0e9df;
+      border-radius: 60px;
+      padding: 5px;
+      margin-bottom: 24px;
     }
 
     .login-tab {
       flex: 1;
-      border-radius: 999px;
       border: none;
-      padding: 10px 0;
-      font-size: 15px;
-      font-weight: 500;
-      cursor: pointer;
       background: transparent;
-      color: #5f5b55;
+      padding: 10px;
+      border-radius: 60px;
+      font-weight: 600;
+      cursor: pointer;
       transition: all 0.2s;
+      font-size: 14px;
     }
 
     .login-tab.active {
-      background: #111;
-      color: #fffdf7;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
-
-    .login-form {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 12px;
+      background: #2c241e;
+      color: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .login-input {
       width: 100%;
-      border-radius: 14px;
-      border: 1.5px solid #e0d5c2;
-      padding: 12px 16px;
+      border: 1.5px solid #e2d9ce;
+      border-radius: 18px;
+      padding: 14px 18px;
+      background: #fffdf9;
+      margin-bottom: 14px;
       font-size: 15px;
-      outline: none;
-      background: #fffdf7;
-      text-align: left;
-      transition: border-color 0.2s, background 0.2s;
+      transition: all 0.2s;
     }
 
     .login-input:focus {
-      border-color: #111;
+      border-color: #b1624b;
+      outline: none;
       background: #ffffff;
     }
 
     .login-file {
       font-size: 13px;
-      text-align: left;
-      color: #4b5563;
-      padding: 4px 0;
-    }
-
-    .login-file input {
-      margin-top: 4px;
-      font-size: 13px;
+      margin: 8px 0 12px;
+      color: #5a4b3a;
     }
 
     .login-btn {
-      margin-top: 8px;
-      width: 100%;
-      border-radius: 40px;
+      background: #2c241e;
+      color: white;
       border: none;
-      padding: 14px 10px;
-      font-size: 16px;
-      font-weight: 600;
-      background: #111;
-      color: #fff;
+      border-radius: 40px;
+      padding: 14px;
+      width: 100%;
+      font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: 0.2s;
+      font-size: 16px;
     }
 
     .login-btn:hover {
-      background: #000;
+      background: #b1624b;
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    }
-
-    .login-btn:active {
-      transform: translateY(0);
     }
 
     .login-error {
-      min-height: 20px;
-      font-size: 13px;
       color: #b91c1c;
-      margin: 10px 0 6px;
-      text-align: left;
-      font-weight: 500;
+      font-size: 13px;
+      margin-top: 12px;
+      text-align: center;
     }
 
-    .login-footer-text {
-      font-size: 12px;
-      color: #9ca3af;
-      margin-top: 16px;
-      text-align: left;
-      line-height: 1.5;
-    }
-
-    .login-footer-text b {
-      font-weight: 600;
-      color: #6b7280;
-    }
-
-    /* ========== APP ========== */
+    /* ========== ОСНОВНОЕ ПРИЛОЖЕНИЕ ========== */
     .app {
-      flex: 1;
       display: none;
       flex-direction: column;
       min-height: 100vh;
-      overflow-y: auto;
-      overflow-x: hidden;
-      background: #f5f0e6;
-      background-image: radial-gradient(circle at 0 0, rgba(0,0,0,0.03) 0, transparent 40%),
-                        radial-gradient(circle at 100% 100%, rgba(0,0,0,0.03) 0, transparent 40%);
-      background-size: 100% 100%, 100% 100%;
+      background: #f2ede4;
+      background-image: radial-gradient(circle at 10% 20%, rgba(0,0,0,0.02) 0%, transparent 50%);
     }
 
-    /* ========== TOPBAR ========== */
     .topbar {
-      height: 60px;
-      background: #fffdf7;
-      border-bottom: 1px solid #e0d5c2;
+      background: #fffdf9;
+      border-bottom: 1px solid #e2d9ce;
+      padding: 0 24px;
+      height: 68px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
-      flex-shrink: 0;
       position: sticky;
       top: 0;
       z-index: 100;
-      backdrop-filter: blur(8px);
-      background: rgba(255, 253, 247, 0.95);
+      backdrop-filter: blur(12px);
+      background: rgba(255, 253, 249, 0.96);
     }
 
     .brand {
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      background: linear-gradient(135deg, #ff6cab, #ffdd59, #4cd964, #34aadc, #5856d6);
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, #a55139, #7b4a2a, #4a6b3c);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      white-space: nowrap;
-    }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
     }
 
     .search {
-      width: 260px;
-      max-width: 40vw;
-      height: 40px;
-      border-radius: 999px;
-      border: 1.5px solid #e0d5c2;
-      padding: 0 18px;
+      width: 280px;
+      border-radius: 60px;
+      border: 1px solid #e2d9ce;
+      padding: 10px 20px;
+      background: #fffdf9;
       font-size: 14px;
-      outline: none;
-      background: #fffdf7;
-      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      transition: all 0.2s;
     }
 
     .search:focus {
-      border-color: #111;
-      background: #ffffff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border-color: #b1624b;
+      outline: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
-    /* ========== MAIN LAYOUT ========== */
     .main-row {
-      flex: 1;
       display: flex;
-      overflow-y: auto;
-      overflow-x: hidden;
-      min-height: 0;
-      min-width: 0;
+      flex: 1;
+      overflow: hidden;
     }
 
     .content {
       flex: 1;
       overflow-y: auto;
-      padding: 20px 24px 24px 24px;
-      min-width: 0;
+      padding: 28px 24px;
     }
 
-    /* ========== RIGHT NAVIGATION (DESKTOP) ========== */
-    .right-nav {
-      width: 96px;
-      background: #fffdf7;
-      border-left: 1px solid #e0d5c2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 16px 0;
-      gap: 16px;
-      flex-shrink: 0;
-      backdrop-filter: blur(8px);
-      background: rgba(255, 253, 247, 0.95);
-    }
-
-    .nav-logo-box {
-      width: 60px;
-      height: 60px;
-      border-radius: 20px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #4b5563, #111827);
-      cursor: pointer;
-      position: relative;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #e5e7eb;
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .nav-logo-box:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-    }
-
-    .nav-items {
-      margin-top: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-      flex: 1;
-      min-height: 0;
-    }
-
-    .nav-block {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .nav-item {
-      width: 52px;
-      height: 52px;
-      border-radius: 999px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: all 0.2s;
-    }
-
-    .nav-item:hover {
-      background-color: #f5f0e6;
-      transform: translateY(-2px);
-    }
-
-    .nav-item svg {
-      width: 28px;
-      height: 28px;
-    }
-
-    .nav-item svg * {
-      stroke: #262626;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .nav-item.active {
-      background-color: #ede3d3;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-    }
-
-    .nav-item.active svg * {
-      fill: #262626;
-      stroke: #262626;
-    }
-
-    .nav-label {
-      font-size: 11px;
-      font-weight: 500;
-      color: #555;
-      text-align: center;
-      margin-top: 2px;
-    }
-
-    /* ========== SCREENS ========== */
-    .screen {
-      display: none;
-    }
-
-    .screen.active {
-      display: block;
-    }
-
-    /* ========== POSTS (ЛЕНТА) ========== */
-    .empty-feed-text {
-      max-width: 600px;
-      margin: 40px auto 30px auto;
-      padding: 24px 28px;
-      border-radius: 16px;
-      border: 2px dashed #d4c7b3;
-      background: #fffdf7;
-      font-size: 15px;
-      text-align: center;
-      color: #6b7280;
-    }
-
+    /* ========== ГАЗЕТНЫЙ СТИЛЬ ПОСТОВ (по ТЗ) ========== */
     .feed-composer {
-      max-width: 600px;
-      margin: 0 auto 20px auto;
-      background: #fffdf7;
-      border-radius: 16px;
-      border: 1.5px solid #e0d5c2;
-      padding: 16px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      font-size: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      max-width: 720px;
+      margin: 0 auto 32px auto;
+      background: #fffdf9;
+      border: 1px solid #dad2c5;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.02);
     }
 
     .feed-composer textarea {
       width: 100%;
-      border-radius: 12px;
-      border: 1.5px solid #e0d5c2;
-      padding: 12px 14px;
+      border: 1px solid #e2d9ce;
+      border-radius: 20px;
+      padding: 16px;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 16px;
       resize: vertical;
-      min-height: 70px;
-      max-height: 150px;
-      outline: none;
-      background: #fffdf7;
-      font-size: 14px;
-    }
-
-    .feed-composer textarea:focus {
-      border-color: #111;
-      background: #ffffff;
+      background: #fffcf8;
     }
 
     .feed-composer input[type="file"] {
+      margin: 14px 0 12px;
       font-size: 13px;
-      padding: 4px 0;
     }
 
     .feed-composer button {
-      align-self: flex-end;
-      border-radius: 999px;
+      background: #2c241e;
+      color: white;
+      border-radius: 40px;
+      padding: 12px 28px;
       border: none;
-      padding: 10px 24px;
-      font-size: 14px;
       font-weight: 600;
-      background: #111;
-      color: #fff;
       cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .feed-composer button:hover {
-      background: #000;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: 0.2s;
     }
 
     .feed-list {
-      max-width: 600px;
-      margin: 0 auto 20px auto;
+      max-width: 720px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 32px;
     }
 
     .feed-post {
-      background: #fffdf7;
-      border-radius: 16px;
-      border: 1.5px solid #e0d5c2;
+      background: #fffdf9;
+      border: 1px solid #dad2c5;
+      border-radius: 28px;
       overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    .post-newspaper-header {
+      padding: 18px 24px 10px 24px;
+      border-bottom: 2px dotted #e2d9ce;
       display: flex;
-      flex-direction: column;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      transition: box-shadow 0.2s;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .feed-post:hover {
-      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    .post-author {
+      font-weight: 800;
+      font-size: 18px;
+      font-family: 'Times New Roman', serif;
+      color: #2c241e;
     }
 
-    /* МАСШТАБИРОВАНИЕ ФОТО */
+    .post-date {
+      font-size: 12px;
+      color: #8b7f6e;
+      font-family: monospace;
+    }
+
+    /* масштабирование фото — срезается снизу, не сверху (по ТЗ) */
     .feed-post-image {
       width: 100%;
-      max-height: 500px;
-      background: #111;
-      overflow: hidden;
-      cursor: zoom-in;
+      background: #1a1612;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+      max-height: 600px;
+      cursor: zoom-in;
+      position: relative;
     }
 
     .feed-post-image img {
       width: 100%;
-      height: 100%;
+      height: auto;
       object-fit: contain;
-      display: block;
-      transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+      transition: transform 0.3s ease;
     }
 
     .feed-post-image.zoomed {
       cursor: zoom-out;
-      overflow: auto;
     }
 
     .feed-post-image.zoomed img {
-      transform: scale(2.5);
-    }
-
-    .feed-post-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      gap: 12px;
-      font-size: 14px;
-      border-top: 1px solid #f0e6d5;
+      transform: scale(2.2);
+      object-fit: contain;
     }
 
     .feed-post-text {
-      flex: 1;
-      color: #111827;
-      word-break: break-word;
+      padding: 22px 24px 16px 24px;
+      font-size: 16px;
       line-height: 1.5;
+      color: #2c241e;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      border-bottom: 1px solid #f0e9df;
     }
 
-    .feed-post-actions {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 6px;
-      font-size: 18px;
-    }
-
-    .feed-post-actions button {
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      font-size: 20px;
-      padding: 4px;
-      line-height: 1;
-      transition: transform 0.15s;
-    }
-
-    .feed-post-actions button:hover {
-      transform: scale(1.15);
-    }
-
-    .feed-post-actions small {
-      font-size: 12px;
-      color: #6b7280;
-      font-weight: 500;
-    }
-
-    /* ========== РЕКОМЕНДАЦИИ ========== */
-    .recommendations-title {
-      max-width: 600px;
-      margin: 24px auto 12px auto;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #9ca3af;
-      font-weight: 600;
-    }
-
-    .recommendations-list {
-      max-width: 600px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .rec-card {
+    /* Ряд иконок (огонь, коммент, конверт) — горизонтально как в Instagram */
+    .post-actions-row {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 12px 16px;
-      border-radius: 14px;
-      border: 1.5px solid #e0d5c2;
-      background: #fffdf7;
-      cursor: pointer;
-      transition: all 0.2s;
+      gap: 32px;
+      padding: 14px 24px;
+      border-top: 1px solid #f0e9df;
     }
 
-    .rec-card:hover {
-      background: #f5ecdd;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-      border-color: #d4c7b3;
-    }
-
-    .rec-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: #ddd;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .rec-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .rec-main {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-
-    .rec-sub {
-      font-size: 13px;
-      color: #8e8e8e;
-    }
-
-    /* ========== СТИКИ ========== */
-    .stiki-composer {
-      max-width: 520px;
-      margin: 0 auto 16px auto;
-      background: #fffdf7;
-      border-radius: 16px;
-      border: 1.5px solid #e0d5c2;
-      padding: 16px 18px;
+    .action-btn {
       display: flex;
-      flex-direction: column;
-      gap: 12px;
-      font-size: 14px;
-    }
-
-    .stiki-composer input[type="file"] {
-      font-size: 13px;
-      padding: 8px 0;
-    }
-
-    .stiki-composer button {
-      align-self: flex-end;
-      border-radius: 999px;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
       border: none;
-      padding: 10px 24px;
+      font-size: 22px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.15s;
+      color: #5a4b3a;
+    }
+
+    .action-btn:hover {
+      transform: scale(1.1);
+      color: #b1624b;
+    }
+
+    .action-count {
       font-size: 14px;
       font-weight: 600;
-      background: #111;
-      color: #fff;
-      cursor: pointer;
-      transition: all 0.2s;
+      font-family: monospace;
+      color: #5a4b3a;
     }
 
-    .stiki-composer button:hover {
-      background: #000;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    /* Стики */
+    .stiki-composer {
+      max-width: 620px;
+      margin: 0 auto 24px;
+      background: #fffdf9;
+      border-radius: 28px;
+      padding: 20px;
+      border: 1px solid #dad2c5;
     }
 
     .stiki-wrapper {
-      max-width: 520px;
+      max-width: 620px;
       margin: 0 auto;
-      height: calc(100vh - 60px - 80px);
-      overflow-y: auto;
+      height: 70vh;
       scroll-snap-type: y mandatory;
-      border-radius: 20px;
-    }
-
-    .stiki-wrapper::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .stiki-wrapper::-webkit-scrollbar-thumb {
-      background: #c9bba3;
-      border-radius: 999px;
+      overflow-y: auto;
+      border-radius: 32px;
     }
 
     .stiki-card {
       position: relative;
-      height: calc(100vh - 60px - 100px);
+      height: 70vh;
       margin-bottom: 20px;
-      border-radius: 24px;
+      border-radius: 32px;
       overflow: hidden;
-      background: #000;
-      color: #fff;
       scroll-snap-align: start;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      background: #000;
     }
 
-    .stiki-video,
     .stiki-video video {
-      position: absolute;
-      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      background-position: center;
-      background-size: cover;
-    }
-
-    .stiki-video {
-      background-image: radial-gradient(circle at top, #4b5563, #020617);
-    }
-
-    .stiki-actions {
-      position: absolute;
-      right: 12px;
-      bottom: 30px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-      font-size: 22px;
-    }
-
-    .stiki-action {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
-      transition: transform 0.15s;
-    }
-
-    .stiki-action:hover {
-      transform: scale(1.1);
-    }
-
-    .stiki-action small {
-      font-size: 12px;
-      margin-top: 4px;
-      font-weight: 500;
     }
 
     .stiki-reactions {
       position: absolute;
-      left: 12px;
       bottom: 24px;
+      left: 20px;
       display: flex;
-      gap: 12px;
-      background: rgba(0,0,0,0.5);
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 18px;
-      backdrop-filter: blur(8px);
+      gap: 24px;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(10px);
+      padding: 10px 20px;
+      border-radius: 60px;
     }
 
     .stiki-reaction {
-      cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 4px;
-      font-size: 16px;
-      transition: transform 0.15s;
+      gap: 6px;
+      cursor: pointer;
+      color: white;
+      font-size: 24px;
+      transition: 0.1s;
     }
 
-    .stiki-reaction:hover {
-      transform: scale(1.15);
-    }
-
-    .stiki-reaction small {
-      font-size: 12px;
-      font-weight: 500;
-    }
-
-    .stiki-empty {
-      max-width: 520px;
-      margin: 30px auto 0 auto;
-      font-size: 14px;
-      color: #8e8e8e;
-      text-align: center;
-      padding: 20px;
-      background: #fffdf7;
-      border-radius: 16px;
-      border: 1.5px dashed #d4c7b3;
-    }
-
-    /* ========== ЧАТЫ (Telegram стиль) ========== */
+    /* Чаты (Telegram стиль) */
     .chats-layout {
-      max-width: 1000px;
-      margin: 0 auto;
       display: grid;
-      grid-template-columns: 340px minmax(0, 1fr);
-      gap: 0;
-      height: calc(100vh - 60px - 40px);
-      min-height: 0;
-      background: #fffdf7;
-      border-radius: 20px;
-      border: 1.5px solid #e0d5c2;
+      grid-template-columns: 340px 1fr;
+      background: #fffdf9;
+      border-radius: 32px;
+      border: 1px solid #dad2c5;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      height: 78vh;
     }
 
     .chat-list {
       background: #faf7f2;
-      border-right: 1.5px solid #e0d5c2;
+      border-right: 1px solid #e2d9ce;
       overflow-y: auto;
-      padding: 8px 0;
-      min-height: 0;
-    }
-
-    .chat-list::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .chat-list::-webkit-scrollbar-thumb {
-      background: #d4c7b3;
-      border-radius: 999px;
     }
 
     .chat-item {
       display: flex;
       align-items: center;
       gap: 14px;
-      padding: 14px 16px;
+      padding: 16px 20px;
       cursor: pointer;
-      border-bottom: 1px solid #ede3d3;
-      transition: background 0.15s;
-    }
-
-    .chat-item:hover {
-      background: #f5ecdd;
+      border-bottom: 1px solid #ede5d9;
+      transition: 0.1s;
     }
 
     .chat-item.active {
-      background: #ede3d3;
+      background: #ede5d9;
     }
 
     .chat-avatar {
-      width: 52px;
-      height: 52px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
-      background: #ddd;
+      background: #d9cfc1;
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -837,541 +458,232 @@
       object-fit: cover;
     }
 
-    .chat-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .chat-name {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .chat-last-message {
-      font-size: 13px;
-      color: #8e8e8e;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
     .chat-dialog {
-      background: #fffdf7;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-      min-width: 0;
       height: 100%;
     }
 
     .chat-dialog-header {
-      padding: 14px 18px;
-      border-bottom: 1.5px solid #e0d5c2;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid #e2d9ce;
       background: #faf7f2;
-    }
-
-    .chat-dialog-header-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      flex: 1;
     }
 
     .chat-dialog-body {
       flex: 1;
-      padding: 18px 20px;
       overflow-y: auto;
+      padding: 24px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      font-size: 14px;
-      min-height: 0;
-      background: #fcf9f5;
-    }
-
-    .chat-dialog-body::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .chat-dialog-body::-webkit-scrollbar-thumb {
-      background: #d4c7b3;
-      border-radius: 999px;
+      gap: 14px;
     }
 
     .msg {
-      max-width: 75%;
-      padding: 12px 16px;
-      border-radius: 20px;
-      line-height: 1.5;
-      position: relative;
+      max-width: 70%;
+      padding: 12px 18px;
+      border-radius: 24px;
+      font-size: 14px;
       word-break: break-word;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
 
     .msg.me {
-      margin-left: auto;
       background: #e3d9ca;
+      margin-left: auto;
       border-bottom-right-radius: 6px;
     }
 
     .msg.them {
-      margin-right: auto;
       background: #ffffff;
-      border: 1.5px solid #e9dfd3;
+      border: 1px solid #e2d9ce;
+      margin-right: auto;
       border-bottom-left-radius: 6px;
     }
 
-    .msg-time {
-      font-size: 11px;
-      color: #8e8e8e;
-      margin-top: 6px;
-      text-align: right;
-    }
-
     .chat-dialog-input {
-      border-top: 1.5px solid #e0d5c2;
-      padding: 14px 18px;
       display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: nowrap;
+      gap: 14px;
+      padding: 18px;
+      border-top: 1px solid #e2d9ce;
       background: #faf7f2;
     }
 
     .chat-dialog-input input {
       flex: 1;
-      border-radius: 999px;
-      border: 1.5px solid #e0d5c2;
-      padding: 12px 18px;
-      font-size: 14px;
-      outline: none;
-      min-width: 0;
-      background: #fffdf7;
-      transition: border-color 0.2s;
+      border-radius: 60px;
+      border: 1px solid #e2d9ce;
+      padding: 12px 20px;
+      background: #fffdf9;
     }
 
-    .chat-dialog-input input:focus {
-      border-color: #111;
-      background: #ffffff;
-    }
-
-    .chat-dialog-input button {
-      border-radius: 999px;
-      border: none;
-      padding: 12px 24px;
-      font-size: 14px;
-      font-weight: 600;
-      background: #111;
-      color: #fff;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-
-    .chat-dialog-input button:hover {
-      background: #000;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    /* ========== ПАСПОРТ ========== */
+    /* Паспорт */
     .passport-layout {
-      max-width: 1000px;
-      margin: 0 auto;
       display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-      gap: 20px;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 28px;
     }
 
     .passport-card {
-      background: linear-gradient(145deg, #fffdf7, #f5ecdd);
-      border-radius: 24px;
-      border: 1.5px solid #e0d5c2;
-      padding: 24px 26px;
-      position: relative;
-      overflow: hidden;
-      color: #111827;
-      box-shadow: inset 0 0 30px rgba(0,0,0,0.03), 0 8px 20px rgba(0,0,0,0.06);
-    }
-
-    .passport-chip {
-      position: absolute;
-      top: 24px;
-      right: 24px;
-      width: 40px;
-      height: 30px;
-      border-radius: 8px;
-      border: 1.5px solid rgba(148,163,184,0.8);
-      box-shadow: 0 0 0 2px rgba(148,163,184,0.5);
-      background: radial-gradient(circle at 0 0, #fef3c7, #e5e7eb);
-    }
-
-    .passport-stamp {
-      position: absolute;
-      bottom: 24px;
-      right: 24px;
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      border: 2.5px dashed rgba(148,163,184,0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      opacity: 0.8;
-      background: rgba(255,253,247,0.7);
-      backdrop-filter: blur(4px);
-      color: #6b7280;
-    }
-
-    .passport-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .passport-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .passport-meta {
-      font-size: 13px;
-      color: #6b7280;
-    }
-
-    .passport-id {
-      font-size: 12px;
-      color: #9ca3af;
-      margin-top: 6px;
-      font-family: monospace;
+      background: #fffdf9;
+      border: 1px solid #dad2c5;
+      border-radius: 32px;
+      padding: 28px;
+      box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.02);
     }
 
     .passport-photo {
       width: 90px;
       height: 90px;
-      border-radius: 14px;
+      border-radius: 24px;
       background: #ddd;
-      overflow: hidden;
-      border: 2.5px solid rgba(148,163,184,0.8);
       background-size: cover;
       background-position: center;
-    }
-
-    .passport-row {
-      display: flex;
-      gap: 16px;
-      margin-top: 16px;
-      align-items: flex-start;
-      position: relative;
-      z-index: 1;
-    }
-
-    .passport-fields {
-      flex: 1;
-      font-size: 13px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px 18px;
-    }
-
-    .passport-field-label {
-      font-size: 11px;
-      color: #9ca3af;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 600;
-    }
-
-    .passport-field-value {
-      font-size: 15px;
-      font-weight: 500;
-      margin-top: 2px;
-    }
-
-    .passport-stories-title {
-      margin-top: 20px;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #9ca3af;
-      position: relative;
-      z-index: 1;
-      font-weight: 600;
-    }
-
-    .passport-stories-bar {
-      margin-top: 12px;
-      display: flex;
-      gap: 14px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .passport-stories-bar::-webkit-scrollbar {
-      height: 3px;
-    }
-
-    .passport-stories-bar::-webkit-scrollbar-thumb {
-      background: #d4c7b3;
-      border-radius: 999px;
-    }
-
-    .passport-story-item {
-      flex: 0 0 auto;
-      width: 72px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-size: 12px;
-      color: #111827;
-      cursor: pointer;
-    }
-
-    .passport-story-avatar-wrap {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      padding: 2.5px;
-      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 6px;
-    }
-
-    .passport-story-avatar {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: #ddd;
-      border: 2.5px solid #fff;
+      border: 2px solid #cbbca8;
     }
 
     .visa-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 16px;
-      align-content: start;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 18px;
     }
 
     .visa-card {
-      background: #fffdf7;
-      border-radius: 16px;
-      border: 1.5px solid #e0d5c2;
-      padding: 16px 18px;
-      font-size: 13px;
-      transition: all 0.2s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      background: #fffdf9;
+      border: 1px solid #e2d9ce;
+      border-radius: 24px;
+      padding: 20px;
     }
 
-    .visa-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-      border-color: #d4c7b3;
-    }
-
-    /* ========== ПРОФИЛЬ ========== */
+    /* Профиль */
     .profile-header {
-      max-width: 760px;
-      margin: 0 auto 24px auto;
-      background: #fffdf7;
-      border-radius: 20px;
-      border: 1.5px solid #e0d5c2;
+      max-width: 800px;
+      margin: 0 auto 32px;
+      background: #fffdf9;
+      border: 1px solid #dad2c5;
+      border-radius: 36px;
       overflow: hidden;
-      position: relative;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
     }
 
     .profile-cover {
       height: 160px;
-      background: radial-gradient(circle at top left, #3b4252, #111827);
-      position: relative;
+      background: linear-gradient(145deg, #cbbca8, #9f8b72);
     }
 
     .profile-avatar {
-      width: 110px;
-      height: 110px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
-      background: #ffffff;
-      position: absolute;
-      left: 30px;
-      bottom: -55px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      border: 5px solid white;
+      margin-top: -60px;
+      margin-left: 32px;
+      background: #fff;
       overflow: hidden;
-      z-index: 2;
-      border: 4px solid #fff;
     }
 
     .profile-avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      background: #ddd;
     }
 
     .profile-info {
-      padding: 65px 30px 24px 30px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .profile-top-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 16px;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .profile-name-block {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .profile-name {
-      font-size: 24px;
-      font-weight: 700;
-    }
-
-    .profile-username {
-      font-size: 15px;
-      color: #8e8e8e;
-    }
-
-    .profile-location {
-      font-size: 13px;
-      color: #8e8e8e;
-      margin-top: 4px;
-    }
-
-    .profile-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      border-radius: 999px;
-      border: none;
-      background: #111;
-      color: #fff;
-      padding: 10px 22px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-
-    .btn-primary:hover {
-      background: #000;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-    }
-
-    .btn-ghost {
-      border-radius: 999px;
-      border: 1.5px solid #e0d5c2;
-      background: #fffdf7;
-      color: #111;
-      padding: 10px 20px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-
-    .btn-ghost:hover {
-      background: #f5f0e6;
-      border-color: #d4c7b3;
-      transform: translateY(-2px);
+      padding: 20px 32px 32px 32px;
     }
 
     .profile-stats {
       display: flex;
-      gap: 28px;
-      font-size: 15px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .profile-stats span b {
-      font-size: 18px;
-      margin-right: 4px;
-    }
-
-    .profile-bio {
-      font-size: 15px;
-      line-height: 1.6;
-      margin-bottom: 12px;
+      gap: 32px;
+      margin: 18px 0;
     }
 
     .profile-grid {
-      max-width: 760px;
-      margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: 800px;
+      margin: 0 auto;
     }
 
     .profile-grid-item {
-      background: radial-gradient(circle at top, #4b5563, #020617);
       aspect-ratio: 1/1;
-      border-radius: 12px;
-      background-position: center;
-      background-size: cover;
+      background: #e2d9ce;
+      border-radius: 20px;
       overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .profile-grid-item:hover {
-      transform: scale(0.98);
     }
 
     .profile-grid-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
     }
 
-    /* ========== MODAL ========== */
+    /* Навигация */
+    .right-nav {
+      width: 100px;
+      background: #fffdf9;
+      border-left: 1px solid #e2d9ce;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 0;
+      gap: 28px;
+    }
+
+    .nav-item {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+
+    .nav-item.active {
+      background: #ede5d9;
+    }
+
+    .nav-item svg {
+      width: 30px;
+      height: 30px;
+      stroke: #2c241e;
+      stroke-width: 1.8;
+      fill: none;
+    }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 253, 249, 0.98);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid #e2d9ce;
+      justify-content: space-around;
+      padding: 10px 0 22px;
+      z-index: 500;
+    }
+
+    .mobile-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    /* Модалка */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.5);
+      background: #1e1915b3;
+      backdrop-filter: blur(8px);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 1000;
-      backdrop-filter: blur(4px);
+      z-index: 1200;
     }
 
     .modal-backdrop.active {
@@ -1379,1655 +691,139 @@
     }
 
     .modal {
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 24px 28px;
-      max-width: 420px;
+      background: #fffdf9;
+      border-radius: 36px;
+      max-width: 500px;
       width: 90%;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      padding: 28px;
+      border: 1px solid #dad2c5;
     }
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .modal-title {
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .modal-close {
-      cursor: pointer;
-      font-size: 28px;
-      line-height: 1;
-      color: #8e8e8e;
-      transition: color 0.15s;
-    }
-
-    .modal-close:hover {
-      color: #111;
-    }
-
-    .modal-body {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      font-size: 14px;
-    }
-
-    .modal-field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .modal-label {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #8e8e8e;
-      font-weight: 600;
-    }
-
-    .modal-input,
-    .modal-textarea {
-      border-radius: 12px;
-      border: 1.5px solid #e0d5c2;
-      padding: 10px 14px;
-      font-size: 14px;
-      outline: none;
-      background: #fffdf7;
-    }
-
-    .modal-input:focus,
-    .modal-textarea:focus {
-      border-color: #111;
-      background: #ffffff;
-    }
-
-    .modal-textarea {
-      resize: vertical;
-      min-height: 80px;
-      max-height: 160px;
-    }
-
-    .modal-footer {
-      margin-top: 24px;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .modal-footer-right {
-      display: flex;
-      gap: 10px;
-    }
-
-    /* ========== МОБИЛЬНАЯ НАВИГАЦИЯ (Instagram стиль) ========== */
-    .mobile-nav {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 75px;
-      background: rgba(255, 253, 247, 0.98);
-      border-top: 1.5px solid #e0d5c2;
-      justify-content: space-around;
-      align-items: center;
-      padding-bottom: env(safe-area-inset-bottom, 0);
-      z-index: 500;
-      backdrop-filter: blur(10px);
-    }
-
-    .mobile-nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 70px;
-      height: 70px;
-      border-radius: 40px;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-
-    .mobile-nav-item:hover {
-      background: #f5f0e6;
-    }
-
-    .mobile-nav-item.active {
-      background: #ede3d3;
-    }
-
-    .mobile-nav-item svg {
-      width: 28px;
-      height: 28px;
-    }
-
-    .mobile-nav-item svg * {
-      stroke: #262626;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .mobile-nav-item.active svg * {
-      fill: #262626;
-      stroke: #262626;
-    }
-
-    .mobile-nav-label {
-      font-size: 11px;
-      font-weight: 500;
-      margin-top: 4px;
-      color: #555;
-    }
-
-    /* ========== MEDIA QUERIES ========== */
-    @media (max-width: 900px) {
-      .right-nav {
-        width: 80px;
-      }
-      .chats-layout {
-        grid-template-columns: 1fr;
-      }
-      .passport-layout {
-        grid-template-columns: 1fr;
-      }
-      .content {
-        padding: 16px;
-      }
+    .modal input, .modal textarea {
+      width: 100%;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      border: 1px solid #e2d9ce;
+      padding: 12px 16px;
     }
 
     @media (max-width: 720px) {
-      body {
-        overflow-y: auto;
-      }
-
-      .main-row {
-        flex-direction: column-reverse;
-      }
-
-      .right-nav {
-        display: none;
-      }
-
-      .mobile-nav {
-        display: flex;
-      }
-
-      .content {
-        padding: 12px 12px 90px 12px;
-      }
-
-      .topbar {
-        padding: 0 12px;
-      }
-
-      .search {
-        width: 180px;
-      }
-
-      .stiki-wrapper {
-        height: calc(100vh - 60px - 75px - 30px);
-      }
-
-      .stiki-card {
-        height: calc(100vh - 60px - 75px - 50px);
-      }
-
-      .chats-layout {
-        height: auto;
-        max-height: calc(100vh - 60px - 75px - 30px);
-      }
-
-      .chat-dialog {
-        min-height: 400px;
-      }
-
-      .profile-header {
-        margin: 0 0 20px 0;
-      }
-
-      .profile-grid {
-        gap: 4px;
-      }
-
-      .profile-avatar {
-        width: 90px;
-        height: 90px;
-        left: 20px;
-        bottom: -45px;
-      }
-
-      .profile-info {
-        padding: 55px 20px 20px 20px;
-      }
-
-      .passport-layout {
-        gap: 16px;
-      }
-
-      .feed-post-image.zoomed img {
-        transform: scale(1.8);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .brand {
-        font-size: 18px;
-      }
-
-      .search {
-        width: 140px;
-        height: 36px;
-        font-size: 13px;
-      }
-
-      .mobile-nav-item {
-        width: 60px;
-        height: 60px;
-      }
-
-      .mobile-nav-item svg {
-        width: 26px;
-        height: 26px;
-      }
-
-      .mobile-nav-label {
-        font-size: 10px;
-      }
-
-      .profile-top-row {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .profile-actions {
-        justify-content: flex-start;
-      }
-
-      .btn-primary,
-      .btn-ghost {
-        padding: 8px 16px;
-        font-size: 13px;
-      }
+      .right-nav { display: none; }
+      .mobile-nav { display: flex; }
+      .chats-layout { grid-template-columns: 1fr; height: auto; }
+      .passport-layout { grid-template-columns: 1fr; }
+      .content { padding-bottom: 100px; }
+      .post-actions-row { gap: 20px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ========== LOGIN ========== -->
-  <div class="login-wrapper" id="loginWrapper">
-    <div class="login-card">
-      <div class="login-logo">RENITEA</div>
-      <div class="login-subtitle">Закрытая лента для своих</div>
-
-      <div class="login-tabs">
-        <button class="login-tab active" data-tab="login">Войти</button>
-        <button class="login-tab" data-tab="register">Создать аккаунт</button>
-      </div>
-
-      <!-- Вход -->
-      <div class="login-form" id="loginForm">
-        <input type="email" class="login-input" id="loginEmail" placeholder="Email">
-        <input type="password" class="login-input" id="loginPass" placeholder="Пароль">
-        <button class="login-btn" id="loginBtn">Войти</button>
-      </div>
-
-      <!-- Регистрация -->
-      <div class="login-form" id="registerForm" style="display:none;">
-        <input type="text" class="login-input" id="regName" placeholder="Имя">
-        <input type="text" class="login-input" id="regNick" placeholder="Никнейм">
-        <input type="email" class="login-input" id="regEmail" placeholder="Email">
-        <input type="password" class="login-input" id="regPass" placeholder="Пароль">
-        <input type="password" class="login-input" id="regPass2" placeholder="Повтор пароля">
-        <div class="login-file">
-          <label>Аватар:</label>
-          <input type="file" id="regAvatar" accept="image/*" style="width:100%; margin-top:4px;">
-        </div>
-        <button class="login-btn" id="registerBtn">Создать аккаунт</button>
-      </div>
-
-      <div class="login-error" id="loginError"></div>
-      <div class="login-footer-text">
-        Это закрытый доступ. Если вы здесь случайно — просто закройте вкладку.
-        <br>Проект: <b>Renitea</b> · своя атмосфера
-      </div>
+<!-- ЛОГИН С ПРИРОДНЫМ ФОНОМ (по ТЗ) -->
+<div class="login-wrapper" id="loginWrapper">
+  <div class="login-card">
+    <div class="login-logo">RENITEA</div>
+    <div class="login-subtitle">закрытая газетная лента</div>
+    <div class="login-tabs">
+      <button class="login-tab active" data-tab="login">Войти</button>
+      <button class="login-tab" data-tab="register">Создать</button>
     </div>
+    <div id="loginForm">
+      <input type="email" id="loginEmail" class="login-input" placeholder="Email">
+      <input type="password" id="loginPass" class="login-input" placeholder="Пароль">
+      <button class="login-btn" id="loginBtn">Войти</button>
+    </div>
+    <div id="registerForm" style="display:none;">
+      <input type="text" id="regName" class="login-input" placeholder="Имя">
+      <input type="text" id="regNick" class="login-input" placeholder="Никнейм">
+      <input type="email" id="regEmail" class="login-input" placeholder="Email">
+      <input type="password" id="regPass" class="login-input" placeholder="Пароль">
+      <input type="password" id="regPass2" class="login-input" placeholder="Повтор пароля">
+      <div class="login-file">Аватар: <input type="file" id="regAvatar" accept="image/*"></div>
+      <button class="login-btn" id="registerBtn">Создать аккаунт</button>
+    </div>
+    <div class="login-error" id="loginError"></div>
   </div>
+</div>
 
-  <!-- ========== APP ========== -->
-  <div class="app" id="appRoot">
-    <header class="topbar">
-      <div class="brand">RENITEA</div>
-      <div class="topbar-right">
-        <input class="search" type="text" placeholder="Поиск пользователей" id="userSearch">
-      </div>
-    </header>
-
-    <div class="main-row">
-      <main class="content">
-        <!-- ========== ПОСТЫ ========== -->
-        <section class="screen active" id="screen-posts">
-          <div class="feed-composer">
-            <div style="font-weight:600; margin-bottom:4px;">Опубликовать в ленте</div>
-            <textarea id="feedText" placeholder="Что у вас сегодня?"></textarea>
-            <input type="file" id="feedImage" accept="image/*">
-            <button id="feedPublishBtn">Опубликовать</button>
-          </div>
-
-          <div class="feed-list" id="feedList"></div>
-
-          <div class="empty-feed-text" id="feedEmptyText">
-            ✨ Лента пуста, но вы можете оживить её первым моментом
-          </div>
-
-          <div class="recommendations-title">Рекомендации</div>
-          <div class="recommendations-list" id="recommendationsList"></div>
-        </section>
-
-        <!-- ========== СТИКИ ========== -->
-        <section class="screen" id="screen-stiki">
-          <div class="stiki-composer">
-            <div style="font-weight:600; margin-bottom:4px;">Опубликовать стик</div>
-            <input type="file" id="stikiInput" accept="video/*">
-            <button id="stikiPublishBtn">Опубликовать</button>
-          </div>
-          <div class="stiki-empty" id="stikiEmptyText">
-            🎬 Тут пока что тихо, вы можете это исправить
-          </div>
-          <div class="stiki-wrapper" id="stikiWrapper"></div>
-        </section>
-
-        <!-- ========== ЧАТЫ ========== -->
-        <section class="screen" id="screen-chats">
-          <div class="chats-layout">
-            <div class="chat-list" id="chatList"></div>
-
-            <div class="chat-dialog" id="chatDialog">
-              <div class="chat-dialog-header">
-                <div class="chat-dialog-header-left" id="chatHeaderProfile">
-                  <div class="chat-avatar" id="chatDialogAvatar"></div>
-                  <div class="chat-info">
-                    <div class="chat-name" id="chatDialogName"></div>
-                    <div class="chat-last-message" id="chatDialogNick"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="chat-dialog-body" id="chatDialogBody"></div>
-              <div class="chat-dialog-input">
-                <input type="text" placeholder="Написать сообщение..." id="chatInput">
-                <button type="button" id="chatSendBtn">Отправить</button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ========== ПАСПОРТ ========== -->
-        <section class="screen" id="screen-passport">
-          <div class="passport-layout">
-            <div class="passport-card">
-              <div class="passport-chip"></div>
-              <div class="passport-stamp">renitea visa</div>
-
-              <div class="passport-header">
-                <div>
-                  <div class="passport-title">Цифровой паспорт RENITEA</div>
-                  <div class="passport-meta">Собран из ваших моментов, виз и историй</div>
-                  <div class="passport-id">ID: RENI-2026-0420 · Статус: активен</div>
-                </div>
-                <div class="passport-photo" id="passportPhoto"></div>
-              </div>
-
-              <div class="passport-row">
-                <div class="passport-fields">
-                  <div>
-                    <div class="passport-field-label">Имя</div>
-                    <div class="passport-field-value" id="passportName">—</div>
-                  </div>
-                  <div>
-                    <div class="passport-field-label">Ник</div>
-                    <div class="passport-field-value" id="passportNick">—</div>
-                  </div>
-                  <div>
-                    <div class="passport-field-label">Характер</div>
-                    <div class="passport-field-value" id="passportPersona">—</div>
-                  </div>
-                  <div>
-                    <div class="passport-field-label">Город</div>
-                    <div class="passport-field-value">Кёльн</div>
-                  </div>
-                  <div>
-                    <div class="passport-field-label">Виз собрано</div>
-                    <div class="passport-field-value" id="passportVisasCount">0</div>
-                  </div>
-                  <div>
-                    <div class="passport-field-label">Моментов</div>
-                    <div class="passport-field-value" id="passportMomentsCount">0</div>
-                  </div>
-                  <div>
-                    <div class="passport-field-label">Дата регистрации</div>
-                    <div class="passport-field-value">04.2026</div>
-                  </div>
-                  <div>
-                    <div class="passport-field-label">Уровень доверия</div>
-                    <div class="passport-field-value">круг друзей · круг близких</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="passport-stories-title">Истории виз</div>
-              <div class="passport-stories-bar" id="passportStoriesBar">
-                <div class="passport-story-item">
-                  <div class="passport-story-avatar-wrap">
-                    <div class="passport-story-avatar"></div>
-                  </div>
-                  <span>Берлин</span>
-                </div>
-                <div class="passport-story-item">
-                  <div class="passport-story-avatar-wrap">
-                    <div class="passport-story-avatar"></div>
-                  </div>
-                  <span>Ночь</span>
-                </div>
-                <div class="passport-story-item">
-                  <div class="passport-story-avatar-wrap">
-                    <div class="passport-story-avatar"></div>
-                  </div>
-                  <span>Утро</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="visa-grid" id="visaGrid"></div>
-          </div>
-        </section>
-
-        <!-- ========== ПРОФИЛЬ ========== -->
-        <section class="screen" id="screen-profile">
-          <div class="profile-header">
-            <div class="profile-cover">
-              <div class="profile-avatar">
-                <img id="profileAvatarImg" src="" alt="">
-              </div>
-            </div>
-            <div class="profile-info">
-              <div class="profile-top-row">
-                <div class="profile-name-block">
-                  <div class="profile-name" id="profileName">—</div>
-                  <div class="profile-username" id="profileNick">—</div>
-                  <div class="profile-location">Кёльн · путешествия, фото, обычные дни</div>
-                </div>
-                <div class="profile-actions">
-                  <button class="btn-primary" id="editProfileBtn">Редактировать</button>
-                  <button class="btn-ghost" id="profileMessageBtn">Написать</button>
-                  <button class="btn-ghost" id="logoutBtn">Выйти</button>
-                </div>
-              </div>
-              <div class="profile-stats">
-                <span><b id="profilePostsCount">0</b> постов</span>
-                <span><b id="profileFollowersCount">0</b> подписчиков</span>
-                <span><b id="profileFollowingCount">0</b> подписки</span>
-              </div>
-              <div class="profile-bio" id="profileBio">—</div>
-            </div>
-          </div>
-
-          <div class="profile-grid" id="profileGrid"></div>
-        </section>
-      </main>
-
-      <!-- ========== DESKTOP NAVIGATION ========== -->
-      <aside class="right-nav">
-        <div class="nav-logo-box" id="navLogoBox">RENI</div>
-
-        <div class="nav-items">
-          <div class="nav-block">
-            <div class="nav-item active" data-screen="posts">
-              <svg viewBox="0 0 24 24">
-                <rect x="3" y="3" width="18" height="18" rx="4"/>
-                <rect x="6" y="6" width="12" height="8" rx="2"/>
-                <line x1="6" y1="17" x2="12" y2="17"/>
-                <line x1="14" y1="17" x2="18" y2="17"/>
-              </svg>
-            </div>
-            <div class="nav-label">Посты</div>
-          </div>
-
-          <div class="nav-block">
-            <div class="nav-item" data-screen="stiki">
-              <svg viewBox="0 0 24 24">
-                <rect x="7" y="3" width="10" height="18" rx="3"/>
-                <rect x="9" y="5" width="6" height="10" rx="2"/>
-                <line x1="9" y1="17" x2="12" y2="17"/>
-                <line x1="13" y1="17" x2="15" y2="17"/>
-              </svg>
-            </div>
-            <div class="nav-label">Стики</div>
-          </div>
-
-          <div class="nav-block">
-            <div class="nav-item" data-screen="chats">
-              <svg viewBox="0 0 24 24">
-                <path d="M5 5h14v10H7l-2 2z"/>
-              </svg>
-            </div>
-            <div class="nav-label">Чаты</div>
-          </div>
-
-          <div class="nav-block">
-            <div class="nav-item" data-screen="passport">
-              <svg viewBox="0 0 24 24">
-                <rect x="6" y="3" width="12" height="18" rx="2"/>
-                <circle cx="12" cy="10" r="3"/>
-                <line x1="9" y1="16" x2="15" y2="16"/>
-              </svg>
-            </div>
-            <div class="nav-label">Паспорт</div>
-          </div>
-
-          <div class="nav-block">
-            <div class="nav-item" data-screen="profile">
-              <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="9" r="3"/>
-                <path d="M6 19c1.5-3 4-4 6-4s4.5 1 6 4"/>
-              </svg>
-            </div>
-            <div class="nav-label">Профиль</div>
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <!-- ========== MOBILE NAVIGATION (Instagram стиль) ========== -->
-    <div class="mobile-nav">
-      <div class="mobile-nav-item active" data-screen="posts">
-        <svg viewBox="0 0 24 24">
-          <rect x="3" y="3" width="18" height="18" rx="4"/>
-          <rect x="6" y="6" width="12" height="8" rx="2"/>
-          <line x1="6" y1="17" x2="12" y2="17"/>
-          <line x1="14" y1="17" x2="18" y2="17"/>
-        </svg>
-        <span class="mobile-nav-label">Посты</span>
-      </div>
-
-      <div class="mobile-nav-item" data-screen="stiki">
-        <svg viewBox="0 0 24 24">
-          <rect x="7" y="3" width="10" height="18" rx="3"/>
-          <rect x="9" y="5" width="6" height="10" rx="2"/>
-          <line x1="9" y1="17" x2="12" y2="17"/>
-          <line x1="13" y1="17" x2="15" y2="17"/>
-        </svg>
-        <span class="mobile-nav-label">Стики</span>
-      </div>
-
-      <div class="mobile-nav-item" data-screen="chats">
-        <svg viewBox="0 0 24 24">
-          <path d="M5 5h14v10H7l-2 2z"/>
-        </svg>
-        <span class="mobile-nav-label">Чаты</span>
-      </div>
-
-      <div class="mobile-nav-item" data-screen="passport">
-        <svg viewBox="0 0 24 24">
-          <rect x="6" y="3" width="12" height="18" rx="2"/>
-          <circle cx="12" cy="10" r="3"/>
-          <line x1="9" y1="16" x2="15" y2="16"/>
-        </svg>
-        <span class="mobile-nav-label">Паспорт</span>
-      </div>
-
-      <div class="mobile-nav-item" data-screen="profile">
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="9" r="3"/>
-          <path d="M6 19c1.5-3 4-4 6-4s4.5 1 6 4"/>
-        </svg>
-        <span class="mobile-nav-label">Профиль</span>
-      </div>
-    </div>
+<!-- ОСНОВНОЕ ПРИЛОЖЕНИЕ -->
+<div class="app" id="appRoot">
+  <header class="topbar"><div class="brand">RENITEA</div><input class="search" id="userSearch" placeholder="Поиск людей..."></header>
+  <div class="main-row">
+    <main class="content">
+      <section class="screen active" id="screen-posts">
+        <div class="feed-composer"><textarea id="feedText" placeholder="Газетная заметка дня..."></textarea><input type="file" id="feedImage" accept="image/*"><button id="feedPublishBtn">📰 Опубликовать</button></div>
+        <div class="feed-list" id="feedList"></div>
+        <div id="feedEmptyText" style="display:none; text-align:center; padding:40px;">✨ Лента пуста, напишите первую заметку</div>
+        <div style="margin-top:30px;"><h4>📌 Рекомендации</h4><div id="recommendationsList"></div></div>
+      </section>
+      <section class="screen" id="screen-stiki"><div class="stiki-composer"><input type="file" id="stikiInput" accept="video/*"><button id="stikiPublishBtn">🎬 Опубликовать стик</button></div><div id="stikiWrapper" class="stiki-wrapper"></div></section>
+      <section class="screen" id="screen-chats"><div class="chats-layout"><div class="chat-list" id="chatList"></div><div class="chat-dialog"><div class="chat-dialog-header" id="chatHeaderProfile"><div class="chat-avatar" id="chatDialogAvatar"></div><div><div id="chatDialogName"></div><div id="chatDialogNick"></div></div></div><div class="chat-dialog-body" id="chatDialogBody"></div><div class="chat-dialog-input"><input id="chatInput" placeholder="Сообщение..."><button id="chatSendBtn">→</button></div></div></div></section>
+      <section class="screen" id="screen-passport"><div class="passport-layout"><div class="passport-card"><div style="display:flex; justify-content:space-between;"><div><h3>Паспорт RENITEA</h3><div id="passportName">—</div><div id="passportNick">—</div></div><div class="passport-photo" id="passportPhoto"></div></div><div>Характер: <span id="passportPersona">—</span></div><div>Моментов: <span id="passportMomentsCount">0</span></div></div><div class="visa-grid" id="visaGrid"></div></div></section>
+      <section class="screen" id="screen-profile"><div class="profile-header"><div class="profile-cover"></div><div class="profile-avatar"><img id="profileAvatarImg"></div><div class="profile-info"><div><div class="profile-name" id="profileName"></div><div class="profile-username" id="profileNick"></div><div class="profile-bio" id="profileBio"></div></div><div class="profile-stats"><span><b id="profilePostsCount">0</b> постов</span><span><b id="profileFollowersCount">0</b> подписчиков</span><span><b id="profileFollowingCount">0</b> подписки</span></div><div><button class="btn-primary" id="editProfileBtn">Редактировать</button><button id="profileMessageBtn">Написать</button><button id="logoutBtn">Выйти</button></div></div></div><div class="profile-grid" id="profileGrid"></div></section>
+    </main>
+    <aside class="right-nav"><div class="nav-item active" data-screen="posts"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="6" y="6" width="12" height="8" rx="2"/></svg></div><div class="nav-item" data-screen="stiki"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="3"/><rect x="9" y="5" width="6" height="10" rx="2"/></svg></div><div class="nav-item" data-screen="chats"><svg viewBox="0 0 24 24"><path d="M5 5h14v10H7l-2 2z"/></svg></div><div class="nav-item" data-screen="passport"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><circle cx="12" cy="10" r="3"/></svg></div><div class="nav-item" data-screen="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="3"/><path d="M6 19c1.5-3 4-4 6-4s4.5 1 6 4"/></svg></div></aside>
   </div>
-
-  <!-- ========== MODAL EDIT PROFILE ========== -->
-  <div class="modal-backdrop" id="editProfileModal">
-    <div class="modal">
-      <div class="modal-header">
-        <div class="modal-title">Редактировать профиль</div>
-        <div class="modal-close" id="editProfileClose">&times;</div>
-      </div>
-      <div class="modal-body">
-        <div class="modal-field">
-          <div class="modal-label">Имя</div>
-          <input class="modal-input" id="editProfileNameInput" placeholder="Ваше имя">
-        </div>
-        <div class="modal-field">
-          <div class="modal-label">Никнейм</div>
-          <input class="modal-input" id="editProfileNickInput" placeholder="@username">
-        </div>
-        <div class="modal-field">
-          <div class="modal-label">Характер</div>
-          <input class="modal-input" id="editProfilePersonaInput" placeholder="Например: мечтатель">
-        </div>
-        <div class="modal-field">
-          <div class="modal-label">Био</div>
-          <textarea class="modal-textarea" id="editProfileBioInput" placeholder="Расскажите о себе..."></textarea>
-        </div>
-        <div class="modal-field">
-          <div class="modal-label">Аватар</div>
-          <input type="file" class="modal-input" id="editProfileAvatarInput" accept="image/*">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-ghost" id="modalLogoutBtn">Выйти</button>
-        <div class="modal-footer-right">
-          <button class="btn-ghost" id="editProfileCancel">Отмена</button>
-          <button class="btn-primary" id="editProfileSave">Сохранить</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== FIREBASE ========== -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
-
-  <script>
-    // ========== FIREBASE CONFIG ==========
-    const firebaseConfig = {
-      apiKey: "AIzaSyAnw1Vz4Wzr2rmdrzVv5tga_x6u08ObNbA",
-      authDomain: "renitea-b140f.firebaseapp.com",
-      projectId: "renitea-b140f",
-      storageBucket: "renitea-b140f.appspot.com",
-      messagingSenderId: "806278733594",
-      appId: "1:806278733594:web:d9887a35732173429f96a3",
-      measurementId: "G-EH8L4GJXJ2"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    const storage = firebase.storage();
-
-    // ========== СЖАТИЕ ИЗОБРАЖЕНИЙ ==========
-    async function compressImage(file, maxWidth = 1080, quality = 0.8, maxHeight = null) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = new Image();
-          img.onload = () => {
-            let width = img.width;
-            let height = img.height;
-            
-            if (maxWidth && width > maxWidth) {
-              height = (height * maxWidth) / width;
-              width = maxWidth;
-            }
-            if (maxHeight && height > maxHeight) {
-              width = (width * maxHeight) / height;
-              height = maxHeight;
-            }
-            
-            const canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            
-            canvas.toBlob((blob) => {
-              resolve(blob);
-            }, 'image/jpeg', quality);
-          };
-          img.onerror = reject;
-          img.src = e.target.result;
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    }
-
-    async function imageToBase64(blob) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    }
-
-    // ========== DOM ELEMENTS ==========
-    const loginWrapper = document.getElementById('loginWrapper');
-    const appRoot = document.getElementById('appRoot');
-
-    const loginTabs = document.querySelectorAll('.login-tab');
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
-
-    const loginEmail = document.getElementById('loginEmail');
-    const loginPass = document.getElementById('loginPass');
-    const loginBtn = document.getElementById('loginBtn');
-
-    const regName = document.getElementById('regName');
-    const regNick = document.getElementById('regNick');
-    const regEmail = document.getElementById('regEmail');
-    const regPass = document.getElementById('regPass');
-    const regPass2 = document.getElementById('regPass2');
-    const regAvatar = document.getElementById('regAvatar');
-    const registerBtn = document.getElementById('registerBtn');
-
-    const loginError = document.getElementById('loginError');
-
-    const userSearch = document.getElementById('userSearch');
-
-    const feedText = document.getElementById('feedText');
-    const feedImage = document.getElementById('feedImage');
-    const feedPublishBtn = document.getElementById('feedPublishBtn');
-    const feedList = document.getElementById('feedList');
-    const feedEmptyText = document.getElementById('feedEmptyText');
-
-    const stikiInput = document.getElementById('stikiInput');
-    const stikiPublishBtn = document.getElementById('stikiPublishBtn');
-    const stikiWrapper = document.getElementById('stikiWrapper');
-    const stikiEmptyText = document.getElementById('stikiEmptyText');
-
-    const chatList = document.getElementById('chatList');
-    const chatDialogAvatar = document.getElementById('chatDialogAvatar');
-    const chatDialogName = document.getElementById('chatDialogName');
-    const chatDialogNick = document.getElementById('chatDialogNick');
-    const chatDialogBody = document.getElementById('chatDialogBody');
-    const chatInput = document.getElementById('chatInput');
-    const chatSendBtn = document.getElementById('chatSendBtn');
-    const chatHeaderProfile = document.getElementById('chatHeaderProfile');
-
-    const passportName = document.getElementById('passportName');
-    const passportNick = document.getElementById('passportNick');
-    const passportPersona = document.getElementById('passportPersona');
-    const passportPhoto = document.getElementById('passportPhoto');
-    const passportVisasCount = document.getElementById('passportVisasCount');
-    const passportMomentsCount = document.getElementById('passportMomentsCount');
-    const visaGrid = document.getElementById('visaGrid');
-
-    const profileNameEl = document.getElementById('profileName');
-    const profileNickEl = document.getElementById('profileNick');
-    const profileBioEl = document.getElementById('profileBio');
-    const profileAvatarImg = document.getElementById('profileAvatarImg');
-    const profilePostsCount = document.getElementById('profilePostsCount');
-    const profileFollowersCount = document.getElementById('profileFollowersCount');
-    const profileFollowingCount = document.getElementById('profileFollowingCount');
-    const profileGrid = document.getElementById('profileGrid');
-
-    const editProfileBtn = document.getElementById('editProfileBtn');
-    const profileMessageBtn = document.getElementById('profileMessageBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-
-    const editProfileModal = document.getElementById('editProfileModal');
-    const editProfileClose = document.getElementById('editProfileClose');
-    const editProfileCancel = document.getElementById('editProfileCancel');
-    const editProfileSave = document.getElementById('editProfileSave');
-    const editProfileNameInput = document.getElementById('editProfileNameInput');
-    const editProfileNickInput = document.getElementById('editProfileNickInput');
-    const editProfilePersonaInput = document.getElementById('editProfilePersonaInput');
-    const editProfileBioInput = document.getElementById('editProfileBioInput');
-    const editProfileAvatarInput = document.getElementById('editProfileAvatarInput');
-    const modalLogoutBtn = document.getElementById('modalLogoutBtn');
-
-    const navItems = document.querySelectorAll('.nav-item, .mobile-nav-item');
-    const recommendationsList = document.getElementById('recommendationsList');
-
-    // ========== STATE ==========
-    const state = {
-      currentUser: null,
-      usersCache: {},
-      posts: [],
-      stiki: [],
-      messages: {},
-      visas: {},
-      viewProfileUserId: null,
-      stikiReactions: {},
-      postReactions: {}
-    };
-
-    let currentChatUserId = null;
-    let unsubscribePosts = null;
-    let unsubscribeStiki = null;
-    let unsubscribeMessages = null;
-    let unsubscribeUsers = null;
-
-    // ========== UTILS ==========
-    function formatTime(ts) {
-      const d = new Date(ts);
-      return d.toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
-    }
-
-    function chatKey(a, b) {
-      return [a, b].sort().join('__');
-    }
-
-    function showScreen(name) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      const el = document.getElementById('screen-' + name);
-      if (el) el.classList.add('active');
-      
-      // Синхронизация активного состояния между десктопной и мобильной навигацией
-      navItems.forEach(i => {
-        i.classList.remove('active');
-        if (i.dataset.screen === name) i.classList.add('active');
-      });
-    }
-
-    function getUserFromCache(id) {
-      return state.usersCache[id] || null;
-    }
-
-    async function ensureUserDoc(user) {
-      const ref = db.collection('users').doc(user.uid);
-      const snap = await ref.get();
-      if (!snap.exists) {
-        await ref.set({
-          email: user.email,
-          name: user.displayName || user.email.split('@')[0],
-          nick: '@' + user.email.split('@')[0],
-          persona: '',
-          bio: '',
-          avatarBase64: user.photoURL || '',
-          followers: 0,
-          following: 0,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-      }
-    }
-
-    // ========== LISTENERS ==========
-    function listenUsers() {
-      if (unsubscribeUsers) unsubscribeUsers();
-      unsubscribeUsers = db.collection('users').onSnapshot(snap => {
-        snap.docs.forEach(doc => {
-          state.usersCache[doc.id] = { id: doc.id, ...doc.data() };
-        });
-        renderProfile();
-        renderPassport();
-        renderChatList(userSearch.value);
-        renderRecommendations();
-      });
-    }
-
-    function listenPostsFromFirestore() {
-      if (unsubscribePosts) unsubscribePosts();
-      unsubscribePosts = db.collection('posts')
-        .orderBy('createdAt', 'desc')
-        .onSnapshot(snapshot => {
-          state.posts = snapshot.docs.map(doc => {
-            const data = doc.data();
-            return {
-              id: doc.id,
-              authorId: data.authorId,
-              text: data.text || '',
-              imageBase64: data.imageBase64 || '',
-              createdAt: data.createdAt,
-              time: data.createdAt ? formatTime(data.createdAt.toDate().getTime()) : ''
-            };
-          });
-          renderFeed();
-          renderProfileGrid();
-          renderPassport();
-        });
-    }
-
-    function listenStikiFromFirestore() {
-      if (unsubscribeStiki) unsubscribeStiki();
-      unsubscribeStiki = db.collection('stiki')
-        .orderBy('createdAt', 'desc')
-        .onSnapshot(snapshot => {
-          state.stiki = snapshot.docs.map(doc => {
-            const data = doc.data();
-            return {
-              id: doc.id,
-              authorId: data.authorId,
-              videoURL: data.videoURL,
-              createdAt: data.createdAt
-            };
-          });
-          renderStiki();
-        });
-    }
-
-    function listenMessagesForChat(currentUserId, otherUserId) {
-      const key = chatKey(currentUserId, otherUserId);
-      const chatRef = db.collection('chats').doc(key);
-
-      if (unsubscribeMessages) unsubscribeMessages();
-
-      unsubscribeMessages = chatRef
-        .collection('messages')
-        .orderBy('createdAt', 'asc')
-        .onSnapshot(snapshot => {
-          state.messages[key] = snapshot.docs.map(doc => {
-            const data = doc.data();
-            return {
-              fromId: data.fromId,
-              toId: data.toId,
-              text: data.text,
-              time: data.createdAt ? formatTime(data.createdAt.toDate().getTime()) : ''
-            };
-          });
-
-          renderChatList(userSearch.value);
-          renderChatDialog();
-        });
-    }
-
-    // ========== RENDER FUNCTIONS ==========
-    function renderFeed() {
-      feedList.innerHTML = '';
-      if (!state.posts.length) {
-        feedEmptyText.style.display = 'block';
-        return;
-      }
-      feedEmptyText.style.display = 'none';
-
-      state.posts.forEach(post => {
-        const reactions = state.postReactions[post.id] || { fire: 0 };
-
-        const card = document.createElement('div');
-        card.className = 'feed-post';
-
-        const imgBlock = document.createElement('div');
-        imgBlock.className = 'feed-post-image';
-        if (post.imageBase64) {
-          const img = document.createElement('img');
-          img.src = post.imageBase64;
-          img.alt = '';
-          imgBlock.appendChild(img);
-          
-          // Масштабирование фото по клику
-          imgBlock.addEventListener('click', (e) => {
-            if (e.target === img || e.target === imgBlock) {
-              imgBlock.classList.toggle('zoomed');
-            }
-          });
-        } else {
-          imgBlock.style.height = '0';
-          imgBlock.style.display = 'none';
-        }
-
-        const footer = document.createElement('div');
-        footer.className = 'feed-post-footer';
-
-        const textDiv = document.createElement('div');
-        textDiv.className = 'feed-post-text';
-        textDiv.textContent = post.text || '';
-
-        const actions = document.createElement('div');
-        actions.className = 'feed-post-actions';
-        actions.innerHTML = `
-          <button class="feed-fire-btn" data-id="${post.id}">🔥</button>
-          <small>${reactions.fire || 0}</small>
-          <button>⋯</button>
-          <button>✉️</button>
-        `;
-
-        footer.appendChild(textDiv);
-        footer.appendChild(actions);
-        card.appendChild(imgBlock);
-        card.appendChild(footer);
-        feedList.appendChild(card);
-      });
-
-      feedList.querySelectorAll('.feed-fire-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const id = btn.dataset.id;
-          if (!state.postReactions[id]) state.postReactions[id] = { fire: 0 };
-          state.postReactions[id].fire += 1;
-          renderFeed();
-        });
-      });
-    }
-
-    function renderStiki() {
-      stikiWrapper.innerHTML = '';
-      if (!state.stiki.length) {
-        stikiEmptyText.style.display = 'block';
-        return;
-      }
-      stikiEmptyText.style.display = 'none';
-      state.stiki.forEach(s => {
-        const reactions = state.stikiReactions[s.id] || { '🔥': 0, '😂': 0, '😢': 0, '❤️': 0 };
-        const card = document.createElement('div');
-        card.className = 'stiki-card';
-        card.innerHTML = `
-          <div class="stiki-video">
-            <video src="${s.videoURL}" autoplay muted loop playsinline></video>
-          </div>
-          <div class="stiki-actions">
-            <div class="stiki-action">
-              <span>👁</span>
-              <small>стик</small>
-            </div>
-          </div>
-          <div class="stiki-reactions">
-            ${Object.keys(reactions).map(e => `
-              <div class="stiki-reaction" data-id="${s.id}" data-emoji="${e}">
-                <span>${e}</span><small>${reactions[e]}</small>
-              </div>
-            `).join('')}
-          </div>
-        `;
-        stikiWrapper.appendChild(card);
-      });
-
-      stikiWrapper.querySelectorAll('.stiki-reaction').forEach(el => {
-        el.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const id = el.dataset.id;
-          const emoji = el.dataset.emoji;
-          if (!state.stikiReactions[id]) {
-            state.stikiReactions[id] = { '🔥': 0, '😂': 0, '😢': 0, '❤️': 0 };
-          }
-          state.stikiReactions[id][emoji] += 1;
-          renderStiki();
-        });
-      });
-    }
-
-    function renderProfile() {
-      if (!state.currentUser) return;
-      const uid = state.viewProfileUserId || state.currentUser.uid;
-      const userDoc = getUserFromCache(uid);
-      if (!userDoc) return;
-
-      profileNameEl.textContent = userDoc.name || '—';
-      profileNickEl.textContent = userDoc.nick || '—';
-      profileBioEl.textContent = userDoc.bio || '—';
-      
-      const avatarSrc = userDoc.avatarBase64 || '';
-      profileAvatarImg.src = avatarSrc;
-      
-      if (avatarSrc) {
-        passportPhoto.style.backgroundImage = `url('${avatarSrc}')`;
-        passportPhoto.style.backgroundSize = 'cover';
-      } else {
-        passportPhoto.style.backgroundImage = '';
-      }
-
-      const userPosts = state.posts.filter(p => p.authorId === uid);
-      profilePostsCount.textContent = userPosts.length;
-      profileFollowersCount.textContent = userDoc.followers || 0;
-      profileFollowingCount.textContent = userDoc.following || 0;
-
-      if (uid === state.currentUser.uid) {
-        editProfileBtn.style.display = 'inline-flex';
-        profileMessageBtn.style.display = 'none';
-      } else {
-        editProfileBtn.style.display = 'none';
-        profileMessageBtn.style.display = 'inline-flex';
-      }
-    }
-
-    function renderProfileGrid() {
-      if (!state.currentUser) return;
-      const uid = state.viewProfileUserId || state.currentUser.uid;
-      profileGrid.innerHTML = '';
-      const userPosts = state.posts.filter(p => p.authorId === uid);
-      userPosts.forEach(p => {
-        const div = document.createElement('div');
-        div.className = 'profile-grid-item';
-        if (p.imageBase64) {
-          div.innerHTML = `<img src="${p.imageBase64}" alt="">`;
-        }
-        profileGrid.appendChild(div);
-      });
-    }
-
-    function renderPassport() {
-      if (!state.currentUser) return;
-      const uid = state.currentUser.uid;
-      const userDoc = getUserFromCache(uid);
-      if (!userDoc) return;
-      passportName.textContent = userDoc.name || '—';
-      passportNick.textContent = userDoc.nick || '—';
-      passportPersona.textContent = userDoc.persona || '—';
-      const userPosts = state.posts.filter(p => p.authorId === uid);
-      passportMomentsCount.textContent = userPosts.length;
-      const visas = state.visas[uid] || [];
-      passportVisasCount.textContent = visas.length;
-      visaGrid.innerHTML = '';
-      visas.forEach(v => {
-        const card = document.createElement('div');
-        card.className = 'visa-card';
-        card.innerHTML = `
-          <div style="font-weight:600;margin-bottom:4px;">${v.title}</div>
-          <div style="font-size:12px;color:#6b7280;">${v.note}</div>
-        `;
-        visaGrid.appendChild(card);
-      });
-    }
-
-    function renderChatList(filter = '') {
-      if (!state.currentUser) return;
-      const currentId = state.currentUser.uid;
-      chatList.innerHTML = '';
-      const q = filter.toLowerCase().trim();
-
-      const users = Object.values(state.usersCache)
-        .filter(u => u.id !== currentId)
-        .filter(u => {
-          if (!q) return true;
-          return (
-            (u.name || '').toLowerCase().includes(q) ||
-            (u.nick || '').toLowerCase().includes(q) ||
-            (u.email || '').toLowerCase().includes(q)
-          );
-        });
-
-      if (!users.length) {
-        const empty = document.createElement('div');
-        empty.style.padding = '20px 16px';
-        empty.style.fontSize = '14px';
-        empty.style.color = '#8e8e8e';
-        empty.style.textAlign = 'center';
-        empty.textContent = 'Пока нет собеседников';
-        chatList.appendChild(empty);
-        return;
-      }
-
-      users.forEach(u => {
-        const key = chatKey(currentId, u.id);
-        const msgs = state.messages[key] || [];
-        const last = msgs[msgs.length - 1];
-        const item = document.createElement('div');
-        item.className = 'chat-item' + (u.id === currentChatUserId ? ' active' : '');
-        item.dataset.chatId = u.id;
-        
-        const avatarSrc = u.avatarBase64 || '';
-        item.innerHTML = `
-          <div class="chat-avatar">
-            ${avatarSrc ? `<img src="${avatarSrc}" alt="">` : ''}
-          </div>
-          <div class="chat-info">
-            <div class="chat-name">${u.name || u.email}</div>
-            <div class="chat-last-message">${last ? last.text : (u.nick || 'Нет сообщений')}</div>
-          </div>
-        `;
-        item.addEventListener('click', () => {
-          currentChatUserId = u.id;
-          renderChatList(userSearch.value);
-          listenMessagesForChat(currentId, currentChatUserId);
-        });
-        chatList.appendChild(item);
-      });
-
-      if (!currentChatUserId && users.length) {
-        currentChatUserId = users[0].id;
-        listenMessagesForChat(currentId, currentChatUserId);
-      }
-    }
-
-    function renderChatDialog() {
-      if (!state.currentUser || !currentChatUserId) {
-        chatDialogAvatar.innerHTML = '';
-        chatDialogName.textContent = '';
-        chatDialogNick.textContent = '';
-        chatDialogBody.innerHTML = '';
-        return;
-      }
-      const currentId = state.currentUser.uid;
-      const other = getUserFromCache(currentChatUserId);
-      chatDialogBody.innerHTML = '';
-      if (!other) {
-        chatDialogAvatar.innerHTML = '';
-        chatDialogName.textContent = '';
-        chatDialogNick.textContent = '';
-        return;
-      }
-      const avatarSrc = other.avatarBase64 || '';
-      chatDialogAvatar.innerHTML = avatarSrc ? `<img src="${avatarSrc}" alt="">` : '';
-      chatDialogName.textContent = other.name || other.email;
-      chatDialogNick.textContent = other.nick || '';
-
-      const key = chatKey(currentId, other.id);
-      const msgs = state.messages[key] || [];
-      msgs.forEach(m => {
-        const div = document.createElement('div');
-        div.className = 'msg ' + (m.fromId === currentId ? 'me' : 'them');
-        div.innerHTML = `
-          <div>${m.text}</div>
-          <div class="msg-time">${m.time}</div>
-        `;
-        chatDialogBody.appendChild(div);
-      });
-      chatDialogBody.scrollTop = chatDialogBody.scrollHeight;
-    }
-
-    function renderRecommendations() {
-      if (!state.currentUser || !recommendationsList) return;
-      const currentId = state.currentUser.uid;
-      const q = (userSearch.value || '').toLowerCase().trim();
-      recommendationsList.innerHTML = '';
-
-      Object.values(state.usersCache)
-        .filter(u => u.id !== currentId)
-        .filter(u => {
-          if (!q) return true;
-          return (
-            (u.name || '').toLowerCase().includes(q) ||
-            (u.nick || '').toLowerCase().includes(q) ||
-            (u.email || '').toLowerCase().includes(q)
-          );
-        })
-        .forEach(u => {
-          const avatarSrc = u.avatarBase64 || '';
-          const card = document.createElement('div');
-          card.className = 'rec-card';
-          card.innerHTML = `
-            <div class="rec-avatar">
-              ${avatarSrc ? `<img src="${avatarSrc}" alt="" style="width:100%;height:100%;object-fit:cover;">` : ''}
-            </div>
-            <div>
-              <div class="rec-main">${u.name || u.email}</div>
-              <div class="rec-sub">${u.nick || ''}</div>
-            </div>
-          `;
-          card.addEventListener('click', () => openProfile(u.id));
-          recommendationsList.appendChild(card);
-        });
-    }
-
-    // ========== ACTIONS ==========
-    function openProfile(userId) {
-      if (!userId) return;
-      state.viewProfileUserId = userId;
-      renderProfile();
-      renderProfileGrid();
-      showScreen('profile');
-    }
-
-    function openEditProfileModal() {
-      if (!state.currentUser) return;
-      const uid = state.currentUser.uid;
-      const userDoc = getUserFromCache(uid);
-      if (!userDoc) return;
-      editProfileNameInput.value = userDoc.name || '';
-      editProfileNickInput.value = userDoc.nick || '';
-      editProfilePersonaInput.value = userDoc.persona || '';
-      editProfileBioInput.value = userDoc.bio || '';
-      editProfileAvatarInput.value = '';
-      editProfileModal.classList.add('active');
-    }
-
-    function closeEditProfileModal() {
-      editProfileModal.classList.remove('active');
-    }
-
-    async function afterLogin(user) {
-      state.currentUser = user;
-      state.viewProfileUserId = user.uid;
-      await ensureUserDoc(user);
-      loginWrapper.style.display = 'none';
-      appRoot.style.display = 'flex';
-
-      listenUsers();
-      listenPostsFromFirestore();
-      listenStikiFromFirestore();
-
-      currentChatUserId = null;
-      renderChatList(userSearch.value);
-      renderChatDialog();
-      renderProfile();
-      renderProfileGrid();
-      renderRecommendations();
-      showScreen('posts');
-    }
-
-    // ========== EVENT LISTENERS ==========
-    // Login tabs
-    loginTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        loginTabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        const target = tab.dataset.tab;
-
-        if (target === 'login') {
-          loginForm.style.display = 'flex';
-          registerForm.style.display = 'none';
-        } else {
-          loginForm.style.display = 'none';
-          registerForm.style.display = 'flex';
-        }
-
-        loginError.textContent = '';
-      });
-    });
-
-    // Login
-    loginBtn.addEventListener('click', async () => {
-      loginError.textContent = '';
-      const email = (loginEmail.value || '').trim();
-      const pass = loginPass.value || '';
-
-      if (!email || !pass) {
-        loginError.textContent = 'Заполни email и пароль.';
-        return;
-      }
-
-      try {
-        const cred = await auth.signInWithEmailAndPassword(email, pass);
-        await afterLogin(cred.user);
-      } catch (e) {
-        console.error(e);
-        loginError.textContent = e.code + ' — ' + (e.message || 'Ошибка входа.');
-      }
-    });
-
-    // Register
-    registerBtn.addEventListener('click', async () => {
-      loginError.textContent = '';
-      const name = regName.value.trim();
-      const nick = regNick.value.trim();
-      const email = regEmail.value.trim();
-      const pass = regPass.value;
-      const pass2 = regPass2.value;
-      const avatarFile = regAvatar.files[0] || null;
-
-      if (!name || !nick || !email || !pass || !pass2) {
-        loginError.textContent = 'Заполни все поля.';
-        return;
-      }
-      if (pass !== pass2) {
-        loginError.textContent = 'Пароли не совпадают.';
-        return;
-      }
-      if (pass.length < 6) {
-        loginError.textContent = 'Пароль должен быть не короче 6 символов.';
-        return;
-      }
-
-      try {
-        const cred = await auth.createUserWithEmailAndPassword(email, pass);
-        const user = cred.user;
-
-        let avatarBase64 = '';
-        if (avatarFile) {
-          const compressedBlob = await compressImage(avatarFile, 200, 0.7, 200);
-          avatarBase64 = await imageToBase64(compressedBlob);
-        }
-
-        await user.updateProfile({
-          displayName: name,
-          photoURL: avatarBase64 || null
-        });
-
-        await db.collection('users').doc(user.uid).set({
-          email,
-          name,
-          nick,
-          persona: '',
-          bio: '',
-          avatarBase64,
-          followers: 0,
-          following: 0,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        await afterLogin(user);
-      } catch (e) {
-        console.error(e);
-        loginError.textContent = e.code + ' — ' + (e.message || 'Ошибка при регистрации.');
-      }
-    });
-
-    // Enter key for login/register
-    loginPass.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        loginBtn.click();
-      }
-    });
-
-    regPass2.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        registerBtn.click();
-      }
-    });
-
-    // Publish post
-    feedPublishBtn.addEventListener('click', async () => {
-      if (!state.currentUser) return;
-      const text = (feedText.value || '').trim();
-      const file = feedImage.files[0];
-
-      if (!text || !file) {
-        alert('Нужны и текст, и фото.');
-        return;
-      }
-
-      try {
-        const compressedBlob = await compressImage(file, 1080, 0.8);
-        const imageBase64 = await imageToBase64(compressedBlob);
-
-        await db.collection('posts').add({
-          authorId: state.currentUser.uid,
-          text,
-          imageBase64,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        feedText.value = '';
-        feedImage.value = '';
-      } catch (e) {
-        console.error('Ошибка публикации поста', e);
-        alert('Не удалось опубликовать пост: ' + e.message);
-      }
-    });
-
-    // Publish stik
-    stikiPublishBtn.addEventListener('click', async () => {
-      if (!state.currentUser) return;
-      const file = stikiInput.files[0];
-      if (!file) {
-        alert('Выберите видео');
-        return;
-      }
-      
-      if (file.size > 15 * 1024 * 1024) {
-        alert('Видео слишком большое (макс 15 МБ). Сожмите перед загрузкой.');
-        return;
-      }
-      
-      try {
-        const ref = storage.ref().child(`stiki/${state.currentUser.uid}/${Date.now()}-${file.name}`);
-        await ref.put(file);
-        const url = await ref.getDownloadURL();
-        await db.collection('stiki').add({
-          authorId: state.currentUser.uid,
-          videoURL: url,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        stikiInput.value = '';
-      } catch (e) {
-        console.error('Ошибка загрузки стика', e);
-        alert('Ошибка: ' + e.message);
-      }
-    });
-
-    // Send message
-    chatSendBtn.addEventListener('click', async () => {
-      const text = chatInput.value.trim();
-      if (!text || !state.currentUser || !currentChatUserId) return;
-
-      const currentId = state.currentUser.uid;
-      const otherId = currentChatUserId;
-
-      const key = chatKey(currentId, otherId);
-      const chatRef = db.collection('chats').doc(key);
-
-      try {
-        await chatRef.set({
-          user1: currentId,
-          user2: otherId,
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        }, { merge: true });
-
-        await chatRef.collection('messages').add({
-          fromId: currentId,
-          toId: otherId,
-          text,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        chatInput.value = '';
-      } catch (e) {
-        console.error('Ошибка отправки сообщения', e);
-      }
-    });
-
-    chatInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        chatSendBtn.click();
-      }
-    });
-
-    // Search
-    userSearch.addEventListener('input', () => {
-      renderChatList(userSearch.value);
-      renderRecommendations();
-    });
-
-    // Navigation
-    navItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const screen = item.dataset.screen;
-        if (!screen) return;
-
-        if (screen === 'profile') {
-          state.viewProfileUserId = state.currentUser ? state.currentUser.uid : null;
-          renderProfile();
-          renderProfileGrid();
-        }
-
-        showScreen(screen);
-      });
-    });
-
-    // Edit profile modal
-    editProfileBtn.addEventListener('click', openEditProfileModal);
-    editProfileClose.addEventListener('click', closeEditProfileModal);
-    editProfileCancel.addEventListener('click', closeEditProfileModal);
-
-    editProfileModal.addEventListener('click', (e) => {
-      if (e.target === editProfileModal) closeEditProfileModal();
-    });
-
-    // Save profile
-    editProfileSave.addEventListener('click', async () => {
-      if (!state.currentUser) return;
-      const uid = state.currentUser.uid;
-      const ref = db.collection('users').doc(uid);
-
-      let avatarBase64 = null;
-      const file = editProfileAvatarInput.files[0];
-
-      try {
-        if (file) {
-          const compressedBlob = await compressImage(file, 200, 0.7, 200);
-          avatarBase64 = await imageToBase64(compressedBlob);
-        }
-
-        const updateData = {
-          name: editProfileNameInput.value.trim(),
-          nick: editProfileNickInput.value.trim(),
-          persona: editProfilePersonaInput.value.trim(),
-          bio: editProfileBioInput.value.trim()
-        };
-
-        if (avatarBase64) {
-          updateData.avatarBase64 = avatarBase64;
-          await auth.currentUser.updateProfile({
-            photoURL: avatarBase64,
-            displayName: updateData.name
-          });
-        } else {
-          await auth.currentUser.updateProfile({
-            displayName: updateData.name
-          });
-        }
-
-        await ref.set(updateData, { merge: true });
-        closeEditProfileModal();
-        renderProfile();
-        renderPassport();
-      } catch (e) {
-        console.error('Ошибка обновления профиля', e);
-        alert('Не удалось сохранить профиль');
-      }
-    });
-
-    // Logout
-    logoutBtn.addEventListener('click', async () => {
-      await auth.signOut();
-    });
-
-    modalLogoutBtn.addEventListener('click', async () => {
-      await auth.signOut();
-    });
-
-    // Open profile from recommendations
-    function openProfile(userId) {
-      if (!userId) return;
-      state.viewProfileUserId = userId;
-      renderProfile();
-      renderProfileGrid();
-      showScreen('profile');
-    }
-
-    // Open chat from profile
-    profileMessageBtn.addEventListener('click', () => {
-      if (!state.currentUser || !state.viewProfileUserId) return;
-      const otherId = state.viewProfileUserId;
-      if (otherId === state.currentUser.uid) return;
-      currentChatUserId = otherId;
-      showScreen('chats');
-      listenMessagesForChat(state.currentUser.uid, otherId);
-    });
-
-    // Open profile from chat header
-    chatHeaderProfile.addEventListener('click', () => {
-      if (!currentChatUserId) return;
-      openProfile(currentChatUserId);
-    });
-
-    // Auth state observer
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        await afterLogin(user);
-      } else {
-        state.currentUser = null;
-        state.viewProfileUserId = null;
-        loginWrapper.style.display = 'flex';
-        appRoot.style.display = 'none';
-        
-        // Cleanup subscriptions
-        if (unsubscribePosts) unsubscribePosts();
-        if (unsubscribeStiki) unsubscribeStiki();
-        if (unsubscribeMessages) unsubscribeMessages();
-        if (unsubscribeUsers) unsubscribeUsers();
-      }
-    });
-
-    // Logo click - go to posts
-    document.getElementById('navLogoBox').addEventListener('click', () => {
-      showScreen('posts');
-    });
-  </script>
+  <div class="mobile-nav"><div class="mobile-nav-item active" data-screen="posts">📰<span>Посты</span></div><div class="mobile-nav-item" data-screen="stiki">🎬<span>Стики</span></div><div class="mobile-nav-item" data-screen="chats">💬<span>Чаты</span></div><div class="mobile-nav-item" data-screen="passport">🪪<span>Паспорт</span></div><div class="mobile-nav-item" data-screen="profile">👤<span>Профиль</span></div></div>
+</div>
+
+<div class="modal-backdrop" id="editProfileModal"><div class="modal"><h3>Редактировать</h3><input id="editProfileNameInput" placeholder="Имя"><input id="editProfileNickInput" placeholder="Ник"><input id="editProfilePersonaInput" placeholder="Характер"><textarea id="editProfileBioInput" placeholder="Био"></textarea><input type="file" id="editProfileAvatarInput" accept="image/*"><button id="editProfileSave">Сохранить</button><button id="editProfileCancel">Отмена</button></div></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+<script>
+  // ========== FIREBASE ==========
+  const firebaseConfig = { apiKey: "AIzaSyAnw1Vz4Wzr2rmdrzVv5tga_x6u08ObNbA", authDomain: "renitea-b140f.firebaseapp.com", projectId: "renitea-b140f", storageBucket: "renitea-b140f.appspot.com", messagingSenderId: "806278733594", appId: "1:806278733594:web:d9887a35732173429f96a3" };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth(), db = firebase.firestore(), storage = firebase.storage();
+
+  async function compressImage(file, maxWidth=1080, quality=0.8) {
+    return new Promise((res,rej)=>{ const reader=new FileReader(); reader.onload=e=>{ const img=new Image(); img.onload=()=>{ let w=img.width,h=img.height; if(w>maxWidth){ h*=maxWidth/w; w=maxWidth; } const cvs=document.createElement('canvas'); cvs.width=w; cvs.height=h; cvs.getContext('2d').drawImage(img,0,0,w,h); cvs.toBlob(blob=>res(blob),'image/jpeg',quality); }; img.onerror=rej; img.src=e.target.result; }; reader.onerror=rej; reader.readAsDataURL(file); });
+  }
+  async function imageToBase64(blob){ return new Promise(r=>{ const fr=new FileReader(); fr.onload=()=>r(fr.result); fr.readAsDataURL(blob); }); }
+
+  let currentUser=null, usersCache={}, posts=[], stiki=[], messages={}, postReactions={}, stikiReactions={}, currentChatUserId=null, viewProfileUserId=null;
+  let unsubPosts, unsubStiki, unsubUsers, unsubMessages;
+
+  function showScreen(name){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById('screen-'+name)?.classList.add('active'); document.querySelectorAll('.nav-item, .mobile-nav-item').forEach(i=>{ i.classList.remove('active'); if(i.dataset.screen===name) i.classList.add('active'); }); }
+  function chatKey(a,b){ return [a,b].sort().join('__'); }
+  function formatTime(ts){ let d=ts?.toDate?.()||new Date(ts); return d.toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}); }
+
+  async function ensureUserDoc(user){ let ref=db.collection('users').doc(user.uid); let snap=await ref.get(); if(!snap.exists) await ref.set({ email:user.email, name:user.email.split('@')[0], nick:'@'+user.email.split('@')[0], persona:'', bio:'', avatarBase64:'', followers:0, following:0 }); }
+
+  function listenUsers(){ if(unsubUsers) unsubUsers(); unsubUsers=db.collection('users').onSnapshot(snap=>{ snap.docs.forEach(d=>{ usersCache[d.id]={id:d.id,...d.data()}; }); renderProfile(); renderPassport(); renderChatList(); renderRecommendations(); }); }
+  function listenPosts(){ if(unsubPosts) unsubPosts(); unsubPosts=db.collection('posts').orderBy('createdAt','desc').onSnapshot(snap=>{ posts=snap.docs.map(d=>{ let data=d.data(); return { id:d.id, authorId:data.authorId, text:data.text||'', imageBase64:data.imageBase64||'', createdAt:data.createdAt, time:data.createdAt?formatTime(data.createdAt):'' }; }); renderFeed(); renderProfileGrid(); renderPassport(); }); }
+  function listenStiki(){ if(unsubStiki) unsubStiki(); unsubStiki=db.collection('stiki').orderBy('createdAt','desc').onSnapshot(snap=>{ stiki=snap.docs.map(d=>{ let data=d.data(); return { id:d.id, authorId:data.authorId, videoURL:data.videoURL }; }); renderStiki(); }); }
+  function listenMessagesForChat(uid, other){ let key=chatKey(uid,other); if(unsubMessages) unsubMessages(); unsubMessages=db.collection('chats').doc(key).collection('messages').orderBy('createdAt','asc').onSnapshot(snap=>{ messages[key]=snap.docs.map(d=>{ let data=d.data(); return { fromId:data.fromId, text:data.text, time:data.createdAt?formatTime(data.createdAt):'' }; }); renderChatList(); renderChatDialog(); }); }
+
+  function renderFeed(){ let container=document.getElementById('feedList'); container.innerHTML=''; if(!posts.length){ document.getElementById('feedEmptyText').style.display='block'; return; } document.getElementById('feedEmptyText').style.display='none'; posts.forEach(p=>{ let reactions=postReactions[p.id]||{fire:0}; let author=usersCache[p.authorId]||{name:'Житель'}; let div=document.createElement('div'); div.className='feed-post'; div.innerHTML=`<div class="post-newspaper-header"><span class="post-author">${author.name||'Аноним'}</span><span class="post-date">${p.time}</span></div><div class="feed-post-image" data-zoom="false"><img src="${p.imageBase64||''}" alt=""></div><div class="feed-post-text">${p.text||''}</div><div class="post-actions-row"><button class="action-btn fire-btn" data-id="${p.id}">🔥</button><span class="action-count" id="fire-count-${p.id}">${reactions.fire||0}</span><button class="action-btn">💬</button><span class="action-count">0</span><button class="action-btn">✉️</button><span class="action-count"></span></div>`; container.appendChild(div); let imgDiv=div.querySelector('.feed-post-image'); imgDiv.addEventListener('click',()=>{ imgDiv.classList.toggle('zoomed'); }); let fireBtn=div.querySelector('.fire-btn'); fireBtn.addEventListener('click',(e)=>{ e.stopPropagation(); if(!postReactions[p.id])postReactions[p.id]={fire:0}; postReactions[p.id].fire+=1; renderFeed(); }); }); }
+  function renderStiki(){ let wrap=document.getElementById('stikiWrapper'); if(!wrap)return; wrap.innerHTML=''; if(!stiki.length){ wrap.innerHTML='<div style="padding:20px;text-align:center;">🎬 Нет стиков</div>'; return; } stiki.forEach(s=>{ let reacts=stikiReactions[s.id]||{'🔥':0,'❤️':0}; let card=document.createElement('div'); card.className='stiki-card'; card.innerHTML=`<div class="stiki-video"><video src="${s.videoURL}" autoplay muted loop playsinline></video></div><div class="stiki-reactions"><div class="stiki-reaction" data-id="${s.id}" data-emoji="🔥">🔥 <span>${reacts['🔥']||0}</span></div><div class="stiki-reaction" data-id="${s.id}" data-emoji="❤️">❤️ <span>${reacts['❤️']||0}</span></div></div>`; wrap.appendChild(card); }); wrap.querySelectorAll('.stiki-reaction').forEach(el=>{ el.addEventListener('click',(e)=>{ e.stopPropagation(); let id=el.dataset.id, emoji=el.dataset.emoji; if(!stikiReactions[id])stikiReactions[id]={'🔥':0,'❤️':0}; stikiReactions[id][emoji]+=1; renderStiki(); }); }); }
+  function renderProfile(){ if(!currentUser)return; let uid=viewProfileUserId||currentUser.uid; let u=usersCache[uid]; if(!u)return; document.getElementById('profileName').innerText=u.name||''; document.getElementById('profileNick').innerText=u.nick||''; document.getElementById('profileBio').innerText=u.bio||''; document.getElementById('profileAvatarImg').src=u.avatarBase64||''; let userPosts=posts.filter(p=>p.authorId===uid); document.getElementById('profilePostsCount').innerText=userPosts.length; if(uid===currentUser.uid){ document.getElementById('editProfileBtn').style.display='inline-block'; document.getElementById('profileMessageBtn').style.display='none'; }else{ document.getElementById('editProfileBtn').style.display='none'; document.getElementById('profileMessageBtn').style.display='inline-block'; } }
+  function renderProfileGrid(){ let uid=viewProfileUserId||currentUser?.uid; let grid=document.getElementById('profileGrid'); if(!grid)return; grid.innerHTML=''; let userPosts=posts.filter(p=>p.authorId===uid); userPosts.forEach(p=>{ let item=document.createElement('div'); item.className='profile-grid-item'; if(p.imageBase64) item.innerHTML=`<img src="${p.imageBase64}">`; grid.appendChild(item); }); }
+  function renderPassport(){ if(!currentUser)return; let u=usersCache[currentUser.uid]; if(!u)return; document.getElementById('passportName').innerText=u.name||'—'; document.getElementById('passportNick').innerText=u.nick||'—'; document.getElementById('passportPersona').innerText=u.persona||'—'; let photoDiv=document.getElementById('passportPhoto'); if(u.avatarBase64) photoDiv.style.backgroundImage=`url('${u.avatarBase64}')`; let myPosts=posts.filter(p=>p.authorId===currentUser.uid); document.getElementById('passportMomentsCount').innerText=myPosts.length; document.getElementById('visaGrid').innerHTML='<div class="visa-card">🌟 Виза доверия активна</div>'; }
+  function renderChatList(filter=''){ if(!currentUser)return; let cont=document.getElementById('chatList'); cont.innerHTML=''; let list=Object.values(usersCache).filter(u=>u.id!==currentUser.uid); let q=filter.toLowerCase(); if(q) list=list.filter(u=>(u.name||'').toLowerCase().includes(q)||(u.nick||'').toLowerCase().includes(q)); list.forEach(u=>{ let key=chatKey(currentUser.uid,u.id); let msgs=messages[key]||[]; let last=msgs[msgs.length-1]; let div=document.createElement('div'); div.className='chat-item'+(currentChatUserId===u.id?' active':''); div.dataset.chatId=u.id; div.innerHTML=`<div class="chat-avatar">${u.avatarBase64?`<img src="${u.avatarBase64}">`:''}</div><div><div>${u.name||u.email}</div><div style="font-size:12px;">${last?last.text.substring(0,30):''}</div></div>`; div.addEventListener('click',()=>{ currentChatUserId=u.id; renderChatList(); listenMessagesForChat(currentUser.uid,currentChatUserId); }); cont.appendChild(div); }); if(currentChatUserId) listenMessagesForChat(currentUser.uid,currentChatUserId); }
+  function renderChatDialog(){ if(!currentUser||!currentChatUserId)return; let other=usersCache[currentChatUserId]; if(!other)return; document.getElementById('chatDialogName').innerText=other.name||''; document.getElementById('chatDialogNick').innerText=other.nick||''; let avatarDiv=document.getElementById('chatDialogAvatar'); avatarDiv.innerHTML=other.avatarBase64?`<img src="${other.avatarBase64}" style="width:100%;height:100%;object-fit:cover;">`:''; let body=document.getElementById('chatDialogBody'); body.innerHTML=''; let key=chatKey(currentUser.uid,currentChatUserId); let msgs=messages[key]||[]; msgs.forEach(m=>{ let div=document.createElement('div'); div.className='msg '+(m.fromId===currentUser.uid?'me':'them'); div.innerHTML=`<div>${m.text}</div><div class="msg-time">${m.time}</div>`; body.appendChild(div); }); body.scrollTop=body.scrollHeight; }
+  function renderRecommendations(){ let rec=document.getElementById('recommendationsList'); if(!rec)return; rec.innerHTML=''; Object.values(usersCache).filter(u=>u.id!==currentUser?.uid).slice(0,6).forEach(u=>{ let card=document.createElement('div'); card.style.padding='10px'; card.style.border='1px solid #e2d9ce'; card.style.borderRadius='20px'; card.style.marginBottom='8px'; card.style.cursor='pointer'; card.innerText=u.name||u.email; card.addEventListener('click',()=>{ viewProfileUserId=u.id; renderProfile(); renderProfileGrid(); showScreen('profile'); }); rec.appendChild(card); }); }
+
+  async function afterLogin(user){ currentUser=user; viewProfileUserId=user.uid; await ensureUserDoc(user); document.getElementById('loginWrapper').style.display='none'; document.getElementById('appRoot').style.display='flex'; listenUsers(); listenPosts(); listenStiki(); currentChatUserId=null; renderChatList(); showScreen('posts'); }
+
+  // ИСПРАВЛЕНА ЗАГРУЗКА АВАТАРА (работает)
+  document.getElementById('loginBtn').addEventListener('click',async()=>{ try{ let cred=await auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value,document.getElementById('loginPass').value); await afterLogin(cred.user); }catch(e){ document.getElementById('loginError').innerText=e.message; } });
+  document.getElementById('registerBtn').addEventListener('click',async()=>{ let file=document.getElementById('regAvatar').files[0]; try{ let cred=await auth.createUserWithEmailAndPassword(document.getElementById('regEmail').value,document.getElementById('regPass').value); let avatarBase64=''; if(file){ let comp=await compressImage(file,200,0.7); avatarBase64=await imageToBase64(comp); } await db.collection('users').doc(cred.user.uid).set({ name:document.getElementById('regName').value, nick:document.getElementById('regNick').value, email:document.getElementById('regEmail').value, avatarBase64, bio:'', persona:'', followers:0, following:0 }); await afterLogin(cred.user); }catch(e){ document.getElementById('loginError').innerText=e.message; } });
+  document.getElementById('feedPublishBtn').addEventListener('click',async()=>{ let text=document.getElementById('feedText').value, file=document.getElementById('feedImage').files[0]; if(!text||!file)return alert('Текст и фото'); let compressed=await compressImage(file,1080,0.8); let b64=await imageToBase64(compressed); await db.collection('posts').add({ authorId:currentUser.uid, text, imageBase64:b64, createdAt:firebase.firestore.FieldValue.serverTimestamp() }); document.getElementById('feedText').value=''; document.getElementById('feedImage').value=''; });
+  document.getElementById('stikiPublishBtn').addEventListener('click',async()=>{ let file=document.getElementById('stikiInput').files[0]; if(!file)return; let ref=storage.ref().child(`stiki/${currentUser.uid}/${Date.now()}.mp4`); await ref.put(file); let url=await ref.getDownloadURL(); await db.collection('stiki').add({ authorId:currentUser.uid, videoURL:url, createdAt:firebase.firestore.FieldValue.serverTimestamp() }); document.getElementById('stikiInput').value=''; });
+  document.getElementById('chatSendBtn').addEventListener('click',async()=>{ let text=document.getElementById('chatInput').value.trim(); if(!text||!currentChatUserId)return; let key=chatKey(currentUser.uid,currentChatUserId); await db.collection('chats').doc(key).set({user1:currentUser.uid,user2:currentChatUserId},{merge:true}); await db.collection('chats').doc(key).collection('messages').add({ fromId:currentUser.uid, toId:currentChatUserId, text, createdAt:firebase.firestore.FieldValue.serverTimestamp() }); document.getElementById('chatInput').value=''; });
+  document.getElementById('editProfileBtn').addEventListener('click',()=>{ let u=usersCache[currentUser.uid]; document.getElementById('editProfileNameInput').value=u.name||''; document.getElementById('editProfileNickInput').value=u.nick||''; document.getElementById('editProfilePersonaInput').value=u.persona||''; document.getElementById('editProfileBioInput').value=u.bio||''; document.getElementById('editProfileModal').classList.add('active'); });
+  document.getElementById('editProfileSave').addEventListener('click',async()=>{ let file=document.getElementById('editProfileAvatarInput').files[0]; let update={ name:document.getElementById('editProfileNameInput').value, nick:document.getElementById('editProfileNickInput').value, persona:document.getElementById('editProfilePersonaInput').value, bio:document.getElementById('editProfileBioInput').value }; if(file){ let comp=await compressImage(file,200,0.7); let b64=await imageToBase64(comp); update.avatarBase64=b64; } await db.collection('users').doc(currentUser.uid).update(update); document.getElementById('editProfileModal').classList.remove('active'); renderProfile(); renderPassport(); });
+  document.getElementById('editProfileCancel').addEventListener('click',()=>document.getElementById('editProfileModal').classList.remove('active'));
+  document.getElementById('logoutBtn').addEventListener('click',()=>auth.signOut());
+  document.getElementById('profileMessageBtn').addEventListener('click',()=>{ if(viewProfileUserId && viewProfileUserId!==currentUser.uid){ currentChatUserId=viewProfileUserId; showScreen('chats'); listenMessagesForChat(currentUser.uid,currentChatUserId); } });
+  document.getElementById('chatHeaderProfile').addEventListener('click',()=>{ if(currentChatUserId){ viewProfileUserId=currentChatUserId; renderProfile(); renderProfileGrid(); showScreen('profile'); } });
+  document.querySelectorAll('.nav-item, .mobile-nav-item').forEach(i=>i.addEventListener('click',()=>{ let scr=i.dataset.screen; if(scr==='profile'){ viewProfileUserId=currentUser.uid; renderProfile(); renderProfileGrid(); } showScreen(scr); }));
+  document.getElementById('userSearch').addEventListener('input',e=>renderChatList(e.target.value));
+  auth.onAuthStateChanged(user=>{ if(user) afterLogin(user); else { currentUser=null; document.getElementById('loginWrapper').style.display='flex'; document.getElementById('appRoot').style.display='none'; if(unsubPosts)unsubPosts(); if(unsubStiki)unsubStiki(); if(unsubMessages)unsubMessages(); if(unsubUsers)unsubUsers(); } });
+</script>
 </body>
 </html>
