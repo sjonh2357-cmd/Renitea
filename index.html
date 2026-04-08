@@ -12,10 +12,10 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
 
+    /* БЕЛАЯ ТЕМА */
     body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      background-attachment: fixed;
+      background: #fafafa;
     }
 
     /* LOGIN — ПРИРОДА */
@@ -43,7 +43,7 @@
       width: 100%;
       max-width: 400px;
       margin: 16px;
-      background: rgba(255, 253, 247, 0.96);
+      background: white;
       border-radius: 28px;
       padding: 32px 28px;
       text-align: center;
@@ -54,7 +54,7 @@
       font-size: 34px;
       font-weight: 800;
       letter-spacing: 4px;
-      background: linear-gradient(135deg, #ff6cab, #ffdd59, #4cd964, #34aadc, #5856d6);
+      background: linear-gradient(135deg, #d4a373, #b88352);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -63,13 +63,20 @@
     .login-subtitle {
       font-size: 14px;
       color: #6b7280;
-      margin: 8px 0 24px;
+      margin: 8px 0 8px;
+    }
+
+    .login-stats {
+      font-size: 13px;
+      color: #8b7f6e;
+      margin-bottom: 20px;
+      font-weight: 500;
     }
 
     .login-tabs {
       display: flex;
       gap: 10px;
-      background: #f0e9df;
+      background: #f0f0f0;
       padding: 5px;
       border-radius: 60px;
       margin-bottom: 24px;
@@ -87,13 +94,13 @@
     }
 
     .login-tab.active {
-      background: #1a1a2e;
+      background: #d4a373;
       color: white;
     }
 
     .login-input {
       width: 100%;
-      border: 1.5px solid #e0d5c2;
+      border: 1.5px solid #e0e0e0;
       border-radius: 16px;
       padding: 12px 16px;
       margin-bottom: 14px;
@@ -111,7 +118,7 @@
       border: none;
       border-radius: 40px;
       padding: 12px;
-      background: #1a1a2e;
+      background: #d4a373;
       color: white;
       font-weight: 600;
       cursor: pointer;
@@ -119,8 +126,7 @@
     }
 
     .login-btn:hover {
-      background: #d4a373;
-      transform: translateY(-2px);
+      background: #b88352;
     }
 
     .login-error {
@@ -129,20 +135,18 @@
       margin-top: 10px;
     }
 
-    /* APP — АНИМЕ-ФОН */
+    /* APP — БЕЛАЯ ТЕМА */
     .app {
       display: none;
       flex-direction: column;
       min-height: 100vh;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      background-attachment: fixed;
+      background: #fafafa;
     }
 
     .topbar {
       height: 60px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: white;
+      border-bottom: 1px solid #dbdbdb;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -156,7 +160,7 @@
       font-size: 24px;
       font-weight: 800;
       letter-spacing: 3px;
-      background: linear-gradient(135deg, #ff6cab, #ffdd59, #4cd964, #34aadc, #5856d6);
+      background: linear-gradient(135deg, #d4a373, #b88352);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -165,20 +169,65 @@
     .search {
       width: 260px;
       border-radius: 60px;
-      border: none;
+      border: 1px solid #dbdbdb;
       padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
+      background: #fafafa;
       font-size: 14px;
-    }
-
-    .search::placeholder {
-      color: rgba(255, 255, 255, 0.6);
     }
 
     .search:focus {
       outline: none;
-      background: rgba(255, 255, 255, 0.3);
+      border-color: #d4a373;
+    }
+
+    /* УВЕДОМЛЕНИЯ */
+    .notifications-icon {
+      position: relative;
+      cursor: pointer;
+      margin-left: 12px;
+    }
+
+    .notifications-badge {
+      position: absolute;
+      top: -5px;
+      right: -8px;
+      background: #ed4956;
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 20px;
+      display: none;
+    }
+
+    .notifications-dropdown {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      width: 320px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      border: 1px solid #dbdbdb;
+      z-index: 200;
+      display: none;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .notifications-dropdown.active {
+      display: block;
+    }
+
+    .notification-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .notification-item:hover {
+      background: #fafafa;
     }
 
     .main-row {
@@ -196,9 +245,8 @@
     /* DESKTOP NAV */
     .right-nav {
       width: 80px;
-      background: rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(10px);
-      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      background: white;
+      border-left: 1px solid #dbdbdb;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -215,17 +263,17 @@
       justify-content: center;
       cursor: pointer;
       transition: all 0.2s;
-      color: rgba(255, 255, 255, 0.6);
+      color: #8e8e8e;
     }
 
     .nav-item:hover {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
+      background: #f0f0f0;
+      color: #262626;
     }
 
     .nav-item.active {
-      background: rgba(255, 255, 255, 0.2);
-      color: #ff6cab;
+      background: #f0f0f0;
+      color: #d4a373;
     }
 
     .nav-item svg {
@@ -245,7 +293,7 @@
 
     .nav-label {
       font-size: 11px;
-      color: rgba(255, 255, 255, 0.6);
+      color: #8e8e8e;
       margin-top: 4px;
     }
 
@@ -271,44 +319,37 @@
       display: block;
     }
 
-    /* FEED — карточки постов */
+    /* FEED */
     .feed-composer {
       max-width: 600px;
       margin: 0 auto 20px;
-      background: rgba(30, 30, 46, 0.95);
-      border-radius: 20px;
+      background: white;
+      border-radius: 16px;
       padding: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid #dbdbdb;
     }
 
     .feed-composer textarea {
       width: 100%;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 14px;
+      border: 1px solid #dbdbdb;
+      border-radius: 12px;
       padding: 12px;
       resize: vertical;
       min-height: 70px;
-      background: rgba(0, 0, 0, 0.3);
-      color: white;
       font-size: 14px;
-    }
-
-    .feed-composer textarea::placeholder {
-      color: rgba(255, 255, 255, 0.5);
     }
 
     .feed-composer input[type="file"] {
       margin: 10px 0;
-      color: white;
     }
 
     .feed-composer button {
       margin-top: 8px;
       float: right;
       border: none;
-      border-radius: 40px;
+      border-radius: 8px;
       padding: 8px 24px;
-      background: #d4a373;
+      background: #0095f6;
       color: white;
       font-weight: 600;
       cursor: pointer;
@@ -323,10 +364,10 @@
     }
 
     .feed-post {
-      background: rgba(30, 30, 46, 0.95);
-      border-radius: 20px;
+      background: white;
+      border-radius: 16px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid #dbdbdb;
     }
 
     .post-header {
@@ -346,7 +387,7 @@
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
+      background: #f0f0f0;
       overflow: hidden;
     }
 
@@ -359,18 +400,18 @@
     .post-author-name {
       font-weight: 600;
       font-size: 14px;
-      color: white;
+      color: #262626;
     }
 
     .post-date {
       font-size: 11px;
-      color: rgba(255, 255, 255, 0.5);
+      color: #8e8e8e;
     }
 
     .feed-post-image {
       width: 100%;
       max-height: 500px;
-      background: #000;
+      background: #f0f0f0;
       overflow: hidden;
       cursor: zoom-in;
       display: flex;
@@ -397,16 +438,25 @@
     .feed-post-text {
       padding: 12px 16px;
       font-size: 14px;
-      color: rgba(255, 255, 255, 0.9);
+      color: #262626;
     }
 
-    /* СТИЛИЗОВАННЫЕ SVG-ИКОНКИ: ЛАЙК (сердечко), КОММЕНТАРИЙ, ПОДЕЛИТЬСЯ */
-    .post-actions {
+    /* ДЕЙСТВИЯ НАД БИО (лайки, комментарии, поделиться) */
+    .post-actions-top {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 8px 16px;
+      border-bottom: 1px solid #efefef;
+    }
+
+    /* ДЕЙСТВИЯ СНИЗУ (когда выложил) */
+    .post-actions-bottom {
       display: flex;
       align-items: center;
       gap: 24px;
       padding: 8px 16px 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid #efefef;
     }
 
     .action-btn {
@@ -417,19 +467,18 @@
       align-items: center;
       gap: 6px;
       transition: all 0.2s;
-      color: rgba(255, 255, 255, 0.7);
+      color: #8e8e8e;
       padding: 6px 12px;
-      border-radius: 40px;
+      border-radius: 8px;
     }
 
     .action-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: scale(1.02);
+      background: #f0f0f0;
     }
 
     .action-btn svg {
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
     }
 
     .action-btn svg * {
@@ -439,8 +488,8 @@
     }
 
     .action-btn.liked svg * {
-      fill: #ff6cab;
-      stroke: #ff6cab;
+      fill: #ed4956;
+      stroke: #ed4956;
     }
 
     .action-count {
@@ -448,23 +497,64 @@
       font-weight: 500;
     }
 
-    /* СТИЛИЗОВАННАЯ КОРЗИНА (УДАЛЕНИЕ) */
+    /* КОММЕНТАРИИ */
+    .comments-section {
+      padding: 0 16px 12px;
+      border-top: 1px solid #efefef;
+    }
+
+    .comment-item {
+      display: flex;
+      gap: 8px;
+      padding: 8px 0;
+      font-size: 13px;
+    }
+
+    .comment-author {
+      font-weight: 600;
+      color: #262626;
+    }
+
+    .comment-text {
+      color: #262626;
+    }
+
+    .comment-input-wrapper {
+      display: flex;
+      gap: 8px;
+      padding: 8px 0;
+      border-top: 1px solid #efefef;
+      margin-top: 8px;
+    }
+
+    .comment-input {
+      flex: 1;
+      border: none;
+      padding: 8px 0;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .comment-submit {
+      background: none;
+      border: none;
+      color: #0095f6;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
     .delete-post-btn {
       background: none;
       border: none;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       padding: 6px;
       border-radius: 8px;
-      transition: all 0.2s;
-      color: rgba(255, 255, 255, 0.5);
+      color: #8e8e8e;
     }
 
     .delete-post-btn:hover {
-      color: #ff6cab;
-      background: rgba(255, 255, 255, 0.1);
+      color: #ed4956;
+      background: #fef0f0;
     }
 
     .delete-post-btn svg {
@@ -472,20 +562,14 @@
       height: 18px;
     }
 
-    .delete-post-btn svg * {
-      stroke: currentColor;
-      stroke-width: 2;
-      fill: none;
-    }
-
     /* ПРОФИЛЬ */
     .profile-header {
       max-width: 760px;
       margin: 0 auto 24px;
-      background: rgba(30, 30, 46, 0.95);
-      border-radius: 24px;
+      background: white;
+      border-radius: 16px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid #dbdbdb;
     }
 
     .profile-cover {
@@ -493,11 +577,13 @@
       transition: background 0.3s;
     }
 
-    /* УЗОРЫ ХЕДЕРА */
+    /* УЗОРЫ ХЕДЕРА (6 штук) */
     .profile-cover.pattern-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
     .profile-cover.pattern-2 { background: repeating-linear-gradient(45deg, #ff6cab, #ff6cab 20px, #ffdd59 20px, #ffdd59 40px); }
     .profile-cover.pattern-3 { background: radial-gradient(circle at 20% 40%, #4cd964, #34aadc); }
     .profile-cover.pattern-4 { background: linear-gradient(135deg, #f5f0e6 0%, #e8d5b5 100%); }
+    .profile-cover.pattern-5 { background: repeating-linear-gradient(90deg, #a8c9a5, #a8c9a5 20px, #c9b896 20px, #c9b896 40px); }
+    .profile-cover.pattern-6 { background: linear-gradient(135deg, #2c3e50, #3498db); }
 
     .profile-avatar-wrap {
       display: flex;
@@ -510,9 +596,10 @@
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      border: 4px solid rgba(30, 30, 46, 0.95);
-      background: rgba(255, 255, 255, 0.2);
+      border: 4px solid white;
+      background: #f0f0f0;
       overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .profile-avatar img {
@@ -529,12 +616,12 @@
     .profile-name {
       font-size: 22px;
       font-weight: 700;
-      color: white;
+      color: #262626;
     }
 
     .profile-username {
       font-size: 14px;
-      color: rgba(255, 255, 255, 0.6);
+      color: #8e8e8e;
       margin-bottom: 8px;
     }
 
@@ -542,10 +629,10 @@
       font-size: 14px;
       margin: 12px auto;
       padding: 12px 20px;
-      background: rgba(0, 0, 0, 0.3);
+      background: #fafafa;
       border-radius: 20px;
       max-width: 80%;
-      color: rgba(255, 255, 255, 0.9);
+      color: #262626;
     }
 
     .profile-stats {
@@ -553,7 +640,7 @@
       justify-content: center;
       gap: 28px;
       margin: 16px 0;
-      color: white;
+      color: #262626;
     }
 
     .profile-stats span b {
@@ -568,7 +655,7 @@
     }
 
     .btn-primary, .btn-ghost {
-      border-radius: 40px;
+      border-radius: 8px;
       padding: 8px 20px;
       font-size: 14px;
       font-weight: 600;
@@ -577,13 +664,13 @@
     }
 
     .btn-primary {
-      background: #d4a373;
+      background: #0095f6;
       color: white;
     }
 
     .btn-ghost {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
+      background: #efefef;
+      color: #262626;
     }
 
     .profile-grid {
@@ -596,7 +683,7 @@
 
     .profile-grid-item {
       aspect-ratio: 1/1;
-      background: rgba(255, 255, 255, 0.1);
+      background: #efefef;
       border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
@@ -612,16 +699,16 @@
     .settings-panel {
       max-width: 600px;
       margin: 0 auto;
-      background: rgba(30, 30, 46, 0.95);
-      border-radius: 24px;
+      background: white;
+      border-radius: 16px;
       padding: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid #dbdbdb;
     }
 
     .settings-title {
       font-size: 20px;
       font-weight: 700;
-      color: white;
+      color: #262626;
       margin-bottom: 20px;
     }
 
@@ -633,44 +720,44 @@
     }
 
     .pattern-card {
-      width: 120px;
+      width: 100px;
       cursor: pointer;
       text-align: center;
     }
 
     .pattern-preview {
-      width: 120px;
-      height: 80px;
-      border-radius: 16px;
+      width: 100px;
+      height: 60px;
+      border-radius: 12px;
       margin-bottom: 8px;
       border: 2px solid transparent;
       transition: all 0.2s;
     }
 
     .pattern-card.selected .pattern-preview {
-      border-color: #d4a373;
-      transform: scale(1.02);
+      border-color: #0095f6;
     }
 
     .pattern-name {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.7);
+      font-size: 11px;
+      color: #8e8e8e;
     }
 
     .settings-btn {
       width: 100%;
       padding: 12px;
-      background: rgba(255, 255, 255, 0.2);
+      background: #efefef;
       border: none;
-      border-radius: 40px;
-      color: white;
+      border-radius: 8px;
+      color: #262626;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
     }
 
     .settings-btn:hover {
-      background: #ff6cab;
+      background: #ed4956;
+      color: white;
     }
 
     /* ЧАТЫ */
@@ -680,15 +767,15 @@
       display: grid;
       grid-template-columns: 320px 1fr;
       height: 70vh;
-      background: rgba(30, 30, 46, 0.95);
-      border-radius: 24px;
+      background: white;
+      border-radius: 16px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid #dbdbdb;
     }
 
     .chat-list {
-      background: rgba(0, 0, 0, 0.3);
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      background: #fafafa;
+      border-right: 1px solid #dbdbdb;
       overflow-y: auto;
     }
 
@@ -698,23 +785,23 @@
       gap: 14px;
       padding: 14px;
       cursor: pointer;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid #efefef;
       transition: background 0.2s;
     }
 
     .chat-item:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: #f0f0f0;
     }
 
     .chat-item.active {
-      background: rgba(255, 255, 255, 0.15);
+      background: #f0f0f0;
     }
 
     .chat-avatar {
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
+      background: #efefef;
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -732,12 +819,12 @@
 
     .chat-name {
       font-weight: 600;
-      color: white;
+      color: #262626;
     }
 
     .chat-last-message {
       font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
+      color: #8e8e8e;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -750,8 +837,8 @@
 
     .chat-dialog-header {
       padding: 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid #dbdbdb;
+      background: #fafafa;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -762,7 +849,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
+      background: #efefef;
       overflow: hidden;
     }
 
@@ -772,13 +859,9 @@
       object-fit: cover;
     }
 
-    .chat-dialog-header-info {
-      flex: 1;
-    }
-
     .chat-dialog-header-name {
       font-weight: 600;
-      color: white;
+      color: #262626;
     }
 
     .chat-dialog-body {
@@ -788,7 +871,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      background: rgba(0, 0, 0, 0.2);
+      background: #fafafa;
     }
 
     .msg {
@@ -800,42 +883,37 @@
 
     .msg.me {
       margin-left: auto;
-      background: #d4a373;
+      background: #0095f6;
       color: white;
     }
 
     .msg.them {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
+      background: white;
+      color: #262626;
+      border: 1px solid #dbdbdb;
     }
 
     .chat-dialog-input {
       display: flex;
       gap: 12px;
       padding: 14px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(0, 0, 0, 0.3);
+      border-top: 1px solid #dbdbdb;
+      background: white;
     }
 
     .chat-dialog-input input {
       flex: 1;
       border-radius: 40px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid #dbdbdb;
       padding: 12px;
-      background: rgba(0, 0, 0, 0.3);
-      color: white;
       font-size: 14px;
-    }
-
-    .chat-dialog-input input::placeholder {
-      color: rgba(255, 255, 255, 0.5);
     }
 
     .chat-dialog-input button {
       border-radius: 40px;
       border: none;
       padding: 12px 24px;
-      background: #d4a373;
+      background: #0095f6;
       color: white;
       cursor: pointer;
       font-weight: 600;
@@ -845,25 +923,10 @@
     .stiki-composer {
       max-width: 520px;
       margin: 0 auto 16px;
-      background: rgba(30, 30, 46, 0.95);
-      border-radius: 20px;
+      background: white;
+      border-radius: 16px;
       padding: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .stiki-composer input {
-      color: white;
-    }
-
-    .stiki-composer button {
-      margin-top: 10px;
-      width: 100%;
-      border: none;
-      border-radius: 40px;
-      padding: 10px;
-      background: #d4a373;
-      color: white;
-      cursor: pointer;
+      border: 1px solid #dbdbdb;
     }
 
     .stiki-wrapper {
@@ -872,13 +935,13 @@
       height: 70vh;
       overflow-y: auto;
       scroll-snap-type: y mandatory;
-      border-radius: 20px;
+      border-radius: 16px;
     }
 
     .stiki-card {
       position: relative;
       height: 70vh;
-      border-radius: 20px;
+      border-radius: 16px;
       overflow: hidden;
       background: #000;
       scroll-snap-align: start;
@@ -919,18 +982,17 @@
     }
 
     .passport-card {
-      background: rgba(30, 30, 46, 0.95);
-      border-radius: 24px;
+      background: white;
+      border-radius: 16px;
       padding: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: white;
+      border: 1px solid #dbdbdb;
     }
 
     .passport-photo {
       width: 80px;
       height: 80px;
       border-radius: 16px;
-      background: rgba(255, 255, 255, 0.2);
+      background: #efefef;
       background-size: cover;
     }
 
@@ -941,11 +1003,10 @@
     }
 
     .visa-card {
-      background: rgba(30, 30, 46, 0.95);
-      border-radius: 16px;
+      background: white;
+      border-radius: 12px;
       padding: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: white;
+      border: 1px solid #dbdbdb;
     }
 
     /* МОБИЛЬНАЯ НАВИГАЦИЯ */
@@ -956,9 +1017,8 @@
       left: 0;
       right: 0;
       height: 70px;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(10px);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background: white;
+      border-top: 1px solid #dbdbdb;
       justify-content: space-around;
       align-items: center;
       z-index: 500;
@@ -970,11 +1030,11 @@
       align-items: center;
       width: 60px;
       cursor: pointer;
-      color: rgba(255, 255, 255, 0.6);
+      color: #8e8e8e;
     }
 
     .mobile-nav-item.active {
-      color: #ff6cab;
+      color: #d4a373;
     }
 
     .mobile-nav-item svg {
@@ -990,7 +1050,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.5);
       display: none;
       align-items: center;
       justify-content: center;
@@ -1002,37 +1062,19 @@
     }
 
     .modal {
-      background: #1e1e2e;
-      border-radius: 24px;
+      background: white;
+      border-radius: 16px;
       padding: 24px;
       max-width: 420px;
       width: 90%;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .modal h3 {
-      color: white;
-      margin-bottom: 16px;
     }
 
     .modal input, .modal textarea {
       width: 100%;
       margin-bottom: 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      border: 1px solid #dbdbdb;
       padding: 12px;
-      background: rgba(0, 0, 0, 0.3);
-      color: white;
-    }
-
-    .modal button {
-      border-radius: 40px;
-      border: none;
-      padding: 10px 20px;
-      background: #d4a373;
-      color: white;
-      cursor: pointer;
-      margin-right: 10px;
     }
 
     @media (max-width: 720px) {
@@ -1043,43 +1085,10 @@
       .passport-layout { grid-template-columns: 1fr; }
     }
 
-    .empty-feed-text, .recommendations-title {
+    .empty-feed-text {
       text-align: center;
       padding: 40px;
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .recommendations-list {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .rec-card {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 12px 16px;
-      background: rgba(30, 30, 46, 0.95);
-      border-radius: 16px;
-      margin-bottom: 8px;
-      cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .rec-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      overflow: hidden;
-    }
-
-    .rec-card div strong {
-      color: white;
-    }
-
-    .rec-card div small {
-      color: rgba(255, 255, 255, 0.6);
+      color: #8e8e8e;
     }
   </style>
 </head>
@@ -1090,6 +1099,7 @@
   <div class="login-card">
     <div class="login-logo">RENITEA</div>
     <div class="login-subtitle">создай свой момент</div>
+    <div class="login-stats" id="loginStats">👥 Нас: <span id="totalUsersCount">0</span></div>
     <div class="login-tabs">
       <button class="login-tab active" data-tab="login">Войти</button>
       <button class="login-tab" data-tab="register">Создать</button>
@@ -1116,7 +1126,17 @@
 <div class="app" id="appRoot">
   <header class="topbar">
     <div class="brand">RENITEA</div>
-    <input class="search" id="userSearch" placeholder="Поиск...">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <input class="search" id="userSearch" placeholder="Поиск...">
+      <div class="notifications-icon" id="notificationsIcon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <span class="notifications-badge" id="notificationsBadge">0</span>
+        <div class="notifications-dropdown" id="notificationsDropdown"></div>
+      </div>
+    </div>
   </header>
   <div class="main-row">
     <main class="content">
@@ -1128,8 +1148,6 @@
         </div>
         <div class="feed-list" id="feedList"></div>
         <div class="empty-feed-text" id="feedEmptyText" style="display:none;">✨ Лента пуста</div>
-        <div class="recommendations-title"><strong>Рекомендации</strong></div>
-        <div class="recommendations-list" id="recommendationsList"></div>
       </section>
       <section class="screen" id="screen-stiki">
         <div class="stiki-composer"><input type="file" id="stikiInput" accept="video/*"><button id="stikiPublishBtn">Опубликовать стик</button></div>
@@ -1141,10 +1159,7 @@
           <div class="chat-dialog">
             <div class="chat-dialog-header" id="chatHeaderProfile">
               <div class="chat-dialog-header-avatar" id="chatDialogAvatar"></div>
-              <div class="chat-dialog-header-info">
-                <div class="chat-dialog-header-name" id="chatDialogName"></div>
-                <div style="font-size:12px;color:rgba(255,255,255,0.5);" id="chatDialogNick"></div>
-              </div>
+              <div class="chat-dialog-header-name" id="chatDialogName"></div>
             </div>
             <div class="chat-dialog-body" id="chatDialogBody"></div>
             <div class="chat-dialog-input"><input id="chatInput" placeholder="Сообщение..."><button id="chatSendBtn">→</button></div>
@@ -1179,6 +1194,8 @@
             <div class="pattern-card" data-pattern="2"><div class="pattern-preview" style="background: repeating-linear-gradient(45deg, #ff6cab, #ff6cab 20px, #ffdd59 20px, #ffdd59 40px);"></div><div class="pattern-name">Закат</div></div>
             <div class="pattern-card" data-pattern="3"><div class="pattern-preview" style="background: radial-gradient(circle at 20% 40%, #4cd964, #34aadc);"></div><div class="pattern-name">Лето</div></div>
             <div class="pattern-card" data-pattern="4"><div class="pattern-preview" style="background: linear-gradient(135deg, #f5f0e6 0%, #e8d5b5 100%);"></div><div class="pattern-name">Нежность</div></div>
+            <div class="pattern-card" data-pattern="5"><div class="pattern-preview" style="background: repeating-linear-gradient(90deg, #a8c9a5, #a8c9a5 20px, #c9b896 20px, #c9b896 40px);"></div><div class="pattern-name">Зебра</div></div>
+            <div class="pattern-card" data-pattern="6"><div class="pattern-preview" style="background: linear-gradient(135deg, #2c3e50, #3498db);"></div><div class="pattern-name">Океан</div></div>
           </div>
           <button class="settings-btn" id="logoutSettingsBtn">Выйти из аккаунта</button>
         </div>
@@ -1291,6 +1308,8 @@
     posts: [],
     stiki: [],
     messages: {},
+    comments: {},
+    notifications: [],
     postReactions: {},
     stikiReactions: {},
     viewProfileUserId: null,
@@ -1302,6 +1321,7 @@
   let unsubscribeStiki = null;
   let unsubscribeMessages = null;
   let unsubscribeUsers = null;
+  let unsubscribeNotifications = null;
 
   // ========== DOM ELEMENTS ==========
   const loginWrapper = document.getElementById('loginWrapper');
@@ -1331,7 +1351,6 @@
   const stikiWrapper = document.getElementById('stikiWrapper');
   const chatList = document.getElementById('chatList');
   const chatDialogName = document.getElementById('chatDialogName');
-  const chatDialogNick = document.getElementById('chatDialogNick');
   const chatDialogBody = document.getElementById('chatDialogBody');
   const chatDialogAvatar = document.getElementById('chatDialogAvatar');
   const chatInput = document.getElementById('chatInput');
@@ -1363,10 +1382,13 @@
   const editProfileAvatarInput = document.getElementById('editProfileAvatarInput');
   const modalLogoutBtn = document.getElementById('modalLogoutBtn');
   const navItems = document.querySelectorAll('.nav-item, .mobile-nav-item');
-  const recommendationsList = document.getElementById('recommendationsList');
   const profileCover = document.getElementById('profileCover');
   const logoutSettingsBtn = document.getElementById('logoutSettingsBtn');
   const patternSelector = document.getElementById('patternSelector');
+  const notificationsIcon = document.getElementById('notificationsIcon');
+  const notificationsBadge = document.getElementById('notificationsBadge');
+  const notificationsDropdown = document.getElementById('notificationsDropdown');
+  const totalUsersSpan = document.getElementById('totalUsersCount');
 
   // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
   function showScreen(name) {
@@ -1426,13 +1448,64 @@
         followers: firebase.firestore.FieldValue.arrayUnion(currentUserId)
       });
       state.subscriptions[targetUserId] = true;
+      
+      // Уведомление о подписке
+      await db.collection('notifications').add({
+        toUserId: targetUserId,
+        fromUserId: currentUserId,
+        type: 'follow',
+        read: false,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
     }
     renderProfile();
   }
 
-  function saveHeaderPatternToDB(pattern) {
-    if (!state.currentUser) return;
-    db.collection('users').doc(state.currentUser.uid).update({ headerPattern: pattern });
+  // Добавление комментария
+  async function addComment(postId, text) {
+    if (!state.currentUser || !text.trim()) return;
+    await db.collection('comments').add({
+      postId,
+      authorId: state.currentUser.uid,
+      text: text.trim(),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    // Уведомление о комментарии
+    const post = state.posts.find(p => p.id === postId);
+    if (post && post.authorId !== state.currentUser.uid) {
+      await db.collection('notifications').add({
+        toUserId: post.authorId,
+        fromUserId: state.currentUser.uid,
+        postId: postId,
+        type: 'comment',
+        read: false,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+  }
+
+  // Пересылка поста в чат
+  async function sharePostToChat(postId, targetUserId) {
+    const post = state.posts.find(p => p.id === postId);
+    if (!post) return;
+    const author = getUserFromCache(post.authorId);
+    const message = `📌 Пост от ${author?.name || 'пользователя'}: ${post.text || 'смотри фото'}`;
+    
+    const key = chatKey(state.currentUser.uid, targetUserId);
+    const chatRef = db.collection('chats').doc(key);
+    await chatRef.set({
+      user1: state.currentUser.uid,
+      user2: targetUserId,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+    await chatRef.collection('messages').add({
+      fromId: state.currentUser.uid,
+      toId: targetUserId,
+      text: message,
+      postId: postId,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
   }
 
   function applyHeaderPattern(user) {
@@ -1442,7 +1515,9 @@
       '1': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       '2': 'repeating-linear-gradient(45deg, #ff6cab, #ff6cab 20px, #ffdd59 20px, #ffdd59 40px)',
       '3': 'radial-gradient(circle at 20% 40%, #4cd964, #34aadc)',
-      '4': 'linear-gradient(135deg, #f5f0e6 0%, #e8d5b5 100%)'
+      '4': 'linear-gradient(135deg, #f5f0e6 0%, #e8d5b5 100%)',
+      '5': 'repeating-linear-gradient(90deg, #a8c9a5, #a8c9a5 20px, #c9b896 20px, #c9b896 40px)',
+      '6': 'linear-gradient(135deg, #2c3e50, #3498db)'
     };
     profileCover.style.background = patterns[pattern] || patterns['1'];
   }
@@ -1460,6 +1535,7 @@
 
     state.posts.forEach(post => {
       const reactions = state.postReactions[post.id] || { like: 0 };
+      const comments = state.comments[post.id] || [];
       const author = state.usersCache[post.authorId] || { name: 'Аноним', avatarBase64: '' };
       const isAuthor = state.currentUser && post.authorId === state.currentUser.uid;
       
@@ -1470,7 +1546,7 @@
         <div class="post-header">
           <div class="post-author-info">
             <div class="post-avatar-small">
-              ${author.avatarBase64 ? `<img src="${author.avatarBase64}">` : '<div style="width:36px;height:36px;background:rgba(255,255,255,0.2);border-radius:50%;"></div>'}
+              ${author.avatarBase64 ? `<img src="${author.avatarBase64}">` : '<div style="width:36px;height:36px;background:#f0f0f0;border-radius:50%;"></div>'}
             </div>
             <div>
               <div class="post-author-name">${escapeHtml(author.name)}</div>
@@ -1481,24 +1557,42 @@
             <button class="delete-post-btn" data-id="${post.id}">
               <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/><line x1="18" y1="6" x2="18" y2="20a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V6"/></svg>
             </button>
-          ` : '<span style="color:rgba(255,255,255,0.3);">⋯</span>'}
+          ` : '<span style="color:#8e8e8e;">⋯</span>'}
         </div>
         <div class="feed-post-image">
           ${post.imageBase64 ? `<img src="${post.imageBase64}">` : ''}
         </div>
         <div class="feed-post-text">${escapeHtml(post.text || '')}</div>
-        <div class="post-actions">
+        
+        <!-- Действия НАД био (лайк, комментарий, поделиться) -->
+        <div class="post-actions-top">
           <button class="action-btn like-btn ${reactions.like > 0 ? 'liked' : ''}" data-id="${post.id}">
             <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             <span class="action-count">${reactions.like || 0}</span>
           </button>
-          <button class="action-btn comment-btn">
+          <button class="action-btn toggle-comments-btn" data-id="${post.id}">
             <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span class="action-count">0</span>
+            <span class="action-count">${comments.length}</span>
           </button>
-          <button class="action-btn share-btn" data-author="${post.authorId}">
+          <button class="action-btn share-post-btn" data-id="${post.id}" data-author="${post.authorId}">
             <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
           </button>
+        </div>
+        
+        <!-- Блок комментариев (скрыт по умолчанию) -->
+        <div class="comments-section" id="comments-${post.id}" style="display: none;">
+          <div class="comments-list" id="comments-list-${post.id}">
+            ${comments.map(c => `<div class="comment-item"><span class="comment-author">${escapeHtml(c.authorName)}</span> <span class="comment-text">${escapeHtml(c.text)}</span></div>`).join('')}
+          </div>
+          <div class="comment-input-wrapper">
+            <input type="text" class="comment-input" id="comment-input-${post.id}" placeholder="Добавить комментарий...">
+            <button class="comment-submit" data-id="${post.id}">Отправить</button>
+          </div>
+        </div>
+        
+        <!-- Действия СНИЗУ (когда выложил) -->
+        <div class="post-actions-bottom">
+          <span style="font-size:12px; color:#8e8e8e;">${post.time || ''}</span>
         </div>
       `;
       
@@ -1508,37 +1602,82 @@
       if (imgDiv && imgDiv.querySelector('img')) {
         imgDiv.addEventListener('click', () => imgDiv.classList.toggle('zoomed'));
       }
+      
+      // Переключение комментариев
+      const toggleBtn = card.querySelector('.toggle-comments-btn');
+      const commentsDiv = card.querySelector(`.comments-section`);
+      if (toggleBtn && commentsDiv) {
+        toggleBtn.addEventListener('click', () => {
+          commentsDiv.style.display = commentsDiv.style.display === 'none' ? 'block' : 'none';
+        });
+      }
+      
+      // Отправка комментария
+      const submitBtn = card.querySelector('.comment-submit');
+      const commentInput = card.querySelector(`.comment-input`);
+      if (submitBtn && commentInput) {
+        submitBtn.addEventListener('click', async () => {
+          const text = commentInput.value.trim();
+          if (text) {
+            await addComment(post.id, text);
+            commentInput.value = '';
+          }
+        });
+      }
     });
     
+    // Лайки
     document.querySelectorAll('.like-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', async (e) => {
         e.stopPropagation();
         const id = btn.dataset.id;
         if (!state.postReactions[id]) state.postReactions[id] = { like: 0 };
         state.postReactions[id].like += 1;
         renderFeed();
-      });
-    });
-    
-    document.querySelectorAll('.share-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const authorId = btn.dataset.author;
-        if (authorId && authorId !== state.currentUser?.uid) {
-          currentChatUserId = authorId;
-          showScreen('chats');
-          listenMessagesForChat(state.currentUser.uid, authorId);
-          renderChatList('');
+        
+        const post = state.posts.find(p => p.id === id);
+        if (post && post.authorId !== state.currentUser?.uid) {
+          await db.collection('notifications').add({
+            toUserId: post.authorId,
+            fromUserId: state.currentUser.uid,
+            postId: id,
+            type: 'like',
+            read: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
         }
       });
     });
     
+    // Поделиться постом
+    document.querySelectorAll('.share-post-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const postId = btn.dataset.id;
+        const usersList = Object.values(state.usersCache).filter(u => u.id !== state.currentUser?.uid);
+        const userOptions = usersList.map(u => `${u.name} (${u.nick})`).join('\n');
+        const targetNick = prompt(`Введите ник пользователя для пересылки:\nДоступные: ${userOptions}`);
+        if (targetNick) {
+          const targetUser = Object.values(state.usersCache).find(u => u.nick === targetNick || u.name === targetNick);
+          if (targetUser) {
+            await sharePostToChat(postId, targetUser.id);
+            alert('Пост отправлен в чат!');
+          } else {
+            alert('Пользователь не найден');
+          }
+        }
+      });
+    });
+    
+    // Удаление поста
     document.querySelectorAll('.delete-post-btn').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         e.stopPropagation();
         const postId = btn.dataset.id;
         if (confirm('Удалить пост?')) {
           await db.collection('posts').doc(postId).delete();
+          const commentsSnap = await db.collection('comments').where('postId', '==', postId).get();
+          commentsSnap.forEach(doc => doc.ref.delete());
         }
       });
     });
@@ -1548,7 +1687,7 @@
     if (!stikiWrapper) return;
     stikiWrapper.innerHTML = '';
     if (!state.stiki.length) {
-      stikiWrapper.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.5);">🎬 Нет стиков</div>';
+      stikiWrapper.innerHTML = '<div style="text-align:center;padding:40px;color:#8e8e8e;">🎬 Нет стиков</div>';
       return;
     }
     state.stiki.forEach(s => {
@@ -1597,16 +1736,16 @@
     if (passportNick) passportNick.textContent = user.nick || '—';
     if (passportPersona) passportPersona.textContent = user.persona || '—';
     
-    // Применяем хедер ТОЛЬКО для просматриваемого профиля
     if (uid === state.currentUser.uid) {
       applyHeaderPattern(user);
     } else {
-      // Для чужого профиля — стандартный или свой узор
       const patterns = {
         '1': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         '2': 'repeating-linear-gradient(45deg, #ff6cab, #ff6cab 20px, #ffdd59 20px, #ffdd59 40px)',
         '3': 'radial-gradient(circle at 20% 40%, #4cd964, #34aadc)',
-        '4': 'linear-gradient(135deg, #f5f0e6 0%, #e8d5b5 100%)'
+        '4': 'linear-gradient(135deg, #f5f0e6 0%, #e8d5b5 100%)',
+        '5': 'repeating-linear-gradient(90deg, #a8c9a5, #a8c9a5 20px, #c9b896 20px, #c9b896 40px)',
+        '6': 'linear-gradient(135deg, #2c3e50, #3498db)'
       };
       profileCover.style.background = patterns[user.headerPattern || '1'];
     }
@@ -1656,13 +1795,13 @@
       if (p.imageBase64) {
         div.innerHTML = `<img src="${p.imageBase64}">`;
       } else {
-        div.style.background = 'rgba(255,255,255,0.1)';
-        div.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.5);">📷</div>';
+        div.style.background = '#efefef';
+        div.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#8e8e8e;">📷</div>';
       }
       profileGrid.appendChild(div);
     });
     if (userPosts.length === 0) {
-      profileGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.5);">Нет постов</div>';
+      profileGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#8e8e8e;">Нет постов</div>';
     }
   }
 
@@ -1686,6 +1825,7 @@
     }
   }
 
+  // ЧАТЫ — только с теми, у кого есть сообщения
   async function renderChatList(filter = '') {
     if (!chatList || !state.currentUser) return;
     const currentId = state.currentUser.uid;
@@ -1701,14 +1841,8 @@
     const q = filter.toLowerCase().trim();
     let users = Object.values(state.usersCache).filter(u => u.id !== currentId && uniqueChatUsers.has(u.id));
     
-    if (q) {
-      const searchUsers = Object.values(state.usersCache).filter(u => u.id !== currentId && 
-        ((u.name || '').toLowerCase().includes(q) || (u.nick || '').toLowerCase().includes(q)));
-      users = [...new Set([...users, ...searchUsers])];
-    }
-    
     if (!users.length) {
-      chatList.innerHTML = '<div style="padding:20px;text-align:center;color:rgba(255,255,255,0.5);">Нет активных чатов</div>';
+      chatList.innerHTML = '<div style="padding:20px;text-align:center;color:#8e8e8e;">Нет активных чатов</div>';
       return;
     }
     
@@ -1719,10 +1853,10 @@
       const item = document.createElement('div');
       item.className = 'chat-item' + (u.id === currentChatUserId ? ' active' : '');
       item.innerHTML = `
-        <div class="chat-avatar">${u.avatarBase64 ? `<img src="${u.avatarBase64}">` : '<div style="width:100%;height:100%;background:rgba(255,255,255,0.2);border-radius:50%;"></div>'}</div>
+        <div class="chat-avatar">${u.avatarBase64 ? `<img src="${u.avatarBase64}">` : '<div style="width:100%;height:100%;background:#efefef;border-radius:50%;"></div>'}</div>
         <div class="chat-info">
           <div class="chat-name">${escapeHtml(u.name || u.email)}</div>
-          <div class="chat-last-message">${last ? escapeHtml(last.text.substring(0, 35)) : (u.nick || 'Нет сообщений')}</div>
+          <div class="chat-last-message">${last ? escapeHtml(last.text.substring(0, 35)) : ''}</div>
         </div>
       `;
       item.addEventListener('click', () => {
@@ -1746,9 +1880,8 @@
     if (!other) return;
     
     if (chatDialogName) chatDialogName.textContent = other.name || other.email;
-    if (chatDialogNick) chatDialogNick.textContent = other.nick || '';
     if (chatDialogAvatar) {
-      chatDialogAvatar.innerHTML = other.avatarBase64 ? `<img src="${other.avatarBase64}">` : '<div style="width:100%;height:100%;background:rgba(255,255,255,0.2);border-radius:50%;"></div>';
+      chatDialogAvatar.innerHTML = other.avatarBase64 ? `<img src="${other.avatarBase64}">` : '<div style="width:100%;height:100%;background:#efefef;border-radius:50%;"></div>';
     }
     
     chatDialogBody.innerHTML = '';
@@ -1763,23 +1896,27 @@
     chatDialogBody.scrollTop = chatDialogBody.scrollHeight;
   }
 
+  // Рекомендации — только в поиске, НЕ во вкладке посты
   function renderRecommendations(searchQuery = '') {
-    if (!recommendationsList || !state.currentUser) return;
+    if (!state.currentUser) return;
     const currentId = state.currentUser.uid;
-    recommendationsList.innerHTML = '';
-    
     const q = searchQuery.toLowerCase().trim();
+    
+    if (!q) return;
+    
     let users = Object.values(state.usersCache).filter(u => u.id !== currentId);
+    users = users.filter(u => (u.name || '').toLowerCase().includes(q) || (u.nick || '').toLowerCase().includes(q));
     
-    if (q) {
-      users = users.filter(u => (u.name || '').toLowerCase().includes(q) || (u.nick || '').toLowerCase().includes(q));
-    }
+    const recContainer = document.getElementById('recommendationsList');
+    if (!recContainer) return;
     
+    recContainer.innerHTML = '';
     users.slice(0, 5).forEach(u => {
       const card = document.createElement('div');
       card.className = 'rec-card';
+      card.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px;background:white;border:1px solid #dbdbdb;border-radius:12px;margin-bottom:8px;cursor:pointer;';
       card.innerHTML = `
-        <div class="rec-avatar">${u.avatarBase64 ? `<img src="${u.avatarBase64}">` : ''}</div>
+        <div class="rec-avatar" style="width:40px;height:40px;border-radius:50%;background:#efefef;overflow:hidden;">${u.avatarBase64 ? `<img src="${u.avatarBase64}" style="width:100%;height:100%;object-fit:cover;">` : ''}</div>
         <div><strong>${escapeHtml(u.name || u.email)}</strong><br><small>${u.nick || ''}</small></div>
       `;
       card.addEventListener('click', () => {
@@ -1788,8 +1925,41 @@
         renderProfileGrid();
         showScreen('profile');
       });
-      recommendationsList.appendChild(card);
+      recContainer.appendChild(card);
     });
+  }
+
+  // Уведомления
+  function renderNotifications() {
+    const unreadCount = state.notifications.filter(n => !n.read).length;
+    if (notificationsBadge) {
+      notificationsBadge.style.display = unreadCount > 0 ? 'block' : 'none';
+      notificationsBadge.textContent = unreadCount;
+    }
+    if (notificationsDropdown) {
+      notificationsDropdown.innerHTML = '';
+      if (state.notifications.length === 0) {
+        notificationsDropdown.innerHTML = '<div style="padding:16px;text-align:center;color:#8e8e8e;">Нет уведомлений</div>';
+      } else {
+        state.notifications.forEach(n => {
+          const fromUser = getUserFromCache(n.fromUserId);
+          const item = document.createElement('div');
+          item.className = 'notification-item';
+          if (n.type === 'like') {
+            item.innerHTML = `<strong>${fromUser?.name || 'Пользователь'}</strong> лайкнул ваш пост`;
+          } else if (n.type === 'comment') {
+            item.innerHTML = `<strong>${fromUser?.name || 'Пользователь'}</strong> прокомментировал ваш пост`;
+          } else if (n.type === 'follow') {
+            item.innerHTML = `<strong>${fromUser?.name || 'Пользователь'}</strong> подписался на вас`;
+          }
+          if (!n.read) {
+            item.style.background = '#f0f0f0';
+            db.collection('notifications').doc(n.id).update({ read: true });
+          }
+          notificationsDropdown.appendChild(item);
+        });
+      }
+    }
   }
 
   // ========== FIREBASE LISTENERS ==========
@@ -1803,9 +1973,9 @@
           (doc.data().following || []).forEach(fid => { state.subscriptions[fid] = true; });
         }
       });
+      if (totalUsersSpan) totalUsersSpan.textContent = snap.size;
       renderProfile();
-      renderChatList(userSearch?.value || '');
-      renderRecommendations(userSearch?.value || '');
+      renderChatList('');
       renderFeed();
     });
   }
@@ -1830,6 +2000,30 @@
     });
   }
 
+  function listenComments() {
+    db.collection('comments').onSnapshot(snap => {
+      const commentsMap = {};
+      snap.docs.forEach(doc => {
+        const data = doc.data();
+        const postId = data.postId;
+        if (!commentsMap[postId]) commentsMap[postId] = [];
+        const author = state.usersCache[data.authorId] || { name: 'Пользователь' };
+        commentsMap[postId].push({
+          id: doc.id,
+          authorId: data.authorId,
+          authorName: author.name,
+          text: data.text,
+          createdAt: data.createdAt
+        });
+      });
+      for (const postId in commentsMap) {
+        commentsMap[postId].sort((a, b) => (a.createdAt?.toDate() || 0) - (b.createdAt?.toDate() || 0));
+      }
+      state.comments = commentsMap;
+      renderFeed();
+    });
+  }
+
   function listenStiki() {
     if (unsubscribeStiki) unsubscribeStiki();
     unsubscribeStiki = db.collection('stiki').orderBy('createdAt', 'desc').onSnapshot(snap => {
@@ -1850,9 +2044,21 @@
           time: data.createdAt ? formatTime(data.createdAt) : ''
         };
       });
-      renderChatList(userSearch?.value || '');
+      renderChatList('');
       renderChatDialog();
     });
+  }
+
+  function listenNotifications() {
+    if (!state.currentUser) return;
+    if (unsubscribeNotifications) unsubscribeNotifications();
+    unsubscribeNotifications = db.collection('notifications')
+      .where('toUserId', '==', state.currentUser.uid)
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(snap => {
+        state.notifications = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        renderNotifications();
+      });
   }
 
   // ========== AUTH ==========
@@ -1864,13 +2070,13 @@
     appRoot.style.display = 'flex';
     listenUsers();
     listenPosts();
+    listenComments();
     listenStiki();
+    listenNotifications();
     currentChatUserId = null;
     renderChatList('');
-    renderRecommendations('');
     showScreen('posts');
     
-    // Настройка выбора узора в настройках
     if (patternSelector) {
       const userDoc = getUserFromCache(user.uid);
       const currentPattern = userDoc?.headerPattern || '1';
@@ -1895,8 +2101,22 @@
     if (unsubscribeStiki) unsubscribeStiki();
     if (unsubscribeMessages) unsubscribeMessages();
     if (unsubscribeUsers) unsubscribeUsers();
+    if (unsubscribeNotifications) unsubscribeNotifications();
   }
     // ========== ОБРАБОТЧИКИ СОБЫТИЙ ==========
+  
+  // Уведомления (клик по иконке)
+  if (notificationsIcon) {
+    notificationsIcon.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (notificationsDropdown) {
+        notificationsDropdown.classList.toggle('active');
+      }
+    });
+    document.addEventListener('click', () => {
+      if (notificationsDropdown) notificationsDropdown.classList.remove('active');
+    });
+  }
   
   // Переключение вкладок логина
   if (loginTabs) {
@@ -2087,7 +2307,7 @@
         });
         
         if (chatInput) chatInput.value = '';
-        renderChatList(userSearch?.value || '');
+        renderChatList('');
       } catch (e) {
         console.error('Ошибка отправки сообщения', e);
       }
@@ -2104,12 +2324,11 @@
     });
   }
 
-  // Поиск — показывает рекомендации
+  // Поиск — показывает рекомендации ТОЛЬКО в поиске
   if (userSearch) {
     userSearch.addEventListener('input', () => {
       const query = userSearch.value;
       renderRecommendations(query);
-      renderChatList(query);
     });
   }
 
@@ -2123,6 +2342,12 @@
           state.viewProfileUserId = state.currentUser ? state.currentUser.uid : null;
           renderProfile();
           renderProfileGrid();
+        }
+        if (screen === 'posts') {
+          // Очищаем поиск и рекомендации при переходе на посты
+          if (userSearch) userSearch.value = '';
+          const recContainer = document.getElementById('recommendationsList');
+          if (recContainer) recContainer.innerHTML = '';
         }
         showScreen(screen);
       });
@@ -2220,13 +2445,25 @@
       state.posts = [];
       state.stiki = [];
       state.messages = {};
+      state.comments = {};
+      state.notifications = [];
       if (loginWrapper) loginWrapper.style.display = 'flex';
       if (appRoot) appRoot.style.display = 'none';
       unsubscribeAll();
     }
   });
 
-  console.log('RENITEA — полностью загружено. Аниме-фон, стилизованные SVG: ❤️ 💬 ➡️, корзина, хедер в БД, чаты без дублей, рекомендации по поиску.');
+  // Инициализация рекомендаций (пустой контейнер)
+  const recContainer = document.getElementById('recommendationsList');
+  if (!recContainer) {
+    const newRecContainer = document.createElement('div');
+    newRecContainer.id = 'recommendationsList';
+    newRecContainer.style.maxWidth = '600px';
+    newRecContainer.style.margin = '0 auto';
+    document.querySelector('#screen-posts')?.appendChild(newRecContainer);
+  }
+
+  console.log('RENITEA — полностью загружено. Белая тема, комментарии работают, уведомления есть, чаты только с активными диалогами, рекомендации только в поиске, 6 узоров хедера, пересылка постов в чаты.');
 </script>
 </body>
 </html>
