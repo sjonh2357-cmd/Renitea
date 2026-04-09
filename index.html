@@ -174,8 +174,14 @@
       color: transparent;
     }
 
-    .search {
+    /* БЛОК ПОИСКА С РЕКОМЕНДАЦИЯМИ */
+    .search-wrapper {
+      position: relative;
       width: 260px;
+    }
+
+    .search {
+      width: 100%;
       border-radius: 60px;
       border: 1px solid #dbdbdb;
       padding: 8px 16px;
@@ -188,6 +194,67 @@
       outline: none;
       border-color: #262626;
       box-shadow: 0 0 0 3px rgba(38, 38, 38, 0.05);
+    }
+
+    .search-dropdown {
+      position: absolute;
+      top: 45px;
+      left: 0;
+      width: 100%;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      border: 1px solid #dbdbdb;
+      z-index: 200;
+      display: none;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .search-dropdown.active {
+      display: block;
+    }
+
+    .search-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .search-item:hover {
+      background: #fafafa;
+    }
+
+    .search-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #efefef;
+      overflow: hidden;
+    }
+
+    .search-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .search-info {
+      flex: 1;
+    }
+
+    .search-name {
+      font-weight: 600;
+      color: #262626;
+    }
+
+    .search-nick {
+      font-size: 12px;
+      color: #8e8e8e;
     }
 
     /* УВЕДОМЛЕНИЯ */
@@ -279,7 +346,7 @@
     }
 
     .nav-item:hover {
-      background: #f0f0f0;
+      background: rgba(0, 0, 0, 0.05);
       transform: scale(1.05);
     }
 
@@ -340,6 +407,7 @@
       border-radius: 16px;
       padding: 16px;
       border: 1px solid #dbdbdb;
+      position: relative;
     }
 
     .feed-composer textarea {
@@ -358,26 +426,50 @@
       border-color: #262626;
     }
 
-    .feed-composer input[type="file"] {
-      margin: 10px 0;
+    .feed-composer-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
     }
 
-    .feed-composer button {
-      margin-top: 8px;
-      float: right;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 24px;
-      background: #0095f6;
-      color: white;
-      font-weight: 600;
+    .feed-file-label {
       cursor: pointer;
+      color: #8e8e8e;
       transition: all 0.2s;
     }
 
-    .feed-composer button:hover {
-      background: #0081d6;
-      transform: translateY(-1px);
+    .feed-file-label:hover {
+      color: #262626;
+    }
+
+    .feed-file-label svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .feed-publish-btn {
+      background: linear-gradient(135deg, #ff6cab, #ffdd59, #4cd964, #34aadc, #5856d6);
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: white;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .feed-publish-btn:hover {
+      transform: scale(1.05) rotate(90deg);
+    }
+
+    .feed-publish-btn svg {
+      width: 24px;
+      height: 24px;
     }
 
     .feed-list {
@@ -505,7 +597,7 @@
     }
 
     .action-btn:hover {
-      background: #f0f0f0;
+      background: rgba(0, 0, 0, 0.05);
       transform: scale(1.02);
     }
 
@@ -570,11 +662,19 @@
       padding: 4px 8px;
       border-radius: 8px;
       transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .delete-comment-btn:hover {
       color: #ed4956;
-      background: #fef0f0;
+      background: rgba(237, 73, 86, 0.1);
+    }
+
+    .delete-comment-btn svg {
+      width: 18px;
+      height: 18px;
     }
 
     .comment-input-wrapper {
@@ -615,11 +715,14 @@
       border-radius: 8px;
       color: #8e8e8e;
       transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .delete-post-btn:hover {
       color: #ed4956;
-      background: #fef0f0;
+      background: rgba(237, 73, 86, 0.1);
       transform: scale(1.05);
     }
 
@@ -774,6 +877,7 @@
       overflow: hidden;
       cursor: pointer;
       transition: transform 0.2s;
+      position: relative;
     }
 
     .profile-grid-item:hover {
@@ -784,6 +888,21 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    /* Уникальная SVG-иконка для пустых постов в профиле */
+    .profile-grid-empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      color: #8e8e8e;
+    }
+
+    .profile-grid-empty svg {
+      width: 40px;
+      height: 40px;
     }
 
     /* МОДАЛКА ПОДПИСЧИКОВ */
@@ -939,11 +1058,11 @@
     }
 
     .chat-item:hover {
-      background: #f0f0f0;
+      background: rgba(0, 0, 0, 0.05);
     }
 
     .chat-item.active {
-      background: #f0f0f0;
+      background: rgba(0, 0, 0, 0.05);
     }
 
     .chat-avatar {
@@ -996,7 +1115,7 @@
     }
 
     .chat-dialog-header:hover {
-      background: #f0f0f0;
+      background: rgba(0, 0, 0, 0.05);
     }
 
     .chat-dialog-header-avatar {
@@ -1339,7 +1458,10 @@
   <header class="topbar">
     <div class="brand">RENITEA</div>
     <div style="display: flex; align-items: center; gap: 12px;">
-      <input class="search" id="userSearch" placeholder="Поиск по имени...">
+      <div class="search-wrapper">
+        <input class="search" id="userSearch" placeholder="Поиск по имени...">
+        <div class="search-dropdown" id="searchDropdown"></div>
+      </div>
       <div class="notifications-icon" id="notificationsIcon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
@@ -1355,8 +1477,22 @@
       <section class="screen active" id="screen-posts">
         <div class="feed-composer">
           <textarea id="feedText" placeholder="Что нового?"></textarea>
-          <input type="file" id="feedImage" accept="image/*">
-          <button id="feedPublishBtn">Опубликовать</button>
+          <div class="feed-composer-actions">
+            <label class="feed-file-label" for="feedImage">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="4"/>
+                <circle cx="8.5" cy="8.5" r="2.5"/>
+                <path d="M21 15l-5-5L7 21"/>
+              </svg>
+            </label>
+            <input type="file" id="feedImage" accept="image/*" style="display:none;">
+            <button class="feed-publish-btn" id="feedPublishBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+          </div>
         </div>
         <div class="feed-list" id="feedList"></div>
         <div class="empty-feed-text" id="feedEmptyText" style="display:none;">✨ Лента пуста</div>
@@ -1543,6 +1679,7 @@
   let unsubscribeUsers = null;
   let unsubscribeNotifications = null;
   let unsubscribeComments = null;
+  let unsubscribeReactions = null;
 
   // ========== DOM ELEMENTS ==========
   const loginWrapper = document.getElementById('loginWrapper');
@@ -1562,6 +1699,7 @@
   const registerBtn = document.getElementById('registerBtn');
   const loginError = document.getElementById('loginError');
   const userSearch = document.getElementById('userSearch');
+  const searchDropdown = document.getElementById('searchDropdown');
   const feedText = document.getElementById('feedText');
   const feedImage = document.getElementById('feedImage');
   const feedPublishBtn = document.getElementById('feedPublishBtn');
@@ -1615,8 +1753,7 @@
   const closeFollowersModal = document.getElementById('closeFollowersModal');
   const followersStat = document.getElementById('followersStat');
   const followingStat = document.getElementById('followingStat');
-
-  // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
+    // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
   function showScreen(name) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const el = document.getElementById('screen-' + name);
@@ -1710,7 +1847,6 @@
 
   async function deleteComment(commentId, postId, commentAuthorId) {
     if (!state.currentUser) return;
-    // Только автор комментария или автор поста могут удалить
     const post = state.posts.find(p => p.id === postId);
     if (commentAuthorId === state.currentUser.uid || (post && post.authorId === state.currentUser.uid)) {
       await db.collection('comments').doc(commentId).delete();
@@ -1745,6 +1881,36 @@
       postId: postId,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
+  }
+
+  async function toggleLike(postId) {
+    if (!state.currentUser) return;
+    const userId = state.currentUser.uid;
+    const reactionRef = db.collection('reactions').doc(`${postId}_${userId}`);
+    
+    const snap = await reactionRef.get();
+    if (snap.exists) {
+      await reactionRef.delete();
+    } else {
+      await reactionRef.set({
+        postId,
+        userId,
+        type: 'like',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      
+      const post = state.posts.find(p => p.id === postId);
+      if (post && post.authorId !== userId) {
+        await db.collection('notifications').add({
+          toUserId: post.authorId,
+          fromUserId: userId,
+          postId: postId,
+          type: 'like',
+          read: false,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+    }
   }
 
   function applyHeaderPattern(user) {
@@ -1811,10 +1977,11 @@
     if (feedEmptyText) feedEmptyText.style.display = 'none';
 
     state.posts.forEach(post => {
-      const reactions = state.postReactions[post.id] || { like: 0 };
+      const likes = state.postReactions[post.id] || 0;
       const comments = state.comments[post.id] || [];
       const author = state.usersCache[post.authorId] || { name: 'Аноним', avatarBase64: '' };
       const isAuthor = state.currentUser && post.authorId === state.currentUser.uid;
+      const isLiked = state.currentUser && state.postReactions[post.id + '_user'] === true;
       
       const card = document.createElement('div');
       card.className = 'feed-post';
@@ -1832,7 +1999,13 @@
           </div>
           ${isAuthor ? `
             <button class="delete-post-btn" data-id="${post.id}">
-              <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/><line x1="18" y1="6" x2="18" y2="20a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V6"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                <path d="M10 11v6"/>
+                <path d="M14 11v6"/>
+                <line x1="18" y1="6" x2="18" y2="20a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V6"/>
+              </svg>
             </button>
           ` : '<span style="color:#8e8e8e;">⋯</span>'}
         </div>
@@ -1842,16 +2015,24 @@
         <div class="feed-post-text">${escapeHtml(post.text || '')}</div>
         
         <div class="post-actions-top">
-          <button class="action-btn like-btn ${reactions.like > 0 ? 'liked' : ''}" data-id="${post.id}">
-            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            <span class="action-count">${reactions.like || 0}</span>
+          <button class="action-btn like-btn ${isLiked ? 'liked' : ''}" data-id="${post.id}">
+            <svg viewBox="0 0 24 24">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+            <span class="action-count">${likes}</span>
           </button>
           <button class="action-btn toggle-comments-btn" data-id="${post.id}">
-            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
             <span class="action-count">${comments.length}</span>
           </button>
           <button class="action-btn share-post-btn" data-id="${post.id}">
-            <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+              <polyline points="16 6 12 2 8 6"/>
+              <line x1="12" y1="2" x2="12" y2="15"/>
+            </svg>
           </button>
         </div>
         
@@ -1864,7 +2045,14 @@
                   <span class="comment-text">${escapeHtml(c.text)}</span>
                 </div>
                 ${(c.authorId === state.currentUser?.uid || post.authorId === state.currentUser?.uid) ? 
-                  `<button class="delete-comment-btn" data-comment-id="${c.id}" data-post-id="${post.id}" data-author-id="${c.authorId}">🗑️</button>` : ''}
+                  `<button class="delete-comment-btn" data-comment-id="${c.id}" data-post-id="${post.id}" data-author-id="${c.authorId}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="3 6 5 6 21 6"/>
+                      <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                      <line x1="10" y1="11" x2="10" y2="17"/>
+                      <line x1="14" y1="11" x2="14" y2="17"/>
+                    </svg>
+                  </button>` : ''}
               </div>
             `).join('')}
           </div>
@@ -1945,6 +2133,12 @@
             commentInput.value = '';
           }
         });
+        commentInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            submitBtn.click();
+          }
+        });
       }
     });
     
@@ -1953,21 +2147,7 @@
       btn.addEventListener('click', async (e) => {
         e.stopPropagation();
         const id = btn.dataset.id;
-        if (!state.postReactions[id]) state.postReactions[id] = { like: 0 };
-        state.postReactions[id].like += 1;
-        renderFeed();
-        
-        const post = state.posts.find(p => p.id === id);
-        if (post && post.authorId !== state.currentUser?.uid) {
-          await db.collection('notifications').add({
-            toUserId: post.authorId,
-            fromUserId: state.currentUser.uid,
-            postId: id,
-            type: 'like',
-            read: false,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        }
+        await toggleLike(id);
       });
     });
     
@@ -2118,12 +2298,12 @@
         div.innerHTML = `<img src="${p.imageBase64}">`;
       } else {
         div.style.background = '#efefef';
-        div.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#8e8e8e;">📷</div>';
+        div.innerHTML = '<div class="profile-grid-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="2.5"/><path d="M21 15l-5-5L7 21"/></svg></div>';
       }
       profileGrid.appendChild(div);
     });
     if (userPosts.length === 0) {
-      profileGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#8e8e8e;">Нет постов</div>';
+      profileGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#8e8e8e;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="2.5"/><path d="M21 15l-5-5L7 21"/></svg><p style="margin-top:8px;">Нет постов</p></div>';
     }
   }
 
@@ -2153,7 +2333,6 @@
     const currentId = state.currentUser.uid;
     chatList.innerHTML = '';
     
-    // Получаем уникальные чаты из messages
     const uniqueChatUsers = new Set();
     for (const key in state.messages) {
       const users = key.split('__');
@@ -2161,7 +2340,6 @@
       if (users[1] === currentId) uniqueChatUsers.add(users[0]);
     }
     
-    const q = filter.toLowerCase().trim();
     let users = Object.values(state.usersCache).filter(u => u.id !== currentId && uniqueChatUsers.has(u.id));
     
     if (!users.length) {
@@ -2221,7 +2399,6 @@
       chatDialogBody.appendChild(div);
     });
     
-    // Редактирование сообщений
     chatDialogBody.querySelectorAll('.msg-edit-btn').forEach(btn => {
       btn.addEventListener('click', async () => {
         const msgId = btn.dataset.msgId;
@@ -2236,38 +2413,52 @@
     chatDialogBody.scrollTop = chatDialogBody.scrollHeight;
   }
 
-  // Рекомендации — только в поиске по ИМЕНИ
-  function renderRecommendations(searchQuery = '') {
-    if (!state.currentUser) return;
+  // Рекомендации — выпадают под поиском
+  function renderSearchDropdown(searchQuery = '') {
+    if (!state.currentUser || !searchDropdown) return;
     const currentId = state.currentUser.uid;
     const q = searchQuery.toLowerCase().trim();
     
-    if (!q) return;
+    if (!q) {
+      searchDropdown.classList.remove('active');
+      searchDropdown.innerHTML = '';
+      return;
+    }
     
     let users = Object.values(state.usersCache).filter(u => u.id !== currentId);
-    users = users.filter(u => (u.name || '').toLowerCase().includes(q));
+    users = users.filter(u => 
+      (u.name || '').toLowerCase().includes(q) || 
+      (u.nick || '').toLowerCase().includes(q)
+    );
     
-    const recContainer = document.getElementById('recommendationsList');
-    if (!recContainer) return;
+    searchDropdown.innerHTML = '';
     
-    recContainer.innerHTML = '';
-    users.slice(0, 5).forEach(u => {
-      const card = document.createElement('div');
-      card.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px;background:white;border:1px solid #dbdbdb;border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all 0.2s;';
-      card.onmouseenter = () => card.style.transform = 'translateX(4px)';
-      card.onmouseleave = () => card.style.transform = 'translateX(0)';
-      card.innerHTML = `
-        <div style="width:40px;height:40px;border-radius:50%;background:#efefef;overflow:hidden;">${u.avatarBase64 ? `<img src="${u.avatarBase64}" style="width:100%;height:100%;object-fit:cover;">` : ''}</div>
-        <div><strong>${escapeHtml(u.name || u.email)}</strong><br><small>${u.nick || ''}</small></div>
-      `;
-      card.addEventListener('click', () => {
-        state.viewProfileUserId = u.id;
-        renderProfile();
-        renderProfileGrid();
-        showScreen('profile');
+    if (users.length === 0) {
+      searchDropdown.innerHTML = '<div style="padding:16px;text-align:center;color:#8e8e8e;">Никого не найдено</div>';
+    } else {
+      users.slice(0, 8).forEach(u => {
+        const item = document.createElement('div');
+        item.className = 'search-item';
+        item.innerHTML = `
+          <div class="search-avatar">${u.avatarBase64 ? `<img src="${u.avatarBase64}">` : ''}</div>
+          <div class="search-info">
+            <div class="search-name">${escapeHtml(u.name || u.email)}</div>
+            <div class="search-nick">${u.nick || ''}</div>
+          </div>
+        `;
+        item.addEventListener('click', () => {
+          state.viewProfileUserId = u.id;
+          renderProfile();
+          renderProfileGrid();
+          showScreen('profile');
+          searchDropdown.classList.remove('active');
+          if (userSearch) userSearch.value = '';
+        });
+        searchDropdown.appendChild(item);
       });
-      recContainer.appendChild(card);
-    });
+    }
+    
+    searchDropdown.classList.add('active');
   }
 
   // Уведомления
@@ -2302,8 +2493,7 @@
       }
     }
   }
-
-  // ========== FIREBASE LISTENERS ==========
+    // ========== FIREBASE LISTENERS ==========
   function listenUsers() {
     if (unsubscribeUsers) unsubscribeUsers();
     unsubscribeUsers = db.collection('users').onSnapshot(snap => {
@@ -2366,6 +2556,25 @@
     });
   }
 
+  function listenReactions() {
+    if (unsubscribeReactions) unsubscribeReactions();
+    unsubscribeReactions = db.collection('reactions').onSnapshot(snap => {
+      const reactionsMap = {};
+      snap.docs.forEach(doc => {
+        const data = doc.data();
+        const postId = data.postId;
+        if (!reactionsMap[postId]) reactionsMap[postId] = 0;
+        reactionsMap[postId]++;
+        
+        if (state.currentUser && data.userId === state.currentUser.uid) {
+          reactionsMap[postId + '_user'] = true;
+        }
+      });
+      state.postReactions = reactionsMap;
+      renderFeed();
+    });
+  }
+
   function listenStiki() {
     if (unsubscribeStiki) unsubscribeStiki();
     unsubscribeStiki = db.collection('stiki').orderBy('createdAt', 'desc').onSnapshot(snap => {
@@ -2375,6 +2584,7 @@
   }
 
   function listenMessagesForChat(currentId, otherId) {
+    if (!currentId || !otherId) return;
     const key = chatKey(currentId, otherId);
     if (unsubscribeMessages) unsubscribeMessages();
     unsubscribeMessages = db.collection('chats').doc(key).collection('messages').orderBy('createdAt', 'asc').onSnapshot(snap => {
@@ -2390,6 +2600,59 @@
       });
       renderChatList('');
       renderChatDialog();
+    });
+  }
+
+  function listenAllMessages() {
+    if (!state.currentUser) return;
+    const currentId = state.currentUser.uid;
+    
+    db.collection('chats').where('user1', '==', currentId).onSnapshot(snap => {
+      snap.docs.forEach(doc => {
+        const data = doc.data();
+        const otherId = data.user2;
+        const key = chatKey(currentId, otherId);
+        if (!state.messages[key]) {
+          db.collection('chats').doc(key).collection('messages').orderBy('createdAt', 'asc').onSnapshot(msgSnap => {
+            state.messages[key] = msgSnap.docs.map(doc => {
+              const data = doc.data();
+              return {
+                id: doc.id,
+                fromId: data.fromId,
+                text: data.text,
+                edited: data.edited || false,
+                time: data.createdAt ? formatTime(data.createdAt) : ''
+              };
+            });
+            renderChatList('');
+            if (currentChatUserId === otherId) renderChatDialog();
+          });
+        }
+      });
+    });
+    
+    db.collection('chats').where('user2', '==', currentId).onSnapshot(snap => {
+      snap.docs.forEach(doc => {
+        const data = doc.data();
+        const otherId = data.user1;
+        const key = chatKey(currentId, otherId);
+        if (!state.messages[key]) {
+          db.collection('chats').doc(key).collection('messages').orderBy('createdAt', 'asc').onSnapshot(msgSnap => {
+            state.messages[key] = msgSnap.docs.map(doc => {
+              const data = doc.data();
+              return {
+                id: doc.id,
+                fromId: data.fromId,
+                text: data.text,
+                edited: data.edited || false,
+                time: data.createdAt ? formatTime(data.createdAt) : ''
+              };
+            });
+            renderChatList('');
+            if (currentChatUserId === otherId) renderChatDialog();
+          });
+        }
+      });
     });
   }
 
@@ -2415,20 +2678,13 @@
     listenUsers();
     listenPosts();
     listenComments();
+    listenReactions();
     listenStiki();
     listenNotifications();
+    listenAllMessages();
     currentChatUserId = null;
     renderChatList('');
     showScreen('posts');
-    
-    // Создаём контейнер для рекомендаций
-    if (!document.getElementById('recommendationsList')) {
-      const recContainer = document.createElement('div');
-      recContainer.id = 'recommendationsList';
-      recContainer.style.maxWidth = '600px';
-      recContainer.style.margin = '0 auto';
-      document.querySelector('#screen-posts')?.appendChild(recContainer);
-    }
     
     if (patternSelector) {
       const userDoc = getUserFromCache(user.uid);
@@ -2450,14 +2706,16 @@
   }
 
   function unsubscribeAll() {
-    if (unsubscribePosts) unsubscribePosts();
-    if (unsubscribeStiki) unsubscribeStiki();
-    if (unsubscribeMessages) unsubscribeMessages();
-    if (unsubscribeUsers) unsubscribeUsers();
-    if (unsubscribeNotifications) unsubscribeNotifications();
-    if (unsubscribeComments) unsubscribeComments();
+    if (unsubscribePosts) { unsubscribePosts(); unsubscribePosts = null; }
+    if (unsubscribeStiki) { unsubscribeStiki(); unsubscribeStiki = null; }
+    if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
+    if (unsubscribeUsers) { unsubscribeUsers(); unsubscribeUsers = null; }
+    if (unsubscribeNotifications) { unsubscribeNotifications(); unsubscribeNotifications = null; }
+    if (unsubscribeComments) { unsubscribeComments(); unsubscribeComments = null; }
+    if (unsubscribeReactions) { unsubscribeReactions(); unsubscribeReactions = null; }
   }
-    // ========== ОБРАБОТЧИКИ СОБЫТИЙ ==========
+
+  // ========== ОБРАБОТЧИКИ СОБЫТИЙ ==========
   
   // Уведомления
   if (notificationsIcon) {
@@ -2466,9 +2724,12 @@
       if (notificationsDropdown) {
         notificationsDropdown.classList.toggle('active');
       }
+      if (searchDropdown) searchDropdown.classList.remove('active');
     });
-    document.addEventListener('click', () => {
-      if (notificationsDropdown) notificationsDropdown.classList.remove('active');
+    document.addEventListener('click', (e) => {
+      if (!notificationsIcon.contains(e.target)) {
+        if (notificationsDropdown) notificationsDropdown.classList.remove('active');
+      }
     });
   }
   
@@ -2498,11 +2759,11 @@
         tab.classList.add('active');
         const target = tab.dataset.tab;
         if (target === 'login') {
-          if (loginForm) loginForm.style.display = 'flex';
+          if (loginForm) loginForm.style.display = 'block';
           if (registerForm) registerForm.style.display = 'none';
         } else {
           if (loginForm) loginForm.style.display = 'none';
-          if (registerForm) registerForm.style.display = 'flex';
+          if (registerForm) registerForm.style.display = 'block';
         }
         if (loginError) loginError.textContent = '';
       });
@@ -2603,18 +2864,21 @@
       const text = (feedText?.value || '').trim();
       const file = feedImage?.files[0];
       
-      if (!text || !file) {
-        alert('Нужен текст и фото');
+      if (!text && !file) {
+        alert('Нужен текст или фото');
         return;
       }
       
       try {
-        const compressed = await compressImage(file, 1080, 0.8);
-        const imageBase64 = await imageToBase64(compressed);
+        let imageBase64 = '';
+        if (file) {
+          const compressed = await compressImage(file, 1080, 0.8);
+          imageBase64 = await imageToBase64(compressed);
+        }
         await db.collection('posts').add({
           authorId: state.currentUser.uid,
-          text,
-          imageBase64,
+          text: text || '',
+          imageBase64: imageBase64 || '',
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
         if (feedText) feedText.value = '';
@@ -2634,8 +2898,8 @@
         alert('Выберите видео');
         return;
       }
-      if (file.size > 15 * 1024 * 1024) {
-        alert('Видео не более 15 МБ');
+      if (file.size > 30 * 1024 * 1024) {
+        alert('Видео не более 30 МБ');
         return;
       }
       
@@ -2696,13 +2960,33 @@
     });
   }
 
-  // Поиск — только по имени, показывает рекомендации
+  // Поиск — выпадающий список под поиском
   if (userSearch) {
     userSearch.addEventListener('input', () => {
       const query = userSearch.value;
-      renderRecommendations(query);
+      renderSearchDropdown(query);
+    });
+    userSearch.addEventListener('focus', () => {
+      const query = userSearch.value;
+      if (query.trim()) {
+        renderSearchDropdown(query);
+      }
+    });
+    userSearch.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const query = userSearch.value;
+      if (query.trim()) {
+        renderSearchDropdown(query);
+      }
     });
   }
+
+  // Закрытие выпадающего списка поиска при клике вне
+  document.addEventListener('click', (e) => {
+    if (searchDropdown && !searchDropdown.contains(e.target) && e.target !== userSearch) {
+      searchDropdown.classList.remove('active');
+    }
+  });
 
   // Навигация
   if (navItems) {
@@ -2717,8 +3001,13 @@
         }
         if (screen === 'posts') {
           if (userSearch) userSearch.value = '';
-          const recContainer = document.getElementById('recommendationsList');
-          if (recContainer) recContainer.innerHTML = '';
+          if (searchDropdown) {
+            searchDropdown.classList.remove('active');
+            searchDropdown.innerHTML = '';
+          }
+        }
+        if (screen === 'chats') {
+          renderChatList('');
         }
         showScreen(screen);
       });
@@ -2726,11 +3015,6 @@
   }
 
   // Закрытие модалки редактирования
-  if (editProfileClose) {
-    editProfileClose.addEventListener('click', () => {
-      if (editProfileModal) editProfileModal.classList.remove('active');
-    });
-  }
   if (editProfileCancel) {
     editProfileCancel.addEventListener('click', () => {
       if (editProfileModal) editProfileModal.classList.remove('active');
@@ -2803,8 +3087,7 @@
       showScreen('profile');
     });
   }
-
-  // ========== АВТОРИЗАЦИЯ ==========
+    // ========== АВТОРИЗАЦИЯ ==========
   auth.onAuthStateChanged(async (user) => {
     if (user) {
       await afterLogin(user);
@@ -2818,38 +3101,214 @@
       state.messages = {};
       state.comments = {};
       state.notifications = [];
+      state.postReactions = {};
+      state.stikiReactions = {};
+      state.subscriptions = {};
+      
       if (loginWrapper) loginWrapper.style.display = 'flex';
       if (appRoot) appRoot.style.display = 'none';
+      
+      // Очистка полей
+      if (loginEmail) loginEmail.value = '';
+      if (loginPass) loginPass.value = '';
+      if (regName) regName.value = '';
+      if (regNick) regNick.value = '';
+      if (regEmail) regEmail.value = '';
+      if (regPass) regPass.value = '';
+      if (regPass2) regPass2.value = '';
+      if (loginError) loginError.textContent = '';
+      if (userSearch) userSearch.value = '';
+      if (searchDropdown) {
+        searchDropdown.classList.remove('active');
+        searchDropdown.innerHTML = '';
+      }
+      if (notificationsDropdown) {
+        notificationsDropdown.classList.remove('active');
+        notificationsDropdown.innerHTML = '';
+      }
+      if (notificationsBadge) {
+        notificationsBadge.style.display = 'none';
+        notificationsBadge.textContent = '0';
+      }
+      
       unsubscribeAll();
     }
   });
 
-  // Создаём контейнер для рекомендаций
-  if (!document.getElementById('recommendationsList')) {
-    const recContainer = document.createElement('div');
-    recContainer.id = 'recommendationsList';
-    recContainer.style.maxWidth = '600px';
-    recContainer.style.margin = '0 auto';
-    const postsScreen = document.getElementById('screen-posts');
-    if (postsScreen) postsScreen.appendChild(recContainer);
-  }
+  // Дополнительная инициализация при загрузке
+  window.addEventListener('load', () => {
+    // Предотвращение масштабирования на мобильных устройствах
+    document.addEventListener('touchmove', (e) => {
+      if (e.target.closest('.feed-post-image.zoomed')) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+    
+    // Обработка свайпов для стиков
+    let touchStartY = 0;
+    if (stikiWrapper) {
+      stikiWrapper.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+      });
+      
+      stikiWrapper.addEventListener('touchmove', (e) => {
+        const touchY = e.touches[0].clientY;
+        const diff = touchStartY - touchY;
+        
+        if (Math.abs(diff) > 50) {
+          const cards = stikiWrapper.querySelectorAll('.stiki-card');
+          const currentCard = Array.from(cards).find(card => {
+            const rect = card.getBoundingClientRect();
+            return rect.top >= -100 && rect.top <= 100;
+          });
+          
+          if (currentCard) {
+            const nextCard = diff > 0 ? currentCard.nextElementSibling : currentCard.previousElementSibling;
+            if (nextCard) {
+              nextCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+          touchStartY = touchY;
+        }
+      });
+    }
+  });
+
+  // Обработка выхода из аккаунта через кнопку в профиле
+  document.addEventListener('click', (e) => {
+    if (e.target.id === 'logoutBtn' || e.target.closest('#logoutBtn')) {
+      auth.signOut();
+    }
+  });
+
+  // Функция для форматирования чисел (лайки, подписчики)
+  window.formatNumber = (num) => {
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    return num.toString();
+  };
+
+  // Обработка ошибок Firebase
+  window.addEventListener('unhandledrejection', (event) => {
+    if (event.reason?.code === 'permission-denied') {
+      console.warn('Firebase permission denied - пользователь не авторизован');
+      event.preventDefault();
+    }
+  });
+
+  // Функция для переключения темы (опционально, можно расширить)
+  window.toggleTheme = () => {
+    document.body.classList.toggle('dark-theme');
+  };
+
+  // Экспорт состояния для отладки
+  window.ReniteaState = state;
+  
+  // Функция принудительного обновления
+  window.forceRefresh = () => {
+    renderFeed();
+    renderStiki();
+    renderProfile();
+    renderProfileGrid();
+    renderPassport();
+    renderChatList('');
+    renderChatDialog();
+    renderNotifications();
+  };
 
   console.log('═══════════════════════════════════════════════════════════');
   console.log('✨ RENITEA — ПОЛНОСТЬЮ ЗАГРУЖЕНА ✨');
   console.log('═══════════════════════════════════════════════════════════');
-  console.log('✅ Лайки, комментарии, поделиться — НАД БИО (под текстом поста)');
-  console.log('✅ Навигация чёрно-белая, плавные анимации');
-  console.log('✅ Оригинальный логотип RENITEA (радужный градиент)');
-  console.log('✅ Корзина видна, комментарии удаляются');
-  console.log('✅ Поиск по имени, рекомендации ТОЛЬКО в поиске');
-  console.log('✅ Уведомления работают (лайки, комменты, подписки)');
-  console.log('✅ Подписчики/подписки — кликабельные, показывают список');
-  console.log('✅ Редактирование сообщений в чатах (кнопка ✏️)');
-  console.log('✅ Чаты только с теми, у кого есть хотя бы одно сообщение');
-  console.log('✅ Счётчик пользователей на логине (Firebase)');
-  console.log('✅ Поля ввода на логине с анимацией фокуса');
-  console.log('✅ Пассивная навигация не меняется, только ховер');
+  console.log('✅ Кнопка удаления комментария — SVG иконка (корзина)');
+  console.log('✅ Плюсик вместо обзора — круглая кнопка с анимацией');
+  console.log('✅ Анимация наведения — полупрозрачный кружочек, без черного');
+  console.log('✅ Чаты работают — отображаются только с перепиской');
+  console.log('✅ Лайки сохраняются — Firebase синхронизация');
+  console.log('✅ Уникальная SVG иконка в профиле для постов');
+  console.log('✅ Рекомендации выпадают под поиском, не летают по странице');
+  console.log('✅ Дизайн сохранен — градиенты и стили Renitea');
   console.log('═══════════════════════════════════════════════════════════');
+  console.log('📱 Автор: Renitea Team');
+  console.log('🔧 Версия: 2.0.0');
+  console.log('═══════════════════════════════════════════════════════════');
+
+  // Инициализация при загрузке DOM
+  document.addEventListener('DOMContentLoaded', () => {
+    // Предзагрузка шрифтов и иконок
+    if (document.fonts) {
+      document.fonts.ready.then(() => {
+        console.log('✅ Шрифты загружены');
+      });
+    }
+    
+    // Установка начальных значений
+    if (totalUsersSpan) totalUsersSpan.textContent = '0';
+    if (notificationsBadge) notificationsBadge.style.display = 'none';
+    
+    // Обработка клика вне модалок
+    window.addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal-backdrop')) {
+        e.target.classList.remove('active');
+      }
+    });
+  });
+
+  // Добавление стилей для темной темы (опционально)
+  const darkThemeStyles = document.createElement('style');
+  darkThemeStyles.textContent = `
+    body.dark-theme {
+      background: #121212;
+    }
+    body.dark-theme .app {
+      background: #121212;
+    }
+    body.dark-theme .topbar,
+    body.dark-theme .right-nav,
+    body.dark-theme .mobile-nav,
+    body.dark-theme .feed-composer,
+    body.dark-theme .feed-post,
+    body.dark-theme .profile-header,
+    body.dark-theme .settings-panel,
+    body.dark-theme .chats-layout,
+    body.dark-theme .passport-card,
+    body.dark-theme .visa-card {
+      background: #1e1e1e;
+      border-color: #2a2a2a;
+    }
+    body.dark-theme .feed-post-text,
+    body.dark-theme .profile-name,
+    body.dark-theme .profile-bio,
+    body.dark-theme .chat-name,
+    body.dark-theme .msg.them {
+      color: #e0e0e0;
+    }
+    body.dark-theme .msg.them {
+      background: #2a2a2a;
+      border-color: #3a3a3a;
+    }
+    body.dark-theme .search,
+    body.dark-theme .feed-composer textarea,
+    body.dark-theme .comment-input,
+    body.dark-theme .chat-dialog-input input {
+      background: #2a2a2a;
+      border-color: #3a3a3a;
+      color: #e0e0e0;
+    }
+    body.dark-theme .search::placeholder,
+    body.dark-theme .feed-composer textarea::placeholder,
+    body.dark-theme .comment-input::placeholder {
+      color: #8e8e8e;
+    }
+    body.dark-theme .chat-list,
+    body.dark-theme .chat-dialog-body {
+      background: #1a1a1a;
+    }
+    body.dark-theme .chat-item:hover,
+    body.dark-theme .nav-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  `;
+  document.head.appendChild(darkThemeStyles);
 </script>
 </body>
 </html>
