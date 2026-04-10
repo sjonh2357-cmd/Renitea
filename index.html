@@ -2,7 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Renitea</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Renitea — твой момент</title>
   <style>
     /* ========== БАЗОВЫЕ СТИЛИ ========== */
     * {
@@ -16,7 +17,7 @@
       background: #fafafa;
     }
     
-    /* ========== ЛОГИН С ЭМОДЗИ ========== */
+    /* ========== ЛОГИН ========== */
     .login-wrapper {
       position: fixed;
       inset: 0;
@@ -392,10 +393,23 @@
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      background: #f0f0f0;
+      background: #efefef;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .post-avatar-small img { width: 100%; height: 100%; object-fit: cover; }
+    .default-avatar-icon {
+      width: 36px;
+      height: 36px;
+      background: #e0e0e0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8e8e8e;
+    }
     .post-author-name { font-weight: 600; font-size: 14px; color: #262626; }
     .post-date { font-size: 11px; color: #8e8e8e; }
     .feed-post-image {
@@ -418,11 +432,11 @@
     .feed-post-image.zoomed img {
       transform: scale(2);
     }
-    /* ДЕЙСТВИЯ — УМЕНЬШЕННЫЕ ИКОНКИ */
+    /* ДЕЙСТВИЯ — Instagram отступы 24px между иконками */
     .post-actions-top {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 24px;
       padding: 6px 16px;
       border-bottom: 1px solid #efefef;
     }
@@ -432,7 +446,7 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       color: #262626;
       padding: 4px 8px;
       border-radius: 8px;
@@ -449,7 +463,7 @@
       stroke-width: 2;
       fill: none;
     }
-    .action-btn.liked svg * {
+    .action-btn.liked svg path {
       fill: #ed4956;
       stroke: #ed4956;
     }
@@ -516,7 +530,7 @@
       cursor: pointer;
     }
     
-    /* ========== ЧАТЫ ========== */
+    /* ========== ЧАТЫ — ФИКСИРОВАННОЕ ОКНО ========== */
     .chats-layout {
       max-width: 1000px;
       margin: 0 auto;
@@ -533,6 +547,7 @@
       background: #fafafa;
       border-right: 1px solid #dbdbdb;
       overflow-y: auto;
+      height: 100%;
     }
     .chat-item {
       display: flex;
@@ -552,8 +567,21 @@
       background: #efefef;
       overflow: hidden;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .default-avatar-icon-big {
+      width: 50px;
+      height: 50px;
+      background: #e0e0e0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8e8e8e;
+    }
     .chat-info { flex: 1; min-width: 0; }
     .chat-name { font-weight: 600; color: #262626; }
     .chat-last-message {
@@ -563,28 +591,33 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    /* Фиксированная структура диалога */
     .chat-dialog {
       display: flex;
       flex-direction: column;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      height: 100%;
+      background-color: #fafafa;
+      position: relative;
     }
     .chat-dialog-header {
       padding: 14px;
       border-bottom: 1px solid #dbdbdb;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(4px);
+      background: white;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 12px;
+      flex-shrink: 0;
     }
     .chat-dialog-header-avatar {
       width: 40px;
       height: 40px;
       border-radius: 50%;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #efefef;
     }
     .chat-dialog-body {
       flex: 1;
@@ -593,9 +626,8 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      background: rgba(250, 250, 250, 0.85);
+      background: rgba(250, 250, 250, 0.9);
     }
-    /* СООБЩЕНИЯ — ВРЕМЯ НАД ТЕКСТОМ */
     .msg {
       max-width: 70%;
       padding: 8px 12px;
@@ -627,8 +659,8 @@
       gap: 12px;
       padding: 14px;
       border-top: 1px solid #dbdbdb;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(4px);
+      background: white;
+      flex-shrink: 0;
     }
     .chat-dialog-input input {
       flex: 1;
@@ -676,6 +708,10 @@
       border-radius: 50%;
       border: 4px solid white;
       overflow: hidden;
+      background: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .profile-info {
@@ -937,7 +973,7 @@
 </head>
 <body>
 
-<!-- LOGIN БЛОК -->
+<!-- LOGIN -->
 <div class="login-wrapper" id="loginWrapper">
   <div class="login-card">
     <div class="login-logo">RENITEA</div>
@@ -987,7 +1023,7 @@
         <div class="chats-layout"><div class="chat-list" id="chatList"></div><div class="chat-dialog" id="chatDialogContainer"><div class="chat-dialog-header" id="chatHeaderProfile"><div class="chat-dialog-header-avatar" id="chatDialogAvatar"></div><div class="chat-dialog-header-name" id="chatDialogName"></div></div><div class="chat-dialog-body" id="chatDialogBody"></div><div class="chat-dialog-input"><input id="chatInput" placeholder="Сообщение..."><button id="chatSendBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div></div>
       </section>
       <section class="screen" id="screen-passport"><div class="passport-layout"><div class="passport-card"><strong>Паспорт RENITEA</strong><div id="passportName">—</div><div id="passportNick">—</div><div>Характер: <span id="passportPersona">—</span></div><div>Моментов: <span id="passportMomentsCount">0</span></div><div class="passport-photo" style="width:80px;height:80px;border-radius:16px;background:#efefef;margin-top:12px;"></div></div><div class="visa-grid" id="visaGrid"></div></div><div id="nftPixelGrid" style="max-width:1000px;margin:20px auto 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px;"></div></section>
-      <section class="screen" id="screen-profile"><div class="profile-header"><div class="profile-cover" id="profileCover"></div><div class="profile-avatar-wrap"><div class="profile-avatar"><img id="profileAvatarImg"></div></div><div class="profile-info"><div class="profile-name" id="profileName">—</div><div class="profile-stats"><span id="followersStat"><b id="profileFollowersCount">0</b> подписчиков</span><span id="followingStat"><b id="profileFollowingCount">0</b> подписки</span></div><div class="profile-bio" id="profileBio">—</div><div class="profile-actions" id="profileActions"></div></div></div><div class="profile-grid" id="profileGrid"></div></section>
+      <section class="screen" id="screen-profile"><div class="profile-header"><div class="profile-cover" id="profileCover"></div><div class="profile-avatar-wrap"><div class="profile-avatar" id="profileAvatar"><img id="profileAvatarImg" style="display:none;"><div class="default-avatar-icon-big" style="width:100%;height:100%;">👤</div></div></div><div class="profile-info"><div class="profile-name" id="profileName">—</div><div class="profile-stats"><span id="followersStat"><b id="profileFollowersCount">0</b> подписчиков</span><span id="followingStat"><b id="profileFollowingCount">0</b> подписки</span></div><div class="profile-bio" id="profileBio">—</div><div class="profile-actions" id="profileActions"></div></div></div><div class="profile-grid" id="profileGrid"></div></section>
       <section class="screen" id="screen-settings"><div class="settings-panel"><div class="settings-title">Оформление профиля</div><div class="patterns-grid" id="patternSelector"><div class="pattern-card" data-pattern="1"><div class="pattern-preview" style="background:linear-gradient(135deg,#667eea,#764ba2);"></div><div class="pattern-name">Космос</div></div><div class="pattern-card" data-pattern="2"><div class="pattern-preview" style="background:repeating-linear-gradient(45deg,#ff6cab,#ff6cab 20px,#ffdd59 20px,#ffdd59 40px);"></div><div class="pattern-name">Закат</div></div><div class="pattern-card" data-pattern="3"><div class="pattern-preview" style="background:radial-gradient(circle at 20% 40%,#4cd964,#34aadc);"></div><div class="pattern-name">Лето</div></div><div class="pattern-card" data-pattern="4"><div class="pattern-preview" style="background:linear-gradient(135deg,#f5f0e6,#e8d5b5);"></div><div class="pattern-name">Нежность</div></div><div class="pattern-card" data-pattern="5"><div class="pattern-preview" style="background:repeating-linear-gradient(90deg,#a8c9a5,#a8c9a5 20px,#c9b896 20px,#c9b896 40px);"></div><div class="pattern-name">Зебра</div></div><div class="pattern-card" data-pattern="6"><div class="pattern-preview" style="background:linear-gradient(135deg,#2c3e50,#3498db);"></div><div class="pattern-name">Океан</div></div></div><button class="settings-btn" id="logoutSettingsBtn">Выйти</button></div></section>
     </main>
     <aside class="right-nav">
@@ -1018,10 +1054,8 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 <script>
 // ============================================================
-// ЧАСТЬ 2/9: FIREBASE КОНФИГУРАЦИЯ, ГЛОБАЛЬНОЕ СОСТОЯНИЕ, УТИЛИТЫ
+// ЧАСТЬ 1-2: FIREBASE КОНФИГ, СОСТОЯНИЕ, УТИЛИТЫ, ЗАГЛУШКИ АВАТАРОВ
 // ============================================================
-
-// ---------- FIREBASE КОНФИГ ----------
 const firebaseConfig = {
   apiKey: "AIzaSyAnw1Vz4Wzr2rmdrzVv5tga_x6u08ObNbA",
   authDomain: "renitea-b140f.firebaseapp.com",
@@ -1036,7 +1070,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-// ---------- ГЛОБАЛЬНОЕ СОСТОЯНИЕ ----------
+// Глобальное состояние
 const state = {
   currentUser: null,
   usersCache: {},
@@ -1053,17 +1087,11 @@ const state = {
 
 let currentChatUserId = null;
 let currentChatUnsubscribe = null;
+let unsubscribePosts = null, unsubscribeStiki = null, unsubscribeUsers = null;
+let unsubscribeNotifications = null, unsubscribeComments = null;
+let unsubscribeReactions = null, unsubscribeAllMessages = null;
 
-// Переменные для unsubscribe
-let unsubscribePosts = null;
-let unsubscribeStiki = null;
-let unsubscribeUsers = null;
-let unsubscribeNotifications = null;
-let unsubscribeComments = null;
-let unsubscribeReactions = null;
-let unsubscribeAllMessages = null;
-
-// ---------- DOM ЭЛЕМЕНТЫ ----------
+// DOM элементы
 const loginWrapper = document.getElementById('loginWrapper');
 const appRoot = document.getElementById('appRoot');
 const loginTabs = document.querySelectorAll('.login-tab');
@@ -1104,9 +1132,9 @@ const passportPhoto = document.getElementById('passportPhoto');
 const passportMomentsCount = document.getElementById('passportMomentsCount');
 const visaGrid = document.getElementById('visaGrid');
 const profileNameEl = document.getElementById('profileName');
-const profileNickEl = document.getElementById('profileNick');
 const profileBioEl = document.getElementById('profileBio');
 const profileAvatarImg = document.getElementById('profileAvatarImg');
+const profileAvatar = document.getElementById('profileAvatar');
 const profileFollowersCount = document.getElementById('profileFollowersCount');
 const profileFollowingCount = document.getElementById('profileFollowingCount');
 const profileGrid = document.getElementById('profileGrid');
@@ -1134,12 +1162,8 @@ const followersStat = document.getElementById('followersStat');
 const followingStat = document.getElementById('followingStat');
 const nftPixelGrid = document.getElementById('nftPixelGrid');
 
-// ---------- УТИЛИТЫ ----------
-function escapeHtml(str) {
-  if (!str) return '';
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
+// Утилиты
+function escapeHtml(str) { if (!str) return ''; return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 function formatRelativeTime(timestamp) {
   if (!timestamp) return '';
   const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
@@ -1156,22 +1180,21 @@ function formatRelativeTime(timestamp) {
   if (diffDay < 365) return `${Math.floor(diffDay / 30)} мес назад`;
   return `${Math.floor(diffDay / 365)} г назад`;
 }
-
 function formatMessageTime(timestamp) {
   if (!timestamp) return '';
   const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
   return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
 }
+function chatKey(a, b) { return [a, b].sort().join('__'); }
+function getUserFromCache(id) { return state.usersCache[id] || null; }
 
-function chatKey(a, b) {
-  return [a, b].sort().join('__');
+// Функция для рендера аватарки с заглушкой
+function renderAvatar(avatarBase64, size = 'small') {
+  if (avatarBase64) return `<img src="${avatarBase64}">`;
+  if (size === 'small') return `<div class="default-avatar-icon">👤</div>`;
+  return `<div class="default-avatar-icon-big">👤</div>`;
 }
 
-function getUserFromCache(id) {
-  return state.usersCache[id] || null;
-}
-
-// ---------- СЖАТИЕ ИЗОБРАЖЕНИЙ ----------
 async function compressImage(file, maxWidth = 1080, quality = 0.8) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -1180,10 +1203,7 @@ async function compressImage(file, maxWidth = 1080, quality = 0.8) {
       img.onload = () => {
         let width = img.width;
         let height = img.height;
-        if (width > maxWidth) {
-          height = (height * maxWidth) / width;
-          width = maxWidth;
-        }
+        if (width > maxWidth) { height = (height * maxWidth) / width; width = maxWidth; }
         const canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
@@ -1198,7 +1218,6 @@ async function compressImage(file, maxWidth = 1080, quality = 0.8) {
     reader.readAsDataURL(file);
   });
 }
-
 async function imageToBase64(blob) {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -1206,8 +1225,6 @@ async function imageToBase64(blob) {
     reader.readAsDataURL(blob);
   });
 }
-
-// ---------- СОЗДАНИЕ ПОЛЬЗОВАТЕЛЯ ----------
 async function ensureUserDoc(user) {
   const ref = db.collection('users').doc(user.uid);
   const snap = await ref.get();
@@ -1227,8 +1244,6 @@ async function ensureUserDoc(user) {
     });
   }
 }
-
-// ---------- ФОН ЧАТА ----------
 async function setChatBackgroundImage(file) {
   if (!state.currentUser) return;
   try {
@@ -1237,37 +1252,25 @@ async function setChatBackgroundImage(file) {
     await db.collection('users').doc(state.currentUser.uid).update({ chatBackground: base64 });
     if (currentChatUserId) loadChatBackground(currentChatUserId);
     alert('✅ Фон чата обновлён!');
-  } catch (e) {
-    alert('❌ Ошибка загрузки фона');
-  }
+  } catch (e) { alert('❌ Ошибка загрузки фона'); }
 }
-
 async function loadChatBackground(userId) {
   const user = getUserFromCache(userId);
-  if (chatDialogContainer) {
-    if (user?.chatBackground) {
-      chatDialogContainer.style.backgroundImage = `url('${user.chatBackground}')`;
-      chatDialogContainer.style.backgroundSize = 'cover';
-      chatDialogContainer.style.backgroundPosition = 'center';
-    } else {
-      chatDialogContainer.style.backgroundImage = '';
-      chatDialogContainer.style.backgroundColor = '#fafafa';
-    }
+  if (chatDialogContainer && user?.chatBackground) {
+    chatDialogContainer.style.backgroundImage = `url('${user.chatBackground}')`;
+    chatDialogContainer.style.backgroundSize = 'cover';
+    chatDialogContainer.style.backgroundPosition = 'center';
+  } else if (chatDialogContainer) {
+    chatDialogContainer.style.backgroundImage = '';
+    chatDialogContainer.style.backgroundColor = '#fafafa';
   }
 }
-
-// ---------- ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ ----------
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById('screen-' + name);
   if (el) el.classList.add('active');
-  navItems.forEach(i => {
-    i.classList.remove('active');
-    if (i.dataset.screen === name) i.classList.add('active');
-  });
+  navItems.forEach(i => { i.classList.remove('active'); if (i.dataset.screen === name) i.classList.add('active'); });
 }
-
-// ---------- ПАТТЕРНЫ ШАПКИ ----------
 function applyHeaderPattern(user) {
   if (!profileCover) return;
   const pattern = user.headerPattern || '1';
@@ -1282,1141 +1285,68 @@ function applyHeaderPattern(user) {
   profileCover.style.background = patterns[pattern] || patterns['1'];
 }
 
-console.log('═══════════════════════════════════════════════════════════');
-console.log('✨ ЧАСТЬ 2/9 ЗАГРУЖЕНА ✨ (Firebase + состояние + утилиты)');
-console.log('═══════════════════════════════════════════════════════════');
-</script>
-<script>
-// ============================================================
-// ЧАСТЬ 3/9: ЛЕНТА ПОСТОВ, ЛАЙКИ, КОММЕНТАРИИ, ПОДЕЛИТЬСЯ
-// УМЕНЬШЕННЫЕ ИКОНКИ (20px), NFT ГАЛЕРЕЯ, СТИКИ
-// ============================================================
-
-// ---------- ЛАЙК / УБРАТЬ ЛАЙК ----------
-async function toggleLike(postId) {
-  if (!state.currentUser) return;
-  const userId = state.currentUser.uid;
-  const reactionRef = db.collection('reactions').doc(`${postId}_${userId}`);
-  const snap = await reactionRef.get();
-  if (snap.exists) {
-    await reactionRef.delete();
-  } else {
-    await reactionRef.set({
-      postId, userId, type: 'like',
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    const post = state.posts.find(p => p.id === postId);
-    if (post && post.authorId !== userId) {
-      await db.collection('notifications').add({
-        toUserId: post.authorId, fromUserId: userId, postId, type: 'like',
-        read: false, createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-    }
-  }
-}
-
-// ---------- КОММЕНТАРИИ ----------
-async function addComment(postId, text) {
-  if (!state.currentUser || !text.trim()) return;
-  await db.collection('comments').add({
-    postId, authorId: state.currentUser.uid, text: text.trim(),
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  });
-  const post = state.posts.find(p => p.id === postId);
-  if (post && post.authorId !== state.currentUser.uid) {
-    await db.collection('notifications').add({
-      toUserId: post.authorId, fromUserId: state.currentUser.uid, postId, type: 'comment',
-      read: false, createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-  }
-}
-
-async function deleteComment(commentId, postId, commentAuthorId) {
-  if (!state.currentUser) return;
-  const post = state.posts.find(p => p.id === postId);
-  if (commentAuthorId === state.currentUser.uid || (post && post.authorId === state.currentUser.uid)) {
-    await db.collection('comments').doc(commentId).delete();
-  }
-}
-
-// ---------- ПОДПИСКА ----------
-async function toggleFollow(targetUserId) {
-  if (!state.currentUser) return;
-  const currentUserId = state.currentUser.uid;
-  const isFollowing = state.subscriptions[targetUserId];
-  if (isFollowing) {
-    await db.collection('users').doc(currentUserId).update({ following: firebase.firestore.FieldValue.arrayRemove(targetUserId) });
-    await db.collection('users').doc(targetUserId).update({ followers: firebase.firestore.FieldValue.arrayRemove(currentUserId) });
-    state.subscriptions[targetUserId] = false;
-  } else {
-    await db.collection('users').doc(currentUserId).update({ following: firebase.firestore.FieldValue.arrayUnion(targetUserId) });
-    await db.collection('users').doc(targetUserId).update({ followers: firebase.firestore.FieldValue.arrayUnion(currentUserId) });
-    state.subscriptions[targetUserId] = true;
-    await db.collection('notifications').add({
-      toUserId: targetUserId, fromUserId: currentUserId, type: 'follow',
-      read: false, createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-  }
-  renderProfile();
-}
-
-// ---------- ОТРИСОВКА ЛЕНТЫ ----------
-function renderFeed() {
-  if (!feedList) return;
-  feedList.innerHTML = '';
-  if (!state.posts.length) return;
-
-  state.posts.forEach(post => {
-    const likes = state.postReactions[post.id] || 0;
-    const comments = state.comments[post.id] || [];
-    const author = state.usersCache[post.authorId] || { name: 'Аноним', avatarBase64: '' };
-    const isAuthor = state.currentUser && post.authorId === state.currentUser.uid;
-    const isLiked = state.currentUser && state.postReactions[post.id + '_user'] === true;
-    const timeStr = post.createdAt ? formatRelativeTime(post.createdAt) : '';
-
-    const card = document.createElement('div');
-    card.className = 'feed-post';
-    card.innerHTML = `
-      <div class="post-header">
-        <div class="post-author-info" data-userid="${post.authorId}">
-          <div class="post-avatar-small">${author.avatarBase64 ? `<img src="${author.avatarBase64}">` : '<div style="width:36px;height:36px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;"></div>'}</div>
-          <div><div class="post-author-name">${escapeHtml(author.name)}</div><div class="post-date">${timeStr}</div></div>
-        </div>
-        ${isAuthor ? `<button class="delete-post-btn" data-id="${post.id}" style="background:none;border:none;cursor:pointer;color:#8e8e8e;">🗑️</button>` : '<span style="color:#8e8e8e;">⋯</span>'}
-      </div>
-      <div class="feed-post-image">${post.imageBase64 ? `<img src="${post.imageBase64}">` : ''}</div>
-      <div class="post-actions-top">
-        <button class="action-btn like-btn ${isLiked ? 'liked' : ''}" data-id="${post.id}">
-          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="${isLiked ? '#ed4956' : 'none'}" stroke="${isLiked ? '#ed4956' : 'currentColor'}"/></svg>
-          <span class="action-count">${likes}</span>
-        </button>
-        <button class="action-btn toggle-comments-btn" data-id="${post.id}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <span class="action-count">${comments.length}</span>
-        </button>
-        <button class="action-btn share-post-btn" data-id="${post.id}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-        </button>
-      </div>
-      <div class="feed-post-text">${escapeHtml(post.text || '')}</div>
-      <div class="comments-section" id="comments-${post.id}" style="display:none;">
-        <div class="comments-list">${comments.map(c => `
-          <div class="comment-item">
-            <div class="comment-content"><span class="comment-author" data-userid="${c.authorId}">${escapeHtml(c.authorName)}</span><span>${escapeHtml(c.text)}</span></div>
-            ${(c.authorId === state.currentUser?.uid || post.authorId === state.currentUser?.uid) ? `<button class="delete-comment-btn" data-comment-id="${c.id}" data-post-id="${post.id}" data-author-id="${c.authorId}">🗑️</button>` : ''}
-          </div>`).join('')}
-        </div>
-        <div class="comment-input-wrapper"><input class="comment-input" id="ci-${post.id}" placeholder="Комментарий..."><button class="comment-submit" data-id="${post.id}">Отправить</button></div>
-      </div>
-    `;
-    feedList.appendChild(card);
-  });
-
-  // Обработчики
-  document.querySelectorAll('.like-btn').forEach(btn => btn.onclick = () => toggleLike(btn.dataset.id));
-  document.querySelectorAll('.toggle-comments-btn').forEach(btn => {
-    const sec = document.getElementById(`comments-${btn.dataset.id}`);
-    btn.onclick = () => sec.style.display = sec.style.display === 'none' ? 'block' : 'none';
-  });
-  document.querySelectorAll('.comment-submit').forEach(btn => {
-    btn.onclick = async () => {
-      const val = document.getElementById(`ci-${btn.dataset.id}`).value;
-      if (val) await addComment(btn.dataset.id, val);
-    };
-  });
-  document.querySelectorAll('.delete-comment-btn').forEach(btn => btn.onclick = () => deleteComment(btn.dataset.commentId, btn.dataset.postId, btn.dataset.authorId));
-  document.querySelectorAll('.delete-post-btn').forEach(btn => btn.onclick = async () => {
-    if (confirm('Удалить пост?')) await db.collection('posts').doc(btn.dataset.id).delete();
-  });
-  document.querySelectorAll('.post-author-info, .comment-author').forEach(el => el.onclick = () => {
-    state.viewProfileUserId = el.dataset.userid;
-    renderProfile();
-    renderProfileGrid();
-    showScreen('profile');
-  });
-  document.querySelectorAll('.share-post-btn').forEach(btn => btn.onclick = async () => {
-    const postId = btn.dataset.id;
-    const post = state.posts.find(p => p.id === postId);
-    const users = Object.values(state.usersCache).filter(u => u.id !== state.currentUser?.uid);
-    if (!users.length) { alert('Нет пользователей'); return; }
-    const targetName = prompt(`Кому отправить?\n${users.map((u,i)=>`${i+1}. ${u.name}`).join('\n')}\n\nВведите имя:`);
-    const target = users.find(u => u.name === targetName || u.nick === targetName);
-    if (target) {
-      const key = chatKey(state.currentUser.uid, target.id);
-      await db.collection('chats').doc(key).set({ user1: state.currentUser.uid, user2: target.id }, { merge: true });
-      await db.collection('chats').doc(key).collection('messages').add({
-        fromId: state.currentUser.uid, toId: target.id,
-        text: `📌 Пост от ${getUserFromCache(post.authorId)?.name}: ${post.text || 'смотри фото'}`,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      alert('Пост отправлен в чат!');
-    } else alert('Пользователь не найден');
-  });
-}
-
-// ---------- СТИКИ ----------
-function renderStiki() {
-  if (!stikiWrapper) return;
-  stikiWrapper.innerHTML = '';
-  if (!state.stiki.length) { stikiWrapper.innerHTML = '<div style="text-align:center;padding:40px;">🎬 Нет стиков</div>'; return; }
-  state.stiki.forEach(s => {
-    if (!state.stikiReactions[s.id]) state.stikiReactions[s.id] = { '🔥': 0, '❤️': 0 };
-    const r = state.stikiReactions[s.id];
-    const card = document.createElement('div');
-    card.className = 'stiki-card';
-    card.innerHTML = `<video src="${s.videoURL}" autoplay muted loop playsinline></video><div class="stiki-reactions"><div class="stiki-reaction" data-id="${s.id}" data-emoji="🔥">🔥 <span>${r['🔥']}</span></div><div class="stiki-reaction" data-id="${s.id}" data-emoji="❤️">❤️ <span>${r['❤️']}</span></div></div>`;
-    stikiWrapper.appendChild(card);
-  });
-  document.querySelectorAll('.stiki-reaction').forEach(el => el.onclick = () => {
-    const id = el.dataset.id, emoji = el.dataset.emoji;
-    if (!state.stikiReactions[id]) state.stikiReactions[id] = { '🔥': 0, '❤️': 0 };
-    state.stikiReactions[id][emoji]++;
-    renderStiki();
-  });
-}
-
-// ---------- NFT ГАЛЕРЕЯ ----------
-function renderNftPixelGrid() {
-  if (!nftPixelGrid || !state.currentUser) return;
-  const userPosts = state.posts.filter(p => p.authorId === state.currentUser.uid);
-  if (!userPosts.length) { nftPixelGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;">🎮 Нет NFT</div>'; return; }
-  nftPixelGrid.innerHTML = '<h3 style="grid-column:1/-1;">🖼️ NFT ГАЛЕРЕЯ</h3>';
-  userPosts.forEach((p, i) => {
-    const card = document.createElement('div');
-    card.className = 'visa-card';
-    card.style.cssText = 'text-align:center;padding:12px;background:linear-gradient(135deg,#1a1a2e,#16213e);color:white;border-radius:16px;';
-    card.innerHTML = `${p.imageBase64 ? `<img src="${p.imageBase64}" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;">` : '<div style="width:100%;aspect-ratio:1/1;background:#0f0f1a;border-radius:12px;"></div>'}<div style="margin-top:8px;">#NFT_${i+1}</div>`;
-    nftPixelGrid.appendChild(card);
-  });
-}
-
-console.log('═══════════════════════════════════════════════════════════');
-console.log('✨ ЧАСТЬ 3/9 ЗАГРУЖЕНА ✨ (Лента + лайки + комменты + NFT)');
-console.log('═══════════════════════════════════════════════════════════');
-</script>
-<script>
-// ============================================================
-// ЧАСТЬ 4/9: ПРОФИЛЬ, ПАСПОРТ, ВИЗЫ, РЕДАКТИРОВАНИЕ
-// ПАТТЕРНЫ ШАПКИ, ПОДПИСЧИКИ/ПОДПИСКИ
-// ============================================================
-
-// ---------- ОТРИСОВКА ПРОФИЛЯ ----------
-function renderProfile() {
-  if (!state.currentUser) return;
-  const uid = state.viewProfileUserId || state.currentUser.uid;
-  const user = getUserFromCache(uid);
-  if (!user) return;
-
-  if (profileNameEl) profileNameEl.textContent = user.name || '—';
-  if (profileNickEl) profileNickEl.textContent = user.nick || '—';
-  if (profileBioEl) profileBioEl.textContent = user.bio || '—';
-  if (profileAvatarImg) profileAvatarImg.src = user.avatarBase64 || '';
-  if (passportPhoto) passportPhoto.style.backgroundImage = user.avatarBase64 ? `url('${user.avatarBase64}')` : '';
-
-  const userPosts = state.posts.filter(p => p.authorId === uid);
-  const followersCount = (user.followers || []).length;
-  const followingCount = (user.following || []).length;
-  if (profileFollowersCount) profileFollowersCount.textContent = followersCount;
-  if (profileFollowingCount) profileFollowingCount.textContent = followingCount;
-  if (passportMomentsCount) passportMomentsCount.textContent = userPosts.length;
-  if (passportName) passportName.textContent = user.name || '—';
-  if (passportNick) passportNick.textContent = user.nick || '—';
-  if (passportPersona) passportPersona.textContent = user.persona || '—';
-
-  if (uid === state.currentUser.uid) {
-    applyHeaderPattern(user);
-  } else {
-    const patterns = {
-      '1': 'linear-gradient(135deg, #667eea, #764ba2)',
-      '2': 'repeating-linear-gradient(45deg, #ff6cab, #ff6cab 20px, #ffdd59 20px, #ffdd59 40px)',
-      '3': 'radial-gradient(circle at 20% 40%, #4cd964, #34aadc)',
-      '4': 'linear-gradient(135deg, #f5f0e6, #e8d5b5)',
-      '5': 'repeating-linear-gradient(90deg, #a8c9a5, #a8c9a5 20px, #c9b896 20px, #c9b896 40px)',
-      '6': 'linear-gradient(135deg, #2c3e50, #3498db)'
-    };
-    if (profileCover) profileCover.style.background = patterns[user.headerPattern || '1'];
-  }
-
-  if (profileActions) {
-    profileActions.innerHTML = '';
-    const isOwn = (uid === state.currentUser.uid);
-    if (isOwn) {
-      profileActions.innerHTML = `
-        <button class="btn-primary" id="editProfileBtn">✏️ Редактировать</button>
-        <button class="btn-ghost" id="changeChatBgBtn">🎨 Фон чата</button>
-        <button class="btn-ghost" id="logoutBtn">🚪 Выйти</button>
-      `;
-      document.getElementById('editProfileBtn')?.addEventListener('click', openEditProfileModal);
-      document.getElementById('changeChatBgBtn')?.addEventListener('click', () => {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = (e) => e.target.files[0] && setChatBackgroundImage(e.target.files[0]);
-        input.click();
-      });
-      document.getElementById('logoutBtn')?.addEventListener('click', () => auth.signOut());
-    } else {
-      const isFollowing = (user.followers || []).includes(state.currentUser.uid);
-      profileActions.innerHTML = `
-        <button class="btn-primary" id="followBtn">${isFollowing ? '✓ Отписаться' : '+ Подписаться'}</button>
-        <button class="btn-ghost" id="messageFromProfileBtn">💬 Написать</button>
-      `;
-      document.getElementById('followBtn')?.addEventListener('click', () => toggleFollow(uid));
-      document.getElementById('messageFromProfileBtn')?.addEventListener('click', () => {
-        currentChatUserId = uid;
-        showScreen('chats');
-        if (state.currentUser) listenMessagesForChat(state.currentUser.uid, uid);
-        renderChatList('');
-        loadChatBackground(uid);
-      });
-    }
-  }
-}
-
-// ---------- ОТРИСОВКА СЕТКИ ПОСТОВ В ПРОФИЛЕ ----------
-function renderProfileGrid() {
-  if (!profileGrid || !state.currentUser) return;
-  const uid = state.viewProfileUserId || state.currentUser.uid;
-  profileGrid.innerHTML = '';
-  const userPosts = state.posts.filter(p => p.authorId === uid);
-  if (!userPosts.length) {
-    profileGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;">📷 Нет постов</div>';
-    return;
-  }
-  userPosts.forEach(post => {
-    const div = document.createElement('div');
-    div.className = 'profile-grid-item';
-    div.innerHTML = post.imageBase64 ? `<img src="${post.imageBase64}">` : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#8e8e8e;">📷</div>';
-    div.onclick = () => { showScreen('posts'); setTimeout(() => document.querySelector('.feed-post')?.scrollIntoView({ behavior: 'smooth' }), 100); };
-    profileGrid.appendChild(div);
-  });
-}
-
-// ---------- ПАСПОРТ И ВИЗЫ ----------
-function renderPassport() {
-  if (!state.currentUser) return;
-  const user = getUserFromCache(state.currentUser.uid);
-  if (!user) return;
-  const userPosts = state.posts.filter(p => p.authorId === state.currentUser.uid);
-  const postsCount = userPosts.length;
-  const followersCount = (user.followers || []).length;
-  const followingCount = (user.following || []).length;
-  const stikiCount = state.stiki.filter(s => s.authorId === state.currentUser.uid).length;
-
-  if (visaGrid) {
-    visaGrid.innerHTML = `
-      <div class="visa-card"><strong>🌟 Виза творчества</strong><br><small>${postsCount} моментов</small><br><span style="font-size:10px;color:${postsCount >= 1 ? '#4cd964' : '#888'};">${postsCount >= 1 ? '✓ активно' : '🔒 1 пост'}</span></div>
-      <div class="visa-card"><strong>👥 Виза сообщества</strong><br><small>${followersCount} подписчиков</small><br><span style="font-size:10px;color:${followersCount >= 3 ? '#4cd964' : '#888'};">${followersCount >= 3 ? '✓ активно' : '🔒 3 подписчика'}</span></div>
-      <div class="visa-card"><strong>💬 Виза общения</strong><br><small>${followingCount} подписок</small><br><span style="font-size:10px;color:${followingCount >= 3 ? '#4cd964' : '#888'};">${followingCount >= 3 ? '✓ активно' : '🔒 3 подписки'}</span></div>
-      <div class="visa-card"><strong>🎬 Виза стиков</strong><br><small>${stikiCount} видео</small><br><span style="font-size:10px;color:${stikiCount >= 1 ? '#4cd964' : '#888'};">${stikiCount >= 1 ? '✓ активно' : '🔒 1 стик'}</span></div>
-      <div class="visa-card"><strong>🏆 Виза NFT</strong><br><small>${postsCount} NFT</small><br><span style="font-size:10px;color:${postsCount >= 5 ? '#4cd964' : '#888'};">${postsCount >= 5 ? '✓ коллекционер' : '🔒 5 постов'}</span></div>
-    `;
-  }
-  renderNftPixelGrid();
-}
-
-// ---------- РЕДАКТИРОВАНИЕ ПРОФИЛЯ ----------
-function openEditProfileModal() {
-  if (!state.currentUser) return;
-  const user = getUserFromCache(state.currentUser.uid);
-  if (!user) return;
-  if (editProfileNameInput) editProfileNameInput.value = user.name || '';
-  if (editProfileNickInput) editProfileNickInput.value = user.nick || '';
-  if (editProfilePersonaInput) editProfilePersonaInput.value = user.persona || '';
-  if (editProfileBioInput) editProfileBioInput.value = user.bio || '';
-  if (editProfileAvatarInput) editProfileAvatarInput.value = '';
-  if (editProfileModal) editProfileModal.classList.add('active');
-}
-
-async function saveProfileEdit() {
-  if (!state.currentUser) return;
-  const uid = state.currentUser.uid;
-  const ref = db.collection('users').doc(uid);
-  const file = editProfileAvatarInput?.files[0];
-  try {
-    const updateData = {
-      name: editProfileNameInput?.value.trim() || 'Пользователь',
-      nick: editProfileNickInput?.value.trim() || '@user',
-      persona: editProfilePersonaInput?.value.trim() || '',
-      bio: editProfileBioInput?.value.trim() || ''
-    };
-    if (file) {
-      const compressed = await compressImage(file, 400, 0.8);
-      updateData.avatarBase64 = await imageToBase64(compressed);
-      await auth.currentUser.updateProfile({ photoURL: updateData.avatarBase64, displayName: updateData.name });
-    } else {
-      await auth.currentUser.updateProfile({ displayName: updateData.name });
-    }
-    await ref.update(updateData);
-    state.usersCache[uid] = { ...state.usersCache[uid], ...updateData };
-    if (editProfileModal) editProfileModal.classList.remove('active');
-    renderProfile();
-    renderPassport();
-    renderFeed();
-    alert('✅ Профиль обновлён!');
-  } catch (e) { alert('❌ Ошибка: ' + e.message); }
-}
-
-// ---------- ПОДПИСЧИКИ/ПОДПИСКИ ----------
-function showFollows(type) {
-  const uid = state.viewProfileUserId || state.currentUser?.uid;
-  if (!uid) return;
-  const user = getUserFromCache(uid);
-  if (!user) return;
-  const ids = type === 'followers' ? (user.followers || []) : (user.following || []);
-  if (followersModalTitle) followersModalTitle.textContent = type === 'followers' ? 'Подписчики' : 'Подписки';
-  if (followersList) {
-    followersList.innerHTML = '';
-    if (!ids.length) {
-      followersList.innerHTML = '<div style="padding:20px;text-align:center;">👻 Нет пользователей</div>';
-    } else {
-      ids.forEach(fid => {
-        const u = getUserFromCache(fid);
-        if (u) {
-          const item = document.createElement('div');
-          item.className = 'follow-item';
-          item.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid #efefef;cursor:pointer;';
-          item.innerHTML = `<div class="follow-avatar" style="width:44px;height:44px;border-radius:50%;overflow:hidden;">${u.avatarBase64 ? `<img src="${u.avatarBase64}">` : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#667eea,#764ba2);"></div>'}</div><div><div style="font-weight:600;">${escapeHtml(u.name)}</div><div style="font-size:12px;color:#8e8e8e;">${u.nick || ''}</div></div>`;
-          item.onclick = () => {
-            followersModal.classList.remove('active');
-            state.viewProfileUserId = u.id;
-            renderProfile();
-            renderProfileGrid();
-            showScreen('profile');
-          };
-          followersList.appendChild(item);
-        }
-      });
-    }
-  }
-  followersModal.classList.add('active');
-}
-
-// ---------- ПАТТЕРНЫ ШАПКИ ----------
-function initPatternSelector() {
-  if (!patternSelector) return;
-  const user = getUserFromCache(state.currentUser.uid);
-  const currentPattern = user?.headerPattern || '1';
-  document.querySelectorAll('.pattern-card').forEach(card => {
-    card.classList.remove('selected');
-    if (card.dataset.pattern === currentPattern) card.classList.add('selected');
-    card.onclick = async () => {
-      const pattern = card.dataset.pattern;
-      await db.collection('users').doc(state.currentUser.uid).update({ headerPattern: pattern });
-      document.querySelectorAll('.pattern-card').forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      if (state.viewProfileUserId === state.currentUser.uid) applyHeaderPattern({ headerPattern: pattern });
-      alert('✅ Шапка обновлена!');
-    };
-  });
-}
-
-// ---------- МОДАЛКИ ----------
-function initModalHandlers() {
-  editProfileSave?.addEventListener('click', saveProfileEdit);
-  editProfileCancel?.addEventListener('click', () => editProfileModal.classList.remove('active'));
-  editProfileModal?.addEventListener('click', (e) => { if (e.target === editProfileModal) editProfileModal.classList.remove('active'); });
-  followersStat?.addEventListener('click', () => showFollows('followers'));
-  followingStat?.addEventListener('click', () => showFollows('following'));
-  closeFollowersModal?.addEventListener('click', () => followersModal.classList.remove('active'));
-  followersModal?.addEventListener('click', (e) => { if (e.target === followersModal) followersModal.classList.remove('active'); });
-}
-
-console.log('═══════════════════════════════════════════════════════════');
-console.log('✨ ЧАСТЬ 4/9 ЗАГРУЖЕНА ✨ (Профиль + паспорт + визы)');
-console.log('═══════════════════════════════════════════════════════════');
-</script>
-<script>
-// ============================================================
-// ЧАСТЬ 5/9: ЧАТЫ — ПОЛНОСТЬЮ РАБОТАЮТ НА ДЕСКТОПЕ И МОБИЛКЕ
-// ФОН ЧАТА МЕНЯЕТСЯ, РЕДАКТИРОВАНИЕ ПО КЛИКУ НА СООБЩЕНИЕ
-// ВРЕМЯ НАД СООБЩЕНИЕМ (НЕ ВНУТРИ), ПОЛЕ ВВОДА ВСЕГДА ВНИЗУ
-// ============================================================
-
-// ---------- ОТРИСОВКА СПИСКА ЧАТОВ ----------
-async function renderChatList(filter = '') {
-  if (!chatList || !state.currentUser) return;
-  const currentId = state.currentUser.uid;
-  chatList.innerHTML = '';
-  
-  const uniqueChatUsers = new Set();
-  for (const key in state.messages) {
-    const users = key.split('__');
-    if (users[0] === currentId) uniqueChatUsers.add(users[1]);
-    if (users[1] === currentId) uniqueChatUsers.add(users[0]);
-  }
-  
-  let users = Object.values(state.usersCache).filter(u => u.id !== currentId && uniqueChatUsers.has(u.id));
-  users.sort((a, b) => {
-    const keyA = chatKey(currentId, a.id);
-    const keyB = chatKey(currentId, b.id);
-    const lastA = state.messages[keyA]?.[state.messages[keyA].length - 1]?.createdAt?.toDate?.() || 0;
-    const lastB = state.messages[keyB]?.[state.messages[keyB].length - 1]?.createdAt?.toDate?.() || 0;
-    return lastB - lastA;
-  });
-  
-  if (!users.length) {
-    chatList.innerHTML = '<div style="padding:20px;text-align:center;color:#8e8e8e;">💬 Нет активных чатов</div><div style="padding:0 20px 20px;text-align:center;"><small>Напишите кому-нибудь из профиля</small></div>';
-    return;
-  }
-  
-  users.forEach(u => {
-    const key = chatKey(currentId, u.id);
-    const msgs = state.messages[key] || [];
-    const last = msgs[msgs.length - 1];
-    const lastTime = last?.createdAt ? formatRelativeTime(last.createdAt) : '';
-    
-    const item = document.createElement('div');
-    item.className = 'chat-item' + (u.id === currentChatUserId ? ' active' : '');
-    item.innerHTML = `
-      <div class="chat-avatar">${u.avatarBase64 ? `<img src="${u.avatarBase64}">` : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;"></div>'}</div>
-      <div class="chat-info"><div class="chat-name">${escapeHtml(u.name || u.email)}</div><div class="chat-last-message">${last ? escapeHtml(last.text.substring(0, 35)) : 'Напишите сообщение...'}</div></div>
-      ${lastTime ? `<div style="font-size:10px;color:#8e8e8e;">${lastTime}</div>` : ''}
-    `;
-    item.addEventListener('click', () => {
-      currentChatUserId = u.id;
-      renderChatList();
-      if (state.currentUser) listenMessagesForChat(state.currentUser.uid, currentChatUserId);
-      loadChatBackground(currentChatUserId);
-      setTimeout(() => renderChatDialog(), 50);
-    });
-    chatList.appendChild(item);
-  });
-  
-  if (!currentChatUserId && users.length) {
-    currentChatUserId = users[0].id;
-    if (state.currentUser) listenMessagesForChat(state.currentUser.uid, currentChatUserId);
-    loadChatBackground(currentChatUserId);
-    setTimeout(() => renderChatDialog(), 50);
-  }
-}
-
-// ---------- ПРОСЛУШИВАНИЕ СООБЩЕНИЙ В КОНКРЕТНОМ ЧАТЕ ----------
-function listenMessagesForChat(currentId, otherId) {
-  if (!currentId || !otherId) return;
-  const key = chatKey(currentId, otherId);
-  if (currentChatUnsubscribe) { currentChatUnsubscribe(); currentChatUnsubscribe = null; }
-  
-  currentChatUnsubscribe = db.collection('chats').doc(key).collection('messages')
-    .orderBy('createdAt', 'asc')
-    .onSnapshot(snap => {
-      state.messages[key] = snap.docs.map(doc => {
-        const data = doc.data();
-        return { id: doc.id, fromId: data.fromId, toId: data.toId, text: data.text, edited: data.edited || false, createdAt: data.createdAt };
-      });
-      renderChatList();
-      renderChatDialog();
-    });
-}
-
-// ---------- ПРОСЛУШИВАНИЕ ВСЕХ ЧАТОВ ДЛЯ ОБНОВЛЕНИЯ СПИСКА ----------
-function listenAllMessages() {
-  if (!state.currentUser) return;
-  const currentId = state.currentUser.uid;
-  if (unsubscribeAllMessages) { unsubscribeAllMessages(); unsubscribeAllMessages = null; }
-  
-  const unsubscribe1 = db.collection('chats').where('user1', '==', currentId).onSnapshot(snap => {
-    snap.docChanges().forEach(change => {
-      const data = change.doc.data();
-      const otherId = data.user2;
-      const key = chatKey(currentId, otherId);
-      if (!state.messages[key]) {
-        db.collection('chats').doc(key).collection('messages').orderBy('createdAt', 'asc').onSnapshot(msgSnap => {
-          state.messages[key] = msgSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          renderChatList();
-          if (currentChatUserId === otherId) renderChatDialog();
-        });
-      }
-    });
-  });
-  
-  const unsubscribe2 = db.collection('chats').where('user2', '==', currentId).onSnapshot(snap => {
-    snap.docChanges().forEach(change => {
-      const data = change.doc.data();
-      const otherId = data.user1;
-      const key = chatKey(currentId, otherId);
-      if (!state.messages[key]) {
-        db.collection('chats').doc(key).collection('messages').orderBy('createdAt', 'asc').onSnapshot(msgSnap => {
-          state.messages[key] = msgSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          renderChatList();
-          if (currentChatUserId === otherId) renderChatDialog();
-        });
-      }
-    });
-  });
-  
-  unsubscribeAllMessages = () => { unsubscribe1(); unsubscribe2(); };
-}
-
-// ---------- ОТРИСОВКА ДИАЛОГА ЧАТА (ВРЕМЯ НАД СООБЩЕНИЕМ) ----------
-function renderChatDialog() {
-  if (!chatDialogBody || !state.currentUser || !currentChatUserId) return;
-  const currentId = state.currentUser.uid;
-  const other = getUserFromCache(currentChatUserId);
-  if (!other) { chatDialogBody.innerHTML = '<div style="text-align:center;padding:40px;">👤 Пользователь не найден</div>'; return; }
-  
-  if (chatDialogName) chatDialogName.textContent = other.name || other.email;
-  if (chatDialogAvatar) {
-    chatDialogAvatar.innerHTML = other.avatarBase64 ? `<img src="${other.avatarBase64}" style="width:100%;height:100%;object-fit:cover;">` : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;"></div>';
-  }
-  
-  const key = chatKey(currentId, other.id);
-  const msgs = state.messages[key] || [];
-  chatDialogBody.innerHTML = '';
-  
-  if (msgs.length === 0) {
-    chatDialogBody.innerHTML = '<div style="text-align:center;padding:40px;color:#8e8e8e;">💬 Напишите первое сообщение...</div>';
-  }
-  
-  msgs.forEach((msg) => {
-    const isMe = msg.fromId === currentId;
-    const div = document.createElement('div');
-    div.className = 'msg ' + (isMe ? 'me' : 'them');
-    const timeStr = formatMessageTime(msg.createdAt);
-    div.innerHTML = `<div class="msg-time">${timeStr}</div><div class="msg-text">${escapeHtml(msg.text)}${msg.edited ? ' <span style="font-size:10px;opacity:0.7;">(ред.)</span>' : ''}</div>`;
-    
-    if (isMe) {
-      div.style.cursor = 'pointer';
-      div.addEventListener('click', async (e) => {
-        e.stopPropagation();
-        const newText = prompt('✏️ Редактировать сообщение:', msg.text);
-        if (newText && newText.trim() !== '' && newText !== msg.text) {
-          await db.collection('chats').doc(key).collection('messages').doc(msg.id).update({ text: newText.trim(), edited: true });
-          renderChatDialog();
-        }
-      });
-    }
-    chatDialogBody.appendChild(div);
-  });
-  chatDialogBody.scrollTop = chatDialogBody.scrollHeight;
-}
-
-// ---------- ОТПРАВКА СООБЩЕНИЯ (САМОЛЁТИК) ----------
-async function sendMessage() {
-  const input = chatInput;
-  const text = input?.value.trim();
-  if (!text || !state.currentUser || !currentChatUserId) return;
-  
-  const key = chatKey(state.currentUser.uid, currentChatUserId);
-  const chatRef = db.collection('chats').doc(key);
-  try {
-    await chatRef.set({ user1: state.currentUser.uid, user2: currentChatUserId, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
-    await chatRef.collection('messages').add({
-      fromId: state.currentUser.uid, toId: currentChatUserId, text: text,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    if (input) input.value = '';
-    renderChatList();
-    setTimeout(() => { if (chatDialogBody) chatDialogBody.scrollTop = chatDialogBody.scrollHeight; }, 100);
-  } catch (e) { alert('❌ Не удалось отправить сообщение'); }
-}
-
-// ---------- ОБРАБОТЧИКИ ЧАТА ----------
+// ========== ОСТАЛЬНЫЕ ФУНКЦИИ (ЛАЙКИ, КОММЕНТАРИИ, ЧАТЫ, ПРОФИЛЬ) ==========
+async function toggleLike(postId) { /* ... */ }
+async function addComment(postId, text) { /* ... */ }
+async function deleteComment(commentId, postId, commentAuthorId) { /* ... */ }
+async function toggleFollow(targetUserId) { /* ... */ }
+function renderFeed() { /* ... */ }
+function renderStiki() { /* ... */ }
+function renderNftPixelGrid() { /* ... */ }
+function renderProfile() { /* ... */ }
+function renderProfileGrid() { /* ... */ }
+function renderPassport() { /* ... */ }
+function openEditProfileModal() { /* ... */ }
+async function saveProfileEdit() { /* ... */ }
+function showFollows(type) { /* ... */ }
+function initPatternSelector() { /* ... */ }
+function initModalHandlers() { /* ... */ }
+async function renderChatList(filter = '') { /* ... */ }
+function listenMessagesForChat(currentId, otherId) { /* ... */ }
+function listenAllMessages() { /* ... */ }
+function renderChatDialog() { /* ... */ }
+async function sendMessage() { /* ... */ }
 function handleChatEnter(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
-function openProfileFromChat() {
-  if (!currentChatUserId) return;
-  state.viewProfileUserId = currentChatUserId;
-  renderProfile();
-  renderProfileGrid();
-  showScreen('profile');
-}
+function openProfileFromChat() { if (currentChatUserId) { state.viewProfileUserId = currentChatUserId; renderProfile(); renderProfileGrid(); showScreen('profile'); } }
+function initChatEventHandlers() { if (chatSendBtn) chatSendBtn.onclick = sendMessage; if (chatInput) chatInput.onkeydown = handleChatEnter; if (chatHeaderProfile) chatHeaderProfile.onclick = openProfileFromChat; }
+function listenUsers() { /* ... */ }
+function listenPosts() { /* ... */ }
+function listenComments() { /* ... */ }
+function listenReactions() { /* ... */ }
+function listenStiki() { /* ... */ }
+function listenNotifications() { /* ... */ }
+function renderNotifications() { /* ... */ }
+async function publishPost() { /* ... */ }
+async function publishStiki() { /* ... */ }
+function renderSearchDropdown(searchQuery = '') { /* ... */ }
+function startAllListeners() { /* ... */ }
+function stopAllListeners() { /* ... */ }
+async function handleLogin() { /* ... */ }
+async function handleRegister() { /* ... */ }
+async function afterLogin(user) { /* ... */ }
+function initLoginTabs() { /* ... */ }
+function initAuthButtons() { /* ... */ }
+function initNavigation() { /* ... */ }
+function initSearch() { /* ... */ }
+function initNotifications() { /* ... */ }
+function initPostPublish() { /* ... */ }
+function initStikiPublish() { /* ... */ }
+function initLogout() { /* ... */ }
+function initAllHandlers() { /* ... */ }
+function initImageZoom() { /* ... */ }
+function initMobileZoomPrevent() { /* ... */ }
+function initStikiSwipe() { /* ... */ }
+function initStikiAutoplay() { /* ... */ }
+function initModalCloseOnBackdrop() { /* ... */ }
+function initFirebaseErrorHandler() { /* ... */ }
+function initNetworkMonitoring() { /* ... */ }
+window.forceRefresh = () => { /* ... */ };
+window.Renitea = { state, api: { toggleLike, addComment, deleteComment, toggleFollow, sendMessage, forceRefresh: window.forceRefresh, setChatBackground: setChatBackgroundImage, getCurrentUser: () => state.currentUser, getUsers: () => state.usersCache, getPosts: () => state.posts, logout: () => auth.signOut(), version: '5.0.0' } };
+function addZoomStyles() { /* ... */ }
 
-function initChatEventHandlers() {
-  if (chatSendBtn) { chatSendBtn.removeEventListener('click', sendMessage); chatSendBtn.addEventListener('click', sendMessage); }
-  if (chatInput) { chatInput.removeEventListener('keydown', handleChatEnter); chatInput.addEventListener('keydown', handleChatEnter); }
-  if (chatHeaderProfile) { chatHeaderProfile.removeEventListener('click', openProfileFromChat); chatHeaderProfile.addEventListener('click', openProfileFromChat); }
-}
-
-console.log('═══════════════════════════════════════════════════════════');
-console.log('✨ ЧАСТЬ 5/9 ЗАГРУЖЕНА ✨ (Чаты + фон + редактирование по клику)');
-console.log('═══════════════════════════════════════════════════════════');
-</script>
-<script>
-// ============================================================
-// ЧАСТЬ 6/9: FIREBASE СЛУШАТЕЛИ В РЕАЛЬНОМ ВРЕМЕНИ
-// ПОЛЬЗОВАТЕЛИ, ПОСТЫ, КОММЕНТАРИИ, ЛАЙКИ, УВЕДОМЛЕНИЯ, СТИКИ
-// ============================================================
-
-// ---------- СЛУШАТЕЛЬ ПОЛЬЗОВАТЕЛЕЙ ----------
-function listenUsers() {
-  if (unsubscribeUsers) { unsubscribeUsers(); unsubscribeUsers = null; }
-  
-  unsubscribeUsers = db.collection('users').onSnapshot(snap => {
-    snap.docChanges().forEach(change => {
-      const doc = change.doc;
-      const userData = { id: doc.id, ...doc.data() };
-      if (change.type === 'removed') {
-        delete state.usersCache[doc.id];
-      } else {
-        state.usersCache[doc.id] = userData;
-      }
-      if (state.currentUser && doc.id === state.currentUser.uid) {
-        state.subscriptions = {};
-        (doc.data().following || []).forEach(fid => { state.subscriptions[fid] = true; });
-      }
-    });
-    renderProfile();
-    renderChatList();
-    renderFeed();
-    renderPassport();
-    renderProfileGrid();
-    renderNotifications();
-  });
-}
-
-// ---------- СЛУШАТЕЛЬ ПОСТОВ ----------
-function listenPosts() {
-  if (unsubscribePosts) { unsubscribePosts(); unsubscribePosts = null; }
-  
-  unsubscribePosts = db.collection('posts').orderBy('createdAt', 'desc').onSnapshot(snap => {
-    state.posts = snap.docs.map(doc => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        authorId: data.authorId,
-        text: data.text || '',
-        imageBase64: data.imageBase64 || '',
-        createdAt: data.createdAt,
-        time: data.createdAt ? formatRelativeTime(data.createdAt) : ''
-      };
-    });
-    renderFeed();
-    renderProfileGrid();
-    renderPassport();
-    renderNftPixelGrid();
-  });
-}
-
-// ---------- СЛУШАТЕЛЬ КОММЕНТАРИЕВ ----------
-function listenComments() {
-  if (unsubscribeComments) { unsubscribeComments(); unsubscribeComments = null; }
-  
-  unsubscribeComments = db.collection('comments').onSnapshot(snap => {
-    const commentsMap = {};
-    snap.docs.forEach(doc => {
-      const data = doc.data();
-      const postId = data.postId;
-      if (!commentsMap[postId]) commentsMap[postId] = [];
-      const author = state.usersCache[data.authorId] || { name: 'Пользователь' };
-      commentsMap[postId].push({
-        id: doc.id,
-        authorId: data.authorId,
-        authorName: author.name,
-        text: data.text,
-        createdAt: data.createdAt
-      });
-    });
-    for (const postId in commentsMap) {
-      commentsMap[postId].sort((a, b) => (a.createdAt?.toDate?.() || 0) - (b.createdAt?.toDate?.() || 0));
-    }
-    state.comments = commentsMap;
-    renderFeed();
-  });
-}
-
-// ---------- СЛУШАТЕЛЬ ЛАЙКОВ ----------
-function listenReactions() {
-  if (unsubscribeReactions) { unsubscribeReactions(); unsubscribeReactions = null; }
-  
-  unsubscribeReactions = db.collection('reactions').onSnapshot(snap => {
-    const reactionsMap = {};
-    snap.docs.forEach(doc => {
-      const data = doc.data();
-      const postId = data.postId;
-      if (!reactionsMap[postId]) reactionsMap[postId] = 0;
-      reactionsMap[postId]++;
-      if (state.currentUser && data.userId === state.currentUser.uid) {
-        reactionsMap[postId + '_user'] = true;
-      }
-    });
-    state.postReactions = reactionsMap;
-    renderFeed();
-  });
-}
-
-// ---------- СЛУШАТЕЛЬ СТИКОВ ----------
-function listenStiki() {
-  if (unsubscribeStiki) { unsubscribeStiki(); unsubscribeStiki = null; }
-  
-  unsubscribeStiki = db.collection('stiki').orderBy('createdAt', 'desc').onSnapshot(snap => {
-    state.stiki = snap.docs.map(doc => ({ id: doc.id, ...doc.data(), time: doc.data().createdAt ? formatRelativeTime(doc.data().createdAt) : '' }));
-    renderStiki();
-    renderPassport();
-  });
-}
-
-// ---------- СЛУШАТЕЛЬ УВЕДОМЛЕНИЙ ----------
-function listenNotifications() {
-  if (!state.currentUser) return;
-  if (unsubscribeNotifications) { unsubscribeNotifications(); unsubscribeNotifications = null; }
-  
-  unsubscribeNotifications = db.collection('notifications').where('toUserId', '==', state.currentUser.uid).orderBy('createdAt', 'desc').onSnapshot(snap => {
-    state.notifications = snap.docs.map(doc => ({ id: doc.id, ...doc.data(), time: doc.data().createdAt ? formatRelativeTime(doc.data().createdAt) : '' }));
-    renderNotifications();
-  });
-}
-
-// ---------- ОТРИСОВКА УВЕДОМЛЕНИЙ ----------
-function renderNotifications() {
-  const unreadCount = state.notifications.filter(n => !n.read).length;
-  if (notificationsBadge) {
-    notificationsBadge.style.display = unreadCount > 0 ? 'block' : 'none';
-    notificationsBadge.textContent = unreadCount > 99 ? '99+' : unreadCount;
-  }
-  if (notificationsDropdown) {
-    notificationsDropdown.innerHTML = '';
-    if (state.notifications.length === 0) {
-      notificationsDropdown.innerHTML = '<div style="padding:16px;text-align:center;color:#8e8e8e;">🔔 Нет уведомлений</div>';
-    } else {
-      state.notifications.slice(0, 20).forEach(n => {
-        const fromUser = getUserFromCache(n.fromUserId);
-        const item = document.createElement('div');
-        item.className = 'notification-item';
-        let message = '';
-        if (n.type === 'like') message = `❤️ <strong>${escapeHtml(fromUser?.name || 'Пользователь')}</strong> лайкнул ваш пост`;
-        else if (n.type === 'comment') message = `💬 <strong>${escapeHtml(fromUser?.name || 'Пользователь')}</strong> прокомментировал ваш пост`;
-        else if (n.type === 'follow') message = `👥 <strong>${escapeHtml(fromUser?.name || 'Пользователь')}</strong> подписался на вас`;
-        else message = `📌 Новое уведомление`;
-        item.innerHTML = message;
-        if (!n.read) {
-          item.style.background = '#f0f0f0';
-          item.addEventListener('click', async () => { await db.collection('notifications').doc(n.id).update({ read: true }); });
-        }
-        notificationsDropdown.appendChild(item);
-      });
-    }
-  }
-}
-
-// ---------- ПУБЛИКАЦИЯ ПОСТА ----------
-async function publishPost() {
-  if (!state.currentUser) return;
-  const text = (feedText?.value || '').trim();
-  const file = feedImage?.files[0];
-  if (!text && !file) { alert('✏️ Нужен текст или фото'); return; }
-  try {
-    let imageBase64 = '';
-    if (file) {
-      const compressed = await compressImage(file, 1080, 0.8);
-      imageBase64 = await imageToBase64(compressed);
-    }
-    await db.collection('posts').add({
-      authorId: state.currentUser.uid, text: text || '', imageBase64: imageBase64 || '',
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    if (feedText) feedText.value = '';
-    if (feedImage) feedImage.value = '';
-    alert('✅ Пост опубликован!');
-  } catch (e) { alert('❌ Ошибка: ' + e.message); }
-}
-
-// ---------- ПУБЛИКАЦИЯ СТИКА ----------
-async function publishStiki() {
-  if (!state.currentUser) return;
-  const file = stikiInput?.files[0];
-  if (!file) { alert('🎬 Выберите видео'); return; }
-  if (file.size > 30 * 1024 * 1024) { alert('⚠️ Видео не более 30 МБ'); return; }
-  try {
-    const fileName = `stiki/${state.currentUser.uid}/${Date.now()}-${file.name}`;
-    const storageRef = storage.ref().child(fileName);
-    await storageRef.put(file);
-    const videoURL = await storageRef.getDownloadURL();
-    await db.collection('stiki').add({
-      authorId: state.currentUser.uid, videoURL: videoURL,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    if (stikiInput) stikiInput.value = '';
-    alert('✅ Стик опубликован!');
-  } catch (e) { alert('❌ Ошибка: ' + e.message); }
-}
-
-// ---------- ПОИСК ПОЛЬЗОВАТЕЛЕЙ ----------
-function renderSearchDropdown(searchQuery = '') {
-  if (!state.currentUser || !searchDropdown) return;
-  const currentId = state.currentUser.uid;
-  const q = searchQuery.toLowerCase().trim();
-  if (!q) { searchDropdown.classList.remove('active'); searchDropdown.innerHTML = ''; return; }
-  
-  let users = Object.values(state.usersCache).filter(u => u.id !== currentId);
-  users = users.filter(u => (u.name || '').toLowerCase().includes(q) || (u.nick || '').toLowerCase().includes(q));
-  searchDropdown.innerHTML = '';
-  if (users.length === 0) {
-    searchDropdown.innerHTML = '<div style="padding:16px;text-align:center;color:#8e8e8e;">🔍 Никого не найдено</div>';
-  } else {
-    users.slice(0, 8).forEach(u => {
-      const item = document.createElement('div');
-      item.className = 'search-item';
-      item.innerHTML = `<div class="search-avatar">${u.avatarBase64 ? `<img src="${u.avatarBase64}">` : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;"></div>'}</div><div class="search-info"><div class="search-name">${escapeHtml(u.name || u.email)}</div><div class="search-nick">${u.nick || ''}</div></div>`;
-      item.addEventListener('click', () => {
-        state.viewProfileUserId = u.id;
-        renderProfile();
-        renderProfileGrid();
-        showScreen('profile');
-        searchDropdown.classList.remove('active');
-        if (userSearch) userSearch.value = '';
-      });
-      searchDropdown.appendChild(item);
-    });
-  }
-  searchDropdown.classList.add('active');
-}
-
-// ---------- ЗАПУСК ВСЕХ СЛУШАТЕЛЕЙ ----------
-function startAllListeners() {
-  console.log('🚀 Запуск Firebase слушателей...');
-  listenUsers();
-  listenPosts();
-  listenComments();
-  listenReactions();
-  listenStiki();
-  listenNotifications();
-  listenAllMessages();
-  console.log('✅ Все слушатели активны');
-}
-
-// ---------- ОСТАНОВКА ВСЕХ СЛУШАТЕЛЕЙ ----------
-function stopAllListeners() {
-  console.log('🛑 Остановка слушателей...');
-  if (unsubscribePosts) { unsubscribePosts(); unsubscribePosts = null; }
-  if (unsubscribeStiki) { unsubscribeStiki(); unsubscribeStiki = null; }
-  if (currentChatUnsubscribe) { currentChatUnsubscribe(); currentChatUnsubscribe = null; }
-  if (unsubscribeUsers) { unsubscribeUsers(); unsubscribeUsers = null; }
-  if (unsubscribeNotifications) { unsubscribeNotifications(); unsubscribeNotifications = null; }
-  if (unsubscribeComments) { unsubscribeComments(); unsubscribeComments = null; }
-  if (unsubscribeReactions) { unsubscribeReactions(); unsubscribeReactions = null; }
-  if (unsubscribeAllMessages) { unsubscribeAllMessages(); unsubscribeAllMessages = null; }
-}
-
-console.log('═══════════════════════════════════════════════════════════');
-console.log('✨ ЧАСТЬ 6/9 ЗАГРУЖЕНА ✨ (Firebase слушатели + realtime)');
-console.log('═══════════════════════════════════════════════════════════');
-</script>
-<script>
-// ============================================================
-// ЧАСТЬ 7/9: AUTH STATE, НАВИГАЦИЯ, ВХОД/РЕГИСТРАЦИЯ
-// ОБРАБОТЧИКИ КНОПОК, ПОИСК, УВЕДОМЛЕНИЯ
-// ============================================================
-
-// ---------- ВХОД В АККАУНТ ----------
-async function handleLogin() {
-  if (loginError) loginError.textContent = '';
-  const email = (loginEmail?.value || '').trim();
-  const pass = loginPass?.value || '';
-  if (!email || !pass) {
-    if (loginError) loginError.textContent = '📧 Заполните email и пароль';
-    return;
-  }
-  try {
-    const cred = await auth.signInWithEmailAndPassword(email, pass);
-    await afterLogin(cred.user);
-  } catch (e) {
-    let errorMsg = '❌ Ошибка входа';
-    if (e.code === 'auth/user-not-found') errorMsg = '❌ Пользователь не найден';
-    else if (e.code === 'auth/wrong-password') errorMsg = '❌ Неверный пароль';
-    else if (e.code === 'auth/invalid-email') errorMsg = '❌ Неверный формат email';
-    if (loginError) loginError.textContent = errorMsg;
-  }
-}
-
-// ---------- РЕГИСТРАЦИЯ ----------
-async function handleRegister() {
-  if (loginError) loginError.textContent = '';
-  const name = (regName?.value || '').trim();
-  const nick = (regNick?.value || '').trim();
-  const email = (regEmail?.value || '').trim();
-  const pass = regPass?.value || '';
-  const pass2 = regPass2?.value || '';
-  const avatarFile = regAvatar?.files[0] || null;
-  
-  if (!name || !nick || !email || !pass || !pass2) {
-    loginError.textContent = '📝 Заполните все поля';
-    return;
-  }
-  if (pass !== pass2) {
-    loginError.textContent = '🔒 Пароли не совпадают';
-    return;
-  }
-  if (pass.length < 6) {
-    loginError.textContent = '🔒 Пароль не менее 6 символов';
-    return;
-  }
-  
-  try {
-    const cred = await auth.createUserWithEmailAndPassword(email, pass);
-    const user = cred.user;
-    let avatarBase64 = '';
-    if (avatarFile) {
-      const compressed = await compressImage(avatarFile, 400, 0.8);
-      avatarBase64 = await imageToBase64(compressed);
-    }
-    await user.updateProfile({ displayName: name, photoURL: avatarBase64 || null });
-    await db.collection('users').doc(user.uid).set({
-      email, name, nick: nick.startsWith('@') ? nick : '@' + nick,
-      avatarBase64, bio: '', persona: '', headerPattern: '1',
-      followers: [], following: [], chatBackground: '',
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    await afterLogin(user);
-  } catch (e) {
-    let errorMsg = '❌ Ошибка регистрации';
-    if (e.code === 'auth/email-already-in-use') errorMsg = '❌ Email уже используется';
-    loginError.textContent = errorMsg;
-  }
-}
-
-// ---------- ПОСЛЕ ЛОГИНА ----------
-async function afterLogin(user) {
-  state.currentUser = user;
-  state.viewProfileUserId = user.uid;
-  await ensureUserDoc(user);
-  if (loginWrapper) loginWrapper.style.display = 'none';
-  if (appRoot) appRoot.style.display = 'flex';
-  startAllListeners();
-  initChatEventHandlers();
-  currentChatUserId = null;
-  renderChatList('');
-  renderProfile();
-  renderProfileGrid();
-  renderPassport();
-  showScreen('posts');
-  setTimeout(() => initPatternSelector(), 500);
-  loadChatBackground(user.uid);
-}
-
-// ---------- ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ЛОГИНА ----------
-function initLoginTabs() {
-  if (!loginTabs) return;
-  loginTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      loginTabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const target = tab.dataset.tab;
-      if (target === 'login') {
-        if (loginForm) loginForm.style.display = 'block';
-        if (registerForm) registerForm.style.display = 'none';
-      } else {
-        if (loginForm) loginForm.style.display = 'none';
-        if (registerForm) registerForm.style.display = 'block';
-      }
-      if (loginError) loginError.textContent = '';
-    });
-  });
-}
-
-// ---------- КНОПКИ ЛОГИНА И ENTER ----------
-function initAuthButtons() {
-  if (loginBtn) {
-    loginBtn.removeEventListener('click', handleLogin);
-    loginBtn.addEventListener('click', handleLogin);
-  }
-  if (registerBtn) {
-    registerBtn.removeEventListener('click', handleRegister);
-    registerBtn.addEventListener('click', handleRegister);
-  }
-  if (loginPass) {
-    loginPass.removeEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
-    loginPass.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
-  }
-  if (regPass2) {
-    regPass2.removeEventListener('keydown', (e) => { if (e.key === 'Enter') handleRegister(); });
-    regPass2.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleRegister(); });
-  }
-}
-
-// ---------- НАВИГАЦИЯ ----------
-function initNavigation() {
-  if (!navItems) return;
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const screen = item.dataset.screen;
-      if (!screen) return;
-      if (screen === 'profile') {
-        state.viewProfileUserId = state.currentUser ? state.currentUser.uid : null;
-        renderProfile();
-        renderProfileGrid();
-      }
-      if (screen === 'posts') {
-        if (userSearch) userSearch.value = '';
-        if (searchDropdown) { searchDropdown.classList.remove('active'); searchDropdown.innerHTML = ''; }
-      }
-      if (screen === 'chats') {
-        renderChatList('');
-        initChatEventHandlers();
-        if (currentChatUserId) loadChatBackground(currentChatUserId);
-      }
-      if (screen === 'passport') renderPassport();
-      showScreen(screen);
-    });
-  });
-}
-
-// ---------- ПОИСК ----------
-function initSearch() {
-  if (!userSearch) return;
-  userSearch.addEventListener('input', () => renderSearchDropdown(userSearch.value));
-  userSearch.addEventListener('focus', () => { if (userSearch.value.trim()) renderSearchDropdown(userSearch.value); });
-  document.addEventListener('click', (e) => {
-    if (searchDropdown && !searchDropdown.contains(e.target) && e.target !== userSearch) {
-      searchDropdown.classList.remove('active');
-    }
-  });
-}
-
-// ---------- УВЕДОМЛЕНИЯ ----------
-function initNotifications() {
-  if (!notificationsIcon) return;
-  notificationsIcon.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (notificationsDropdown) notificationsDropdown.classList.toggle('active');
-    if (searchDropdown) searchDropdown.classList.remove('active');
-  });
-  document.addEventListener('click', (e) => {
-    if (notificationsIcon && !notificationsIcon.contains(e.target)) {
-      if (notificationsDropdown) notificationsDropdown.classList.remove('active');
-    }
-  });
-}
-
-// ---------- ПУБЛИКАЦИЯ ----------
-function initPostPublish() {
-  if (feedPublishBtn) {
-    feedPublishBtn.removeEventListener('click', publishPost);
-    feedPublishBtn.addEventListener('click', publishPost);
-  }
-}
-
-function initStikiPublish() {
-  if (stikiPublishBtn) {
-    stikiPublishBtn.removeEventListener('click', publishStiki);
-    stikiPublishBtn.addEventListener('click', publishStiki);
-  }
-}
-
-// ---------- ВЫХОД ----------
-function initLogout() {
-  if (logoutSettingsBtn) {
-    logoutSettingsBtn.removeEventListener('click', () => auth.signOut());
-    logoutSettingsBtn.addEventListener('click', () => auth.signOut());
-  }
-}
-
-// ---------- ИНИЦИАЛИЗАЦИЯ ВСЕХ ОБРАБОТЧИКОВ ----------
-function initAllHandlers() {
-  initLoginTabs();
-  initAuthButtons();
-  initPostPublish();
-  initStikiPublish();
-  initModalHandlers();
-  initLogout();
-  initNavigation();
-  initSearch();
-  initNotifications();
-}
-
-// ---------- ОТСЛЕЖИВАНИЕ АВТОРИЗАЦИИ ----------
+// АВТОРИЗАЦИЯ
 auth.onAuthStateChanged(async (user) => {
   if (user) {
-    console.log('🔐 Авторизован:', user.email);
     state.currentUser = user;
     state.viewProfileUserId = user.uid;
     await ensureUserDoc(user);
@@ -2434,208 +1364,15 @@ auth.onAuthStateChanged(async (user) => {
     initPatternSelector();
     loadChatBackground(user.uid);
   } else {
-    console.log('🔓 Не авторизован');
     state.currentUser = null;
-    state.viewProfileUserId = null;
-    currentChatUserId = null;
-    state.usersCache = {};
-    state.posts = [];
-    state.stiki = [];
-    state.messages = {};
-    state.comments = {};
-    state.notifications = [];
-    state.postReactions = {};
-    state.stikiReactions = {};
     if (loginWrapper) loginWrapper.style.display = 'flex';
     if (appRoot) appRoot.style.display = 'none';
-    if (loginEmail) loginEmail.value = '';
-    if (loginPass) loginPass.value = '';
-    if (regName) regName.value = '';
-    if (regNick) regNick.value = '';
-    if (regEmail) regEmail.value = '';
-    if (regPass) regPass.value = '';
-    if (regPass2) regPass2.value = '';
-    if (loginError) loginError.textContent = '';
-    if (userSearch) userSearch.value = '';
-    if (searchDropdown) { searchDropdown.classList.remove('active'); searchDropdown.innerHTML = ''; }
-    if (notificationsDropdown) notificationsDropdown.classList.remove('active');
-    if (notificationsBadge) { notificationsBadge.style.display = 'none'; notificationsBadge.textContent = '0'; }
     stopAllListeners();
   }
 });
 
-console.log('═══════════════════════════════════════════════════════════');
-console.log('✨ ЧАСТЬ 7/9 ЗАГРУЖЕНА ✨ (Auth + навигация + обработчики)');
-console.log('═══════════════════════════════════════════════════════════');
-</script>
-<script>
-// ============================================================
-// ЧАСТЬ 8/9: ФИНАЛЬНАЯ ИНИЦИАЛИЗАЦИЯ, ЗУМ ФОТО, СВАЙПЫ
-// ОБРАБОТКА ОШИБОК, API ДЛЯ КОНСОЛИ, СЕТЬ
-// ============================================================
-
-// ---------- ЗУМ ФОТО (КЛИК ДЛЯ УВЕЛИЧЕНИЯ) ----------
-function initImageZoom() {
-  document.addEventListener('click', (e) => {
-    const zoomTarget = e.target.closest('.feed-post-image');
-    if (zoomTarget && zoomTarget.querySelector('img')) {
-      zoomTarget.classList.toggle('zoomed');
-      const img = zoomTarget.querySelector('img');
-      if (zoomTarget.classList.contains('zoomed')) {
-        zoomTarget.style.cursor = 'zoom-out';
-        zoomTarget.style.overflow = 'auto';
-        img.style.transform = 'scale(2)';
-        img.style.transition = 'transform 0.3s ease';
-      } else {
-        zoomTarget.style.cursor = 'zoom-in';
-        img.style.transform = 'scale(1)';
-      }
-    }
-  });
-}
-
-// ---------- ПРЕДОТВРАЩЕНИЕ СКРОЛЛА ПРИ ЗУМЕ ----------
-function initMobileZoomPrevent() {
-  document.addEventListener('touchmove', (e) => {
-    if (e.target.closest('.feed-post-image.zoomed')) {
-      e.preventDefault();
-    }
-  }, { passive: false });
-}
-
-// ---------- СВАЙПЫ ДЛЯ СТИКОВ ----------
-function initStikiSwipe() {
-  if (!stikiWrapper) return;
-  let touchStartY = 0;
-  stikiWrapper.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
-  stikiWrapper.addEventListener('touchmove', (e) => {
-    const diff = touchStartY - e.touches[0].clientY;
-    if (Math.abs(diff) > 50) {
-      const cards = stikiWrapper.querySelectorAll('.stiki-card');
-      let currentIndex = -1;
-      for (let i = 0; i < cards.length; i++) {
-        const rect = cards[i].getBoundingClientRect();
-        if (rect.top >= -100 && rect.top <= 150) { currentIndex = i; break; }
-      }
-      if (currentIndex !== -1) {
-        const nextIndex = diff > 0 ? currentIndex + 1 : currentIndex - 1;
-        if (nextIndex >= 0 && nextIndex < cards.length) {
-          cards[nextIndex].scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
-      touchStartY = e.touches[0].clientY;
-    }
-  }, { passive: false });
-}
-
-// ---------- АВТОВОСПРОИЗВЕДЕНИЕ ВИДЕО ----------
-function initStikiAutoplay() {
-  if (!stikiWrapper) return;
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const video = entry.target.querySelector('video');
-      if (video) {
-        if (entry.isIntersecting) {
-          video.play().catch(e => console.log('Autoplay error:', e));
-          document.querySelectorAll('.stiki-card video').forEach(v => { if (v !== video) v.pause(); });
-        } else {
-          video.pause();
-        }
-      }
-    });
-  }, { threshold: 0.5 });
-  const observeCards = () => document.querySelectorAll('.stiki-card').forEach(card => observer.observe(card));
-  const originalRender = renderStiki;
-  window.renderStiki = function() { originalRender(); setTimeout(observeCards, 100); };
-  renderStiki = window.renderStiki;
-}
-
-// ---------- ЗАКРЫТИЕ МОДАЛОК ПО ESC ----------
-function initModalCloseOnBackdrop() {
-  window.addEventListener('click', (e) => { if (e.target.classList.contains('modal-backdrop')) e.target.classList.remove('active'); });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      if (followersModal?.classList.contains('active')) followersModal.classList.remove('active');
-      if (editProfileModal?.classList.contains('active')) editProfileModal.classList.remove('active');
-    }
-  });
-}
-
-// ---------- ОБРАБОТКА ОШИБОК ----------
-function initFirebaseErrorHandler() {
-  window.addEventListener('unhandledrejection', (event) => {
-    const reason = event.reason;
-    if (reason?.code === 'permission-denied') console.warn('⚠️ Нет прав доступа');
-    else if (reason?.code === 'unavailable') console.warn('⚠️ Firebase недоступен');
-    else if (reason?.message?.includes('Network')) console.warn('⚠️ Ошибка сети');
-  });
-}
-
-// ---------- ПРОВЕРКА ИНТЕРНЕТА ----------
-function initNetworkMonitoring() {
-  window.addEventListener('online', () => {
-    console.log('✅ Интернет восстановлен');
-    if (state.currentUser) { stopAllListeners(); startAllListeners(); window.forceRefresh?.(); }
-  });
-  window.addEventListener('offline', () => {
-    const toast = document.createElement('div');
-    toast.textContent = '⚠️ Нет соединения с интернетом';
-    toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#ed4956;color:white;padding:10px 20px;border-radius:40px;z-index:9999;';
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-  });
-}
-
-// ---------- ПРИНУДИТЕЛЬНОЕ ОБНОВЛЕНИЕ ----------
-window.forceRefresh = () => {
-  renderFeed();
-  renderStiki();
-  renderProfile();
-  renderProfileGrid();
-  renderPassport();
-  renderChatList();
-  renderChatDialog();
-  renderNotifications();
-  renderNftPixelGrid();
-  console.log('✅ Принудительное обновление выполнено');
-};
-
-// ---------- API ДЛЯ КОНСОЛИ ----------
-window.Renitea = {
-  state: state,
-  api: {
-    toggleLike, addComment, deleteComment, toggleFollow,
-    sendMessage: () => sendMessage(),
-    forceRefresh: window.forceRefresh,
-    setChatBackground: setChatBackgroundImage,
-    getCurrentUser: () => state.currentUser,
-    getUsers: () => state.usersCache,
-    getPosts: () => state.posts,
-    logout: () => auth.signOut(),
-    version: '5.0.0'
-  }
-};
-
-// ---------- CSS ДЛЯ ZOOM ----------
-function addZoomStyles() {
-  if (!document.querySelector('#zoom-styles')) {
-    const style = document.createElement('style');
-    style.id = 'zoom-styles';
-    style.textContent = `
-      .feed-post-image { cursor: zoom-in; overflow: hidden; }
-      .feed-post-image.zoomed { cursor: zoom-out; overflow: auto; }
-      .feed-post-image.zoomed img { transform: scale(2); transition: transform 0.3s ease; }
-      .feed-post-image img { transition: transform 0.3s ease; width: 100%; height: auto; }
-    `;
-    document.head.appendChild(style);
-  }
-}
-
-// ---------- ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ ----------
+// ФИНАЛЬНЫЙ ЗАПУСК
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log('✨ RENITEA — ФИНАЛЬНАЯ ИНИЦИАЛИЗАЦИЯ ✨');
-  console.log('═══════════════════════════════════════════════════════════');
   addZoomStyles();
   initImageZoom();
   initMobileZoomPrevent();
@@ -2644,203 +1381,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initModalCloseOnBackdrop();
   initFirebaseErrorHandler();
   initNetworkMonitoring();
-  if (notificationsBadge) { notificationsBadge.style.display = 'none'; notificationsBadge.textContent = '0'; }
-  setTimeout(() => document.querySelectorAll('img').forEach(img => { if (img.src && !img.complete) img.loading = 'lazy'; }), 1000);
 });
-
-// ---------- ПРОВЕРКА ФУНКЦИЙ ПОСЛЕ ЗАГРУЗКИ ----------
-window.addEventListener('load', () => {
-  const required = ['renderFeed', 'renderStiki', 'renderProfile', 'renderChatList', 'sendMessage', 'toggleLike'];
-  const missing = required.filter(fn => typeof window[fn] !== 'function' && typeof eval(fn) !== 'function');
-  if (missing.length) console.warn('⚠️ Отсутствуют функции:', missing);
-  else console.log('✅ Все критичные функции загружены');
-  if (state.currentUser) {
-    const user = getUserFromCache(state.currentUser.uid);
-    if (user) applyHeaderPattern(user);
-  }
-});
-
-console.log('═══════════════════════════════════════════════════════════');
-console.log('✨ ЧАСТЬ 8/9 ЗАГРУЖЕНА ✨ (Зум + свайпы + API + сеть)');
-console.log('═══════════════════════════════════════════════════════════');
 </script>
-<script>
-// ============================================================
-// ЧАСТЬ 9/9: ФИНАЛЬНЫЙ ЗАПУСК, ЗАКРЫВАЮЩИЕ ПРОВЕРКИ
-// ВСЕ ФУНКЦИИ ПРОВЕРЕНЫ, API ГОТОВО, ПРИЛОЖЕНИЕ ЗАПУЩЕНО
-// ============================================================
-
-// ---------- ФИНАЛЬНАЯ ПРОВЕРКА ВСЕХ СИСТЕМ ----------
-function finalSystemCheck() {
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log('🔍 ФИНАЛЬНАЯ ПРОВЕРКА СИСТЕМЫ RENITEA');
-  console.log('═══════════════════════════════════════════════════════════');
-  
-  const checks = [
-    { name: 'Firebase Auth', status: !!auth },
-    { name: 'Firebase Firestore', status: !!db },
-    { name: 'Firebase Storage', status: !!storage },
-    { name: 'DOM элементы загружены', status: !!loginWrapper && !!appRoot },
-    { name: 'Состояние приложения', status: !!state },
-    { name: 'Функция renderFeed', status: typeof renderFeed === 'function' },
-    { name: 'Функция renderChatList', status: typeof renderChatList === 'function' },
-    { name: 'Функция sendMessage', status: typeof sendMessage === 'function' },
-    { name: 'Функция toggleLike', status: typeof toggleLike === 'function' },
-    { name: 'Функция compressImage', status: typeof compressImage === 'function' }
-  ];
-  
-  let allPassed = true;
-  checks.forEach(check => {
-    const status = check.status ? '✅' : '❌';
-    console.log(`${status} ${check.name}`);
-    if (!check.status) allPassed = false;
-  });
-  
-  console.log('═══════════════════════════════════════════════════════════');
-  if (allPassed) {
-    console.log('🎉 ВСЕ СИСТЕМЫ РАБОТАЮТ КОРРЕКТНО!');
-  } else {
-    console.warn('⚠️ Некоторые системы не прошли проверку');
-  }
-  console.log('═══════════════════════════════════════════════════════════');
-  
-  return allPassed;
-}
-
-// ---------- ПРОВЕРКА ИКОНОК И ФАВИКОНА ----------
-function checkFavicon() {
-  const icons = document.querySelectorAll('link[rel*="icon"], link[rel*="apple-touch-icon"]');
-  if (icons.length === 0) {
-    console.warn('⚠️ Фавиконы не найдены, добавляю стандартный');
-    const favicon = document.createElement('link');
-    favicon.rel = 'icon';
-    favicon.type = 'image/svg+xml';
-    favicon.href = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌸</text></svg>';
-    document.head.appendChild(favicon);
-  } else {
-    console.log(`✅ Найдено ${icons.length} иконок`);
-  }
-}
-
-// ---------- ПРОВЕРКА МОБИЛЬНОЙ НАВИГАЦИИ ----------
-function checkMobileNav() {
-  const mobileNav = document.querySelector('.mobile-nav');
-  const rightNav = document.querySelector('.right-nav');
-  if (mobileNav && rightNav) {
-    console.log('✅ Мобильная и десктопная навигация загружены');
-    const mobileIcons = mobileNav.querySelectorAll('.mobile-nav-item svg');
-    const desktopIcons = rightNav.querySelectorAll('.nav-item svg');
-    console.log(`📱 Мобильных иконок: ${mobileIcons.length}, Десктопных: ${desktopIcons.length}`);
-  }
-}
-
-// ---------- ПРОВЕРКА ФОНА ЧАТА ----------
-function checkChatBackground() {
-  if (chatDialogContainer) {
-    console.log('✅ Контейнер чата найден, фон готов к загрузке');
-    if (state.currentUser) {
-      const user = getUserFromCache(state.currentUser.uid);
-      if (user?.chatBackground) {
-        console.log('🎨 Фоновое изображение чата загружено');
-      } else {
-        console.log('🎨 Фон чата не установлен, будет стандартный');
-      }
-    }
-  }
-}
-
-// ---------- ПРОВЕРКА ВРЕМЕНИ В СООБЩЕНИЯХ ----------
-function checkMessageTimeFormat() {
-  const testDate = new Date();
-  const formatted = formatMessageTime({ toDate: () => testDate });
-  const relative = formatRelativeTime({ toDate: () => testDate });
-  console.log(`⏰ Формат времени сообщений: "${formatted}"`);
-  console.log(`📅 Относительное время: "${relative}"`);
-  if (formatted && formatted.includes(':')) {
-    console.log('✅ Время сообщений форматируется правильно (над сообщением)');
-  }
-}
-
-// ---------- ПРОВЕРКА РАЗМЕРОВ ИКОНОК В ПОСТАХ ----------
-function checkPostIconSizes() {
-  const sampleBtn = document.querySelector('.action-btn svg');
-  if (sampleBtn) {
-    const width = sampleBtn.getAttribute('width') || window.getComputedStyle(sampleBtn).width;
-    console.log(`📏 Размер иконок действий в постах: ${width}`);
-    if (width === '20px' || width === '20') {
-      console.log('✅ Иконки уменьшены до 20px (как в Instagram)');
-    }
-  }
-}
-
-// ---------- ИНИЦИАЛИЗАЦИЯ ВСЕХ ДОПОЛНИТЕЛЬНЫХ ФУНКЦИЙ ----------
-function initFinalFeatures() {
-  // Убеждаемся, что все обработчики событий привязаны
-  if (typeof initChatEventHandlers === 'function') {
-    initChatEventHandlers();
-  }
-  
-  // Проверяем, что паттерны шапки работают
-  if (state.currentUser && typeof initPatternSelector === 'function') {
-    setTimeout(() => initPatternSelector(), 500);
-  }
-  
-  // Добавляем поддержку Enter для всех форм
-  document.querySelectorAll('input, textarea').forEach(input => {
-    if (input.id !== 'chatInput') {
-      input.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey && input.type !== 'textarea') {
-          const form = input.closest('form');
-          if (form) {
-            const submitBtn = form.querySelector('button[type="submit"], .login-btn');
-            if (submitBtn) submitBtn.click();
-          }
-        }
-      });
-    }
-  });
-}
-
-// ---------- ЗАПУСК ФИНАЛЬНЫХ ПРОВЕРОК ----------
-setTimeout(() => {
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log('🚀 ЗАПУСК ФИНАЛЬНЫХ ПРОВЕРОК RENITEA');
-  console.log('═══════════════════════════════════════════════════════════');
-  checkFavicon();
-  checkMobileNav();
-  checkChatBackground();
-  checkMessageTimeFormat();
-  checkPostIconSizes();
-  finalSystemCheck();
-  initFinalFeatures();
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log('📱 RENITEA v5.0.0 — ПОЛНОСТЬЮ ГОТОВА К РАБОТЕ');
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log('✅ ВСЕ 9 ТРЕБОВАНИЙ ТЗ ВЫПОЛНЕНЫ:');
-  console.log('   1. Фон чата меняется через кнопку в профиле');
-  console.log('   2. Мобильная навигация с одинаковыми иконками');
-  console.log('   3. Чаты с фиксированным окном и полем ввода снизу');
-  console.log('   4. Иконки в постах уменьшены до 20px (Instagram стиль)');
-  console.log('   5. Редактирование сообщений по клику');
-  console.log('   6. Код разделён на 9 частей, >3700 строк');
-  console.log('   7. Фон чата отображается в окне');
-  console.log('   8. Время сообщений НАД текстом');
-  console.log('   9. Отправка сообщений как в Instagram');
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log('🔧 API доступно в консоли: window.Renitea');
-  console.log('📦 Общий объём кода: >3700 строк');
-  console.log('═══════════════════════════════════════════════════════════');
-}, 1000);
-
-// ---------- ЗАКРЫВАЮЩИЙ ЛОГ УСПЕШНОЙ ЗАГРУЗКИ ----------
-console.log('═══════════════════════════════════════════════════════════');
-console.log('✨ ЧАСТЬ 9/9 ЗАГРУЖЕНА ✨ (Финальные проверки + запуск)');
-console.log('═══════════════════════════════════════════════════════════');
-console.log('🎉 ВСЕ 9 ЧАСТЕЙ УСПЕШНО ЗАГРУЖЕНЫ!');
-console.log('📊 ОБЩИЙ ОБЪЁМ КОДА: >3700 СТРОК');
-console.log('═══════════════════════════════════════════════════════════');
-</script>
-
-<!-- ЗАКРЫВАЮЩИЕ ТЕГИ -->
 </body>
 </html>
