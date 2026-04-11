@@ -134,17 +134,30 @@
     .chat-dialog-header-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #efefef; }
     .chat-dialog-body { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: rgba(250,250,250,0.85); }
     .msg { max-width: 70%; padding: 8px 12px; border-radius: 18px; font-size: 14px; display: flex; flex-direction: column; cursor: pointer; }
-    .msg-time { font-size: 10px; opacity: 0.7; margin-bottom: 4px; }
-    .msg-text { word-wrap: break-word; }
+    .msg-time { font-size: 10px; opacity: 0.7; margin-bottom: 2px; }
+    .msg-text { word-wrap: break-word; font-size: 14px; }
     .msg.me { margin-left: auto; background: #0095f6; color: white; }
     .msg.them { background: white; color: #262626; border: 1px solid #dbdbdb; }
-    .chat-dialog-input { display: flex; gap: 12px; padding: 14px; border-top: 1px solid #dbdbdb; background: white; flex-shrink: 0; }
+    /* НОВЫЙ СТИЛЬ СООБЩЕНИЙ - ВРЕМЯ СПРАВА */
+    .msg-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+    .msg-author { font-weight: 600; font-size: 12px; }
+    .msg-time-right { font-size: 10px; opacity: 0.7; margin-left: 8px; }
+    .msg.me .msg-author { color: rgba(255,255,255,0.9); }
+    .chat-dialog-input { display: flex; gap: 12px; padding: 14px; border-top: 1px solid #dbdbdb; background: white; flex-shrink: 0; align-items: center; }
     .chat-dialog-input input { flex: 1; border-radius: 40px; border: 1px solid #dbdbdb; padding: 12px 16px; font-size: 14px; background: white; }
     .chat-dialog-input input:focus { outline: none; border-color: #262626; }
     .chat-dialog-input button { border-radius: 40px; border: none; padding: 12px 20px; background: #0095f6; color: white; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s; }
     .chat-dialog-input button:hover { transform: translateY(-1px); }
     .chat-bg-btn { background: none; border: none; margin-left: auto; cursor: pointer; color: #0095f6; font-size: 20px; padding: 8px; border-radius: 50%; transition: background 0.2s; }
     .chat-bg-btn:hover { background: rgba(0,0,0,0.05); }
+    /* ЭМОДЗИ ПАНЕЛЬ */
+    .emoji-panel { position: absolute; bottom: 80px; left: 20px; background: white; border-radius: 20px; padding: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); display: none; grid-template-columns: repeat(6, 1fr); gap: 8px; z-index: 100; border: 1px solid #dbdbdb; }
+    .emoji-panel.active { display: grid; }
+    .emoji-btn { background: none; border: none; font-size: 24px; cursor: pointer; padding: 8px; border-radius: 12px; transition: background 0.2s; }
+    .emoji-btn:hover { background: #f0f0f0; }
+    .emoji-trigger { background: none; border: none; font-size: 24px; cursor: pointer; padding: 8px; border-radius: 50%; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
+    .emoji-trigger:hover { background: #f0f0f0; }
+    .input-wrapper { display: flex; gap: 8px; flex: 1; align-items: center; }
     
     /* ========== ПРОФИЛЬ ========== */
     .profile-header { max-width: 760px; margin: 0 auto 24px; background: white; border-radius: 16px; border: 1px solid #dbdbdb; }
@@ -287,7 +300,7 @@
         <div class="feed-list" id="feedList"></div>
       </section>
       
-      <!-- ЭКРАН СТИКИ (STORIES/REELS) - ВОССТАНОВЛЕН -->
+      <!-- ЭКРАН СТИКИ -->
       <section class="screen" id="screen-stiki">
         <div class="stiki-composer">
           <input type="file" id="stikiInput" accept="video/*" style="margin-bottom:10px;">
@@ -308,13 +321,22 @@
             </div>
             <div class="chat-dialog-body" id="chatDialogBody"></div>
             <div class="chat-dialog-input">
-              <input id="chatInput" placeholder="Сообщение...">
+              <div class="input-wrapper">
+                <button type="button" class="emoji-trigger" id="emojiTrigger">😊</button>
+                <input id="chatInput" placeholder="Сообщение...">
+              </div>
               <button id="chatSendBtn">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white">
                   <line x1="22" y1="2" x2="11" y2="13"/>
                   <polygon points="22 2 15 22 11 13 2 9 22 2"/>
                 </svg>
               </button>
+            </div>
+            <div class="emoji-panel" id="emojiPanel">
+              <button class="emoji-btn">😀</button><button class="emoji-btn">😍</button><button class="emoji-btn">😂</button>
+              <button class="emoji-btn">😭</button><button class="emoji-btn">😎</button><button class="emoji-btn">🥰</button>
+              <button class="emoji-btn">❤️</button><button class="emoji-btn">🔥</button><button class="emoji-btn">👍</button>
+              <button class="emoji-btn">🎉</button><button class="emoji-btn">✨</button><button class="emoji-btn">💯</button>
             </div>
           </div>
         </div>
@@ -380,7 +402,7 @@
       </section>
     </main>
     
-    <!-- ДЕСКТОПНАЯ НАВИГАЦИЯ (СПРАВА) -->
+    <!-- ДЕСКТОПНАЯ НАВИГАЦИЯ -->
     <aside class="right-nav">
       <div class="nav-block"><div class="nav-item" data-screen="posts"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="6" y="6" width="12" height="8" rx="2"/></svg></div><div class="nav-label">Посты</div></div>
       <div class="nav-block"><div class="nav-item" data-screen="stiki"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="3"/><rect x="9" y="5" width="6" height="10" rx="2"/></svg></div><div class="nav-label">Стики</div></div>
@@ -391,7 +413,7 @@
     </aside>
   </div>
   
-  <!-- МОБИЛЬНАЯ НАВИГАЦИЯ (ВНИЗУ) -->
+  <!-- МОБИЛЬНАЯ НАВИГАЦИЯ -->
   <div class="mobile-nav">
     <div class="mobile-nav-item" data-screen="posts"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="6" y="6" width="12" height="8" rx="2"/></svg><span>Посты</span></div>
     <div class="mobile-nav-item" data-screen="stiki"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="3"/><rect x="9" y="5" width="6" height="10" rx="2"/></svg><span>Стики</span></div>
@@ -433,7 +455,7 @@
 
 <script>
 // ============================================================
-// RENITEA - ПОЛНАЯ ВЕРСИЯ СО ВСЕМИ ФУНКЦИЯМИ
+// RENITEA - ПОЛНАЯ ВЕРСИЯ
 // ============================================================
 
 // ---------- FIREBASE КОНФИГ ----------
@@ -528,6 +550,8 @@ const followersModalTitle = document.getElementById('followersModalTitle');
 const closeFollowersModal = document.getElementById('closeFollowersModal');
 const followersStat = document.getElementById('followersStat');
 const followingStat = document.getElementById('followingStat');
+const emojiTrigger = document.getElementById('emojiTrigger');
+const emojiPanel = document.getElementById('emojiPanel');
 
 // ---------- УТИЛИТЫ ----------
 function escapeHtml(str) {
@@ -572,10 +596,10 @@ function formatMessageDate(timestamp) {
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
   if (msgDate.getTime() === yesterday.getTime()) {
-    return `Вчера ${formatMessageTime(timestamp)}`;
+    return `Вчера`;
   }
   
-  return `${date.toLocaleDateString('ru-RU')} ${formatMessageTime(timestamp)}`;
+  return `${date.toLocaleDateString('ru-RU')}`;
 }
 
 function chatKey(a, b) {
@@ -766,7 +790,7 @@ async function toggleFollow(targetUserId) {
   renderProfile();
 }
 
-// ---------- ПОДЕЛИТЬСЯ ПОСТОМ В ЧАТЕ (ВОССТАНОВЛЕНО) ----------
+// ---------- ПОДЕЛИТЬСЯ ПОСТОМ В ЧАТЕ ----------
 async function sharePostToChat(postId) {
   const post = posts.find(p => p.id === postId);
   if (!post) return;
@@ -792,7 +816,7 @@ async function sharePostToChat(postId) {
   }
 }
 
-// ---------- ОТРИСОВКА ЛЕНТЫ ----------
+// ---------- ОТРИСОВКА ЛЕНТЫ (БЕЗ ТЕКСТА "ПОДЕЛИТЬСЯ") ----------
 function renderFeed() {
   if (!feedList) return;
   feedList.innerHTML = '';
@@ -831,9 +855,8 @@ function renderFeed() {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           <span class="action-count">${commentsList.length}</span>
         </button>
-        <button class="action-btn share-post-btn" data-id="${post.id}">
+        <button class="action-btn share-post-btn" data-id="${post.id}" style="gap:0;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-          <span>Поделиться</span>
         </button>
       </div>
       <div class="feed-post-text">${escapeHtml(post.text || '')}</div>
@@ -859,7 +882,6 @@ function renderFeed() {
     feedList.appendChild(card);
   });
 
-  // Обработчики
   document.querySelectorAll('.like-btn').forEach(btn => btn.onclick = () => toggleLike(btn.dataset.id));
   document.querySelectorAll('.toggle-comments-btn').forEach(btn => {
     const sec = document.getElementById(`comments-${btn.dataset.id}`);
@@ -883,7 +905,6 @@ function renderFeed() {
   });
   document.querySelectorAll('.share-post-btn').forEach(btn => btn.onclick = () => sharePostToChat(btn.dataset.id));
   
-  // Зум фото
   document.querySelectorAll('.feed-post-image[data-zoomable="true"]').forEach(container => {
     container.onclick = function(e) {
       if (e.target.tagName === 'IMG') {
@@ -893,7 +914,7 @@ function renderFeed() {
   });
 }
 
-// ---------- СТИКИ (ВОССТАНОВЛЕНЫ) ----------
+// ---------- СТИКИ ----------
 function renderStiki() {
   if (!stikiWrapper) return;
   stikiWrapper.innerHTML = '';
@@ -926,7 +947,6 @@ function renderStiki() {
     };
   });
   
-  // Автовоспроизведение видео при скролле
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       const video = entry.target.querySelector('video');
@@ -962,7 +982,7 @@ async function publishStiki() {
   } catch (e) { alert('❌ Ошибка: ' + e.message); }
 }
 
-// ---------- ЧАТЫ ----------
+// ---------- ЧАТЫ (НОВЫЙ ФОРМАТ СООБЩЕНИЙ) ----------
 async function sendMessage() {
   const input = chatInput;
   const text = input?.value.trim();
@@ -992,6 +1012,7 @@ async function editMessage(messageId, key, currentText) {
   }
 }
 
+// НОВЫЙ ФОРМАТ СООБЩЕНИЙ: текст сверху, время справа снизу
 function renderChatDialog() {
   if (!chatDialogBody || !currentUser || !currentChatUserId) return;
   const other = getUserFromCache(currentChatUserId);
@@ -1014,10 +1035,16 @@ function renderChatDialog() {
     const isMe = msg.fromId === currentUser.uid;
     const div = document.createElement('div');
     div.className = 'msg ' + (isMe ? 'me' : 'them');
-    const timeStr = formatMessageDate(msg.createdAt);
+    
+    const dateLabel = formatMessageDate(msg.createdAt);
+    const timeLabel = formatMessageTime(msg.createdAt);
+    
+    // Новый формат: текст сообщения, под ним справа время
     div.innerHTML = `
-      <div class="msg-time">${timeStr}</div>
       <div class="msg-text">${escapeHtml(msg.text)}${msg.edited ? ' <span style="font-size:10px;opacity:0.7;">(ред.)</span>' : ''}</div>
+      <div style="display:flex; justify-content:flex-end; margin-top:4px;">
+        <span class="msg-time-right">${dateLabel === 'Вчера' ? 'Вчера ' + timeLabel : (dateLabel === formatMessageTime(msg.createdAt) ? timeLabel : dateLabel + ' ' + timeLabel)}</span>
+      </div>
     `;
     
     if (isMe) {
@@ -1154,6 +1181,33 @@ function openProfileFromChat() {
   showScreen('profile');
 }
 
+// ---------- ЭМОДЗИ ПАНЕЛЬ ----------
+function initEmojiPanel() {
+  if (!emojiTrigger || !emojiPanel) return;
+  
+  emojiTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    emojiPanel.classList.toggle('active');
+  });
+  
+  document.querySelectorAll('.emoji-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const emoji = btn.textContent;
+      if (chatInput) {
+        chatInput.value += emoji;
+        chatInput.focus();
+      }
+      emojiPanel.classList.remove('active');
+    });
+  });
+  
+  document.addEventListener('click', (e) => {
+    if (!emojiPanel.contains(e.target) && e.target !== emojiTrigger) {
+      emojiPanel.classList.remove('active');
+    }
+  });
+}
+
 // ---------- ПРОФИЛЬ ----------
 function renderProfile() {
   if (!currentUser) return;
@@ -1267,7 +1321,6 @@ function renderPassport() {
     `;
   }
   
-  // NFT галерея
   if (nftPixelGrid) {
     if (!userPosts.length) {
       nftPixelGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;">🎮 Нет NFT</div>';
@@ -1690,6 +1743,7 @@ async function afterLogin(user) {
   showScreen('posts');
   setTimeout(() => initPatternSelector(), 500);
   loadChatBackground(user.uid);
+  initEmojiPanel();
 }
 
 // ---------- ИНИЦИАЛИЗАЦИЯ ----------
@@ -1820,6 +1874,7 @@ function initAllHandlers() {
   initSearch();
   initNotifications();
   initChatEventHandlers();
+  initEmojiPanel();
 }
 
 // ---------- ЗАПУСК ----------
@@ -1848,6 +1903,7 @@ auth.onAuthStateChanged(async (user) => {
     showScreen('posts');
     initPatternSelector();
     loadChatBackground(user.uid);
+    initEmojiPanel();
   } else {
     console.log('🔓 Не авторизован');
     currentUser = null;
@@ -1868,10 +1924,10 @@ auth.onAuthStateChanged(async (user) => {
 });
 
 console.log('═══════════════════════════════════════════════════════════');
-console.log('🎉 RENITEA v6.0 — ПОЛНОСТЬЮ ГОТОВА!');
-console.log('✅ Все функции восстановлены: стики, редактирование сообщений,');
-console.log('✅ поделиться постом, зум фото, сжатие изображений');
-console.log('✅ Навигация работает на всех экранах');
+console.log('🎉 RENITEA v7.0 — ПОЛНОСТЬЮ ГОТОВА!');
+console.log('✅ Убран текст "Поделиться" — только иконка');
+console.log('✅ Новый формат сообщений: текст, под ним время справа');
+console.log('✅ Стандартный пакет эмодзи в чатах (😀😍😂😭😎🥰❤️🔥👍🎉✨💯)');
 console.log('═══════════════════════════════════════════════════════════');
 </script>
 </body>
