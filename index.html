@@ -38,7 +38,7 @@
     .search:focus { outline: none; border-color: #262626; }
     .search-dropdown { position: absolute; top: 45px; left: 0; width: 100%; background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); border: 1px solid #dbdbdb; z-index: 200; display: none; max-height: 300px; overflow-y: auto; }
     .search-dropdown.active { display: block; }
-    .search-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
+    .search-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: background 0.2s; }
     .search-item:hover { background: #fafafa; }
     .search-avatar { width: 40px; height: 40px; border-radius: 50%; background: #efefef; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .search-avatar img { width: 100%; height: 100%; object-fit: cover; }
@@ -48,7 +48,8 @@
     .notifications-badge { position: absolute; top: -5px; right: -8px; background: #ed4956; color: white; font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 20px; display: none; }
     .notifications-dropdown { position: absolute; top: 50px; right: 0; width: 320px; background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); border: 1px solid #dbdbdb; z-index: 200; display: none; max-height: 400px; overflow-y: auto; }
     .notifications-dropdown.active { display: block; }
-    .notification-item { padding: 12px 16px; border-bottom: 1px solid #f0f0f0; cursor: pointer; font-size: 13px; }
+    .notification-item { padding: 12px 16px; border-bottom: 1px solid #f0f0f0; cursor: pointer; font-size: 13px; transition: background 0.2s; }
+    .notification-item:hover { background: #fafafa; }
     
     /* ========== MAIN ROW ========== */
     .main-row { display: flex; flex: 1; overflow: hidden; }
@@ -75,7 +76,8 @@
     .feed-publish-btn { background: linear-gradient(135deg, #FF6B6B, #FF8E53, #FFD93D, #6BCB77, #4D96FF); border: none; border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; transition: transform 0.2s; }
     .feed-publish-btn:hover { transform: scale(1.05) rotate(90deg); }
     .feed-list { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
-    .feed-post { background: white; border-radius: 16px; overflow: hidden; border: 1px solid #dbdbdb; animation: fadeIn 0.3s ease; }
+    .feed-post { background: white; border-radius: 16px; overflow: hidden; border: 1px solid #dbdbdb; animation: fadeIn 0.3s ease; transition: transform 0.2s, box-shadow 0.2s; }
+    .feed-post:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     .post-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; }
     .post-author-info { display: flex; align-items: center; gap: 10px; cursor: pointer; }
@@ -87,133 +89,155 @@
     .default-avatar-icon-big svg { width: 50px; height: 50px; }
     .post-author-name { font-weight: 600; font-size: 14px; color: #262626; }
     .post-date { font-size: 11px; color: #8e8e8e; }
-    .feed-post-image { width: 100%; max-height: 500px; background: #f0f0f0; cursor: zoom-in; overflow: hidden; }
+    .feed-post-image { width: 100%; max-height: 500px; background: #f0f0f0; cursor: pointer; overflow: hidden; border-radius: 0; }
     .feed-post-image img { width: 100%; height: auto; object-fit: contain; transition: transform 0.3s ease; }
-    .feed-post-image.zoomed { cursor: zoom-out; overflow: auto; }
-    .feed-post-image.zoomed img { transform: scale(2); }
     .post-actions-top { display: flex; align-items: center; gap: 15px; padding: 4px 16px; border-bottom: 1px solid #efefef; }
-    .action-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px; color: #262626; padding: 4px 0; border-radius: 8px; transition: all 0.2s; }
-    .action-btn:hover { opacity: 0.6; }
+    .action-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px; color: #262626; padding: 8px 12px; border-radius: 8px; transition: all 0.2s; }
+    .action-btn:hover { background: rgba(0,0,0,0.05); transform: scale(1.02); }
     .action-btn svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; }
     .action-btn.liked svg path { fill: #ed4956; stroke: #ed4956; }
     .action-count { font-size: 14px; font-weight: 500; }
-    .feed-post-text { padding: 12px 16px; font-size: 14px; color: #262626; }
+    .feed-post-text { padding: 12px 16px; font-size: 14px; color: #262626; line-height: 1.4; }
     .comments-section { padding: 0 16px 12px; border-top: 1px solid #efefef; }
-    .comment-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; font-size: 13px; }
+    .comment-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; font-size: 13px; }
     .comment-content { display: flex; gap: 8px; flex: 1; }
     .comment-author { font-weight: 600; color: #262626; cursor: pointer; }
     .comment-text { color: #262626; }
-    .delete-comment-btn { background: none; border: none; cursor: pointer; color: #8e8e8e; padding: 0 6px; }
-    .delete-comment-btn:hover { color: #ed4956; }
+    .delete-comment-btn { background: none; border: none; cursor: pointer; color: #8e8e8e; padding: 4px 8px; border-radius: 8px; transition: all 0.2s; }
+    .delete-comment-btn:hover { background: rgba(237,73,86,0.1); color: #ed4956; }
     .comment-input-wrapper { display: flex; gap: 8px; padding: 8px 0; border-top: 1px solid #efefef; margin-top: 8px; }
-    .comment-input { flex: 1; border: none; padding: 8px 0; font-size: 13px; outline: none; }
-    .comment-submit { background: none; border: none; color: #0095f6; font-weight: 600; cursor: pointer; }
+    .comment-input { flex: 1; border: none; padding: 8px 0; font-size: 13px; outline: none; background: transparent; }
+    .comment-submit { background: none; border: none; color: #0095f6; font-weight: 600; cursor: pointer; padding: 4px 12px; border-radius: 8px; transition: background 0.2s; }
+    .comment-submit:hover { background: rgba(0,149,246,0.1); }
+    .delete-post-btn { background: none; border: none; cursor: pointer; color: #8e8e8e; padding: 8px; border-radius: 8px; transition: all 0.2s; }
+    .delete-post-btn:hover { background: rgba(237,73,86,0.1); color: #ed4956; }
     
-    /* ========== СТИКИ (STORIES/REELS) ========== */
+    /* ========== СТИКИ ========== */
     .stiki-composer { max-width: 520px; margin: 0 auto 16px; background: white; border-radius: 16px; padding: 16px; border: 1px solid #dbdbdb; }
     .stiki-wrapper { max-width: 520px; margin: 0 auto; height: 70vh; overflow-y: auto; scroll-snap-type: y mandatory; border-radius: 16px; }
     .stiki-card { position: relative; height: 70vh; border-radius: 16px; overflow: hidden; background: #000; scroll-snap-align: start; margin-bottom: 16px; }
     .stiki-card video { width: 100%; height: 100%; object-fit: cover; }
-    .stiki-reactions { position: absolute; bottom: 20px; right: 16px; display: flex; gap: 16px; background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 40px; }
-    .stiki-reaction { cursor: pointer; display: flex; gap: 6px; color: white; font-size: 20px; transition: transform 0.2s; }
-    .stiki-reaction:hover { transform: scale(1.1); }
+    .stiki-reactions { position: absolute; bottom: 20px; right: 16px; display: flex; gap: 16px; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); padding: 8px 16px; border-radius: 40px; }
+    .stiki-reaction { cursor: pointer; display: flex; gap: 6px; color: white; font-size: 20px; transition: transform 0.2s; padding: 4px 8px; border-radius: 20px; }
+    .stiki-reaction:hover { transform: scale(1.1); background: rgba(255,255,255,0.2); }
     
     /* ========== ЧАТЫ ========== */
-    .chats-layout { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 320px 1fr; height: calc(100vh - 140px); min-height: 500px; background: white; border-radius: 16px; overflow: hidden; border: 1px solid #dbdbdb; }
+    .chats-layout { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 320px 1fr; height: calc(100vh - 140px); min-height: 500px; background: white; border-radius: 20px; overflow: hidden; border: 1px solid #dbdbdb; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     .chat-list { background: #fafafa; border-right: 1px solid #dbdbdb; overflow-y: auto; height: 100%; }
-    .chat-item { display: flex; align-items: center; gap: 14px; padding: 14px; cursor: pointer; border-bottom: 1px solid #efefef; transition: background 0.2s; }
-    .chat-item:hover { background: rgba(0,0,0,0.05); }
-    .chat-item.active { background: rgba(0,0,0,0.05); }
+    .chat-item { display: flex; align-items: center; gap: 14px; padding: 14px; cursor: pointer; border-bottom: 1px solid #efefef; transition: all 0.2s; }
+    .chat-item:hover { background: rgba(0,0,0,0.03); }
+    .chat-item.active { background: rgba(0,149,246,0.08); border-left: 3px solid #0095f6; }
     .chat-avatar { width: 50px; height: 50px; border-radius: 50%; background: #efefef; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
     .chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .chat-info { flex: 1; min-width: 0; }
-    .chat-name { font-weight: 600; color: #262626; }
+    .chat-name { font-weight: 600; color: #262626; margin-bottom: 4px; }
     .chat-last-message { font-size: 12px; color: #8e8e8e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .chat-dialog { display: flex; flex-direction: column; height: 100%; background-color: #fafafa; position: relative; background-size: cover; background-position: center; transition: background 0.2s; }
-    .chat-dialog-header { padding: 14px; border-bottom: 1px solid #dbdbdb; background: rgba(255,255,255,0.95); cursor: pointer; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .chat-dialog-header { padding: 14px 16px; border-bottom: 1px solid #dbdbdb; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); cursor: pointer; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
     .chat-dialog-header-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #efefef; }
-    .chat-dialog-body { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: rgba(250,250,250,0.85); }
-    .msg { max-width: 70%; padding: 8px 12px; border-radius: 18px; font-size: 14px; display: flex; flex-direction: column; cursor: pointer; }
-    .msg-time { font-size: 10px; opacity: 0.7; margin-bottom: 2px; }
-    .msg-text { word-wrap: break-word; font-size: 14px; }
-    .msg.me { margin-left: auto; background: #0095f6; color: white; }
-    .msg.them { background: white; color: #262626; border: 1px solid #dbdbdb; }
-    /* НОВЫЙ СТИЛЬ СООБЩЕНИЙ - ВРЕМЯ СПРАВА */
-    .msg-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
-    .msg-author { font-weight: 600; font-size: 12px; }
-    .msg-time-right { font-size: 10px; opacity: 0.7; margin-left: 8px; }
-    .msg.me .msg-author { color: rgba(255,255,255,0.9); }
-    .chat-dialog-input { display: flex; gap: 12px; padding: 14px; border-top: 1px solid #dbdbdb; background: white; flex-shrink: 0; align-items: center; }
-    .chat-dialog-input input { flex: 1; border-radius: 40px; border: 1px solid #dbdbdb; padding: 12px 16px; font-size: 14px; background: white; }
-    .chat-dialog-input input:focus { outline: none; border-color: #262626; }
-    .chat-dialog-input button { border-radius: 40px; border: none; padding: 12px 20px; background: #0095f6; color: white; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s; }
-    .chat-dialog-input button:hover { transform: translateY(-1px); }
-    .chat-bg-btn { background: none; border: none; margin-left: auto; cursor: pointer; color: #0095f6; font-size: 20px; padding: 8px; border-radius: 50%; transition: background 0.2s; }
-    .chat-bg-btn:hover { background: rgba(0,0,0,0.05); }
-    /* ЭМОДЗИ ПАНЕЛЬ */
-    .emoji-panel { position: absolute; bottom: 80px; left: 20px; background: white; border-radius: 20px; padding: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); display: none; grid-template-columns: repeat(6, 1fr); gap: 8px; z-index: 100; border: 1px solid #dbdbdb; }
+    .chat-dialog-body { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; background: rgba(250,250,250,0.85); }
+    .msg { max-width: 70%; padding: 8px 12px; border-radius: 18px; font-size: 14px; display: flex; flex-direction: column; cursor: pointer; transition: all 0.2s; }
+    .msg:hover { filter: brightness(0.98); }
+    .msg-text { word-wrap: break-word; line-height: 1.4; }
+    .msg-time-right { font-size: 10px; opacity: 0.7; margin-top: 4px; }
+    .msg.me { margin-left: auto; background: #0095f6; color: white; border-bottom-right-radius: 4px; }
+    .msg.them { background: white; color: #262626; border: 1px solid #dbdbdb; border-bottom-left-radius: 4px; }
+    .chat-dialog-input { display: flex; gap: 12px; padding: 14px 16px; border-top: 1px solid #dbdbdb; background: white; flex-shrink: 0; align-items: center; }
+    .chat-dialog-input input { flex: 1; border-radius: 24px; border: 1px solid #dbdbdb; padding: 10px 16px; font-size: 14px; background: #fafafa; transition: all 0.2s; }
+    .chat-dialog-input input:focus { outline: none; border-color: #0095f6; background: white; }
+    .chat-dialog-input button { border-radius: 24px; border: none; padding: 10px 20px; background: #0095f6; color: white; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; font-weight: 600; }
+    .chat-dialog-input button:hover { background: #0081d6; transform: scale(1.02); }
+    .chat-bg-btn { background: none; border: none; cursor: pointer; color: #0095f6; font-size: 20px; padding: 8px; border-radius: 50%; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+    .chat-bg-btn:hover { background: rgba(0,149,246,0.1); transform: scale(1.05); }
+    
+    /* ЭМОДЗИ ПАНЕЛЬ - как в Instagram */
+    .emoji-panel { position: absolute; bottom: 70px; left: 20px; background: white; border-radius: 28px; padding: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); display: none; grid-template-columns: repeat(8, 1fr); gap: 8px; z-index: 100; border: 1px solid #dbdbdb; animation: slideUp 0.2s ease; }
     .emoji-panel.active { display: grid; }
-    .emoji-btn { background: none; border: none; font-size: 24px; cursor: pointer; padding: 8px; border-radius: 12px; transition: background 0.2s; }
-    .emoji-btn:hover { background: #f0f0f0; }
-    .emoji-trigger { background: none; border: none; font-size: 24px; cursor: pointer; padding: 8px; border-radius: 50%; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
-    .emoji-trigger:hover { background: #f0f0f0; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .emoji-btn { background: none; border: none; font-size: 28px; cursor: pointer; padding: 8px; border-radius: 50%; transition: all 0.2s; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; }
+    .emoji-btn:hover { background: #f0f0f0; transform: scale(1.1); }
+    .emoji-trigger { background: none; border: none; font-size: 24px; cursor: pointer; padding: 8px; border-radius: 50%; transition: all 0.2s; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; }
+    .emoji-trigger:hover { background: #f0f0f0; transform: scale(1.05); }
     .input-wrapper { display: flex; gap: 8px; flex: 1; align-items: center; }
     
+    /* МЕНЮ РЕДАКТИРОВАНИЯ СООБЩЕНИЯ - как в Instagram */
+    .message-menu { position: fixed; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); padding: 8px 0; z-index: 1000; display: none; overflow: hidden; animation: fadeIn 0.1s ease; }
+    .message-menu button { background: none; border: none; padding: 12px 20px; width: 100%; text-align: left; cursor: pointer; font-size: 14px; transition: background 0.2s; display: flex; align-items: center; gap: 12px; }
+    .message-menu button:hover { background: #f0f0f0; }
+    .message-menu button:first-child { color: #0095f6; }
+    .message-menu button:last-child { color: #ed4956; }
+    
     /* ========== ПРОФИЛЬ ========== */
-    .profile-header { max-width: 760px; margin: 0 auto 24px; background: white; border-radius: 16px; border: 1px solid #dbdbdb; }
+    .profile-header { max-width: 760px; margin: 0 auto 24px; background: white; border-radius: 20px; border: 1px solid #dbdbdb; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
     .profile-cover { height: 140px; transition: background 0.3s; }
     .profile-avatar-wrap { display: flex; justify-content: center; margin-top: -50px; }
-    .profile-avatar { width: 100px; height: 100px; border-radius: 50%; border: 4px solid white; overflow: hidden; background: #dbdbdb; display: flex; align-items: center; justify-content: center; }
+    .profile-avatar { width: 100px; height: 100px; border-radius: 50%; border: 4px solid white; overflow: hidden; background: #dbdbdb; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
     .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .profile-info { text-align: center; padding: 0 20px 20px; }
-    .profile-name { font-size: 22px; font-weight: 700; color: #262626; }
+    .profile-name { font-size: 22px; font-weight: 700; color: #262626; margin-bottom: 8px; }
     .profile-stats { display: flex; justify-content: center; gap: 28px; margin: 16px 0; cursor: pointer; color: #262626; }
+    .profile-stats span { font-size: 14px; transition: opacity 0.2s; }
     .profile-stats span:hover { opacity: 0.7; }
-    .profile-bio { font-size: 14px; margin: 12px auto; padding: 12px 20px; background: #fafafa; border-radius: 20px; max-width: 80%; color: #262626; }
-    .profile-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .btn-primary, .btn-ghost { border-radius: 8px; padding: 8px 20px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: transform 0.2s; }
+    .profile-stats b { font-size: 16px; margin-right: 4px; }
+    .profile-bio { font-size: 14px; margin: 12px auto; padding: 12px 20px; background: #fafafa; border-radius: 20px; max-width: 80%; color: #262626; line-height: 1.4; }
+    .profile-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+    .btn-primary, .btn-ghost { border-radius: 10px; padding: 8px 24px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
     .btn-primary { background: #0095f6; color: white; }
-    .btn-primary:hover { background: #0081d6; transform: translateY(-1px); }
+    .btn-primary:hover { background: #0081d6; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,149,246,0.3); }
     .btn-ghost { background: #efefef; color: #262626; }
     .btn-ghost:hover { background: #e0e0e0; transform: translateY(-1px); }
-    .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 760px; margin: 0 auto; }
-    .profile-grid-item { aspect-ratio: 1/1; background: #efefef; border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
+    .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; max-width: 760px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; border: 1px solid #dbdbdb; }
+    .profile-grid-item { aspect-ratio: 1/1; background: #efefef; overflow: hidden; cursor: pointer; transition: transform 0.2s; position: relative; }
     .profile-grid-item:hover { transform: scale(0.98); }
     .profile-grid-item img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-grid-item::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background 0.2s; }
+    .profile-grid-item:hover::after { background: rgba(0,0,0,0.1); }
     
     /* ========== ПАСПОРТ ========== */
     .passport-layout { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; max-width: 1000px; margin: 0 auto; }
-    .passport-card { background: white; border-radius: 16px; padding: 24px; border: 1px solid #dbdbdb; }
+    .passport-card { background: white; border-radius: 20px; padding: 24px; border: 1px solid #dbdbdb; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .passport-card h3 { margin-bottom: 16px; color: #262626; }
+    .passport-card p { margin: 12px 0; color: #8e8e8e; }
+    .passport-card p strong { color: #262626; }
     .visa-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
-    .visa-card { background: white; border-radius: 12px; padding: 16px; border: 1px solid #dbdbdb; transition: transform 0.2s; text-align: center; }
-    .visa-card:hover { transform: scale(1.02); }
+    .visa-card { background: white; border-radius: 16px; padding: 16px; border: 1px solid #dbdbdb; transition: all 0.2s; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .visa-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .visa-card strong { color: #262626; }
+    .visa-card small { color: #8e8e8e; }
     
     /* ========== НАСТРОЙКИ ========== */
-    .settings-panel { max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; padding: 24px; border: 1px solid #dbdbdb; }
+    .settings-panel { max-width: 600px; margin: 0 auto; background: white; border-radius: 20px; padding: 24px; border: 1px solid #dbdbdb; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .settings-panel h3 { margin-bottom: 20px; color: #262626; }
     .patterns-grid { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
-    .pattern-card { width: 100px; cursor: pointer; text-align: center; transition: transform 0.2s; }
-    .pattern-card:hover { transform: scale(1.02); }
-    .pattern-preview { width: 100px; height: 60px; border-radius: 12px; margin-bottom: 8px; border: 2px solid transparent; }
-    .pattern-card.selected .pattern-preview { border-color: #262626; }
-    .settings-btn { width: 100%; padding: 12px; background: #efefef; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
-    .settings-btn:hover { background: #ed4956; color: white; }
+    .pattern-card { width: 100px; cursor: pointer; text-align: center; transition: all 0.2s; }
+    .pattern-card:hover { transform: translateY(-4px); }
+    .pattern-preview { width: 100px; height: 60px; border-radius: 12px; margin-bottom: 8px; border: 2px solid transparent; transition: border 0.2s; }
+    .pattern-card.selected .pattern-preview { border-color: #0095f6; box-shadow: 0 0 0 2px rgba(0,149,246,0.3); }
+    .pattern-card div { font-size: 12px; color: #8e8e8e; }
+    .settings-btn { width: 100%; padding: 12px; background: #efefef; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+    .settings-btn:hover { background: #ed4956; color: white; transform: translateY(-1px); }
     
     /* ========== МОБИЛЬНАЯ НАВИГАЦИЯ ========== */
-    .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background: white; border-top: 1px solid #dbdbdb; justify-content: space-around; align-items: center; z-index: 500; }
-    .mobile-nav-item { display: flex; flex-direction: column; align-items: center; width: 60px; cursor: pointer; color: #8e8e8e; transition: all 0.2s; }
-    .mobile-nav-item:hover { color: #262626; transform: translateY(-2px); }
-    .mobile-nav-item.active { color: #262626; }
+    .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background: white; border-top: 1px solid #dbdbdb; justify-content: space-around; align-items: center; z-index: 500; backdrop-filter: blur(10px); }
+    .mobile-nav-item { display: flex; flex-direction: column; align-items: center; width: 60px; cursor: pointer; color: #8e8e8e; transition: all 0.2s; padding: 8px 0; border-radius: 12px; }
+    .mobile-nav-item:hover { color: #262626; transform: translateY(-2px); background: rgba(0,0,0,0.05); }
+    .mobile-nav-item.active { color: #0095f6; }
     .mobile-nav-item svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; }
     .mobile-nav-item span { font-size: 10px; margin-top: 4px; }
     
     /* ========== МОДАЛЬНЫЕ ОКНА ========== */
     .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(4px); }
     .modal-backdrop.active { display: flex; }
-    .modal { background: white; border-radius: 16px; padding: 24px; max-width: 420px; width: 90%; animation: fadeIn 0.2s ease; }
-    .modal input, .modal textarea { width: 100%; margin-bottom: 12px; border-radius: 8px; border: 1px solid #dbdbdb; padding: 12px; }
-    .modal button { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; }
-    .modal button:first-of-type { background: #0095f6; color: white; }
-    .modal button:last-of-type { background: #efefef; color: #262626; }
+    .modal { background: white; border-radius: 24px; padding: 24px; max-width: 420px; width: 90%; animation: fadeIn 0.2s ease; }
+    .modal h3 { margin-bottom: 16px; color: #262626; }
+    .modal input, .modal textarea { width: 100%; margin-bottom: 12px; border-radius: 12px; border: 1px solid #dbdbdb; padding: 12px; font-size: 14px; transition: border 0.2s; }
+    .modal input:focus, .modal textarea:focus { outline: none; border-color: #0095f6; }
+    .modal-buttons { display: flex; gap: 12px; margin-top: 16px; }
+    .modal-buttons button { flex: 1; padding: 12px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+    .modal-buttons button:first-child { background: #0095f6; color: white; }
+    .modal-buttons button:first-child:hover { background: #0081d6; }
+    .modal-buttons button:last-child { background: #efefef; color: #262626; }
+    .modal-buttons button:last-child:hover { background: #e0e0e0; }
     
     @media (max-width: 720px) {
       .right-nav { display: none; }
@@ -221,6 +245,7 @@
       .content { padding-bottom: 90px; }
       .chats-layout { grid-template-columns: 1fr; height: 60vh; }
       .passport-layout { grid-template-columns: 1fr; }
+      .emoji-panel { left: 10px; right: 10px; grid-template-columns: repeat(6, 1fr); }
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@800&display=swap" rel="stylesheet">
@@ -276,7 +301,6 @@
   </header>
   <div class="main-row">
     <main class="content">
-      <!-- ЭКРАН ПОСТЫ -->
       <section class="screen active" id="screen-posts">
         <div class="feed-composer">
           <textarea id="feedText" placeholder="Что нового?"></textarea>
@@ -300,7 +324,6 @@
         <div class="feed-list" id="feedList"></div>
       </section>
       
-      <!-- ЭКРАН СТИКИ -->
       <section class="screen" id="screen-stiki">
         <div class="stiki-composer">
           <input type="file" id="stikiInput" accept="video/*" style="margin-bottom:10px;">
@@ -309,7 +332,6 @@
         <div class="stiki-wrapper" id="stikiWrapper"></div>
       </section>
       
-      <!-- ЭКРАН ЧАТЫ -->
       <section class="screen" id="screen-chats">
         <div class="chats-layout">
           <div class="chat-list" id="chatList"></div>
@@ -337,12 +359,13 @@
               <button class="emoji-btn">😭</button><button class="emoji-btn">😎</button><button class="emoji-btn">🥰</button>
               <button class="emoji-btn">❤️</button><button class="emoji-btn">🔥</button><button class="emoji-btn">👍</button>
               <button class="emoji-btn">🎉</button><button class="emoji-btn">✨</button><button class="emoji-btn">💯</button>
+              <button class="emoji-btn">😊</button><button class="emoji-btn">🥺</button><button class="emoji-btn">🤣</button>
+              <button class="emoji-btn">😘</button><button class="emoji-btn">😏</button><button class="emoji-btn">🙏</button>
             </div>
           </div>
         </div>
       </section>
       
-      <!-- ЭКРАН ПАСПОРТ -->
       <section class="screen" id="screen-passport">
         <div class="passport-layout">
           <div class="passport-card">
@@ -357,7 +380,6 @@
         <div id="nftPixelGrid" style="max-width:1000px;margin:20px auto 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px;"></div>
       </section>
       
-      <!-- ЭКРАН ПРОФИЛЬ -->
       <section class="screen" id="screen-profile">
         <div class="profile-header">
           <div class="profile-cover" id="profileCover"></div>
@@ -385,7 +407,6 @@
         <div class="profile-grid" id="profileGrid"></div>
       </section>
       
-      <!-- ЭКРАН НАСТРОЙКИ -->
       <section class="screen" id="screen-settings">
         <div class="settings-panel">
           <h3>Оформление шапки профиля</h3>
@@ -402,7 +423,6 @@
       </section>
     </main>
     
-    <!-- ДЕСКТОПНАЯ НАВИГАЦИЯ -->
     <aside class="right-nav">
       <div class="nav-block"><div class="nav-item" data-screen="posts"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="6" y="6" width="12" height="8" rx="2"/></svg></div><div class="nav-label">Посты</div></div>
       <div class="nav-block"><div class="nav-item" data-screen="stiki"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="3"/><rect x="9" y="5" width="6" height="10" rx="2"/></svg></div><div class="nav-label">Стики</div></div>
@@ -413,7 +433,6 @@
     </aside>
   </div>
   
-  <!-- МОБИЛЬНАЯ НАВИГАЦИЯ -->
   <div class="mobile-nav">
     <div class="mobile-nav-item" data-screen="posts"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="6" y="6" width="12" height="8" rx="2"/></svg><span>Посты</span></div>
     <div class="mobile-nav-item" data-screen="stiki"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="3"/><rect x="9" y="5" width="6" height="10" rx="2"/></svg><span>Стики</span></div>
@@ -424,7 +443,6 @@
   </div>
 </div>
 
-<!-- МОДАЛЬНЫЕ ОКНА -->
 <div class="modal-backdrop" id="editProfileModal">
   <div class="modal">
     <h3>Редактировать профиль</h3>
@@ -433,7 +451,7 @@
     <input id="editProfilePersonaInput" placeholder="Характер">
     <textarea id="editProfileBioInput" placeholder="О себе" rows="3"></textarea>
     <input type="file" id="editProfileAvatarInput" accept="image/*">
-    <div style="display:flex; gap:12px; margin-top:16px;">
+    <div class="modal-buttons">
       <button id="editProfileSave">Сохранить</button>
       <button id="editProfileCancel">Отмена</button>
     </div>
@@ -444,8 +462,16 @@
   <div class="modal">
     <h3 id="followersModalTitle">Подписчики</h3>
     <div id="followersList" style="max-height:400px; overflow-y:auto;"></div>
-    <button id="closeFollowersModal" style="margin-top:16px; width:100%;">Закрыть</button>
+    <div class="modal-buttons" style="margin-top:16px;">
+      <button id="closeFollowersModal" style="width:100%;">Закрыть</button>
+    </div>
   </div>
+</div>
+
+<!-- МЕНЮ ДЛЯ РЕДАКТИРОВАНИЯ СООБЩЕНИЯ -->
+<div class="message-menu" id="messageMenu">
+  <button id="editMessageBtn">✏️ Редактировать</button>
+  <button id="deleteMessageBtn">🗑️ Удалить</button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -455,10 +481,9 @@
 
 <script>
 // ============================================================
-// RENITEA - ПОЛНАЯ ВЕРСИЯ
+// RENITEA - ИСПРАВЛЕННАЯ ВЕРСИЯ
 // ============================================================
 
-// ---------- FIREBASE КОНФИГ ----------
 const firebaseConfig = {
   apiKey: "AIzaSyAnw1Vz4Wzr2rmdrzVv5tga_x6u08ObNbA",
   authDomain: "renitea-b140f.firebaseapp.com",
@@ -473,7 +498,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-// ---------- ГЛОБАЛЬНОЕ СОСТОЯНИЕ ----------
+// Глобальное состояние
 let currentUser = null;
 let usersCache = {};
 let posts = [];
@@ -486,16 +511,13 @@ let notifications = [];
 let subscriptions = {};
 let currentChatUserId = null;
 let currentChatUnsubscribe = null;
-let unsubscribePosts = null;
-let unsubscribeStiki = null;
-let unsubscribeUsers = null;
-let unsubscribeComments = null;
-let unsubscribeReactions = null;
-let unsubscribeNotifications = null;
-let unsubscribeAllMessages = null;
+let unsubscribePosts = null, unsubscribeStiki = null, unsubscribeUsers = null;
+let unsubscribeComments = null, unsubscribeReactions = null;
+let unsubscribeNotifications = null, unsubscribeAllMessages = null;
 let viewProfileUserId = null;
+let isSending = false; // Флаг для предотвращения дублирования сообщений
 
-// ---------- DOM ЭЛЕМЕНТЫ ----------
+// DOM элементы
 const loginWrapper = document.getElementById('loginWrapper');
 const appRoot = document.getElementById('appRoot');
 const feedList = document.getElementById('feedList');
@@ -552,8 +574,14 @@ const followersStat = document.getElementById('followersStat');
 const followingStat = document.getElementById('followingStat');
 const emojiTrigger = document.getElementById('emojiTrigger');
 const emojiPanel = document.getElementById('emojiPanel');
+const messageMenu = document.getElementById('messageMenu');
+const editMessageBtn = document.getElementById('editMessageBtn');
+const deleteMessageBtn = document.getElementById('deleteMessageBtn');
 
-// ---------- УТИЛИТЫ ----------
+let currentMessageId = null;
+let currentMessageKey = null;
+
+// Утилиты
 function escapeHtml(str) {
   if (!str) return '';
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -592,13 +620,11 @@ function formatMessageDate(timestamp) {
   if (msgDate.getTime() === today.getTime()) {
     return formatMessageTime(timestamp);
   }
-  
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
   if (msgDate.getTime() === yesterday.getTime()) {
     return `Вчера`;
   }
-  
   return `${date.toLocaleDateString('ru-RU')}`;
 }
 
@@ -722,7 +748,7 @@ function applyHeaderPattern(user) {
   profileCover.style.background = patterns[pattern] || patterns['1'];
 }
 
-// ---------- ЛАЙКИ ----------
+// Лайки
 async function toggleLike(postId) {
   if (!currentUser) return;
   const userId = currentUser.uid;
@@ -745,7 +771,7 @@ async function toggleLike(postId) {
   }
 }
 
-// ---------- КОММЕНТАРИИ ----------
+// Комментарии
 async function addComment(postId, text) {
   if (!currentUser || !text.trim()) return;
   await db.collection('comments').add({
@@ -769,7 +795,7 @@ async function deleteComment(commentId, postId, commentAuthorId) {
   }
 }
 
-// ---------- ПОДПИСКИ ----------
+// Подписки
 async function toggleFollow(targetUserId) {
   if (!currentUser) return;
   const currentUserId = currentUser.uid;
@@ -790,7 +816,7 @@ async function toggleFollow(targetUserId) {
   renderProfile();
 }
 
-// ---------- ПОДЕЛИТЬСЯ ПОСТОМ В ЧАТЕ ----------
+// Поделиться постом
 async function sharePostToChat(postId) {
   const post = posts.find(p => p.id === postId);
   if (!post) return;
@@ -816,7 +842,7 @@ async function sharePostToChat(postId) {
   }
 }
 
-// ---------- ОТРИСОВКА ЛЕНТЫ (БЕЗ ТЕКСТА "ПОДЕЛИТЬСЯ") ----------
+// Рендер ленты
 function renderFeed() {
   if (!feedList) return;
   feedList.innerHTML = '';
@@ -841,7 +867,7 @@ function renderFeed() {
           <div class="post-avatar-small">${renderAvatar(author.avatarBase64, 'small')}</div>
           <div><div class="post-author-name">${escapeHtml(author.name)}</div><div class="post-date">${timeStr}</div></div>
         </div>
-        ${isAuthor ? `<button class="delete-post-btn" data-id="${post.id}" style="background:none;border:none;cursor:pointer;color:#8e8e8e;">🗑️</button>` : '<span style="color:#8e8e8e;">⋯</span>'}
+        ${isAuthor ? `<button class="delete-post-btn" data-id="${post.id}">🗑️</button>` : '<span style="color:#8e8e8e;">⋯</span>'}
       </div>
       <div class="feed-post-image" data-zoomable="true">
         ${post.imageBase64 ? `<img src="${post.imageBase64}" alt="post image">` : ''}
@@ -914,7 +940,7 @@ function renderFeed() {
   });
 }
 
-// ---------- СТИКИ ----------
+// Стики
 function renderStiki() {
   if (!stikiWrapper) return;
   stikiWrapper.innerHTML = '';
@@ -982,12 +1008,14 @@ async function publishStiki() {
   } catch (e) { alert('❌ Ошибка: ' + e.message); }
 }
 
-// ---------- ЧАТЫ (НОВЫЙ ФОРМАТ СООБЩЕНИЙ) ----------
+// ЧАТЫ - ИСПРАВЛЕННАЯ ВЕРСИЯ (без дублирования)
 async function sendMessage() {
+  if (isSending) return;
   const input = chatInput;
   const text = input?.value.trim();
   if (!text || !currentUser || !currentChatUserId) return;
   
+  isSending = true;
   const key = chatKey(currentUser.uid, currentChatUserId);
   const chatRef = db.collection('chats').doc(key);
   try {
@@ -999,10 +1027,11 @@ async function sendMessage() {
     if (input) input.value = '';
     renderChatList();
     setTimeout(() => { if (chatDialogBody) chatDialogBody.scrollTop = chatDialogBody.scrollHeight; }, 100);
-  } catch (e) { alert('❌ Не удалось отправить сообщение'); }
+  } catch (e) { console.error('Send error:', e); }
+  finally { isSending = false; }
 }
 
-async function editMessage(messageId, key, currentText) {
+async function editMessageInChat(messageId, key, currentText) {
   const newText = prompt('✏️ Редактировать сообщение:', currentText);
   if (newText && newText.trim() !== '' && newText !== currentText) {
     await db.collection('chats').doc(key).collection('messages').doc(messageId).update({ 
@@ -1012,7 +1041,31 @@ async function editMessage(messageId, key, currentText) {
   }
 }
 
-// НОВЫЙ ФОРМАТ СООБЩЕНИЙ: текст сверху, время справа снизу
+async function deleteMessageFromChat(messageId, key) {
+  if (confirm('Удалить сообщение?')) {
+    await db.collection('chats').doc(key).collection('messages').doc(messageId).delete();
+  }
+}
+
+function showMessageMenu(event, messageId, key, currentText) {
+  event.stopPropagation();
+  currentMessageId = messageId;
+  currentMessageKey = key;
+  
+  messageMenu.style.display = 'block';
+  messageMenu.style.left = event.pageX + 'px';
+  messageMenu.style.top = event.pageY + 'px';
+  
+  editMessageBtn.onclick = () => {
+    editMessageInChat(messageId, key, currentText);
+    messageMenu.style.display = 'none';
+  };
+  deleteMessageBtn.onclick = () => {
+    deleteMessageFromChat(messageId, key);
+    messageMenu.style.display = 'none';
+  };
+}
+
 function renderChatDialog() {
   if (!chatDialogBody || !currentUser || !currentChatUserId) return;
   const other = getUserFromCache(currentChatUserId);
@@ -1038,20 +1091,17 @@ function renderChatDialog() {
     
     const dateLabel = formatMessageDate(msg.createdAt);
     const timeLabel = formatMessageTime(msg.createdAt);
+    const fullTime = dateLabel === 'Вчера' ? `Вчера ${timeLabel}` : (dateLabel === timeLabel ? timeLabel : `${dateLabel} ${timeLabel}`);
     
-    // Новый формат: текст сообщения, под ним справа время
     div.innerHTML = `
       <div class="msg-text">${escapeHtml(msg.text)}${msg.edited ? ' <span style="font-size:10px;opacity:0.7;">(ред.)</span>' : ''}</div>
       <div style="display:flex; justify-content:flex-end; margin-top:4px;">
-        <span class="msg-time-right">${dateLabel === 'Вчера' ? 'Вчера ' + timeLabel : (dateLabel === formatMessageTime(msg.createdAt) ? timeLabel : dateLabel + ' ' + timeLabel)}</span>
+        <span class="msg-time-right">${fullTime}</span>
       </div>
     `;
     
     if (isMe) {
-      div.onclick = (e) => {
-        e.stopPropagation();
-        editMessage(msg.id, key, msg.text);
-      };
+      div.onclick = (e) => showMessageMenu(e, msg.id, key, msg.text);
     }
     chatDialogBody.appendChild(div);
   });
@@ -1181,7 +1231,7 @@ function openProfileFromChat() {
   showScreen('profile');
 }
 
-// ---------- ЭМОДЗИ ПАНЕЛЬ ----------
+// Эмодзи панель
 function initEmojiPanel() {
   if (!emojiTrigger || !emojiPanel) return;
   
@@ -1208,7 +1258,7 @@ function initEmojiPanel() {
   });
 }
 
-// ---------- ПРОФИЛЬ ----------
+// Профиль
 function renderProfile() {
   if (!currentUser) return;
   const uid = viewProfileUserId || currentUser.uid;
@@ -1435,7 +1485,7 @@ function initPatternSelector() {
   });
 }
 
-// ---------- УВЕДОМЛЕНИЯ ----------
+// Уведомления
 function listenNotifications() {
   if (!currentUser) return;
   if (unsubscribeNotifications) { unsubscribeNotifications(); unsubscribeNotifications = null; }
@@ -1477,7 +1527,7 @@ function renderNotifications() {
   }
 }
 
-// ---------- ПОИСК ----------
+// Поиск
 function renderSearchDropdown(searchQuery = '') {
   if (!currentUser || !searchDropdown) return;
   const currentId = currentUser.uid;
@@ -1511,7 +1561,7 @@ function renderSearchDropdown(searchQuery = '') {
   searchDropdown.classList.add('active');
 }
 
-// ---------- ПУБЛИКАЦИЯ ПОСТА ----------
+// Публикация поста
 async function publishPost() {
   if (!currentUser) return;
   const text = (feedText?.value || '').trim();
@@ -1533,7 +1583,7 @@ async function publishPost() {
   } catch (e) { alert('❌ Ошибка: ' + e.message); }
 }
 
-// ---------- СЛУШАТЕЛИ ----------
+// Слушатели
 function listenUsers() {
   if (unsubscribeUsers) { unsubscribeUsers(); unsubscribeUsers = null; }
   
@@ -1660,7 +1710,7 @@ function stopAllListeners() {
   if (unsubscribeAllMessages) { unsubscribeAllMessages(); unsubscribeAllMessages = null; }
 }
 
-// ---------- ЛОГИН/РЕГ ----------
+// Логин/Рег
 async function handleLogin() {
   const errorEl = document.getElementById('loginError');
   if (errorEl) errorEl.textContent = '';
@@ -1746,7 +1796,7 @@ async function afterLogin(user) {
   initEmojiPanel();
 }
 
-// ---------- ИНИЦИАЛИЗАЦИЯ ----------
+// Инициализация
 function initLoginTabs() {
   const tabs = document.querySelectorAll('.login-tab');
   if (!tabs.length) return;
@@ -1843,9 +1893,13 @@ function initModalHandlers() {
 }
 
 function initChatEventHandlers() {
+  if (chatSendBtn) chatSendBtn.removeEventListener('click', sendMessage);
   if (chatSendBtn) chatSendBtn.addEventListener('click', sendMessage);
+  if (chatInput) chatInput.removeEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
   if (chatInput) chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+  if (chatHeaderProfile) chatHeaderProfile.removeEventListener('click', openProfileFromChat);
   if (chatHeaderProfile) chatHeaderProfile.addEventListener('click', openProfileFromChat);
+  if (chatBgButton) chatBgButton.removeEventListener('click', () => {});
   if (chatBgButton) chatBgButton.addEventListener('click', () => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -1856,11 +1910,14 @@ function initChatEventHandlers() {
 }
 
 function initPostPublish() {
+  if (feedPublishBtn) feedPublishBtn.removeEventListener('click', publishPost);
   if (feedPublishBtn) feedPublishBtn.addEventListener('click', publishPost);
+  if (stikiPublishBtn) stikiPublishBtn.removeEventListener('click', publishStiki);
   if (stikiPublishBtn) stikiPublishBtn.addEventListener('click', publishStiki);
 }
 
 function initLogout() {
+  if (logoutSettingsBtn) logoutSettingsBtn.removeEventListener('click', () => auth.signOut());
   if (logoutSettingsBtn) logoutSettingsBtn.addEventListener('click', () => auth.signOut());
 }
 
@@ -1875,12 +1932,18 @@ function initAllHandlers() {
   initNotifications();
   initChatEventHandlers();
   initEmojiPanel();
+  
+  document.addEventListener('click', (e) => {
+    if (!messageMenu.contains(e.target)) {
+      messageMenu.style.display = 'none';
+    }
+  });
 }
 
-// ---------- ЗАПУСК ----------
+// Запуск
 document.addEventListener('DOMContentLoaded', () => {
   console.log('═══════════════════════════════════════════════════════════');
-  console.log('✨ RENITEA — ПОЛНАЯ ВЕРСИЯ ЗАПУЩЕНА ✨');
+  console.log('✨ RENITEA — ИСПРАВЛЕННАЯ ВЕРСИЯ ЗАПУЩЕНА ✨');
   console.log('═══════════════════════════════════════════════════════════');
   initAllHandlers();
 });
@@ -1924,10 +1987,12 @@ auth.onAuthStateChanged(async (user) => {
 });
 
 console.log('═══════════════════════════════════════════════════════════');
-console.log('🎉 RENITEA v7.0 — ПОЛНОСТЬЮ ГОТОВА!');
-console.log('✅ Убран текст "Поделиться" — только иконка');
-console.log('✅ Новый формат сообщений: текст, под ним время справа');
-console.log('✅ Стандартный пакет эмодзи в чатах (😀😍😂😭😎🥰❤️🔥👍🎉✨💯)');
+console.log('🎉 RENITEA v8.0 — ИСПРАВЛЕННАЯ ВЕРСИЯ!');
+console.log('✅ Исправлено: сообщения не дублируются');
+console.log('✅ Исправлено: поле ввода не исчезает');
+console.log('✅ Эмодзи панель как в Instagram (анимация появления)');
+console.log('✅ Меню редактирования как в Instagram (клик по сообщению)');
+console.log('✅ Современный дизайн, тени, hover-эффекты');
 console.log('═══════════════════════════════════════════════════════════');
 </script>
 </body>
