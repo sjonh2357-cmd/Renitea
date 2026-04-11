@@ -5,16 +5,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Renitea</title>
   <style>
+    /* ========== ПОДКЛЮЧЕНИЕ УНИКАЛЬНЫХ ШРИФТОВ ========== */
+    @import url('https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+    
     /* ========== БАЗА ========== */
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; }
     body { min-height: 100vh; background: #fafafa; }
+    
+    /* ========== ЛОГОТИП RENITEA (УНИКАЛЬНЫЙ СТИЛЬ) ========== */
+    .brand { 
+      font-family: 'Clash Display', 'Space Grotesk', sans-serif;
+      font-size: 26px; 
+      font-weight: 700; 
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 25%, #FFD93D 50%, #6BCB77 75%, #4D96FF 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .brand:hover {
+      background: linear-gradient(135deg, #FF8E53 0%, #FFD93D 25%, #6BCB77 50%, #4D96FF 75%, #FF6B6B 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      transition: all 0.3s ease;
+    }
+    
+    .login-logo { 
+      font-family: 'Clash Display', 'Space Grotesk', sans-serif;
+      font-size: 46px; 
+      font-weight: 800; 
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53, #FFD93D, #6BCB77, #4D96FF, #A855F7);
+      -webkit-background-clip: text; 
+      background-clip: text; 
+      color: transparent;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    
+    .login-logo::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #FF6B6B, #FFD93D, #6BCB77);
+      border-radius: 3px;
+    }
+    
+    .login-subtitle { 
+      font-size: 14px; 
+      color: #6b7280; 
+      margin: 16px 0 20px 0;
+      font-weight: 400;
+      letter-spacing: 0.3px;
+    }
     
     /* ========== ЛОГИН ========== */
     .login-wrapper { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: url('https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=1950&auto=format') center/cover no-repeat; z-index: 2000; }
     .login-wrapper::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(3px); }
     .login-card { position: relative; z-index: 10; width: 100%; max-width: 400px; margin: 16px; background: white; border-radius: 28px; padding: 32px 28px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-    .login-logo { font-size: 34px; font-weight: 800; letter-spacing: 4px; background: linear-gradient(135deg, #ff6cab, #ffdd59, #4cd964, #34aadc, #5856d6); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .login-subtitle { font-size: 14px; color: #6b7280; margin: 8px 0; }
     .login-tabs { display: flex; gap: 10px; background: #f0f0f0; padding: 5px; border-radius: 60px; margin-bottom: 24px; }
     .login-tab { flex: 1; border: none; padding: 10px; border-radius: 60px; background: transparent; cursor: pointer; font-weight: 600; color: #6b7280; transition: all 0.2s; }
     .login-tab.active { background: #262626; color: white; }
@@ -31,7 +87,6 @@
     
     /* ========== ТОПБАР ========== */
     .topbar { height: 60px; background: white; border-bottom: 1px solid #dbdbdb; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: sticky; top: 0; z-index: 100; }
-    .brand { font-size: 24px; font-weight: 800; letter-spacing: 3px; background: linear-gradient(135deg, #ff6cab, #ffdd59, #4cd964, #34aadc, #5856d6); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .search-wrapper { position: relative; width: 260px; }
     .search { width: 100%; border-radius: 60px; border: 1px solid #dbdbdb; padding: 8px 16px; background: #fafafa; font-size: 14px; }
     .search:focus { outline: none; border-color: #262626; }
@@ -80,7 +135,6 @@
     .post-author-info { display: flex; align-items: center; gap: 10px; cursor: pointer; }
     .post-avatar-small { width: 36px; height: 36px; border-radius: 50%; background: #efefef; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .post-avatar-small img { width: 100%; height: 100%; object-fit: cover; }
-    /* ЗАГЛУШКА АВАТАРА — СЕРЫЙ КРУГ С БЕЛЫМ СИЛУЭТОМ (КАК В INSTAGRAM) */
     .default-avatar-icon { width: 36px; height: 36px; background: #dbdbdb; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
     .default-avatar-icon svg { width: 20px; height: 20px; stroke: #8e8e8e; stroke-width: 2; fill: none; }
     .default-avatar-icon-big { width: 100px; height: 100px; background: #dbdbdb; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
@@ -91,7 +145,6 @@
     .feed-post-image img { width: 100%; height: auto; object-fit: contain; transition: transform 0.3s ease; }
     .feed-post-image.zoomed { cursor: zoom-out; overflow: auto; }
     .feed-post-image.zoomed img { transform: scale(2); }
-    /* ОТСТУПЫ 15px МЕЖДУ КНОПКАМИ КАК ТЫ СКАЗАЛ */
     .post-actions-top { display: flex; align-items: center; gap: 15px; padding: 4px 16px; border-bottom: 1px solid #efefef; }
     .action-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px; color: #262626; padding: 4px 0; border-radius: 8px; transition: all 0.2s; }
     .action-btn:hover { opacity: 0.6; }
@@ -112,7 +165,7 @@
     .comment-input { flex: 1; border: none; padding: 8px 0; font-size: 13px; outline: none; }
     .comment-submit { background: none; border: none; color: #0095f6; font-weight: 600; cursor: pointer; }
     
-    /* ========== ЧАТЫ — ФИКСИРОВАННОЕ ОКНО ========== */
+    /* ========== ЧАТЫ ========== */
     .chats-layout { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 320px 1fr; height: calc(100vh - 140px); min-height: 500px; background: white; border-radius: 16px; overflow: hidden; border: 1px solid #dbdbdb; }
     .chat-list { background: #fafafa; border-right: 1px solid #dbdbdb; overflow-y: auto; height: 100%; }
     .chat-item { display: flex; align-items: center; gap: 14px; padding: 14px; cursor: pointer; border-bottom: 1px solid #efefef; transition: background 0.2s; }
@@ -249,40 +302,27 @@
   </header>
   <div class="main-row">
     <main class="content">
-      <!-- ЭКРАН ПОСТЫ -->
       <section class="screen active" id="screen-posts">
         <div class="feed-composer"><textarea id="feedText" placeholder="Что нового?"></textarea><div class="feed-composer-actions"><label class="feed-file-label" for="feedImage"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="2.5"/><path d="M21 15l-5-5L7 21"/></svg></label><input type="file" id="feedImage" accept="image/*" style="display:none;"><button class="feed-publish-btn" id="feedPublishBtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button></div></div>
         <div class="feed-list" id="feedList"></div>
       </section>
-      
-      <!-- ЭКРАН СТИКИ -->
       <section class="screen" id="screen-stiki">
         <div class="stiki-composer"><input type="file" id="stikiInput" accept="video/*"><button id="stikiPublishBtn" style="background:#262626; color:white; border:none; padding:10px 20px; border-radius:40px; cursor:pointer;">Опубликовать стик</button></div>
         <div class="stiki-wrapper" id="stikiWrapper"></div>
       </section>
-      
-      <!-- ЭКРАН ЧАТЫ -->
       <section class="screen" id="screen-chats">
         <div class="chats-layout"><div class="chat-list" id="chatList"></div><div class="chat-dialog" id="chatDialogContainer"><div class="chat-dialog-header" id="chatHeaderProfile"><div class="chat-dialog-header-avatar" id="chatDialogAvatar"></div><div class="chat-dialog-header-name" id="chatDialogName"></div></div><div class="chat-dialog-body" id="chatDialogBody"></div><div class="chat-dialog-input"><input id="chatInput" placeholder="Сообщение..."><button id="chatSendBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div></div>
       </section>
-      
-      <!-- ЭКРАН ПАСПОРТ -->
       <section class="screen" id="screen-passport">
         <div class="passport-layout"><div class="passport-card"><strong>Паспорт RENITEA</strong><div id="passportName">—</div><div id="passportNick">—</div><div>Характер: <span id="passportPersona">—</span></div><div>Моментов: <span id="passportMomentsCount">0</span></div><div class="passport-photo" style="width:80px;height:80px;border-radius:16px;background:#efefef;margin-top:12px;"></div></div><div class="visa-grid" id="visaGrid"></div></div><div id="nftPixelGrid" style="max-width:1000px;margin:20px auto 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px;"></div>
       </section>
-      
-      <!-- ЭКРАН ПРОФИЛЬ -->
       <section class="screen" id="screen-profile">
         <div class="profile-header"><div class="profile-cover" id="profileCover"></div><div class="profile-avatar-wrap"><div class="profile-avatar" id="profileAvatar"><img id="profileAvatarImg" style="display:none;"><div class="default-avatar-icon-big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20v-2a7 7 0 0 1 14 0v2"/></svg></div></div></div><div class="profile-info"><div class="profile-name" id="profileName">—</div><div class="profile-stats"><span id="followersStat"><b id="profileFollowersCount">0</b> подписчиков</span><span id="followingStat"><b id="profileFollowingCount">0</b> подписки</span></div><div class="profile-bio" id="profileBio">—</div><div class="profile-actions" id="profileActions"></div></div></div><div class="profile-grid" id="profileGrid"></div>
       </section>
-      
-      <!-- ЭКРАН НАСТРОЙКИ -->
       <section class="screen" id="screen-settings">
         <div class="settings-panel"><div class="settings-title">Оформление профиля</div><div class="patterns-grid" id="patternSelector"><div class="pattern-card" data-pattern="1"><div class="pattern-preview" style="background:linear-gradient(135deg,#667eea,#764ba2);"></div><div class="pattern-name">Космос</div></div><div class="pattern-card" data-pattern="2"><div class="pattern-preview" style="background:repeating-linear-gradient(45deg,#ff6cab,#ff6cab 20px,#ffdd59 20px,#ffdd59 40px);"></div><div class="pattern-name">Закат</div></div><div class="pattern-card" data-pattern="3"><div class="pattern-preview" style="background:radial-gradient(circle at 20% 40%,#4cd964,#34aadc);"></div><div class="pattern-name">Лето</div></div><div class="pattern-card" data-pattern="4"><div class="pattern-preview" style="background:linear-gradient(135deg,#f5f0e6,#e8d5b5);"></div><div class="pattern-name">Нежность</div></div><div class="pattern-card" data-pattern="5"><div class="pattern-preview" style="background:repeating-linear-gradient(90deg,#a8c9a5,#a8c9a5 20px,#c9b896 20px,#c9b896 40px);"></div><div class="pattern-name">Зебра</div></div><div class="pattern-card" data-pattern="6"><div class="pattern-preview" style="background:linear-gradient(135deg,#2c3e50,#3498db);"></div><div class="pattern-name">Океан</div></div></div><button class="settings-btn" id="logoutSettingsBtn">Выйти</button></div>
       </section>
     </main>
-    
-    <!-- ДЕСКТОПНАЯ НАВИГАЦИЯ (СПРАВА) -->
     <aside class="right-nav">
       <div class="nav-block"><div class="nav-item" data-screen="posts"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="6" y="6" width="12" height="8" rx="2"/></svg></div><div class="nav-label">Посты</div></div>
       <div class="nav-block"><div class="nav-item" data-screen="stiki"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="3"/><rect x="9" y="5" width="6" height="10" rx="2"/></svg></div><div class="nav-label">Стики</div></div>
@@ -292,8 +332,6 @@
       <div class="nav-block"><div class="nav-item" data-screen="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div><div class="nav-label">Настройки</div></div>
     </aside>
   </div>
-  
-  <!-- МОБИЛЬНАЯ НАВИГАЦИЯ (ВНИЗУ) -->
   <div class="mobile-nav">
     <div class="mobile-nav-item" data-screen="posts"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="6" y="6" width="12" height="8" rx="2"/></svg><span>Посты</span></div>
     <div class="mobile-nav-item" data-screen="stiki"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="3"/><rect x="9" y="5" width="6" height="10" rx="2"/></svg><span>Стики</span></div>
@@ -304,23 +342,17 @@
   </div>
 </div>
 
-<!-- МОДАЛЬНЫЕ ОКНА -->
 <div class="modal-backdrop" id="editProfileModal"><div class="modal"><h3>Редактировать</h3><input id="editProfileNameInput" placeholder="Имя"><input id="editProfileNickInput" placeholder="Ник"><input id="editProfilePersonaInput" placeholder="Характер"><textarea id="editProfileBioInput" placeholder="Био"></textarea><input type="file" id="editProfileAvatarInput" accept="image/*"><div style="display:flex; gap:12px; margin-top:16px;"><button id="editProfileSave">Сохранить</button><button id="editProfileCancel">Отмена</button></div></div></div>
 <div class="modal-backdrop" id="followersModal"><div class="modal"><h3 id="followersModalTitle">Подписчики</h3><div id="followersList" style="max-height:400px; overflow-y:auto;"></div><button id="closeFollowersModal">Закрыть</button></div></div>
 
-<!-- ПОДКЛЮЧЕНИЕ FIREBASE (БУДЕТ В ЧАСТИ 2) -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
-
-<!-- ЧАСТЬ 2/6 БУДЕТ ТУТ (Firebase конфиг + состояние + утилиты) -->
-<script>
 // ============================================================
 // ЧАСТЬ 2/6: FIREBASE КОНФИГ + ГЛОБАЛЬНОЕ СОСТОЯНИЕ + УТИЛИТЫ
 // ============================================================
 
-// ---------- FIREBASE КОНФИГ ----------
 const firebaseConfig = {
   apiKey: "AIzaSyAnw1Vz4Wzr2rmdrzVv5tga_x6u08ObNbA",
   authDomain: "renitea-b140f.firebaseapp.com",
@@ -335,7 +367,6 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-// ---------- ГЛОБАЛЬНОЕ СОСТОЯНИЕ ----------
 const state = {
   currentUser: null,
   usersCache: {},
@@ -356,7 +387,7 @@ let unsubscribePosts = null, unsubscribeStiki = null, unsubscribeUsers = null;
 let unsubscribeNotifications = null, unsubscribeComments = null;
 let unsubscribeReactions = null, unsubscribeAllMessages = null;
 
-// ---------- DOM ЭЛЕМЕНТЫ ----------
+// DOM элементы
 const loginWrapper = document.getElementById('loginWrapper');
 const appRoot = document.getElementById('appRoot');
 const loginTabs = document.querySelectorAll('.login-tab');
@@ -426,7 +457,6 @@ const followersStat = document.getElementById('followersStat');
 const followingStat = document.getElementById('followingStat');
 const nftPixelGrid = document.getElementById('nftPixelGrid');
 
-// ---------- УТИЛИТЫ ----------
 function escapeHtml(str) {
   if (!str) return '';
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -449,10 +479,24 @@ function formatRelativeTime(timestamp) {
   return `${Math.floor(diffDay / 365)} г назад`;
 }
 
-function formatMessageTime(timestamp) {
+// НОВАЯ ФУНКЦИЯ: ВРЕМЯ КАК В TELEGRAM
+function formatTelegramTime(timestamp) {
   if (!timestamp) return '';
   const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-  return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+  
+  const timeStr = date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+  
+  if (date >= today) {
+    return timeStr;
+  } else if (date >= yesterday) {
+    return `Вчера ${timeStr}`;
+  } else {
+    return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' }) + ' ' + timeStr;
+  }
 }
 
 function chatKey(a, b) {
@@ -463,7 +507,6 @@ function getUserFromCache(id) {
   return state.usersCache[id] || null;
 }
 
-// ЗАГЛУШКА АВАТАРА (серый круг с белым силуэтом как в Instagram)
 function renderAvatar(avatarBase64, size = 'small') {
   if (avatarBase64) return `<img src="${avatarBase64}">`;
   if (size === 'small') {
@@ -576,16 +619,11 @@ function applyHeaderPattern(user) {
   profileCover.style.background = patterns[pattern] || patterns['1'];
 }
 
-console.log('═══════════════════════════════════════════════════════════');
-console.log('✨ ЧАСТЬ 2/6 ЗАГРУЖЕНА ✨ (Firebase + состояние + утилиты)');
-console.log('═══════════════════════════════════════════════════════════');
-</script>
-<script>
+console.log('✨ ЧАСТЬ 2/6 ЗАГРУЖЕНА ✨ (Firebase + Telegram-время)');
 // ============================================================
 // ЧАСТЬ 3/6: ЛЕНТА ПОСТОВ, ЛАЙКИ, КОММЕНТАРИИ, ПОДЕЛИТЬСЯ
 // ============================================================
 
-// ---------- ЛАЙК / УБРАТЬ ЛАЙК ----------
 async function toggleLike(postId) {
   if (!state.currentUser) return;
   const userId = state.currentUser.uid;
@@ -608,7 +646,6 @@ async function toggleLike(postId) {
   }
 }
 
-// ---------- КОММЕНТАРИИ ----------
 async function addComment(postId, text) {
   if (!state.currentUser || !text.trim()) return;
   await db.collection('comments').add({
@@ -632,7 +669,6 @@ async function deleteComment(commentId, postId, commentAuthorId) {
   }
 }
 
-// ---------- ПОДПИСКА ----------
 async function toggleFollow(targetUserId) {
   if (!state.currentUser) return;
   const currentUserId = state.currentUser.uid;
@@ -653,7 +689,6 @@ async function toggleFollow(targetUserId) {
   renderProfile();
 }
 
-// ---------- ОТРИСОВКА ЛЕНТЫ (ПОСТЫ) ----------
 function renderFeed() {
   if (!feedList) return;
   feedList.innerHTML = '';
@@ -708,7 +743,6 @@ function renderFeed() {
     feedList.appendChild(card);
   });
 
-  // Обработчики
   document.querySelectorAll('.like-btn').forEach(btn => btn.onclick = () => toggleLike(btn.dataset.id));
   document.querySelectorAll('.toggle-comments-btn').forEach(btn => {
     const sec = document.getElementById(`comments-${btn.dataset.id}`);
@@ -750,7 +784,6 @@ function renderFeed() {
   });
 }
 
-// ---------- СТИКИ ----------
 function renderStiki() {
   if (!stikiWrapper) return;
   stikiWrapper.innerHTML = '';
@@ -774,7 +807,6 @@ function renderStiki() {
   });
 }
 
-// ---------- NFT ГАЛЕРЕЯ ----------
 function renderNftPixelGrid() {
   if (!nftPixelGrid || !state.currentUser) return;
   const userPosts = state.posts.filter(p => p.authorId === state.currentUser.uid);
@@ -792,17 +824,11 @@ function renderNftPixelGrid() {
   });
 }
 
-console.log('═══════════════════════════════════════════════════════════');
-console.log('✨ ЧАСТЬ 3/6 ЗАГРУЖЕНА ✨ (Лента + лайки + комменты + NFT)');
-console.log('═══════════════════════════════════════════════════════════');
-</script>
-<script>
+console.log('✨ ЧАСТЬ 3/6 ЗАГРУЖЕНА ✨');
 // ============================================================
 // ЧАСТЬ 4/6: ПРОФИЛЬ, ПАСПОРТ, ВИЗЫ, РЕДАКТИРОВАНИЕ
-// ПАТТЕРНЫ ШАПКИ, ПОДПИСЧИКИ/ПОДПИСКИ
 // ============================================================
 
-// ---------- ОТРИСОВКА ПРОФИЛЯ ----------
 function renderProfile() {
   if (!state.currentUser) return;
   const uid = state.viewProfileUserId || state.currentUser.uid;
@@ -812,7 +838,6 @@ function renderProfile() {
   if (profileNameEl) profileNameEl.textContent = user.name || '—';
   if (profileBioEl) profileBioEl.textContent = user.bio || '—';
   
-  // Аватар с заглушкой (серый круг с силуэтом)
   if (profileAvatarImg && profileAvatar) {
     if (user.avatarBase64) {
       profileAvatarImg.style.display = 'block';
@@ -886,7 +911,6 @@ function renderProfile() {
   }
 }
 
-// ---------- ОТРИСОВКА СЕТКИ ПОСТОВ В ПРОФИЛЕ ----------
 function renderProfileGrid() {
   if (!profileGrid || !state.currentUser) return;
   const uid = state.viewProfileUserId || state.currentUser.uid;
@@ -905,7 +929,6 @@ function renderProfileGrid() {
   });
 }
 
-// ---------- ПАСПОРТ И ВИЗЫ ----------
 function renderPassport() {
   if (!state.currentUser) return;
   const user = getUserFromCache(state.currentUser.uid);
@@ -928,7 +951,6 @@ function renderPassport() {
   renderNftPixelGrid();
 }
 
-// ---------- РЕДАКТИРОВАНИЕ ПРОФИЛЯ ----------
 function openEditProfileModal() {
   if (!state.currentUser) return;
   const user = getUserFromCache(state.currentUser.uid);
@@ -972,7 +994,6 @@ async function saveProfileEdit() {
   }
 }
 
-// ---------- ПОДПИСЧИКИ/ПОДПИСКИ ----------
 function showFollows(type) {
   const uid = state.viewProfileUserId || state.currentUser?.uid;
   if (!uid) return;
@@ -1007,7 +1028,6 @@ function showFollows(type) {
   followersModal.classList.add('active');
 }
 
-// ---------- ПАТТЕРНЫ ШАПКИ ----------
 function initPatternSelector() {
   if (!patternSelector) return;
   const user = getUserFromCache(state.currentUser.uid);
@@ -1026,7 +1046,6 @@ function initPatternSelector() {
   });
 }
 
-// ---------- МОДАЛКИ ----------
 function initModalHandlers() {
   editProfileSave?.addEventListener('click', saveProfileEdit);
   editProfileCancel?.addEventListener('click', () => editProfileModal.classList.remove('active'));
@@ -1037,17 +1056,11 @@ function initModalHandlers() {
   followersModal?.addEventListener('click', (e) => { if (e.target === followersModal) followersModal.classList.remove('active'); });
 }
 
-console.log('═══════════════════════════════════════════════════════════');
-console.log('✨ ЧАСТЬ 4/6 ЗАГРУЖЕНА ✨ (Профиль + паспорт + визы)');
-console.log('═══════════════════════════════════════════════════════════');
-</script>
-<script>
+console.log('✨ ЧАСТЬ 4/6 ЗАГРУЖЕНА ✨');
 // ============================================================
-// ЧАСТЬ 5/6: ЧАТЫ — ПОЛНОСТЬЮ РАБОТАЮТ
-// ФИКСИРОВАННОЕ ОКНО, ОТПРАВКА, РЕДАКТИРОВАНИЕ СООБЩЕНИЙ
+// ЧАСТЬ 5/6: ЧАТЫ — С ВРЕМЕНЕМ КАК В TELEGRAM
 // ============================================================
 
-// ---------- ОТРИСОВКА СПИСКА ЧАТОВ ----------
 async function renderChatList(filter = '') {
   if (!chatList || !state.currentUser) return;
   const currentId = state.currentUser.uid;
@@ -1105,7 +1118,6 @@ async function renderChatList(filter = '') {
   }
 }
 
-// ---------- ПРОСЛУШИВАНИЕ СООБЩЕНИЙ В КОНКРЕТНОМ ЧАТЕ ----------
 function listenMessagesForChat(currentId, otherId) {
   if (!currentId || !otherId) return;
   const key = chatKey(currentId, otherId);
@@ -1123,7 +1135,6 @@ function listenMessagesForChat(currentId, otherId) {
     });
 }
 
-// ---------- ПРОСЛУШИВАНИЕ ВСЕХ ЧАТОВ ДЛЯ ОБНОВЛЕНИЯ СПИСКА ----------
 function listenAllMessages() {
   if (!state.currentUser) return;
   const currentId = state.currentUser.uid;
@@ -1162,7 +1173,7 @@ function listenAllMessages() {
   unsubscribeAllMessages = () => { unsubscribe1(); unsubscribe2(); };
 }
 
-// ---------- ОТРИСОВКА ДИАЛОГА ЧАТА (ВРЕМЯ НАД СООБЩЕНИЕМ) ----------
+// ОТРИСОВКА ДИАЛОГА — ИСПОЛЬЗУЕМ formatTelegramTime()
 function renderChatDialog() {
   if (!chatDialogBody || !state.currentUser || !currentChatUserId) return;
   const currentId = state.currentUser.uid;
@@ -1186,7 +1197,8 @@ function renderChatDialog() {
     const isMe = msg.fromId === currentId;
     const div = document.createElement('div');
     div.className = 'msg ' + (isMe ? 'me' : 'them');
-    const timeStr = formatMessageTime(msg.createdAt);
+    // ИСПОЛЬЗУЕМ formatTelegramTime ВМЕСТО formatMessageTime
+    const timeStr = formatTelegramTime(msg.createdAt);
     div.innerHTML = `<div class="msg-time">${timeStr}</div><div class="msg-text">${escapeHtml(msg.text)}${msg.edited ? ' <span style="font-size:10px;opacity:0.7;">(ред.)</span>' : ''}</div>`;
     
     if (isMe) {
@@ -1205,7 +1217,6 @@ function renderChatDialog() {
   chatDialogBody.scrollTop = chatDialogBody.scrollHeight;
 }
 
-// ---------- ОТПРАВКА СООБЩЕНИЯ ----------
 async function sendMessage() {
   const input = chatInput;
   const text = input?.value.trim();
@@ -1225,7 +1236,6 @@ async function sendMessage() {
   } catch (e) { alert('❌ Не удалось отправить сообщение'); }
 }
 
-// ---------- ОБРАБОТЧИКИ ЧАТА ----------
 function handleChatEnter(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
 function openProfileFromChat() {
   if (!currentChatUserId) return;
@@ -1241,17 +1251,11 @@ function initChatEventHandlers() {
   if (chatHeaderProfile) { chatHeaderProfile.removeEventListener('click', openProfileFromChat); chatHeaderProfile.addEventListener('click', openProfileFromChat); }
 }
 
-console.log('═══════════════════════════════════════════════════════════');
-console.log('✨ ЧАСТЬ 5/6 ЗАГРУЖЕНА ✨ (Чаты + фон + редактирование)');
-console.log('═══════════════════════════════════════════════════════════');
-</script>
-<script>
+console.log('✨ ЧАСТЬ 5/6 ЗАГРУЖЕНА ✨ (Чаты + время как в Telegram)');
 // ============================================================
 // ЧАСТЬ 6/6: FIREBASE СЛУШАТЕЛИ, АВТОРИЗАЦИЯ, НАВИГАЦИЯ
-// ЗАПУСК ВСЕГО ПРИЛОЖЕНИЯ
 // ============================================================
 
-// ---------- СЛУШАТЕЛЬ ПОЛЬЗОВАТЕЛЕЙ ----------
 function listenUsers() {
   if (unsubscribeUsers) { unsubscribeUsers(); unsubscribeUsers = null; }
   
@@ -1278,7 +1282,6 @@ function listenUsers() {
   });
 }
 
-// ---------- СЛУШАТЕЛЬ ПОСТОВ ----------
 function listenPosts() {
   if (unsubscribePosts) { unsubscribePosts(); unsubscribePosts = null; }
   
@@ -1301,7 +1304,6 @@ function listenPosts() {
   });
 }
 
-// ---------- СЛУШАТЕЛЬ КОММЕНТАРИЕВ ----------
 function listenComments() {
   if (unsubscribeComments) { unsubscribeComments(); unsubscribeComments = null; }
   
@@ -1328,7 +1330,6 @@ function listenComments() {
   });
 }
 
-// ---------- СЛУШАТЕЛЬ ЛАЙКОВ ----------
 function listenReactions() {
   if (unsubscribeReactions) { unsubscribeReactions(); unsubscribeReactions = null; }
   
@@ -1348,7 +1349,6 @@ function listenReactions() {
   });
 }
 
-// ---------- СЛУШАТЕЛЬ СТИКОВ ----------
 function listenStiki() {
   if (unsubscribeStiki) { unsubscribeStiki(); unsubscribeStiki = null; }
   
@@ -1359,7 +1359,6 @@ function listenStiki() {
   });
 }
 
-// ---------- СЛУШАТЕЛЬ УВЕДОМЛЕНИЙ ----------
 function listenNotifications() {
   if (!state.currentUser) return;
   if (unsubscribeNotifications) { unsubscribeNotifications(); unsubscribeNotifications = null; }
@@ -1370,7 +1369,6 @@ function listenNotifications() {
   });
 }
 
-// ---------- ОТРИСОВКА УВЕДОМЛЕНИЙ ----------
 function renderNotifications() {
   const unreadCount = state.notifications.filter(n => !n.read).length;
   if (notificationsBadge) {
@@ -1402,7 +1400,6 @@ function renderNotifications() {
   }
 }
 
-// ---------- ПУБЛИКАЦИЯ ПОСТА ----------
 async function publishPost() {
   if (!state.currentUser) return;
   const text = (feedText?.value || '').trim();
@@ -1424,7 +1421,6 @@ async function publishPost() {
   } catch (e) { alert('❌ Ошибка: ' + e.message); }
 }
 
-// ---------- ПУБЛИКАЦИЯ СТИКА ----------
 async function publishStiki() {
   if (!state.currentUser) return;
   const file = stikiInput?.files[0];
@@ -1444,7 +1440,6 @@ async function publishStiki() {
   } catch (e) { alert('❌ Ошибка: ' + e.message); }
 }
 
-// ---------- ПОИСК ПОЛЬЗОВАТЕЛЕЙ ----------
 function renderSearchDropdown(searchQuery = '') {
   if (!state.currentUser || !searchDropdown) return;
   const currentId = state.currentUser.uid;
@@ -1475,7 +1470,6 @@ function renderSearchDropdown(searchQuery = '') {
   searchDropdown.classList.add('active');
 }
 
-// ---------- ЗАПУСК ВСЕХ СЛУШАТЕЛЕЙ ----------
 function startAllListeners() {
   console.log('🚀 Запуск Firebase слушателей...');
   listenUsers();
@@ -1488,7 +1482,6 @@ function startAllListeners() {
   console.log('✅ Все слушатели активны');
 }
 
-// ---------- ОСТАНОВКА ВСЕХ СЛУШАТЕЛЕЙ ----------
 function stopAllListeners() {
   console.log('🛑 Остановка слушателей...');
   if (unsubscribePosts) { unsubscribePosts(); unsubscribePosts = null; }
@@ -1501,7 +1494,6 @@ function stopAllListeners() {
   if (unsubscribeAllMessages) { unsubscribeAllMessages(); unsubscribeAllMessages = null; }
 }
 
-// ---------- ВХОД В АККАУНТ ----------
 async function handleLogin() {
   if (loginError) loginError.textContent = '';
   const email = (loginEmail?.value || '').trim();
@@ -1522,7 +1514,6 @@ async function handleLogin() {
   }
 }
 
-// ---------- РЕГИСТРАЦИЯ ----------
 async function handleRegister() {
   if (loginError) loginError.textContent = '';
   const name = (regName?.value || '').trim();
@@ -1568,7 +1559,6 @@ async function handleRegister() {
   }
 }
 
-// ---------- ПОСЛЕ ЛОГИНА ----------
 async function afterLogin(user) {
   state.currentUser = user;
   state.viewProfileUserId = user.uid;
@@ -1587,7 +1577,6 @@ async function afterLogin(user) {
   loadChatBackground(user.uid);
 }
 
-// ---------- ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ЛОГИНА ----------
 function initLoginTabs() {
   if (!loginTabs) return;
   loginTabs.forEach(tab => {
@@ -1607,7 +1596,6 @@ function initLoginTabs() {
   });
 }
 
-// ---------- КНОПКИ ЛОГИНА ----------
 function initAuthButtons() {
   if (loginBtn) {
     loginBtn.removeEventListener('click', handleLogin);
@@ -1627,7 +1615,6 @@ function initAuthButtons() {
   }
 }
 
-// ---------- НАВИГАЦИЯ ----------
 function initNavigation() {
   if (!navItems) return;
   navItems.forEach(item => {
@@ -1654,7 +1641,6 @@ function initNavigation() {
   });
 }
 
-// ---------- ПОИСК ----------
 function initSearch() {
   if (!userSearch) return;
   userSearch.addEventListener('input', () => renderSearchDropdown(userSearch.value));
@@ -1666,7 +1652,6 @@ function initSearch() {
   });
 }
 
-// ---------- УВЕДОМЛЕНИЯ ----------
 function initNotifications() {
   if (!notificationsIcon) return;
   notificationsIcon.addEventListener('click', (e) => {
@@ -1681,7 +1666,6 @@ function initNotifications() {
   });
 }
 
-// ---------- ПУБЛИКАЦИЯ ----------
 function initPostPublish() {
   if (feedPublishBtn) {
     feedPublishBtn.removeEventListener('click', publishPost);
@@ -1696,7 +1680,6 @@ function initStikiPublish() {
   }
 }
 
-// ---------- ВЫХОД ----------
 function initLogout() {
   if (logoutSettingsBtn) {
     logoutSettingsBtn.removeEventListener('click', () => auth.signOut());
@@ -1704,7 +1687,6 @@ function initLogout() {
   }
 }
 
-// ---------- ИНИЦИАЛИЗАЦИЯ ВСЕХ ОБРАБОТЧИКОВ ----------
 function initAllHandlers() {
   initLoginTabs();
   initAuthButtons();
@@ -1717,7 +1699,6 @@ function initAllHandlers() {
   initNotifications();
 }
 
-// ---------- ЗУМ ФОТО ----------
 function initImageZoom() {
   document.addEventListener('click', (e) => {
     const zoomTarget = e.target.closest('.feed-post-image');
@@ -1737,7 +1718,6 @@ function initImageZoom() {
   });
 }
 
-// ---------- ПРЕДОТВРАЩЕНИЕ СКРОЛЛА ПРИ ЗУМЕ ----------
 function initMobileZoomPrevent() {
   document.addEventListener('touchmove', (e) => {
     if (e.target.closest('.feed-post-image.zoomed')) {
@@ -1746,7 +1726,6 @@ function initMobileZoomPrevent() {
   }, { passive: false });
 }
 
-// ---------- СВАЙПЫ ДЛЯ СТИКОВ ----------
 function initStikiSwipe() {
   if (!stikiWrapper) return;
   let touchStartY = 0;
@@ -1771,7 +1750,6 @@ function initStikiSwipe() {
   }, { passive: false });
 }
 
-// ---------- АВТОВОСПРОИЗВЕДЕНИЕ ВИДЕО ----------
 function initStikiAutoplay() {
   if (!stikiWrapper) return;
   const observer = new IntersectionObserver((entries) => {
@@ -1793,7 +1771,6 @@ function initStikiAutoplay() {
   renderStiki = window.renderStiki;
 }
 
-// ---------- ЗАКРЫТИЕ МОДАЛОК ПО ESC ----------
 function initModalCloseOnBackdrop() {
   window.addEventListener('click', (e) => { if (e.target.classList.contains('modal-backdrop')) e.target.classList.remove('active'); });
   document.addEventListener('keydown', (e) => {
@@ -1804,7 +1781,6 @@ function initModalCloseOnBackdrop() {
   });
 }
 
-// ---------- ОБРАБОТКА ОШИБОК ----------
 function initFirebaseErrorHandler() {
   window.addEventListener('unhandledrejection', (event) => {
     const reason = event.reason;
@@ -1814,7 +1790,6 @@ function initFirebaseErrorHandler() {
   });
 }
 
-// ---------- ПРОВЕРКА ИНТЕРНЕТА ----------
 function initNetworkMonitoring() {
   window.addEventListener('online', () => {
     console.log('✅ Интернет восстановлен');
@@ -1829,7 +1804,6 @@ function initNetworkMonitoring() {
   });
 }
 
-// ---------- ПРИНУДИТЕЛЬНОЕ ОБНОВЛЕНИЕ ----------
 window.forceRefresh = () => {
   renderFeed();
   renderStiki();
@@ -1843,7 +1817,6 @@ window.forceRefresh = () => {
   console.log('✅ Принудительное обновление выполнено');
 };
 
-// ---------- API ДЛЯ КОНСОЛИ ----------
 window.Renitea = {
   state: state,
   api: {
@@ -1859,7 +1832,6 @@ window.Renitea = {
   }
 };
 
-// ---------- CSS ДЛЯ ZOOM ----------
 function addZoomStyles() {
   if (!document.querySelector('#zoom-styles')) {
     const style = document.createElement('style');
@@ -1874,11 +1846,30 @@ function addZoomStyles() {
   }
 }
 
-// ---------- ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ ----------
+// ========== ПРИНУДИТЕЛЬНЫЙ ФИКС КНОПОК ЛОГИНА ==========
+(function forceFixLoginButtons() {
+  setTimeout(() => {
+    const loginBtnFix = document.getElementById('loginBtn');
+    const registerBtnFix = document.getElementById('registerBtn');
+    
+    if (loginBtnFix && !loginBtnFix.hasAttribute('data-fixed')) {
+      const newBtn = loginBtnFix.cloneNode(true);
+      loginBtnFix.parentNode.replaceChild(newBtn, loginBtnFix);
+      newBtn.setAttribute('data-fixed', 'true');
+      newBtn.addEventListener('click', handleLogin);
+    }
+    
+    if (registerBtnFix && !registerBtnFix.hasAttribute('data-fixed')) {
+      const newBtn = registerBtnFix.cloneNode(true);
+      registerBtnFix.parentNode.replaceChild(newBtn, registerBtnFix);
+      newBtn.setAttribute('data-fixed', 'true');
+      newBtn.addEventListener('click', handleRegister);
+    }
+  }, 100);
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('═══════════════════════════════════════════════════════════');
   console.log('✨ RENITEA — ФИНАЛЬНАЯ ИНИЦИАЛИЗАЦИЯ ✨');
-  console.log('═══════════════════════════════════════════════════════════');
   addZoomStyles();
   initImageZoom();
   initMobileZoomPrevent();
@@ -1891,7 +1882,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => document.querySelectorAll('img').forEach(img => { if (img.src && !img.complete) img.loading = 'lazy'; }), 1000);
 });
 
-// ---------- ОТСЛЕЖИВАНИЕ АВТОРИЗАЦИИ ----------
 auth.onAuthStateChanged(async (user) => {
   if (user) {
     console.log('🔐 Авторизован:', user.email);
@@ -1942,15 +1932,9 @@ auth.onAuthStateChanged(async (user) => {
   }
 });
 
-console.log('═══════════════════════════════════════════════════════════');
 console.log('🎉 RENITEA v5.0 — ПОЛНОСТЬЮ ГОТОВА!');
-console.log('📱 Навигация: справа (десктоп) / внизу (мобилка)');
-console.log('💬 Чаты: фиксированное окно, кнопка отправки всегда снизу');
-console.log('❤️ Посты: отступы 15px между лайк/коммент/поделиться');
-console.log('👤 Аватарки: заглушка 👤 серый круг с силуэтом');
-console.log('═══════════════════════════════════════════════════════════');
-</script>
-</body>
-</html>
-</body>
-</html>
+console.log('✅ Логотип: красивый шрифт Clash Display');
+console.log('✅ Кнопки логина: исправлены');
+console.log('✅ Фон чата: сохраняется у пользователя');
+console.log('✅ Время в чатах: как в Telegram');
+          
