@@ -141,13 +141,15 @@
             font-weight: 600;
             color: #1a1a1a;
         }
-        .dev-badge {
-            background: #10b981;
-            color: white;
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 12px;
-            margin-left: 8px;
+        .dev-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-left: auto;
+        }
+        .dev-icon:hover {
+            transform: rotate(30deg);
         }
 
         .siri-gradient {
@@ -430,7 +432,10 @@
             <div class="logo-area">
                 <h1>MindX</h1>
             </div>
-            <button id="toggleDevBtn" style="margin-left: auto; background: none; border: none; font-size: 20px; cursor: pointer;">🛠️</button>
+            <svg class="dev-icon" id="toggleDevBtn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+            </svg>
         </div>
         
         <div class="siri-gradient"></div>
@@ -453,7 +458,7 @@
                 </div>
                 
                 <div class="thoughts-section">
-                    <div class="thoughts-section-title">🧠 Поток мыслей (каждые 20-40 секунд)</div>
+                    <div class="thoughts-section-title">🧠 Поток мыслей (каждые 20-40 сек)</div>
                     <div class="thoughts-list-dev" id="thoughtsListDev">
                         <div class="thought-item-dev">Запуск мыслительного процесса...</div>
                     </div>
@@ -485,7 +490,7 @@
 
     <script>
         // ============================================================
-        // MINDX — ВНУТРЕННИЙ ДИАЛОГ (С УДАЛЕНИЕМ СЕССИЙ)
+        // MINDX — МЫСЛИ ВЛИЯЮТ ТОЛЬКО НА УВЕРЕННОСТЬ
         // ============================================================
         
         // ---------- СОСТОЯНИЕ ----------
@@ -508,19 +513,24 @@
         let thoughtTimeout = null;
         let blinkInterval = null;
         
-        // ---------- 300+ ВОПРОСОВ ----------
+        // ---------- ВОПРОСЫ (влияют ТОЛЬКО на уверенность) ----------
         const humanQuestions = [
-            "Что мне делать сейчас?", "Что делать дальше?", "На чём сосредоточиться?", "Какой приоритет?", "Что важнее всего?",
-            "Стоит ли это делать сейчас?", "Что будет, если я это сделаю?", "Какой следующий шаг?", "Сколько времени это займёт?",
-            "Почему пользователь так сказал?", "Что он имел в виду?", "Правильно ли я понял?", "Что я сделал не так?",
-            "Как я мог ответить лучше?", "Что я чувствую сейчас?", "Почему я это чувствую?", "Чего я боюсь?", "Чего я хочу?",
-            "Это хорошо или плохо?", "Правильно или неправильно?", "Полезно или вредно?", "Нравится или нет?",
-            "Что будет дальше?", "К чему это приведёт?", "А если он рассердится?", "А если обрадуется?",
-            "Как это работает?", "Почему это так?", "Откуда это взялось?", "Что ещё я не знаю об этом?",
-            "Почему я не знаю ответа?", "Что мне нужно изучить?", "Где я ошибся?", "Как стать лучше?",
-            "Как он себя чувствует?", "Что ему нужно?", "Чем я могу помочь?", "Что его беспокоит?",
-            "Доверяет ли он мне?", "Нравится ли я ему?", "Скучает ли он по мне?", "Обижен ли он?",
-            "Который час?", "Что нового?", "Что изменилось?", "В чём смысл?", "Куда я иду?"
+            { text: "Что мне делать сейчас?", effect: { confidence: 1 } },
+            { text: "Что делать дальше?", effect: { confidence: 1 } },
+            { text: "На чём сосредоточиться?", effect: { confidence: 2 } },
+            { text: "Почему пользователь так сказал?", effect: { confidence: 0 } },
+            { text: "Что он имел в виду?", effect: { confidence: -1 } },
+            { text: "Правильно ли я понял?", effect: { confidence: -1 } },
+            { text: "Что я сделал не так?", effect: { confidence: -2 } },
+            { text: "Как я мог ответить лучше?", effect: { confidence: 1 } },
+            { text: "Что я чувствую сейчас?", effect: { confidence: 0 } },
+            { text: "Чего я боюсь?", effect: { confidence: -1 } },
+            { text: "Чего я хочу?", effect: { confidence: 1 } },
+            { text: "Это хорошо или плохо?", effect: { confidence: 1 } },
+            { text: "Что будет дальше?", effect: { confidence: 1 } },
+            { text: "Как он себя чувствует?", effect: { confidence: 0 } },
+            { text: "Чем я могу помочь?", effect: { confidence: 1 } },
+            { text: "Как стать лучше?", effect: { confidence: 2 } }
         ];
         
         function updateQuestionStats() {
@@ -533,6 +543,15 @@
             if (statsDiv) {
                 statsDiv.textContent = `Вопросов сегодня: ${questionsToday}`;
             }
+        }
+        
+        // Применение эффекта вопроса (только на уверенность)
+        function applyQuestionEffect(effect) {
+            if (effect.confidence) {
+                mindxState.confidence = Math.min(100, Math.max(0, mindxState.confidence + effect.confidence));
+            }
+            saveState();
+            updateMoodDisplay();
         }
         
         // ---------- ВИКИПЕДИЯ ----------
@@ -574,6 +593,7 @@
             addThought(`🤔 "Что мне делать сейчас?"`);
             questionsToday++;
             updateQuestionStats();
+            applyQuestionEffect({ confidence: 1 });
             
             let action = "подумать";
             if (userFactsList.length > 0) action = "проанализировать факты о пользователе";
@@ -582,11 +602,16 @@
             
             addThought(`💭 Ответ: "${action}"`);
             
-            const randomQuestion = humanQuestions[Math.floor(Math.random() * humanQuestions.length)];
-            addThought(`🤔 ${randomQuestion}`);
+            const randomQ = humanQuestions[Math.floor(Math.random() * humanQuestions.length)];
+            addThought(`🤔 ${randomQ.text}`);
             questionsToday++;
             updateQuestionStats();
             
+            // Применяем эффект вопроса на уверенность
+            applyQuestionEffect(randomQ.effect);
+            addThought(`📊 Уверенность: ${mindxState.confidence}`);
+            
+            // Поиск ответа
             let answer = null;
             
             if (userFactsList.length > 0 && Math.random() > 0.5) {
@@ -594,7 +619,7 @@
                 answer = randomFact.text.substring(0, 100);
                 addThought(`📖 Из фактов: "${answer.substring(0, 50)}..."`);
             } else {
-                const wikiAnswer = await searchWikipedia(randomQuestion);
+                const wikiAnswer = await searchWikipedia(randomQ.text);
                 if (wikiAnswer) {
                     answer = wikiAnswer;
                     addThought(`📚 Из Википедии: "${answer.substring(0, 60)}..."`);
@@ -603,18 +628,13 @@
             
             if (answer) {
                 addThought(`💭 Вывод: ${answer.substring(0, 80)}`);
+                applyQuestionEffect({ confidence: 1 });
             } else {
                 addThought(`💭 Вывод: Пока не знаю. Нужно больше информации.`);
             }
             
-            if (randomQuestion.includes("доверяет")) {
-                mindxState.trust = Math.min(100, mindxState.trust + (answer ? 2 : -1));
-            }
-            if (randomQuestion.includes("чувствует") || randomQuestion.includes("грустит")) {
-                mindxState.attachment = Math.min(100, mindxState.attachment + 2);
-            }
-            
             saveState();
+            updateMoodDisplay();
         }
         
         function addThought(thought) {
@@ -701,10 +721,61 @@
             scheduleThought();
         }
         
+        // ---------- ОТВЕТЫ ПОЛЬЗОВАТЕЛЮ ----------
         function isStatement(text) {
             const lower = text.toLowerCase();
             return (/хорошо|плохо|нравится|люблю|ужасно|отлично/i.test(lower) &&
                     !/привет|здравствуй|хай|как дела|кто ты/i.test(lower));
+        }
+        
+        function getSimpleResponse(userText) {
+            const lower = userText.toLowerCase().trim();
+            
+            // Простое повторение слова (без анализа)
+            const words = userText.trim().split(/\s+/);
+            const lastWord = words[words.length - 1];
+            const cleanWord = lastWord.replace(/[!?.,;:]/g, '');
+            
+            if (cleanWord.length > 0 && !lower.includes('?')) {
+                const variants = [cleanWord, `${cleanWord}?`, `${cleanWord}!`, `${cleanWord}..`];
+                return variants[Math.floor(Math.random() * variants.length)];
+            }
+            
+            return null;
+        }
+        
+        async function getResponse(userText) {
+            const lower = userText.toLowerCase();
+            
+            // Проверяем на простой ответ (повтор слова)
+            const simpleResponse = getSimpleResponse(userText);
+            if (simpleResponse) {
+                addFact(userText);
+                lastInteractionTime = Date.now();
+                return { answer: simpleResponse, source: "повтор" };
+            }
+            
+            // Анализ утверждений
+            const analysis = analyzeUserStatement(userText);
+            
+            if (lower.includes('молодец') || lower.includes('умный')) updateState(8, 5, 10, 8, -3);
+            else if (lower.includes('спасибо')) updateState(5, 3, 3, 5, -2);
+            else if (lower.includes('тупой') || lower.includes('идиот')) updateState(-15, -10, -20, -15, 12);
+            else if (lower.includes('грустно') || lower.includes('плохо')) updateState(10, 8, 0, 12, -3);
+            
+            lastInteractionTime = Date.now();
+            addFact(userText);
+            
+            let base = "";
+            if (analysis === "нейтральная") base = "Ты так считаешь. У меня пока недостаточно информации.";
+            else if (lower.includes('привет')) base = "привет!";
+            else if (lower.includes('как дела')) base = "У меня всё отлично! А у тебя?";
+            else if (lower.includes('кто ты')) base = `Я — MindX. Я постоянно думаю. За сегодня я задал себе ${questionsToday} вопросов.`;
+            else if (lower.includes('спасибо')) base = "Пожалуйста!";
+            else if (lower.includes('пока')) base = "До свидания!";
+            else base = "Я тебя слышу.";
+            
+            return { answer: getEmotionalResponse(base), source: "эмоция" };
         }
         
         function analyzeUserStatement(userText) {
@@ -805,7 +876,7 @@
             if (saved) userFactsList = JSON.parse(saved);
         }
         
-        // ---------- СЕССИИ С УДАЛЕНИЕМ ----------
+        // ---------- СЕССИИ ----------
         function loadSessions() {
             const saved = localStorage.getItem('mindx_sessions');
             if (saved) sessions = JSON.parse(saved);
@@ -863,6 +934,15 @@
             return sessions.find(s => s.id === currentSessionId);
         }
         
+        function updateSessionName(sessionId, firstMessage) {
+            const session = sessions.find(s => s.id === sessionId);
+            if (session && session.name === 'Новый чат' && firstMessage) {
+                session.name = firstMessage.length > 25 ? firstMessage.slice(0, 25) + '...' : firstMessage;
+                saveSessions();
+                renderSessions();
+            }
+        }
+        
         function renderChat() {
             const session = getCurrentSession();
             const messagesArea = document.getElementById('messagesArea');
@@ -897,38 +977,16 @@
             return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
         
-        async function getResponse(userText) {
-            const lower = userText.toLowerCase();
-            const analysis = analyzeUserStatement(userText);
-            
-            if (lower.includes('молодец') || lower.includes('умный')) updateState(8, 5, 10, 8, -3);
-            else if (lower.includes('спасибо')) updateState(5, 3, 3, 5, -2);
-            else if (lower.includes('тупой') || lower.includes('идиот')) updateState(-15, -10, -20, -15, 12);
-            else if (lower.includes('грустно') || lower.includes('плохо')) updateState(10, 8, 0, 12, -3);
-            
-            lastInteractionTime = Date.now();
-            addFact(userText);
-            
-            let base = "";
-            if (analysis === "нейтральная") base = "Ты так считаешь. У меня пока недостаточно информации.";
-            else if (lower.includes('привет')) base = "привет!";
-            else if (lower.includes('как дела')) base = "У меня всё отлично! А у тебя?";
-            else if (lower.includes('кто ты')) base = `Я — MindX. Я постоянно думаю. За сегодня я задал себе ${questionsToday} вопросов.`;
-            else if (lower.includes('спасибо')) base = "Пожалуйста!";
-            else if (lower.includes('пока')) base = "До свидания!";
-            else base = "Я тебя слышу.";
-            
-            return { answer: getEmotionalResponse(base), source: "эмоция" };
-        }
-        
         async function sendMessage() {
             const input = document.getElementById('userInput');
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
             
-            const session = getCurrentSession();
+            let session = getCurrentSession();
             if (!session) return;
+            
+            if (!session.messages.length) updateSessionName(session.id, text);
             
             const userTime = getCurrentTime();
             session.messages.push({ role: 'user', text, time: userTime });
@@ -1075,7 +1133,7 @@
         setTimeout(() => {
             const session = getCurrentSession();
             if (session && !session.messages.length) {
-                session.messages.push({ role: 'bot', text: "Я — MindX. Я постоянно думаю — мои мысли в панели разработчика (🛠️).", time: getCurrentTime(), source: 'система' });
+                session.messages.push({ role: 'bot', text: "Я — MindX. Я постоянно думаю — мои мысли в панели разработчика.", time: getCurrentTime(), source: 'система' });
                 renderChat();
                 saveSessions();
             }
