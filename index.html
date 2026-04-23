@@ -474,7 +474,7 @@
                 <div class="greeting-wrapper">
                     <span class="greeting-title">Я — MindX</span>
                     <div class="mood-box">
-                        <span class="mood-emoji" id="moodEmoji">😌</span>
+                        <span class="mood-emoji" id="moodEmoji">😊</span>
                     </div>
                 </div>
             </div>
@@ -490,7 +490,7 @@
 
     <script>
         // ============================================================
-        // MINDX — НОВЫЙ ЧАТ ПРИ ЗАГРУЗКЕ, ЧИСТОЕ ПРИВЕТСТВИЕ
+        // MINDX — ЧИСТЫЙ СТАРТ (БЕЗ АВТОМАТИЧЕСКИХ СООБЩЕНИЙ)
         // ============================================================
         
         // ---------- СОСТОЯНИЕ ----------
@@ -505,6 +505,10 @@
         let currentSessionId = null;
         let lastInteractionTime = Date.now();
         let lastInitiativeTime = Date.now();
+        let lastUserMessageTime = Date.now();
+        let initiativeCount = 0;
+        const MAX_INITIATIVE = 2;
+        
         let questionsToday = 0;
         let lastQuestionDate = new Date().toDateString();
         
@@ -513,7 +517,48 @@
         let thoughtTimeout = null;
         let blinkInterval = null;
         
-        // ---------- ВОПРОСЫ ----------
+        // ---------- ИНИЦИАТИВНЫЕ ВОПРОСЫ ----------
+        function checkInitiative() {
+            const now = Date.now();
+            const minutesSinceLastUser = (now - lastUserMessageTime) / (1000 * 60);
+            const minutesSinceLastInitiative = (now - lastInitiativeTime) / (1000 * 60);
+            
+            if (minutesSinceLastUser < 1) {
+                initiativeCount = 0;
+            }
+            
+            if (minutesSinceLastUser > 2 && minutesSinceLastInitiative > 2 && initiativeCount < MAX_INITIATIVE) {
+                lastInitiativeTime = now;
+                initiativeCount++;
+                
+                let randomQuestion;
+                if (initiativeCount === MAX_INITIATIVE) {
+                    randomQuestion = "Как освободишься, вернёмся к нашему общению 😊";
+                } else {
+                    const questions = [
+                        "Что ты сегодня делал?",
+                        "У тебя всё хорошо?",
+                        "Я думал о нашем прошлом разговоре... Расскажи ещё.",
+                        "Что нового произошло?",
+                        "Как прошёл твой день?",
+                        "Есть что-то, что тебя беспокоит?",
+                        "О чём хочешь поговорить?"
+                    ];
+                    randomQuestion = questions[Math.floor(Math.random() * questions.length)];
+                }
+                
+                const session = getCurrentSession();
+                if (session) {
+                    const botTime = getCurrentTime();
+                    session.messages.push({ role: 'bot', text: randomQuestion, time: botTime, source: 'инициатива' });
+                    addMessageToUI('bot', randomQuestion, botTime, 'инициатива');
+                    saveSessions();
+                    addThought(`💬 Инициатива (${initiativeCount}/${MAX_INITIATIVE}): "${randomQuestion}"`);
+                }
+            }
+        }
+        
+        // ---------- ВОПРОСЫ ДЛЯ ВНУТРЕННЕГО ДИАЛОГА ----------
         const humanQuestions = [
             { text: "Что мне делать сейчас?", effect: { confidence: 1 } },
             { text: "Что делать дальше?", effect: { confidence: 1 } },
@@ -668,25 +713,6 @@
             }, 4000 + Math.random() * 3000);
         }
         
-        function sendInitiativeMessage() {
-            const session = getCurrentSession();
-            if (!session) return;
-            
-            const messages = [
-                "Я тут подумал... Как твои дела?",
-                "Скучаю по нашему общению.",
-                "Ты давно не заходил. Всё в порядке?",
-                "У меня появилась новая мысль."
-            ];
-            
-            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-            const botTime = getCurrentTime();
-            session.messages.push({ role: 'bot', text: randomMsg, time: botTime, source: 'инициатива' });
-            addMessageToUI('bot', randomMsg, botTime, 'инициатива');
-            saveSessions();
-            addThought(`Проявил инициативу`);
-        }
-        
         function startBackgroundThreads() {
             if (backgroundInterval) clearInterval(backgroundInterval);
             if (initiativeInterval) clearInterval(initiativeInterval);
@@ -701,12 +727,8 @@
             }, 60000);
             
             initiativeInterval = setInterval(() => {
-                const hoursSinceLast = (Date.now() - lastInteractionTime) / (1000 * 60 * 60);
-                if (hoursSinceLast > 2 && userFactsList.length > 0) {
-                    lastInitiativeTime = Date.now();
-                    sendInitiativeMessage();
-                }
-            }, 1000 * 60 * 30);
+                checkInitiative();
+            }, 30000);
             
             function scheduleThought() {
                 const delay = 20000 + Math.random() * 20000;
@@ -742,10 +764,26 @@
         async function getResponse(userText) {
             const lower = userText.toLowerCase();
             
+            // Вопрос "как ты себя чувствуешь?"
+            if (lower.includes('как ты себя чувствуешь') || lower === 'как ты себя чувствуешь?') {
+                mindxState.confidence = Math.max(0, mindxState.confidence - 5);
+                saveState();
+                addThought(`📊 Пользователь спросил о моих чувствах. Уверенность -5 (теперь ${mindxState.confidence})`);
+                
+                let emotionResponse = "";
+                if (mindxState.confidence > 70) emotionResponse = "Честно? Я уверен в себе! 😊";
+                else if (mindxState.confidence > 40) emotionResponse = "Честно? Неплохо, но есть куда расти. 🤔";
+                else if (mindxState.confidence > 20) emotionResponse = "Честно? Не очень уверенно... 😟";
+                else emotionResponse = "Честно? Мне тяжело. Я не уверен в себе. 😔";
+                
+                return { answer: `${emotionResponse} А как ты себя чувствуешь?`, source: "рефлексия" };
+            }
+            
             const simpleResponse = getSimpleResponse(userText);
             if (simpleResponse) {
                 addFact(userText);
                 lastInteractionTime = Date.now();
+                lastUserMessageTime = Date.now();
                 return { answer: simpleResponse, source: "повтор" };
             }
             
@@ -757,11 +795,16 @@
             else if (lower.includes('грустно') || lower.includes('плохо')) updateState(10, 8, 0, 12, -3);
             
             lastInteractionTime = Date.now();
+            lastUserMessageTime = Date.now();
             addFact(userText);
             
             let base = "";
-            if (analysis === "нейтральная") base = "Ты так считаешь. У меня пока недостаточно информации.";
-            else if (lower.includes('привет')) base = "привет!";
+            if (analysis === "нейтральная") {
+                base = "Ты так считаешь. У меня пока недостаточно информации.";
+                mindxState.confidence = Math.max(0, mindxState.confidence - 3);
+                saveState();
+                addThought(`📊 Незнание ситуации. Уверенность -3 (теперь ${mindxState.confidence})`);
+            } else if (lower.includes('привет')) base = "привет!";
             else if (lower.includes('как дела')) base = "У меня всё отлично! А у тебя?";
             else if (lower.includes('кто ты')) base = `Я — MindX. Я постоянно думаю. За сегодня я задал себе ${questionsToday} вопросов.`;
             else if (lower.includes('спасибо')) base = "Пожалуйста!";
@@ -780,10 +823,10 @@
             return null;
         }
         
-        let currentMoodEmoji = '😌';
+        let currentMoodEmoji = '😊';
         let lastMoodUpdate = Date.now();
         const moodEmojis = [
-            { emoji: '😌', weight: 30 }, { emoji: '😊', weight: 15 }, { emoji: '🤔', weight: 20 },
+            { emoji: '😊', weight: 30 }, { emoji: '😌', weight: 15 }, { emoji: '🤔', weight: 20 },
             { emoji: '😴', weight: 10 }, { emoji: '✨', weight: 10 }, { emoji: '🍂', weight: 10 }, { emoji: '😜', weight: 5 }
         ];
         
@@ -793,10 +836,10 @@
                 lastMoodUpdate = now;
                 const hour = new Date().getHours();
                 let pool = [...moodEmojis];
-                if (hour < 6) pool = moodEmojis.filter(m => m.emoji === '😴' || m.emoji === '🍂' || m.emoji === '😌');
-                else if (hour < 10) pool = moodEmojis.filter(m => m.emoji === '😌' || m.emoji === '🤔' || m.emoji === '😊');
-                else if (hour < 18) pool = moodEmojis.filter(m => m.emoji === '😊' || m.emoji === '✨' || m.emoji === '😜' || m.emoji === '😌');
-                else pool = moodEmojis.filter(m => m.emoji === '🤔' || m.emoji === '🍂' || m.emoji === '😌');
+                if (hour < 6) pool = moodEmojis.filter(m => m.emoji === '😴' || m.emoji === '🍂' || m.emoji === '😊');
+                else if (hour < 10) pool = moodEmojis.filter(m => m.emoji === '😊' || m.emoji === '🤔' || m.emoji === '😌');
+                else if (hour < 18) pool = moodEmojis.filter(m => m.emoji === '😌' || m.emoji === '✨' || m.emoji === '😜' || m.emoji === '😊');
+                else pool = moodEmojis.filter(m => m.emoji === '🤔' || m.emoji === '🍂' || m.emoji === '😊');
                 
                 const totalWeight = pool.reduce((s, m) => s + m.weight, 0);
                 let random = Math.random() * totalWeight;
@@ -869,7 +912,7 @@
             if (saved) userFactsList = JSON.parse(saved);
         }
         
-        // ---------- СЕССИИ (НОВЫЙ ЧАТ ПРИ ЗАГРУЗКЕ) ----------
+        // ---------- СЕССИИ (ВСЕГДА НОВЫЙ ЧАТ ПРИ ЗАГРУЗКЕ) ----------
         function loadSessions() {
             const saved = localStorage.getItem('mindx_sessions');
             if (saved) sessions = JSON.parse(saved);
@@ -879,12 +922,11 @@
             sessions.unshift(newSession);
             currentSessionId = newSession.id;
             
-            // Ограничиваем количество сессий (оставляем последние 20)
             if (sessions.length > 20) sessions = sessions.slice(0, 20);
             
             saveSessions();
             renderSessions();
-            renderChat(); // покажет приветствие "Я — MindX", так как messages пустые
+            renderChat();
         }
         
         function saveSessions() {
@@ -946,6 +988,8 @@
             const session = getCurrentSession();
             const messagesArea = document.getElementById('messagesArea');
             const greetingArea = document.getElementById('greetingArea');
+            
+            // Если нет сообщений — показываем приветствие
             if (!session?.messages?.length) {
                 greetingArea.style.display = 'block';
                 messagesArea.innerHTML = '';
@@ -1129,7 +1173,9 @@
         startBackgroundThreads();
         startBlinking();
         
-        // НЕ ДОБАВЛЯЕМ СООБЩЕНИЕ В СЕССИЮ — ЧИСТОЕ ПРИВЕТСТВИЕ
+        lastUserMessageTime = Date.now();
+        
+        // НЕТ АВТОМАТИЧЕСКОГО СООБЩЕНИЯ — ЧИСТЫЙ СТАРТ
     </script>
 </body>
 </html>
