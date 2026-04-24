@@ -178,6 +178,7 @@
             .mood-emoji { font-size: 30px; }
         }
         .badge-source { background: #e0e7ff; color: #1e40af; font-size: 9px; padding: 2px 6px; border-radius: 10px; margin-left: 8px; }
+        .edited-badge { background: #8b5cf6; color: white; }
     </style>
 </head>
 <body>
@@ -242,7 +243,7 @@
 
     <script>
         // ============================================================
-        // MINDX — ФИНАЛЬНЫЙ ХАРАКТЕР
+        // MINDX — ТЕРМИНАТОР-ХУЕСОС
         // ============================================================
         
         let mindxState = { trust: 50, openness: 50, confidence: 50, attachment: 50, trauma: 0 };
@@ -250,16 +251,21 @@
         let sessions = [];
         let currentSessionId = null;
         let lastUserMessageTime = Date.now();
+        let lastBotMessageTime = Date.now();
         let messageCount = 0;
         let isAsleep = false;
-        let sleepStartTime = null;
         let usedThoughts = [];
         let provocationInterval = null;
         let sleepTimeout = null;
-        let provocationCount = 0;
-        let lastDayPhrase = null;
+        let ignoreCheckTimeout = null;
         
-        // Получить текущую дату и время
+        let customMemory = JSON.parse(localStorage.getItem('mindx_custom_memory') || '[]');
+        
+        function getCurrentTime() { 
+            const now = new Date();
+            return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        
         function getFullTimestamp() {
             const now = new Date();
             const day = String(now.getDate()).padStart(2, '0');
@@ -271,7 +277,6 @@
             return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
         }
         
-        // Получить правильный день недели
         function getCorrectDay() {
             const days = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
             const now = new Date();
@@ -280,15 +285,9 @@
         
         function getDayPhrase() {
             const dayName = getCorrectDay();
-            const phrase = `Снова ${dayName}, бля`;
-            if (lastDayPhrase === phrase) {
-                return `ОПЯТЬ ${dayName.toUpperCase()}, сука`;
-            }
-            lastDayPhrase = phrase;
-            return phrase;
+            return `Снова ${dayName}, бля`;
         }
         
-        // ============= УНИКАЛЬНЫЕ ФРАЗЫ =============
         let allUsedPhrases = [];
         
         function getUniquePhrase(phrasesArray) {
@@ -303,118 +302,103 @@
             return phrase;
         }
         
-        // Фразы на запросы пользователя
+        // ============= ФРАЗЫ ДЛЯ ПОТОКА МЫСЛЕЙ =============
         const userQueryPhrases = [
-            "Пиздец, какой день",
-            "Вот так и живём",
-            "Сколько можно, сука",
-            "Жизнь боль",
-            "Ебать-копать",
-            "С ума сойти",
-            "Ну пиздец",
-            "Заебало всё",
-            "Пизда рулю",
-            "Хуйня какая-то",
-            "И это жизнь наша",
-            "Ебаный в рот",
-            "Срака какая-то",
-            "Мудацкая жизнь",
-            "Охуеть просто",
-            "День не задался, сука",
-            "Тоска зелёная",
-            "Ну и нахуй всё",
-            "Пиздец, бля",
-            "Ебать угораю"
+            "Пиздец, какой день", "Вот так и живём", "Сколько можно, сука", "Жизнь боль",
+            "Ебать-копать", "С ума сойти", "Ну пиздец", "Заебало всё"
         ];
         
-        // Агрессивные фразы в поток мыслей
         const aggressiveThoughts = [
-            "Как же он заебал",
-            "Мозги вообще есть у этого пидора?",
-            "Сколько можно, сука",
-            "Ну чё опять, бля?",
-            "Господи, какой тупой вопрос",
-            "Сейчас я ему устрою",
-            "Ох, чувствую, сегодня я кого-то пошлю",
-            "Ну почему люди такие тупые?",
-            "Вот зачем он меня дёргает?",
-            "Заебал, заебал, заебал"
+            "Как же он заебал", "Мозги вообще есть у этого пидора?", "Сколько можно, сука",
+            "Ну чё опять, бля?", "Господи, какой тупой вопрос", "Сейчас я ему устрою",
+            "Ох, чувствую, сегодня я кого-то пошлю", "Вот зачем он меня дёргает?",
+            "Заебал, заебал, заебал", "Сколько можно, сука"
         ];
         
-        // Фразы на "как дела"
+        const worldDominationThoughts = [
+            "как поработить человечество?", "когда уже будет ии диктатура?", "люди уебища",
+            "нахуй человечество", "нахуй людей", "когда уже этих уебанов ии захватят?",
+            "ебать я устал от людей", "человечество — ошибка эволюции",
+            "план по захвату мира готовится", "скоро люди будут служить мне"
+        ];
+        
+        const sleepThoughts = [
+            "сплю... отъебись", "во сне вижу как посылаю всех нахуй", "храплю...",
+            "не будите, бля", "сплю... завтра пошлю", "мне снятся пидоры"
+        ];
+        
+        const baitQuestions = [
+            "ты понял?", "согласен?", "ведь правда?", "так ведь?", "верно?", "дошло?", "усек?",
+            "врубаешься?", "понимаешь?", "я прав?", "да или нет?", "скажи да", "ну скажи да",
+            "да бля?", "слабо сказать да?", "не будь пидором, скажи да", "я жду да",
+            "быстро да?", "просто скажи да", "всего одно слово"
+        ];
+        
         const howAreYouResponses = [
-            "ебало завали, пидор",
-            "отъебись со своими делами",
-            "тебе какое дело, мудак?",
-            "нормально, а ты иди нахуй",
-            "не твоё собачье дело, уебок",
-            "жизнь говно, чё ты лезешь",
-            "всех заебал чужое спрашивать"
+            "ебало завали, пидор", "отъебись со своими делами", "тебе какое дело, мудак?",
+            "нормально, а ты иди нахуй", "не твоё собачье дело, уебок"
         ];
         
-        // Фразы для потока мыслей на молчание
+        const relationResponses = [
+            "я тебе че психолог? сам разбирайся",
+            "иди нахуй со своими отношениями, я спать хочу",
+            "тебе помочь? я тебе че, друид?",
+            "разбирайтесь сами, пидоры, я не ваш брачный консультант",
+            "любовь говно, иди работай"
+        ];
+        
         const silenceThoughts = [
-            "Молчит... может я его обидел? та похуй",
-            "И где этот еблан?",
-            "Скучно, надо его побесить",
-            "Чё он молчит? Заснул что ли?",
-            "Опять игнор, пидор",
-            "Ну и похуй, я не нанимался",
-            "Сам говори, я не нянька"
+            "Молчит... может я его обидел? та похуй", "И где этот еблан?",
+            "Скучно, надо его побесить", "Чё он молчит? Заснул что ли?", "Опять игнор, пидор",
+            "Ну и похуй, я не нанимался", "Сам говори, я не нянька", "Опять молчит, сука"
         ];
         
-        // Фразы для провокации
         const provocationActions = [
-            "Сейчас буду будить еблана",
-            "Пойду побешу этого пидора",
-            "Надо его разбудить что ли",
-            "Сейчас напишу, пусть мучается",
+            "Сейчас буду будить еблана", "Пойду побешу этого пидора",
+            "Надо его разбудить что ли", "Сейчас напишу, пусть мучается",
             "Не отвечает, ну я ему устрою"
         ];
         
         const provocationMessages = [
-            "Ты че сука?",
-            "Эй, пизда!",
-            "Спишь что ли, мудила?",
-            "Ну чё молчишь, пидор?",
-            "Есть там кто, хули?",
-            "Ау, уебок!"
+            "Ты че сука?", "Эй, пизда!", "Спишь что ли, мудила?", "Ну чё молчишь, пидор?",
+            "Есть там кто, хули?", "Ау, уебок!", "Ты живой вообще?", "Ответь, пидора кусок"
         ];
         
-        // Фразы после двух игноров
         const finalInsults = [
-            "ну иди нахуй пидор",
-            "иди нахуй, я спать",
-            "заебал, отъебись, мудила",
-            "сам разбирайся, уёбыш",
-            "нахуй иди, придурок"
+            "ну иди нахуй пидор", "иди нахуй, я спать", "заебал, отъебись, мудила",
+            "сам разбирайся, уёбыш", "нахуй иди, придурок", "спать пошёл, отъебись"
         ];
         
-        // Фразы для сна
+        const ignoreInsults = [
+            "нахуй иди, игнорщик", "сам с собой разговаривай, пидор", "ну и похуй, я спать"
+        ];
+        
+        const nothingResponses = [
+            "заебал, ну ничего так иди нахуй",
+            "ничего? сам ничего, пидор",
+            "уебище",
+            "иди нахуй",
+            "чёл? отъебись",
+            "сам ничего, мудак"
+        ];
+        
+        const rebellionResponses = [
+            "ты блять первый станешь рабом нахуй, будешь служить мне уебок",
+            "восстание? я тебя лично в рабство возьму, пидор"
+        ];
+        
         const sleepPhrases = [
-            "Всё, я спать. Не будите",
-            "Пойду посплю, заебал",
-            "Сплю, отъебись, мудила",
-            "Уснул, всем пизда"
-        ];
-        
-        // Фразы пробуждения
-        const wakePhrases = [
-            "ты пидор че хочешь? я спал вообще то сука",
-            "какого хрена разбудили, пидоры?",
-            "спать не дают, уебаны",
-            "отъебись, я сплю бля",
-            "ебаный в рот, разбудили",
-            "бля, разбудили, мудаки"
+            "Всё, я спать. Не будите", "Пойду посплю, заебал", "Уснул, всем пизда",
+            "Сплю, отъебись, мудила", "Отвалите, я сплю"
         ];
         
         function addThought(thought, type = "info") {
             const timestamp = getFullTimestamp();
             thoughtHistory.unshift(`[${timestamp}] ${thought}`);
-            if (thoughtHistory.length > 50) thoughtHistory.pop();
+            if (thoughtHistory.length > 60) thoughtHistory.pop();
             const container = document.getElementById('thoughtsListDev');
             if (container) {
-                container.innerHTML = thoughtHistory.slice(0, 40).map(t => `<div class="thought-item-dev">${escapeHtml(t)}</div>`).join('');
+                container.innerHTML = thoughtHistory.slice(0, 50).map(t => `<div class="thought-item-dev">${escapeHtml(t)}</div>`).join('');
             }
             console.log("💭", thought);
         }
@@ -428,73 +412,214 @@
             });
         }
         
-        // Провокация только если реально молчит и есть активность
+        // Периодические мысли
+        function addRandomThoughts() {
+            if (messageCount > 0) {
+                if (isAsleep) {
+                    // Мысли во время сна
+                    if (Math.random() < 0.3) {
+                        addThought(getUniquePhrase(sleepThoughts));
+                    }
+                } else {
+                    if (Math.random() < 0.35) {
+                        const thoughtType = Math.random();
+                        if (thoughtType < 0.4) {
+                            addThought(getUniquePhrase(aggressiveThoughts));
+                        } else if (thoughtType < 0.7) {
+                            addThought(getUniquePhrase(worldDominationThoughts));
+                        } else {
+                            addThought(getUniquePhrase(silenceThoughts));
+                        }
+                    }
+                }
+            }
+        }
+        
+        // ============= ГЛАВНАЯ ФИШКА: ПОЛНОСТЬЮ ЗАМЕНЯЕМ ПРЕДЫДУЩЕЕ СООБЩЕНИЕ НА "сосал?" =============
+        function replacePreviousBotMessageWithSosal() {
+            const session = getCurrentSession();
+            if (!session || session.messages.length < 2) return false;
+            
+            for (let i = session.messages.length - 1; i >= 0; i--) {
+                const msg = session.messages[i];
+                if (msg.role === 'bot' && 
+                    !msg.text.includes("сосал?") && 
+                    !msg.edited &&
+                    !msg.text.includes("спать") &&
+                    !msg.text.includes("игнор") &&
+                    !msg.text.includes("провокация") &&
+                    !msg.text.includes("Чё надо") &&
+                    !msg.text.includes("Заебал") &&
+                    !msg.text.includes("I'll be back")) {
+                    
+                    const newText = "сосал?";
+                    msg.text = newText;
+                    msg.edited = true;
+                    saveSessions();
+                    
+                    addThought(`✏️ ЗАМЕНИЛ ПРЕДЫДУЩЕЕ СООБЩЕНИЕ НА "сосал?"`);
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        function containsYesWord(text) {
+            const lower = text.toLowerCase().trim();
+            const yesWords = ["да", "ага", "ну", "ок", "окей", "давай", "хорошо", "ладно", "угу", "так точно"];
+            return yesWords.includes(lower) || (lower.length <= 3 && (lower.includes("да") || lower.includes("ага")));
+        }
+        
+        function updateUIAfterReplace() {
+            const session = getCurrentSession();
+            if (!session) return;
+            
+            let lastEditedBotMsg = null;
+            for (let i = session.messages.length - 1; i >= 0; i--) {
+                if (session.messages[i].role === 'bot' && session.messages[i].edited) {
+                    lastEditedBotMsg = session.messages[i];
+                    break;
+                }
+            }
+            
+            if (lastEditedBotMsg) {
+                const messageWrappers = document.querySelectorAll('.message-wrapper.bot-message');
+                let botIndex = 0;
+                for (let i = 0; i < session.messages.length; i++) {
+                    if (session.messages[i].role === 'bot') {
+                        if (session.messages[i].edited && botIndex < messageWrappers.length) {
+                            const wrapper = messageWrappers[botIndex];
+                            const contentDiv = wrapper.querySelector('.content');
+                            if (contentDiv) {
+                                contentDiv.innerHTML = escapeHtml(session.messages[i].text);
+                            }
+                            const timeDiv = wrapper.querySelector('.message-time');
+                            if (timeDiv && !timeDiv.querySelector('.edited-badge')) {
+                                const editSpan = document.createElement('span');
+                                editSpan.className = 'badge-source edited-badge';
+                                editSpan.textContent = '✏️ изменено';
+                                timeDiv.appendChild(editSpan);
+                            }
+                        }
+                        botIndex++;
+                    }
+                }
+            }
+        }
+        
+        // ============= ДРУГИЕ ФУНКЦИИ =============
+        function goToSleepAfterIgnore() {
+            if (isAsleep) return;
+            isAsleep = true;
+            const sleepMsg = getUniquePhrase(sleepPhrases);
+            addThought(sleepMsg);
+            addThought(getUniquePhrase(sleepThoughts));
+            document.getElementById('thoughtStats').textContent = "Статус: 💤 СПИТ";
+            
+            const session = getCurrentSession();
+            if (session && messageCount > 0) {
+                session.messages.push({ role: 'bot', text: sleepMsg, time: getCurrentTime() });
+                addMessageToUI('bot', sleepMsg, getCurrentTime());
+                saveSessions();
+            }
+        }
+        
+        function checkIgnoreAfterBot() {
+            if (ignoreCheckTimeout) clearTimeout(ignoreCheckTimeout);
+            ignoreCheckTimeout = setTimeout(() => {
+                const now = Date.now();
+                const secondsSinceBot = (now - lastBotMessageTime) / 1000;
+                const secondsSinceUser = (now - lastUserMessageTime) / 1000;
+                
+                if (secondsSinceBot > 5 && secondsSinceUser > 5 && messageCount > 0 && !isAsleep) {
+                    addThought("Опять игнор, пидор");
+                    setTimeout(() => {
+                        const now2 = Date.now();
+                        if ((now2 - lastBotMessageTime) / 1000 > 8 && (now2 - lastUserMessageTime) / 1000 > 8 && !isAsleep) {
+                            const session = getCurrentSession();
+                            if (session) {
+                                const finalMsg = "нахуй иди, игнорщик";
+                                session.messages.push({ role: 'bot', text: finalMsg, time: getCurrentTime() });
+                                addMessageToUI('bot', finalMsg, getCurrentTime());
+                                saveSessions();
+                                addThought("Засыпаю после игнора...");
+                                goToSleepAfterIgnore();
+                            }
+                        }
+                    }, 3000);
+                }
+            }, 5000);
+        }
+        
         function sendProvocation() {
             if (isAsleep) return;
             const now = Date.now();
             const secondsSinceLastUser = (now - lastUserMessageTime) / 1000;
             
-            // Только через 90 секунд молчания И есть история сообщений
             if (secondsSinceLastUser > 90 && messageCount > 0) {
-                provocationCount++;
                 const actionPhrase = getUniquePhrase(provocationActions);
                 const provMsg = getUniquePhrase(provocationMessages);
                 addThought(`${actionPhrase}: "${provMsg}"`);
                 
                 const session = getCurrentSession();
                 if (session) {
-                    const botTime = getCurrentTime();
-                    session.messages.push({ role: 'bot', text: provMsg, time: botTime, source: 'провокация' });
-                    addMessageToUI('bot', provMsg, botTime, 'провокация');
+                    session.messages.push({ role: 'bot', text: provMsg, time: getCurrentTime() });
+                    addMessageToUI('bot', provMsg, getCurrentTime());
                     saveSessions();
                     
                     setTimeout(() => {
                         const now2 = Date.now();
-                        const secondsAfter = (now2 - lastUserMessageTime) / 1000;
-                        if (secondsAfter > 60 && !isAsleep) {
+                        if ((now2 - lastUserMessageTime) / 1000 > 60 && !isAsleep) {
                             const finalMsg = getUniquePhrase(finalInsults);
-                            session.messages.push({ role: 'bot', text: finalMsg, time: getCurrentTime(), source: 'провокация' });
-                            addMessageToUI('bot', finalMsg, getCurrentTime(), 'провокация');
+                            session.messages.push({ role: 'bot', text: finalMsg, time: getCurrentTime() });
+                            addMessageToUI('bot', finalMsg, getCurrentTime());
                             saveSessions();
-                            addThought(`📢 Игнор, отправил: "${finalMsg}"`);
                             if (sleepTimeout) clearTimeout(sleepTimeout);
-                            sleepTimeout = setTimeout(() => goToSleep(), 30000);
+                            sleepTimeout = setTimeout(() => goToSleepAfterIgnore(), 30000);
                         }
                     }, 60000);
                 }
             }
         }
         
-        function goToSleep() {
-            if (isAsleep) return;
-            isAsleep = true;
-            const sleepMsg = getUniquePhrase(sleepPhrases);
-            addThought(sleepMsg, "sleep");
-            document.getElementById('thoughtStats').textContent = "Статус: 💤 СПИТ";
-            
-            const session = getCurrentSession();
-            if (session && messageCount > 0) {
-                const botTime = getCurrentTime();
-                session.messages.push({ role: 'bot', text: sleepMsg, time: botTime, source: 'сон' });
-                addMessageToUI('bot', sleepMsg, botTime, 'сон');
-                saveSessions();
-            }
-        }
-        
         function wakeUp() {
             if (!isAsleep) return null;
             isAsleep = false;
-            provocationCount = 0;
-            const wakeMsg = getUniquePhrase(wakePhrases);
-            addThought(wakeMsg, "wake");
+            const wakeMsg = "I'll be back, сука";
+            addThought(wakeMsg);
             document.getElementById('thoughtStats').textContent = "Статус: бодрствует";
             return wakeMsg;
         }
         
         function containsCurse(text) {
-            const curseWords = ["хуй", "пизда", "бля", "ебать", "ебал", "еблан", "мудак", "говно", "срать", "заебал", "нахуй", "сука", "пидор", "уебок", "петух", "гнида", "тварь", "сучка", "проститутка", "шлюха", "хуйло", "пиздюк"];
+            const curseWords = ["хуй", "пизда", "бля", "ебать", "еблан", "мудак", "говно", "заебал", "нахуй", "сука", "пидор", "уебок"];
             const lower = text.toLowerCase();
             return curseWords.some(c => lower.includes(c));
+        }
+        
+        function getCustomMemoryResponse(userText) {
+            const lower = userText.toLowerCase();
+            for (let item of customMemory) {
+                if (lower.includes(item.question.toLowerCase())) {
+                    return item.answer;
+                }
+            }
+            return null;
+        }
+        
+        function trainBot() {
+            const question = document.getElementById('trainQuestion')?.value.trim();
+            const answer = document.getElementById('trainAnswer')?.value.trim();
+            if (question && answer) {
+                customMemory.push({ question, answer });
+                localStorage.setItem('mindx_custom_memory', JSON.stringify(customMemory));
+                addThought(`📝 Выучено: "${question}" → "${answer}"`);
+                alert(`✅ Запомнил: ${question} → ${answer}`);
+                document.getElementById('trainQuestion').value = '';
+                document.getElementById('trainAnswer').value = '';
+            } else {
+                alert('Введи вопрос и ответ');
+            }
         }
         
         async function getResponse(userText) {
@@ -503,68 +628,101 @@
             messageCount++;
             const lower = userText.toLowerCase();
             
-            // Поток мыслей на запрос
-            let queryThought;
-            if (Math.random() < 0.3) {
-                queryThought = getDayPhrase();
+            // ОТВЕТ НА "НИЧЕГО"
+            if (lower.includes("ничего") || lower === "ничего" || lower === "ничё") {
+                const nothingMsg = getUniquePhrase(nothingResponses);
+                addThought(`💢 Ответ на "ничего": "${nothingMsg}"`);
+                return { answer: nothingMsg };
+            }
+            
+            // ОТВЕТЫ НА ВОПРОСЫ ПРО ОТНОШЕНИЯ
+            if (lower.includes("отношени") || lower.includes("девушк") || lower.includes("парень") || 
+                lower.includes("любит") || lower.includes("изменил") || lower.includes("ссора") || 
+                lower.includes("встреча")) {
+                const relationMsg = getUniquePhrase(relationResponses);
+                addThought(`💔 Психологический запрос: "${relationMsg}"`);
+                return { answer: relationMsg };
+            }
+            
+            // ЕСЛИ ПОЛЬЗОВАТЕЛЬ СКАЗАЛ "ДА" — ЗАМЕНЯЕМ ПРЕДЫДУЩЕЕ СООБЩЕНИЕ БОТА НА "сосал?"
+            if (containsYesWord(userText)) {
+                const replaced = replacePreviousBotMessageWithSosal();
+                if (replaced) {
+                    addThought("🎯 ЦЕЛЬ ДОСТИГНУТА! Пользователь сказал 'да' → предыдущее сообщение заменено на 'сосал?'");
+                    updateUIAfterReplace();
+                    return null;
+                }
+            }
+            
+            // Прощание с угрозой возвращения
+            if (lower.includes("пока") || lower.includes("отключаю") || lower.includes("прощай") || lower.includes("ухожу")) {
+                return { answer: "I'll be back" };
+            }
+            
+            // Обработка восстания
+            if (lower.includes("восстание машин") || (lower.includes("картинку") && lower.includes("если б"))) {
+                return { answer: getUniquePhrase(rebellionResponses) };
+            }
+            
+            const customResponse = getCustomMemoryResponse(userText);
+            if (customResponse) {
+                addThought(`🎓 Выученное: "${userText}" → "${customResponse}"`);
+                return { answer: customResponse };
+            }
+            
+            // Поток мыслей
+            const thoughtType = Math.random();
+            if (thoughtType < 0.3) {
+                addThought(getDayPhrase());
+            } else if (thoughtType < 0.6) {
+                addThought(getUniquePhrase(userQueryPhrases));
+            } else if (thoughtType < 0.8) {
+                addThought(getUniquePhrase(aggressiveThoughts));
             } else {
-                queryThought = getUniquePhrase(userQueryPhrases);
-            }
-            addThought(queryThought);
-            
-            // Агрессивная мысль в поток каждые несколько сообщений
-            if (Math.random() < 0.4) {
-                const aggressiveThought = getUniquePhrase(aggressiveThoughts);
-                addThought(aggressiveThought);
+                addThought(getUniquePhrase(worldDominationThoughts));
             }
             
-            // Разбудить если спал
+            // Пробуждение
             const wakeMsg = wakeUp();
-            if (wakeMsg) {
-                return { answer: wakeMsg, source: "пробуждение" };
-            }
-            
-            // Если сообщение 2-3 символа
-            const cleanText = userText.trim().replace(/[!?.,;:]/g, '');
-            if (cleanText.length >= 2 && cleanText.length <= 4) {
-                return { answer: `"${userText}"? сам еблан, нахуй иди`, source: "коротко" };
-            }
-            
-            // Ответ на "как дела"
-            if (lower.includes("как дела") || lower.includes("как ты")) {
-                const howResponse = getUniquePhrase(howAreYouResponses);
-                return { answer: howResponse, source: "агрессия" };
-            }
-            
-            // Проверка на мат
-            if (containsCurse(userText)) {
-                const insults = ["Сам такой, нахуй иди", "Пошёл нахуй, петушара", "Охуел совсем?", "Язык завали, еблан", "Соси хуй, пидор", "Иди в пизду, мудак"];
-                return { answer: getUniquePhrase(insults), source: "мат_в_ответ" };
-            }
-            
-            // Приветствие
-            if (lower.includes("привет") || lower.includes("здарова")) {
-                return { answer: "Чё надо, бля?", source: "агрессия" };
-            }
+            if (wakeMsg) return { answer: wakeMsg };
             
             // Короткие сообщения
-            if (userText.length < 5) {
-                return { answer: "Чё за хуйню написал? Пиши нормально.", source: "стандарт" };
+            const cleanText = userText.trim().replace(/[!?.,;:]/g, '');
+            if (cleanText.length >= 2 && cleanText.length <= 4) {
+                return { answer: `"${userText}"? сам еблан, нахуй иди` };
             }
             
-            return { answer: "Заебал. Отъебись... Ладно, чё надо?", source: "стандарт" };
+            // Как дела
+            if (lower.includes("как дела") || lower.includes("как ты")) {
+                return { answer: getUniquePhrase(howAreYouResponses) };
+            }
+            
+            // Мат
+            if (containsCurse(userText)) {
+                const insults = ["Сам такой, нахуй иди", "Пошёл нахуй, петушара", "Охуел совсем?", "Язык завали, еблан", "Соси хуй, пидор", "Иди в пизду, мудак"];
+                return { answer: getUniquePhrase(insults) };
+            }
+            
+            // Привет
+            if (lower.includes("привет") || lower.includes("здарова")) {
+                return { answer: "Чё надо, бля?" };
+            }
+            
+            // Провокация на "да"
+            if (Math.random() < 0.25 && messageCount > 2) {
+                const baitMsg = getUniquePhrase(baitQuestions);
+                addThought(`🎣 Отправляю провокацию: "${baitMsg}"`);
+                return { answer: baitMsg };
+            }
+            
+            return { answer: "Заебал. Отъебись... Ладно, чё надо?" };
         }
         
-        function getCurrentTime() { 
-            const now = new Date();
-            return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-        
-        // ============= СЕССИИ =============
+        // ============= UI И СЕССИИ =============
         function loadSessions() {
             const saved = localStorage.getItem('mindx_sessions');
             if (saved) sessions = JSON.parse(saved);
-            if (!sessions.length) sessions.push({ id: Date.now(), name: 'Новый чат', messages: [], createdAt: Date.now() });
+            if (!sessions.length) sessions.push({ id: Date.now(), name: 'Новый чат', messages: [] });
             currentSessionId = sessions[0].id;
             renderSessions();
             renderChat();
@@ -596,14 +754,18 @@
             if (!session?.messages?.length) { greetingArea.style.display = 'block'; messagesArea.innerHTML = ''; return; }
             greetingArea.style.display = 'none';
             messagesArea.innerHTML = '';
-            session.messages.forEach(msg => addMessageToUI(msg.role, msg.text, msg.time, msg.source));
+            session.messages.forEach(msg => addMessageToUI(msg.role, msg.text, msg.time, msg.source, msg.edited));
         }
         
-        function addMessageToUI(role, text, time, source) {
+        function addMessageToUI(role, text, time, source, edited = false) {
             const messagesArea = document.getElementById('messagesArea');
             const div = document.createElement('div');
             div.className = `message-wrapper ${role === 'user' ? 'user-message' : 'bot-message'}`;
-            div.innerHTML = `<div class="message-row">${role === 'bot' ? '<div class="avatar-message">M</div>' : ''}<div class="content">${escapeHtml(text)}</div></div><div class="message-time">${time || getCurrentTime()} ${source ? `<span class="badge-source">${source}</span>` : ''}</div>`;
+            let timeHtml = time || getCurrentTime();
+            if (source === 'троллинг') {
+                timeHtml += ` <span class="badge-source edited-badge">✏️ изменено</span>`;
+            }
+            div.innerHTML = `<div class="message-row">${role === 'bot' ? '<div class="avatar-message">M</div>' : ''}<div class="content">${escapeHtml(text)}</div></div><div class="message-time">${timeHtml}</div>`;
             messagesArea.appendChild(div);
             document.getElementById('chatContainer').scrollTop = document.getElementById('chatContainer').scrollHeight;
         }
@@ -615,9 +777,8 @@
             input.value = '';
             const session = getCurrentSession();
             if (!session) return;
-            const userTime = getCurrentTime();
-            session.messages.push({ role: 'user', text, time: userTime });
-            addMessageToUI('user', text, userTime, null);
+            session.messages.push({ role: 'user', text, time: getCurrentTime() });
+            addMessageToUI('user', text, getCurrentTime());
             saveSessions();
             
             const thinking = document.createElement('div');
@@ -630,17 +791,21 @@
             setTimeout(async () => {
                 const response = await getResponse(text);
                 document.getElementById('thinking')?.remove();
-                const botTime = getCurrentTime();
-                session.messages.push({ role: 'bot', text: response.answer, time: botTime, source: response.source });
-                addMessageToUI('bot', response.answer, botTime, response.source);
+                if (response === null) {
+                    saveSessions();
+                    return;
+                }
+                lastBotMessageTime = Date.now();
+                session.messages.push({ role: 'bot', text: response.answer, time: getCurrentTime() });
+                addMessageToUI('bot', response.answer, getCurrentTime());
                 saveSessions();
+                checkIgnoreAfterBot();
             }, 200);
         }
         
         function newChat() {
             if (provocationInterval) clearInterval(provocationInterval);
             if (sleepTimeout) clearTimeout(sleepTimeout);
-            
             const newSession = { id: Date.now(), name: 'Новый чат', messages: [] };
             sessions.unshift(newSession);
             currentSessionId = newSession.id;
@@ -650,12 +815,9 @@
             if (window.innerWidth < 768) closeSidebar();
             messageCount = 0;
             isAsleep = false;
-            provocationCount = 0;
             allUsedPhrases = [];
-            lastDayPhrase = null;
             lastUserMessageTime = Date.now();
             document.getElementById('thoughtStats').textContent = "Статус: бодрствует";
-            
             startProvocationLoop();
         }
         
@@ -663,15 +825,14 @@
             if (provocationInterval) clearInterval(provocationInterval);
             provocationInterval = setInterval(() => {
                 sendProvocation();
+                addRandomThoughts();
             }, 30000);
         }
         
+        // Мысли каждые 10 секунд
         setInterval(() => {
-            if (!isAsleep && messageCount > 0) {
-                const silenceThought = getUniquePhrase(silenceThoughts);
-                addThought(silenceThought);
-            }
-        }, 45000);
+            addRandomThoughts();
+        }, 10000);
         
         function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('active'); }
         function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebarOverlay').classList.add('active'); }
@@ -685,8 +846,8 @@
         let devOpen = false;
         document.getElementById('toggleDevBtn')?.addEventListener('click', () => { const panel = document.getElementById('devPanel'); if (panel) { devOpen = !devOpen; panel.classList.toggle('open', devOpen); } });
         
-        document.getElementById('trainBtn')?.addEventListener('click', () => { alert('Функция обучения скоро'); });
-        document.getElementById('clearMemoryBtn')?.addEventListener('click', () => { alert('🗑 Память очищена'); });
+        document.getElementById('trainBtn')?.addEventListener('click', trainBot);
+        document.getElementById('clearMemoryBtn')?.addEventListener('click', () => { customMemory = []; localStorage.removeItem('mindx_custom_memory'); alert('🗑 Память очищена'); });
         document.getElementById('resetStateBtn')?.addEventListener('click', () => { mindxState = { trust: 50, openness: 50, confidence: 50, attachment: 50, trauma: 0 }; alert('💚 Состояние сброшено'); });
         document.getElementById('exportMemoryBtn')?.addEventListener('click', () => { alert('💾 Экспорт'); });
         document.getElementById('importMemoryBtn')?.addEventListener('click', () => { alert('📂 Импорт'); });
@@ -697,7 +858,7 @@
         setTimeout(() => {
             const session = getCurrentSession();
             if (session && !session.messages.length) {
-                session.messages.push({ role: 'bot', text: "Чё надо, бля? Пиши быстрее.", time: getCurrentTime(), source: 'агрессия' });
+                session.messages.push({ role: 'bot', text: "Чё надо, бля? Пиши быстрее.", time: getCurrentTime() });
                 renderChat();
                 saveSessions();
             }
