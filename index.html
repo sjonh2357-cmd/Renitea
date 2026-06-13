@@ -16,37 +16,34 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
-            background: #0d151a;
-            font-family: 'Inter', sans-serif;
-            height: 100vh;
+        /* ФІКСОВАНИЙ ЕКРАН - НЕ РУХАЄТЬСЯ */
+        html, body {
+            height: 100%;
             overflow: hidden;
             position: fixed;
             width: 100%;
         }
 
-        /* ГОЛОВНИЙ КОНТЕЙНЕР - ВЕСЬ ЕКРАН */
+        body {
+            background: radial-gradient(circle at 30% 20%, #1a2a2f, #0d151a);
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ГОЛОВНИЙ КОНТЕЙНЕР */
         .app-container {
             width: 100%;
-            height: 100vh;
+            height: 100%;
             background: linear-gradient(145deg, #f0f5fb 0%, #eef2f6 100%);
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
-        /* СКРОЛИТЬСЯ ТІЛЬКИ ВМІСТ, А НЕ ВСЕ РАЗОМ */
-        .scroll-area {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px 14px 20px 14px;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* ХЕДЕР ФІКСОВАНИЙ ЗВЕРХУ */
+        /* ХЕДЕР - НЕ РУХАЄТЬСЯ */
         .header {
             flex-shrink: 0;
             padding: 16px 14px 0 14px;
+            background: linear-gradient(145deg, #f0f5fb 0%, #eef2f6 100%);
         }
 
         .logo-area {
@@ -150,7 +147,15 @@
             color: white;
         }
 
-        /* ПАНЕЛІ - КОЖНА ПРОКРУЧУЄТЬСЯ ОКРЕМО */
+        /* СКРОЛЮЧА ОБЛАСТЬ - ТІЛЬКИ ТУТ СКРОЛ */
+        .scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 14px 20px 14px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* ВСІ ПАНЕЛІ */
         .panel {
             display: none;
         }
@@ -159,7 +164,7 @@
             display: block;
         }
 
-        /* ВСІ ІНШІ СТИЛІ ЗБЕРЕЖЕНО */
+        /* ІНШІ СТИЛІ (ВСІ ТАКІ Ж ЯК БУЛИ) */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -489,7 +494,6 @@
             font-weight: 700;
         }
 
-        /* ПРОКРУТКА ДЛЯ СПИСКІВ */
         .scrollable-list {
             max-height: 200px;
             overflow-y: auto;
@@ -632,22 +636,10 @@
                 <button id="setDailyLimitBtn" style="background:rgba(255,255,255,0.2); border:none; padding:6px 14px; border-radius:40px; color:white;"><i class="fas fa-edit"></i> Ліміт</button>
             </div>
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-title"><i class="fas fa-arrow-up-wide-short"></i> ДОХОДИ</div>
-                    <div class="stat-value" id="totalIncome">0 ₴</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-title"><i class="fas fa-arrow-down-wide-short"></i> ВИТРАТИ</div>
-                    <div class="stat-value" id="totalExpense">0 ₴</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-title"><i class="fas fa-scale-balanced"></i> БАЛАНС</div>
-                    <div class="stat-value" id="totalBalance">0 ₴</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-title"><i class="fas fa-list-check"></i> ОПЕРАЦІЙ</div>
-                    <div class="stat-value" id="totalTxCount">0</div>
-                </div>
+                <div class="stat-card"><div class="stat-title"><i class="fas fa-arrow-up-wide-short"></i> ДОХОДИ</div><div class="stat-value" id="totalIncome">0 ₴</div></div>
+                <div class="stat-card"><div class="stat-title"><i class="fas fa-arrow-down-wide-short"></i> ВИТРАТИ</div><div class="stat-value" id="totalExpense">0 ₴</div></div>
+                <div class="stat-card"><div class="stat-title"><i class="fas fa-scale-balanced"></i> БАЛАНС</div><div class="stat-value" id="totalBalance">0 ₴</div></div>
+                <div class="stat-card"><div class="stat-title"><i class="fas fa-list-check"></i> ОПЕРАЦІЙ</div><div class="stat-value" id="totalTxCount">0</div></div>
             </div>
             <div class="two-columns">
                 <div class="col-main">
@@ -656,10 +648,7 @@
                         <div class="add-form">
                             <input type="text" id="descInput" placeholder="Опис">
                             <input type="number" id="amountInput" placeholder="Сума (₴)" step="0.01">
-                            <select id="typeSelect">
-                                <option value="expense">Витрата</option>
-                                <option value="income">Дохід</option>
-                            </select>
+                            <select id="typeSelect"><option value="expense">Витрата</option><option value="income">Дохід</option></select>
                             <select id="categorySelect"></select>
                             <button id="addBtn" class="btn-primary"><i class="fas fa-plus-circle"></i> Додати</button>
                         </div>
@@ -685,78 +674,34 @@
         <!-- ЖИВИЙ -->
         <div id="panel-live" class="panel">
             <div class="live-earnings">
-                <div class="earnings-header"><i class="fas fa-clock"></i>
-                    <h3>💰 Живий заробіток</h3>
-                </div>
+                <div class="earnings-header"><i class="fas fa-clock"></i><h3>💰 Живий заробіток</h3></div>
                 <div class="rate-controls">
                     <div class="rate-field"><label>Ставка (€/год)</label><input type="number" id="hourlyRate" value="15" step="0.5"></div>
-                    <div class="rate-field"><label>Графік</label><select id="workSchedule">
-                            <option value="8x5">8×5</option>
-                            <option value="6x5">6×5</option>
-                            <option value="4x5">4×5</option>
-                            <option value="8x4">8×4</option>
-                            <option value="custom">Свій</option>
-                        </select></div>
+                    <div class="rate-field"><label>Графік</label><select id="workSchedule"><option value="8x5">8×5</option><option value="6x5">6×5</option><option value="4x5">4×5</option><option value="8x4">8×4</option><option value="custom">Свій</option></select></div>
                     <div class="rate-field" id="customScheduleField" style="display:none;"><label>Годин</label><input type="number" id="customHours" value="8" step="0.5"></div>
                 </div>
-                <div class="live-counter">
-                    <div class="counter-eur" id="liveEur">0.00 €</div>
-                    <div class="counter-uah" id="liveUah">0.00 ₴</div>
-                    <div>зароблено сьогодні</div>
-                </div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.8rem;">
-                    <span class="stat-chip">€/хв: <strong id="perMinute">0.00</strong></span>
-                    <span class="stat-chip">Місяць: <strong id="monthlyEstimate">0 €</strong></span>
-                </div>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <button id="resetTodayBtn" style="background:white;"><i class="fas fa-sync-alt"></i> Скинути</button>
-                    <button id="addToIncomeBtn" class="btn-primary"><i class="fas fa-plus-circle"></i> Додати в доходи</button>
-                </div>
+                <div class="live-counter"><div class="counter-eur" id="liveEur">0.00 €</div><div class="counter-uah" id="liveUah">0.00 ₴</div><div>зароблено сьогодні</div></div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.8rem;"><span class="stat-chip">€/хв: <strong id="perMinute">0.00</strong></span><span class="stat-chip">Місяць: <strong id="monthlyEstimate">0 €</strong></span></div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;"><button id="resetTodayBtn" style="background:white;"><i class="fas fa-sync-alt"></i> Скинути</button><button id="addToIncomeBtn" class="btn-primary"><i class="fas fa-plus-circle"></i> Додати в доходи</button></div>
             </div>
             <div class="piggy-bank-card">
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <div class="piggy-icon"><i class="fas fa-piggy-bank" style="font-size:1.8rem; color:#e6a017;"></i></div>
-                    <div>Скарбничка<br><small>округлює витрати</small></div>
-                    <div><span class="piggy-amount" id="piggyAmount">0 ₴</span></div>
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <button id="collectPiggyBtn" class="btn-primary" style="background:#e6a017;">Забрати</button>
-                    <button id="clearPiggyBtn">Очистити</button>
-                </div>
+                <div style="display: flex; gap: 10px; align-items: center;"><div class="piggy-icon"><i class="fas fa-piggy-bank" style="font-size:1.8rem; color:#e6a017;"></i></div><div>Скарбничка<br><small>округлює витрати</small></div><div><span class="piggy-amount" id="piggyAmount">0 ₴</span></div></div>
+                <div style="display: flex; gap: 8px;"><button id="collectPiggyBtn" class="btn-primary" style="background:#e6a017;">Забрати</button><button id="clearPiggyBtn">Очистити</button></div>
             </div>
         </div>
 
         <!-- ЦІЛЬ -->
         <div id="panel-goal" class="panel">
             <div class="goal-panel">
-                <div><span class="goal-label"><i class="fas fa-bullseye"></i> Фінансова ціль</span>
-                    <div class="goal-amount" id="goalTargetDisplay">0 ₴</div>
-                    <div>Накопичено: <strong id="savedAmount">0 ₴</strong></div>
-                </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-fill" id="goalProgressFill"></div>
-                </div>
-                <div><input type="number" id="goalInput" placeholder="Сума" step="1000" value="50000" style="padding:0.5rem; border-radius:40px; border:1px solid #dee4ea;">
-                    <button id="setGoalBtn" class="btn-primary">Встановити</button>
-                </div>
+                <div><span class="goal-label"><i class="fas fa-bullseye"></i> Фінансова ціль</span><div class="goal-amount" id="goalTargetDisplay">0 ₴</div><div>Накопичено: <strong id="savedAmount">0 ₴</strong></div></div>
+                <div class="progress-bar-bg"><div class="progress-fill" id="goalProgressFill"></div></div>
+                <div><input type="number" id="goalInput" placeholder="Сума" step="1000" value="50000" style="padding:0.5rem; border-radius:40px; border:1px solid #dee4ea;"><button id="setGoalBtn" class="btn-primary">Встановити</button></div>
             </div>
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-title">ДОХОДИ</div>
-                    <div class="stat-value" id="totalIncome2">0 ₴</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-title">ВИТРАТИ</div>
-                    <div class="stat-value" id="totalExpense2">0 ₴</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-title">БАЛАНС</div>
-                    <div class="stat-value" id="totalBalance2">0 ₴</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-title">ОПЕРАЦІЙ</div>
-                    <div class="stat-value" id="totalTxCount2">0</div>
-                </div>
+                <div class="stat-card"><div class="stat-title">ДОХОДИ</div><div class="stat-value" id="totalIncome2">0 ₴</div></div>
+                <div class="stat-card"><div class="stat-title">ВИТРАТИ</div><div class="stat-value" id="totalExpense2">0 ₴</div></div>
+                <div class="stat-card"><div class="stat-title">БАЛАНС</div><div class="stat-value" id="totalBalance2">0 ₴</div></div>
+                <div class="stat-card"><div class="stat-title">ОПЕРАЦІЙ</div><div class="stat-value" id="totalTxCount2">0</div></div>
             </div>
         </div>
 
@@ -765,11 +710,7 @@
             <div class="white-card">
                 <div class="section-header"><i class="fas fa-chart-line"></i> Бюджети на категорії</div>
                 <div class="scrollable-list" id="budgetsList"></div>
-                <div class="add-asset-row">
-                    <input type="text" id="budgetCategory" placeholder="Категорія">
-                    <input type="number" id="budgetLimit" placeholder="Ліміт (₴)">
-                    <button id="addBudgetBtn" class="btn-primary"><i class="fas fa-plus"></i> Встановити</button>
-                </div>
+                <div class="add-asset-row"><input type="text" id="budgetCategory" placeholder="Категорія"><input type="number" id="budgetLimit" placeholder="Ліміт (₴)"><button id="addBudgetBtn" class="btn-primary"><i class="fas fa-plus"></i> Встановити</button></div>
             </div>
         </div>
 
@@ -778,15 +719,7 @@
             <div class="white-card">
                 <div class="section-header"><i class="fas fa-sync-alt"></i> Регулярні платежі</div>
                 <div class="scrollable-list" id="recurringList"></div>
-                <div class="add-recurring-form">
-                    <input type="text" id="recurringTitle" placeholder="Назва">
-                    <input type="number" id="recurringAmount" placeholder="Сума">
-                    <select id="recurringPeriod">
-                        <option value="monthly">Щомісяця</option>
-                        <option value="weekly">Щотижня</option>
-                    </select>
-                    <button id="addRecurringBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button>
-                </div>
+                <div class="add-recurring-form"><input type="text" id="recurringTitle" placeholder="Назва"><input type="number" id="recurringAmount" placeholder="Сума"><select id="recurringPeriod"><option value="monthly">Щомісяця</option><option value="weekly">Щотижня</option></select><button id="addRecurringBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button></div>
                 <button id="processRecurringBtn" class="btn-primary full-width-btn"><i class="fas fa-play"></i> Виконати регулярні платежі зараз</button>
             </div>
         </div>
@@ -796,12 +729,7 @@
             <div class="white-card">
                 <div class="section-header"><i class="fas fa-bell"></i> Нагадування</div>
                 <div class="scrollable-list" id="remindersList"></div>
-                <div class="add-reminder-form">
-                    <input type="text" id="reminderTitle" placeholder="Що?">
-                    <input type="date" id="reminderDate">
-                    <input type="number" id="reminderAmount" placeholder="Сума">
-                    <button id="addReminderBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button>
-                </div>
+                <div class="add-reminder-form"><input type="text" id="reminderTitle" placeholder="Що?"><input type="date" id="reminderDate"><input type="number" id="reminderAmount" placeholder="Сума"><button id="addReminderBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button></div>
             </div>
         </div>
 
@@ -810,11 +738,7 @@
             <div class="white-card">
                 <div class="section-header"><i class="fas fa-charging-station"></i> Активи</div>
                 <div class="scrollable-list" id="assetsList"></div>
-                <div class="add-asset-row">
-                    <input type="text" id="assetName" placeholder="Назва">
-                    <input type="number" id="assetValue" placeholder="Вартість (₴)">
-                    <button id="addAssetBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button>
-                </div>
+                <div class="add-asset-row"><input type="text" id="assetName" placeholder="Назва"><input type="number" id="assetValue" placeholder="Вартість (₴)"><button id="addAssetBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button></div>
                 <div class="total-assets"><span>Загальна вартість:</span><strong id="totalAssetsSum">0 ₴</strong></div>
                 <canvas id="assetsChart"></canvas>
                 <button id="resetAssetsBtn" class="full-width-btn" style="margin-top:12px;"><i class="fas fa-trash-alt"></i> Очистити активи</button>
@@ -826,7 +750,7 @@
 </div>
 
 <script>
-    // ВСЯ ЛОГІКА (така ж сама, працює)
+    // ВСЯ ЛОГІКА (ТАКА Ж САМА, ПРАЦЮЄ)
     let transactions = [], assets = [], reminders = [], budgets = [], recurringPayments = [], piggySavings = 0, currentFilter = "all";
     let dailyLimit = 500, todaySpent = 0;
     let expenseChart = null, assetsChart = null;
@@ -857,26 +781,13 @@
         let amount = parseFloat(document.getElementById("amountInput").value);
         let type = document.getElementById("typeSelect").value;
         let category = document.getElementById("categorySelect").value;
-        if (!desc || isNaN(amount) || amount <= 0) {
-            alert("Введіть опис і суму");
-            return;
-        }
+        if (!desc || isNaN(amount) || amount <= 0) { alert("Введіть опис і суму"); return; }
         let finalAmount = amount;
         if (type === "expense") {
             let roundedUp = Math.ceil(amount);
-            if (roundedUp > amount) {
-                piggySavings += (roundedUp - amount);
-                finalAmount = roundedUp;
-            }
+            if (roundedUp > amount) { piggySavings += (roundedUp - amount); finalAmount = roundedUp; }
         }
-        transactions.unshift({
-            id: Date.now(),
-            description: desc,
-            amount: finalAmount,
-            type: type,
-            category: category,
-            date: new Date().toISOString()
-        });
+        transactions.unshift({ id: Date.now(), description: desc, amount: finalAmount, type: type, category: category, date: new Date().toISOString() });
         document.getElementById("descInput").value = "";
         document.getElementById("amountInput").value = "";
         saveAll();
@@ -888,10 +799,7 @@
     
     function updateAllStats() {
         let inc = 0, exp = 0;
-        transactions.forEach(t => {
-            if (t.type === 'income') inc += t.amount;
-            else exp += t.amount;
-        });
+        transactions.forEach(t => { if (t.type === 'income') inc += t.amount; else exp += t.amount; });
         let balance = inc - exp;
         document.getElementById("totalIncome").innerHTML = formatUAH(inc);
         document.getElementById("totalExpense").innerHTML = formatUAH(exp);
@@ -911,10 +819,7 @@
     function renderTransactions() {
         let container = document.getElementById("transactionsList");
         let filtered = currentFilter === "all" ? [...transactions] : transactions.filter(t => t.type === currentFilter);
-        if (filtered.length === 0) {
-            container.innerHTML = `<div style="text-align:center; padding:1rem;">Немає транзакцій</div>`;
-            return;
-        }
+        if (filtered.length === 0) { container.innerHTML = `<div style="text-align:center; padding:1rem;">Немає транзакцій</div>`; return; }
         container.innerHTML = "";
         filtered.sort((a, b) => b.id - a.id).forEach(tx => {
             let div = document.createElement("div");
@@ -937,25 +842,14 @@
     function renderExpenseChart() {
         let ctx = document.getElementById('expenseChart').getContext('2d');
         let map = new Map();
-        transactions.filter(t => t.type === 'expense').forEach(t => {
-            let cat = t.category || "Інше";
-            map.set(cat, (map.get(cat) || 0) + t.amount);
-        });
+        transactions.filter(t => t.type === 'expense').forEach(t => { let cat = t.category || "Інше"; map.set(cat, (map.get(cat) || 0) + t.amount); });
         let labels = Array.from(map.keys());
         let values = Array.from(map.values());
         if (expenseChart) expenseChart.destroy();
         if (labels.length === 0) {
-            expenseChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: { labels: ["Немає витрат"], datasets: [{ data: [1], backgroundColor: ["#cbdde9"] }] },
-                options: { plugins: { legend: { position: 'bottom' } } }
-            });
+            expenseChart = new Chart(ctx, { type: 'doughnut', data: { labels: ["Немає витрат"], datasets: [{ data: [1], backgroundColor: ["#cbdde9"] }] }, options: { plugins: { legend: { position: 'bottom' } } } });
         } else {
-            expenseChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: { labels, datasets: [{ data: values, backgroundColor: ['#2c9b77', '#46b390', '#62c4a2', '#1f7e64', '#dc9e6c', '#b6684a', '#789f8c', '#a3c4b5'], borderWidth: 0 }] },
-                options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 9 } } } } }
-            });
+            expenseChart = new Chart(ctx, { type: 'doughnut', data: { labels, datasets: [{ data: values, backgroundColor: ['#2c9b77', '#46b390', '#62c4a2', '#1f7e64', '#dc9e6c', '#b6684a', '#789f8c', '#a3c4b5'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 9 } } } } } });
         }
     }
     
@@ -970,15 +864,9 @@
     
     function updateBudgets() {
         let now = new Date(), month = now.getMonth(), year = now.getFullYear(), expensesByCat = {};
-        transactions.filter(t => t.type === 'expense').forEach(t => {
-            let d = new Date(t.date || t.id);
-            if (d.getMonth() === month && d.getFullYear() === year) expensesByCat[t.category] = (expensesByCat[t.category] || 0) + t.amount;
-        });
+        transactions.filter(t => t.type === 'expense').forEach(t => { let d = new Date(t.date || t.id); if (d.getMonth() === month && d.getFullYear() === year) expensesByCat[t.category] = (expensesByCat[t.category] || 0) + t.amount; });
         let container = document.getElementById("budgetsList");
-        if (budgets.length === 0) {
-            container.innerHTML = `<div style="text-align:center; padding:1rem;">➕ Додайте бюджет</div>`;
-            return;
-        }
+        if (budgets.length === 0) { container.innerHTML = `<div style="text-align:center; padding:1rem;">➕ Додайте бюджет</div>`; return; }
         container.innerHTML = "";
         budgets.forEach(b => {
             let spent = expensesByCat[b.category] || 0, percent = Math.min(100, (spent / b.limit) * 100), div = document.createElement("div");
@@ -986,19 +874,12 @@
             div.innerHTML = `<span><strong>${b.category}</strong><div class="budget-progress-bar"><div class="budget-progress-fill" style="width:${percent}%; background:${percent >= 100 ? '#e26d5c' : '#2c9b77'}"></div></div></span><span>${formatUAH(spent)} / ${formatUAH(b.limit)} <button class="delete-budget" data-id="${b.id}"><i class="fas fa-trash-alt"></i></button></span>`;
             container.appendChild(div);
         });
-        document.querySelectorAll('.delete-budget').forEach(btn => btn.addEventListener('click', () => {
-            budgets = budgets.filter(b => b.id !== parseInt(btn.dataset.id));
-            saveAll();
-            updateBudgets();
-        }));
+        document.querySelectorAll('.delete-budget').forEach(btn => btn.addEventListener('click', () => { budgets = budgets.filter(b => b.id !== parseInt(btn.dataset.id)); saveAll(); updateBudgets(); }));
     }
     
     function renderRecurring() {
         let container = document.getElementById("recurringList");
-        if (recurringPayments.length === 0) {
-            container.innerHTML = `<div style="text-align:center; padding:1rem;">🔄 Немає регулярних платежів</div>`;
-            return;
-        }
+        if (recurringPayments.length === 0) { container.innerHTML = `<div style="text-align:center; padding:1rem;">🔄 Немає регулярних платежів</div>`; return; }
         container.innerHTML = "";
         recurringPayments.forEach(r => {
             let div = document.createElement("div");
@@ -1006,28 +887,14 @@
             div.innerHTML = `<span><i class="fas fa-calendar-alt"></i> ${r.title}</span><span>${formatUAH(r.amount)} <button class="delete-recurring" data-id="${r.id}"><i class="fas fa-trash-alt"></i></button></span>`;
             container.appendChild(div);
         });
-        document.querySelectorAll('.delete-recurring').forEach(btn => btn.addEventListener('click', () => {
-            recurringPayments = recurringPayments.filter(r => r.id !== parseInt(btn.dataset.id));
-            saveAll();
-            renderRecurring();
-        }));
+        document.querySelectorAll('.delete-recurring').forEach(btn => btn.addEventListener('click', () => { recurringPayments = recurringPayments.filter(r => r.id !== parseInt(btn.dataset.id)); saveAll(); renderRecurring(); }));
     }
     
-    function processRecurringPayments() {
-        recurringPayments.forEach(r => {
-            transactions.unshift({ id: Date.now(), description: `🔄 Регулярний: ${r.title}`, amount: r.amount, type: "expense", category: "Інше", date: new Date().toISOString() });
-        });
-        saveAll();
-        renderAll();
-        alert("Виконано!");
-    }
+    function processRecurringPayments() { recurringPayments.forEach(r => { transactions.unshift({ id: Date.now(), description: `🔄 Регулярний: ${r.title}`, amount: r.amount, type: "expense", category: "Інше", date: new Date().toISOString() }); }); saveAll(); renderAll(); alert("Виконано!"); }
     
     function renderReminders() {
         let container = document.getElementById("remindersList");
-        if (reminders.length === 0) {
-            container.innerHTML = `<div style="text-align:center; padding:1rem;">📋 Немає нагадувань</div>`;
-            return;
-        }
+        if (reminders.length === 0) { container.innerHTML = `<div style="text-align:center; padding:1rem;">📋 Немає нагадувань</div>`; return; }
         container.innerHTML = "";
         reminders.sort((a, b) => new Date(a.date) - new Date(b.date));
         reminders.forEach(r => {
@@ -1036,21 +903,14 @@
             div.innerHTML = `<div><strong>${escapeHtml(r.title)}</strong><div style="font-size:0.7rem; color:#e6a017;"><i class="fas fa-calendar-alt"></i> ${r.date} ${isToday ? '🔔' : ''}</div><span>💰 ${formatUAH(r.amount)}</span></div><button class="delete-reminder" data-id="${r.id}"><i class="fas fa-trash-alt"></i></button>`;
             container.appendChild(div);
         });
-        document.querySelectorAll('.delete-reminder').forEach(btn => btn.addEventListener('click', () => {
-            reminders = reminders.filter(r => r.id !== parseInt(btn.dataset.id));
-            saveAll();
-            renderReminders();
-        }));
+        document.querySelectorAll('.delete-reminder').forEach(btn => btn.addEventListener('click', () => { reminders = reminders.filter(r => r.id !== parseInt(btn.dataset.id)); saveAll(); renderReminders(); }));
     }
     
     function addReminder() {
         let title = document.getElementById("reminderTitle").value.trim();
         let date = document.getElementById("reminderDate").value;
         let amount = parseFloat(document.getElementById("reminderAmount").value);
-        if (!title || !date || isNaN(amount) || amount <= 0) {
-            alert("Заповніть всі поля");
-            return;
-        }
+        if (!title || !date || isNaN(amount) || amount <= 0) { alert("Заповніть всі поля"); return; }
         reminders.push({ id: Date.now(), title, date, amount });
         document.getElementById("reminderTitle").value = "";
         document.getElementById("reminderDate").value = "";
@@ -1061,9 +921,8 @@
     
     function renderAssets() {
         let container = document.getElementById("assetsList");
-        if (assets.length === 0) {
-            container.innerHTML = `<div style="text-align:center; padding:1rem;">➕ Додайте актив</div>`;
-        } else {
+        if (assets.length === 0) { container.innerHTML = `<div style="text-align:center; padding:1rem;">➕ Додайте актив</div>`; }
+        else {
             container.innerHTML = "";
             assets.forEach(a => {
                 let div = document.createElement("div");
@@ -1071,11 +930,7 @@
                 div.innerHTML = `<span>${escapeHtml(a.name)}</span><span><span style="font-weight:700; color:#1f6e8c;">${formatUAH(a.value)}</span><button class="delete-asset" data-id="${a.id}"><i class="fas fa-trash-alt"></i></button></span>`;
                 container.appendChild(div);
             });
-            document.querySelectorAll('.delete-asset').forEach(btn => btn.addEventListener('click', () => {
-                assets = assets.filter(a => a.id !== parseInt(btn.dataset.id));
-                saveAll();
-                renderAssets();
-            }));
+            document.querySelectorAll('.delete-asset').forEach(btn => btn.addEventListener('click', () => { assets = assets.filter(a => a.id !== parseInt(btn.dataset.id)); saveAll(); renderAssets(); }));
         }
         let total = assets.reduce((s, a) => s + a.value, 0);
         document.getElementById("totalAssetsSum").innerHTML = formatUAH(total);
@@ -1086,22 +941,13 @@
         let name = document.getElementById("assetName").value.trim();
         let val = parseFloat(document.getElementById("assetValue").value);
         if (!name) alert("Введіть назву");
-        else {
-            assets.push({ id: Date.now(), name, value: isNaN(val) ? 0 : val });
-            document.getElementById("assetName").value = "";
-            document.getElementById("assetValue").value = "";
-            saveAll();
-            renderAssets();
-        }
+        else { assets.push({ id: Date.now(), name, value: isNaN(val) ? 0 : val }); document.getElementById("assetName").value = ""; document.getElementById("assetValue").value = ""; saveAll(); renderAssets(); }
     }
     
     function renderAssetsChart() {
         let ctx = document.getElementById('assetsChart').getContext('2d');
         if (assetsChart) assetsChart.destroy();
-        if (assets.length === 0) {
-            assetsChart = new Chart(ctx, { type: 'bar', data: { labels: ["Немає"], datasets: [{ data: [0], backgroundColor: '#2c9b77' }] }, options: { responsive: true } });
-            return;
-        }
+        if (assets.length === 0) { assetsChart = new Chart(ctx, { type: 'bar', data: { labels: ["Немає"], datasets: [{ data: [0], backgroundColor: '#2c9b77' }] }, options: { responsive: true } }); return; }
         assetsChart = new Chart(ctx, { type: 'bar', data: { labels: assets.map(a => a.name.length > 10 ? a.name.slice(0, 8) + '..' : a.name), datasets: [{ label: 'Вартість (₴)', data: assets.map(a => a.value), backgroundColor: '#2c9b77', borderRadius: 8 }] }, options: { responsive: true } });
     }
     
