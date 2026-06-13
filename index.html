@@ -2,34 +2,19 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Скарбничка | Ваш скарб це ви</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* ФІКСОВАНИЙ ЕКРАН - НЕ РУХАЄТЬСЯ */
-        html, body {
-            height: 100%;
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; position: fixed; width: 100%; }
         body {
             background: radial-gradient(circle at 30% 20%, #1a2a2f, #0d151a);
             font-family: 'Inter', sans-serif;
         }
-
-        /* ГОЛОВНИЙ КОНТЕЙНЕР */
         .app-container {
             width: 100%;
             height: 100%;
@@ -38,24 +23,26 @@
             flex-direction: column;
             overflow: hidden;
         }
-
-        /* ХЕДЕР - НЕ РУХАЄТЬСЯ */
+        .scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px 28px 16px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .dashboard-container { max-width: 100%; margin: 0; }
         .header {
-            flex-shrink: 0;
-            padding: 16px 14px 0 14px;
-            background: linear-gradient(145deg, #f0f5fb 0%, #eef2f6 100%);
-        }
-
-        .logo-area {
             display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 1rem;
+            gap: 0.8rem;
+            flex-shrink: 0;
+            padding: 16px 16px 0 16px;
         }
-
+        .logo-area { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
         .logo-icon {
-            width: 48px;
-            height: 48px;
+            width: 48px; height: 48px;
             background: linear-gradient(135deg, #1f6e8c, #2c9b77);
             border-radius: 24px;
             display: flex;
@@ -63,12 +50,7 @@
             justify-content: center;
             box-shadow: 0 8px 16px rgba(31,110,140,0.2);
         }
-
-        .logo-icon i {
-            font-size: 26px;
-            color: white;
-        }
-
+        .logo-icon i { font-size: 26px; color: white; }
         .title-section h1 {
             font-size: 1.6rem;
             font-weight: 800;
@@ -77,27 +59,60 @@
             -webkit-background-clip: text;
             color: transparent;
         }
-
         .title-section .subtitle {
             font-family: 'Caveat', cursive;
             font-size: 0.9rem;
             font-weight: 500;
             color: #2c9b77;
+            margin-top: 2px;
+            letter-spacing: 0.3px;
             background: rgba(44, 155, 119, 0.1);
             display: inline-block;
             padding: 0 8px;
             border-radius: 40px;
         }
-
-        .header-row {
+        .header-right { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; }
+        .settings-icon {
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 8px;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e2edf2;
         }
-
+        .info-tabs {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            background: white;
+            border-radius: 60px;
+            padding: 0.3rem;
+            border: 1px solid #e2e8f0;
+            gap: 6px;
+            max-width: 100%;
+            -webkit-overflow-scrolling: touch;
+        }
+        .info-tabs::-webkit-scrollbar { height: 3px; }
+        .info-tabs::-webkit-scrollbar-track { background: #d4e0e8; border-radius: 10px; }
+        .info-tabs::-webkit-scrollbar-thumb { background: #2c9b77; border-radius: 10px; }
+        .info-tab {
+            padding: 0.4rem 0.9rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: #5c6f87;
+            transition: all 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .info-tab.active { background: linear-gradient(135deg, #1f6e8c, #2c9b77); color: white; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
         .balance-badge {
             background: white;
             padding: 0.5rem 1.2rem;
@@ -110,82 +125,42 @@
             font-size: 0.85rem;
             white-space: nowrap;
         }
-
-        /* ТАБИ - ГОРИЗОНТАЛЬНИЙ СКРОЛ */
-        .info-tabs {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            background: white;
-            border-radius: 60px;
-            padding: 0.3rem;
-            border: 1px solid #e2e8f0;
-            gap: 6px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-        }
-
-        .info-tabs::-webkit-scrollbar {
-            height: 3px;
-        }
-
-        .info-tab {
-            padding: 0.4rem 0.9rem;
+        button, .ctrl-btn, .filter-btn, .reset-small, .piggy-control button, .goal-control button, #addBtn, #addAssetBtn, .export-csv {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+            border: none;
+            padding: 0.5rem 1rem;
             border-radius: 60px;
             font-weight: 600;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             cursor: pointer;
-            background: transparent;
-            border: none;
-            color: #5c6f87;
-            white-space: nowrap;
-            flex-shrink: 0;
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            color: #1e2f3e;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-
-        .info-tab.active {
-            background: linear-gradient(135deg, #1f6e8c, #2c9b77);
-            color: white;
-        }
-
-        /* СКРОЛЮЧА ОБЛАСТЬ - ТІЛЬКИ ТУТ СКРОЛ */
-        .scroll-area {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px 14px 20px 14px;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* ВСІ ПАНЕЛІ */
-        .panel {
-            display: none;
-        }
-
-        .panel.active-panel {
-            display: block;
-        }
-
-        /* ІНШІ СТИЛІ (ВСІ ТАКІ Ж ЯК БУЛИ) */
+        button:active { transform: scale(0.96); }
+        .btn-primary { background: linear-gradient(135deg, #1f6e8c, #2c9b77); color: white; }
+        .filter-btn { padding: 0.35rem 1rem; background: white; border: 1px solid #e2e8f0; }
+        .filter-btn.active { background: linear-gradient(135deg, #1f6e8c, #2c9b77); color: white; border: none; }
+        .panel { display: none; }
+        .panel.active-panel { display: block; animation: fadeIn 0.25s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
             margin-bottom: 1.5rem;
         }
-
-        @media (max-width: 450px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
+        @media (max-width: 450px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
         .stat-card {
             background: white;
             border-radius: 28px;
             padding: 1rem;
             border: 1px solid #eef2f8;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
-
         .stat-title {
             font-size: 0.7rem;
             text-transform: uppercase;
@@ -194,15 +169,10 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            margin-bottom: 4px;
         }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-top: 0.3rem;
-            color: #1e2f3e;
-        }
-
+        .stat-title i { font-size: 1rem; width: 20px; text-align: center; }
+        .stat-value { font-size: 1.5rem; font-weight: 800; margin-top: 0.3rem; color: #1e2f3e; }
         .daily-limit-card {
             background: linear-gradient(135deg, #1f6e8c, #0e4b6e);
             border-radius: 28px;
@@ -215,30 +185,9 @@
             flex-wrap: wrap;
             gap: 0.8rem;
         }
-
-        .daily-limit-card .limit-number {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #ffd966;
-        }
-
-        .daily-progress-bg {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            height: 6px;
-            overflow: hidden;
-            flex: 1;
-            min-width: 100px;
-        }
-
-        .daily-progress-fill {
-            background: #ffd966;
-            width: 0%;
-            height: 100%;
-            border-radius: 20px;
-            transition: width 0.3s;
-        }
-
+        .daily-limit-card .limit-number { font-size: 1.6rem; font-weight: 800; color: #ffd966; }
+        .daily-progress-bg { background: rgba(255,255,255,0.3); border-radius: 20px; height: 6px; overflow: hidden; flex: 1; min-width: 100px; }
+        .daily-progress-fill { background: #ffd966; width: 0%; height: 100%; border-radius: 20px; transition: width 0.3s; }
         .live-earnings {
             background: linear-gradient(135deg, #0f2b1f, #082018);
             border-radius: 32px;
@@ -247,71 +196,16 @@
             color: white;
             border: 1px solid #3b8a6b;
         }
-
-        .earnings-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 1rem;
-        }
-
-        .earnings-header i {
-            font-size: 1.8rem;
-            color: #ffd966;
-        }
-
-        .rate-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .rate-field {
-            flex: 1;
-            min-width: 130px;
-        }
-
-        .rate-field label {
-            display: block;
-            font-size: 0.65rem;
-            opacity: 0.7;
-            margin-bottom: 5px;
-        }
-
-        .rate-field input,
-        .rate-field select {
-            width: 100%;
-            padding: 0.5rem 0.8rem;
-            border-radius: 60px;
-            border: none;
-            font-weight: 600;
-            background: white;
-            font-size: 0.8rem;
-        }
-
-        .live-counter {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 28px;
-            padding: 0.8rem 1.2rem;
-            text-align: center;
-            margin-bottom: 0.8rem;
-        }
-
-        .counter-eur {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #ffd966;
-        }
-
-        .stat-chip {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 40px;
-            padding: 0.2rem 0.8rem;
-            font-size: 0.7rem;
-            display: inline-block;
-        }
-
+        .earnings-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+        .earnings-header i { font-size: 1.8rem; color: #ffd966; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{text-shadow:0 0 0 rgba(255,217,102,0.3);}50%{text-shadow:0 0 8px rgba(255,217,102,0.6);} }
+        .rate-controls { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+        .rate-field { flex: 1; min-width: 130px; }
+        .rate-field label { display: block; font-size: 0.65rem; opacity: 0.7; margin-bottom: 5px; }
+        .rate-field input, .rate-field select { width: 100%; padding: 0.5rem 0.8rem; border-radius: 60px; border: none; font-weight: 600; background: white; font-size: 0.8rem; }
+        .live-counter { background: rgba(0,0,0,0.3); border-radius: 28px; padding: 0.8rem 1.2rem; text-align: center; margin-bottom: 0.8rem; }
+        .counter-eur { font-size: 1.8rem; font-weight: 800; color: #ffd966; }
+        .stat-chip { background: rgba(255,255,255,0.1); border-radius: 40px; padding: 0.2rem 0.8rem; font-size: 0.7rem; display: inline-block; }
         .piggy-bank-card {
             background: linear-gradient(125deg, #fff9e8, #fff4e0);
             border-radius: 28px;
@@ -324,13 +218,8 @@
             justify-content: space-between;
             gap: 1rem;
         }
-
-        .piggy-amount {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #c47a2a;
-        }
-
+        .piggy-icon { font-size: 1.8rem; color: #e6a017; }
+        .piggy-amount { font-size: 1.3rem; font-weight: 800; color: #c47a2a; }
         .goal-panel {
             background: linear-gradient(125deg, #f8fafd, #ffffff);
             border-radius: 28px;
@@ -343,167 +232,30 @@
             justify-content: space-between;
             gap: 1rem;
         }
-
-        .goal-label {
-            font-weight: 700;
-            color: #1f6e8c;
-            background: #e6f4f0;
-            padding: 0.3rem 1rem;
-            border-radius: 40px;
-            font-size: 0.75rem;
-        }
-
-        .goal-amount {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #2c9b77;
-        }
-
-        .progress-bar-bg {
-            background: #e2e8f0;
-            border-radius: 20px;
-            height: 8px;
-            overflow: hidden;
-            flex: 1;
-        }
-
-        .progress-fill {
-            background: #2c9b77;
-            width: 0%;
-            height: 100%;
-            border-radius: 20px;
-            transition: width 0.5s ease;
-        }
-
+        .goal-label { font-weight: 700; color: #1f6e8c; background: #e6f4f0; padding: 0.3rem 1rem; border-radius: 40px; font-size: 0.75rem; }
+        .goal-amount { font-size: 1.3rem; font-weight: 800; color: #2c9b77; }
+        .progress-bar-bg { background: #e2e8f0; border-radius: 20px; height: 8px; overflow: hidden; flex: 1; }
+        .progress-fill { background: #2c9b77; width: 0%; height: 100%; border-radius: 20px; transition: width 0.5s ease; }
         .white-card {
             background: white;
             border-radius: 32px;
             padding: 1.2rem;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
             border: 1px solid #eef2f8;
             margin-bottom: 1rem;
         }
-
-        .section-header {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-left: 4px solid #2c9b77;
-            padding-left: 14px;
-        }
-
-        .two-columns {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .col-main {
-            flex: 1.5;
-            min-width: 260px;
-        }
-
-        .col-side {
-            flex: 1;
-            min-width: 250px;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .add-form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 1rem;
-        }
-
-        .add-form input,
-        .add-form select,
-        .add-form button {
-            padding: 0.5rem 0.8rem;
-            border-radius: 40px;
-            font-size: 0.75rem;
-            border: 1px solid #dee4ea;
-            background: white;
-            flex: 1;
-        }
-
-        button {
-            background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.25s;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-            color: #1e2f3e;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        button:active {
-            transform: scale(0.96);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #1f6e8c, #2c9b77);
-            color: white;
-        }
-
-        .filter-btn {
-            padding: 0.35rem 1rem;
-            background: white;
-            border: 1px solid #e2e8f0;
-        }
-
-        .filter-btn.active {
-            background: linear-gradient(135deg, #1f6e8c, #2c9b77);
-            color: white;
-            border: none;
-        }
-
-        .transactions-list {
-            max-height: 250px;
-            overflow-y: auto;
-        }
-
-        .transaction-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.6rem 0;
-            border-bottom: 1px solid #eff3f8;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .income-amount {
-            color: #2c9b77;
-            font-weight: 700;
-        }
-
-        .expense-amount {
-            color: #e26d5c;
-            font-weight: 700;
-        }
-
-        .scrollable-list {
-            max-height: 200px;
-            overflow-y: auto;
-            margin-bottom: 12px;
-        }
-
-        .budget-item,
-        .recurring-item,
-        .reminder-item,
-        .asset-item {
+        .section-header { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; border-left: 4px solid #2c9b77; padding-left: 14px; }
+        .two-columns { display: flex; flex-wrap: wrap; gap: 1rem; }
+        .col-main { flex: 1.5; min-width: 260px; }
+        .col-side { flex: 1; min-width: 250px; display: flex; flex-direction: column; gap: 1rem; }
+        .add-form { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
+        .add-form input, .add-form select, .add-form button { padding: 0.5rem 0.8rem; border-radius: 40px; font-size: 0.75rem; border: 1px solid #dee4ea; background: white; flex: 1; }
+        .transactions-list { max-height: 280px; overflow-y: auto; }
+        .transaction-item { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid #eff3f8; flex-wrap: wrap; gap: 8px; }
+        .income-amount { color: #2c9b77; font-weight: 700; }
+        .expense-amount { color: #e26d5c; font-weight: 700; }
+        .scrollable-list { max-height: 200px; overflow-y: auto; margin-bottom: 12px; }
+        .budget-item, .recurring-item, .reminder-item, .asset-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -513,93 +265,119 @@
             flex-wrap: wrap;
             gap: 8px;
         }
-
-        .budget-progress-bar {
-            width: 80px;
-            height: 4px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
-            display: inline-block;
-            margin-left: 8px;
-        }
-
-        .budget-progress-fill {
-            height: 100%;
-            border-radius: 4px;
-        }
-
-        .add-recurring-form,
-        .add-reminder-form,
-        .add-asset-row {
+        .budget-progress-bar { width: 80px; height: 4px; background: #e2e8f0; border-radius: 4px; overflow: hidden; display: inline-block; margin-left: 8px; }
+        .budget-progress-fill { height: 100%; border-radius: 4px; }
+        .add-recurring-form, .add-reminder-form, .add-asset-row {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-top: 8px;
+            margin-top: 0.8rem;
         }
-
-        .add-recurring-form input,
-        .add-reminder-form input,
-        .add-asset-row input,
-        .add-recurring-form select {
+        .add-recurring-form input, .add-reminder-form input, .add-asset-row input, .add-recurring-form select {
             flex: 1;
-            min-width: 100px;
+            min-width: 120px;
             padding: 0.5rem 0.8rem;
             border-radius: 40px;
             border: 1px solid #dee4ea;
             font-size: 0.75rem;
         }
-
-        .total-assets {
-            background: #f0f5fa;
-            border-radius: 20px;
-            padding: 0.6rem 1rem;
+        .total-assets { background: #f0f5fa; border-radius: 20px; padding: 0.6rem 1rem; display: flex; justify-content: space-between; font-weight: 700; margin-top: 0.5rem; flex-wrap: wrap; gap: 8px; }
+        canvas { max-height: 180px; width: 100%; margin-top: 0.5rem; }
+        .animate-number { animation: popNum 0.3s ease; }
+        @keyframes popNum { 50% { transform: scale(1.05); color: #2c9b77; } }
+        footer { text-align: center; margin-top: 1.5rem; font-size: 0.6rem; color: #8ba0b8; padding-bottom: 8px; }
+        .delete-btn, .delete-budget, .delete-recurring, .delete-reminder, .delete-asset { background: none; border: none; color: #b9c8e0; cursor: pointer; padding: 4px; }
+        
+        .profile-card { background: white; border-radius: 32px; padding: 20px; margin-bottom: 20px; text-align: center; }
+        .profile-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, #1f6e8c, #2c9b77); border-radius: 80px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+        .profile-avatar i { font-size: 40px; color: white; }
+        .profile-name { font-size: 1.4rem; font-weight: 700; }
+        .profile-profession { font-size: 0.9rem; color: #7e95ae; margin-top: 4px; }
+        .profile-settings-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eef2f8; cursor: pointer; }
+        
+        .order-card { background: white; border-radius: 24px; padding: 14px; margin-bottom: 12px; border-left: 4px solid #2c9b77; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .order-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .order-title { font-weight: 700; }
+        .order-amount { font-weight: 800; color: #2c9b77; }
+        .order-details { display: flex; gap: 16px; font-size: 0.7rem; color: #7e95ae; margin-bottom: 8px; }
+        .order-status { display: inline-block; padding: 4px 10px; border-radius: 40px; font-size: 0.65rem; font-weight: 600; }
+        .status-active { background: #e6f4f0; color: #2c9b77; }
+        .status-completed { background: #e8e8e8; color: #666; }
+        .order-actions { display: flex; gap: 8px; margin-top: 10px; }
+        .profession-select {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            border: 1px solid #dee4ea;
+            background: white;
+            margin-bottom: 10px;
+        }
+        .stat-row {
             display: flex;
             justify-content: space-between;
-            font-weight: 700;
-            margin-top: 0.5rem;
-            flex-wrap: wrap;
-            gap: 8px;
+            align-items: center;
+            padding: 12px;
+            background: #e6f4f0;
+            border-radius: 20px;
+            margin-bottom: 16px;
         }
-
-        canvas {
-            max-height: 180px;
-            width: 100%;
-            margin-top: 0.5rem;
-        }
-
-        .delete-btn,
-        .delete-budget,
-        .delete-recurring,
-        .delete-reminder,
-        .delete-asset {
-            background: none;
-            border: none;
-            color: #b9c8e0;
+        .stat-row span:first-child { font-weight: 600; }
+        .stat-row span:last-child { font-size: 1.4rem; font-weight: 800; color: #2c9b77; }
+        .filter-period { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+        .period-btn {
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            background: #f0f5fb;
             cursor: pointer;
-            padding: 4px;
-            font-size: 1rem;
-            box-shadow: none;
+            border: 1px solid #dee4ea;
         }
-
-        footer {
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.6rem;
-            color: #8ba0b8;
-            padding-bottom: 8px;
+        .period-btn.active {
+            background: linear-gradient(135deg, #1f6e8c, #2c9b77);
+            color: white;
+            border: none;
         }
-
-        .full-width-btn {
-            width: 100%;
-            justify-content: center;
-            margin-top: 12px;
+        .custom-range { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+        .stats-container { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid #dee4ea; }
+        .show-stats-btn { width: 100%; margin-bottom: 8px; justify-content: center; }
+        
+        /* ТЕМНА ТЕМА - ВСІ ГРОШІ БІЛІ */
+        body.dark .app-container { background: #0a0a0f; }
+        body.dark .white-card, body.dark .stat-card, body.dark .info-tabs, body.dark .balance-badge, 
+        body.dark .goal-panel, body.dark .profile-card, body.dark .order-card, body.dark .settings-icon,
+        body.dark .period-btn { background: #14141f; border-color: #2a2a35; }
+        body.dark .balance-badge i, body.dark .settings-icon i,
+        body.dark .stat-value, body.dark .income-amount, body.dark .expense-amount,
+        body.dark .piggy-amount, body.dark .piggy-bank-card div, body.dark .piggy-bank-card small, 
+        body.dark .piggy-bank-card span, body.dark .order-amount, body.dark .stat-row span:last-child,
+        body.dark .goal-amount, body.dark .counter-uah, body.dark .counter-eur { color: #ffffff !important; }
+        body.dark .balance-badge span, body.dark .profile-name, body.dark .transaction-item strong, 
+        body.dark .order-title, body.dark .white-card, body.dark .scrollable-list, body.dark .section-header,
+        body.dark .stat-row span:first-child, body.dark .profile-profession, body.dark .period-btn, 
+        body.dark .custom-range label, body.dark .title-section .subtitle { color: #ffffff !important; }
+        body.dark .stat-title { color: #c0c0d0 !important; }
+        body.dark .add-form input, body.dark .add-form select, body.dark .add-recurring-form input, 
+        body.dark .add-reminder-form input, body.dark .add-asset-row input, body.dark .profession-select { 
+            background: #20202e; border-color: #353545; color: #ffffff; 
         }
+        body.dark .transaction-item, body.dark .budget-item, body.dark .recurring-item, 
+        body.dark .reminder-item, body.dark .asset-item { border-bottom-color: #2a2a35; }
+        body.dark .daily-limit-card { background: linear-gradient(135deg, #0f3b4a, #062a38); }
+        body.dark .live-earnings { background: linear-gradient(135deg, #0a1f15, #05140e); }
+        body.dark .piggy-bank-card { background: linear-gradient(125deg, #2a2518, #1e1a10); border-color: #4a3a20; }
+        body.dark .info-tab { color: #8888aa; }
+        body.dark .info-tab.active { background: linear-gradient(135deg, #2a8aaa, #3ab597); color: white; }
+        body.dark button:not(.btn-primary) { background: #20202e; color: #ffffff; }
+        body.dark .btn-primary { background: linear-gradient(135deg, #2a8aaa, #3ab597); }
+        body.dark .logo-icon { background: linear-gradient(135deg, #2a8aaa, #3ab597); }
+        body.dark .title-section h1 { background: linear-gradient(135deg, #ffffff, #dddddd); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        body.dark .stat-row { background: #20202e; }
+        body.dark .stats-container { border-top-color: #2a2a35; }
     </style>
 </head>
 <body>
 <div class="app-container">
-    <!-- ФІКСОВАНИЙ ХЕДЕР -->
     <div class="header">
         <div class="logo-area">
             <div class="logo-icon"><i class="fas fa-piggy-bank"></i></div>
@@ -608,7 +386,13 @@
                 <div class="subtitle">Ваш скарб — це ви</div>
             </div>
         </div>
-        <div class="header-row">
+        <div class="header-right">
+            <div class="balance-badge"><i class="fas fa-wallet"></i><span id="balanceValue">0 ₴</span></div>
+            <div class="settings-icon" id="settingsBtn"><i class="fas fa-user-cog"></i></div>
+        </div>
+    </div>
+    <div class="scroll-area">
+        <div class="dashboard-container">
             <div class="info-tabs">
                 <button class="info-tab active" data-panel="balance"><i class="fas fa-home"></i> Головна</button>
                 <button class="info-tab" data-panel="live"><i class="fas fa-clock"></i> Живий</button>
@@ -617,395 +401,168 @@
                 <button class="info-tab" data-panel="recurring"><i class="fas fa-sync-alt"></i> Регулярні</button>
                 <button class="info-tab" data-panel="reminders"><i class="fas fa-bell"></i> Нагадування</button>
                 <button class="info-tab" data-panel="assets"><i class="fas fa-chart-pie"></i> Активи</button>
+                <button class="info-tab" id="freelanceTab" data-panel="freelance" style="display:none;"><i class="fas fa-briefcase"></i> Закази</button>
             </div>
-            <div class="balance-badge"><i class="fas fa-wallet"></i><span id="balanceValue">0 ₴</span></div>
-        </div>
-    </div>
 
-    <!-- СКРОЛЮЧА ОБЛАСТЬ -->
-    <div class="scroll-area">
-        <!-- ГОЛОВНА -->
-        <div id="panel-balance" class="panel active-panel">
-            <div class="daily-limit-card">
-                <div><i class="fas fa-sun"></i> <strong>Сьогодні можна витратити</strong>
-                    <div class="limit-number" id="dailyLimitRemaining">0 ₴</div>
+            <!-- ГОЛОВНА -->
+            <div id="panel-balance" class="panel active-panel">
+                <div class="daily-limit-card">
+                    <div><i class="fas fa-sun"></i> <strong>Сьогодні можна витратити</strong><div class="limit-number" id="dailyLimitRemaining">0 ₴</div></div>
+                    <div class="daily-progress-bg"><div class="daily-progress-fill" id="dailyLimitFill"></div></div>
+                    <button id="setDailyLimitBtn" style="background:rgba(255,255,255,0.2); border:none; padding:6px 14px; border-radius:40px; color:white;"><i class="fas fa-edit"></i> Ліміт</button>
                 </div>
-                <div class="daily-progress-bg">
-                    <div class="daily-progress-fill" id="dailyLimitFill"></div>
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-title"><i class="fas fa-arrow-up-wide-short"></i> ДОХОДИ</div><div class="stat-value" id="totalIncome">0 ₴</div></div>
+                    <div class="stat-card"><div class="stat-title"><i class="fas fa-arrow-down-wide-short"></i> ВИТРАТИ</div><div class="stat-value" id="totalExpense">0 ₴</div></div>
+                    <div class="stat-card"><div class="stat-title"><i class="fas fa-scale-balanced"></i> БАЛАНС</div><div class="stat-value" id="totalBalance">0 ₴</div></div>
+                    <div class="stat-card"><div class="stat-title"><i class="fas fa-list-check"></i> ОПЕРАЦІЙ</div><div class="stat-value" id="totalTxCount">0</div></div>
                 </div>
-                <button id="setDailyLimitBtn" style="background:rgba(255,255,255,0.2); border:none; padding:6px 14px; border-radius:40px; color:white;"><i class="fas fa-edit"></i> Ліміт</button>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-card"><div class="stat-title"><i class="fas fa-arrow-up-wide-short"></i> ДОХОДИ</div><div class="stat-value" id="totalIncome">0 ₴</div></div>
-                <div class="stat-card"><div class="stat-title"><i class="fas fa-arrow-down-wide-short"></i> ВИТРАТИ</div><div class="stat-value" id="totalExpense">0 ₴</div></div>
-                <div class="stat-card"><div class="stat-title"><i class="fas fa-scale-balanced"></i> БАЛАНС</div><div class="stat-value" id="totalBalance">0 ₴</div></div>
-                <div class="stat-card"><div class="stat-title"><i class="fas fa-list-check"></i> ОПЕРАЦІЙ</div><div class="stat-value" id="totalTxCount">0</div></div>
-            </div>
-            <div class="two-columns">
-                <div class="col-main">
-                    <div class="white-card">
-                        <div class="section-header"><i class="fas fa-exchange-alt"></i> Транзакції</div>
-                        <div class="add-form">
-                            <input type="text" id="descInput" placeholder="Опис">
-                            <input type="number" id="amountInput" placeholder="Сума (₴)" step="0.01">
-                            <select id="typeSelect"><option value="expense">Витрата</option><option value="income">Дохід</option></select>
-                            <select id="categorySelect"></select>
-                            <button id="addBtn" class="btn-primary"><i class="fas fa-plus-circle"></i> Додати</button>
+                <div class="two-columns">
+                    <div class="col-main">
+                        <div class="white-card">
+                            <div class="section-header"><i class="fas fa-exchange-alt"></i> Транзакції</div>
+                            <div class="add-form">
+                                <input type="text" id="descInput" placeholder="Опис">
+                                <input type="number" id="amountInput" placeholder="Сума (₴)" step="0.01">
+                                <select id="typeSelect"><option value="expense">Витрата</option><option value="income">Дохід</option></select>
+                                <select id="categorySelect"></select>
+                                <button id="addBtn" class="btn-primary"><i class="fas fa-plus-circle"></i> Додати</button>
+                            </div>
+                            <div style="display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap;">
+                                <button class="filter-btn active" data-filter="all">Всі</button>
+                                <button class="filter-btn" data-filter="income">Доходи</button>
+                                <button class="filter-btn" data-filter="expense">Витрати</button>
+                                <button id="resetTransactionsBtn"><i class="fas fa-trash-alt"></i> Обнулити</button>
+                                <button id="exportCsvBtn"><i class="fas fa-file-csv"></i> CSV</button>
+                            </div>
+                            <div class="transactions-list" id="transactionsList"></div>
                         </div>
-                        <div style="display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap;">
-                            <button class="filter-btn active" data-filter="all">Всі</button>
-                            <button class="filter-btn" data-filter="income">Доходи</button>
-                            <button class="filter-btn" data-filter="expense">Витрати</button>
-                            <button id="resetTransactionsBtn"><i class="fas fa-trash-alt"></i> Обнулити</button>
-                            <button id="exportCsvBtn"><i class="fas fa-file-csv"></i> CSV</button>
-                        </div>
-                        <div class="transactions-list" id="transactionsList"></div>
                     </div>
-                </div>
-                <div class="col-side">
-                    <div class="white-card">
-                        <div class="section-header"><i class="fas fa-chart-pie"></i> Структура витрат</div>
-                        <canvas id="expenseChart"></canvas>
+                    <div class="col-side">
+                        <div class="white-card">
+                            <div class="section-header"><i class="fas fa-chart-pie"></i> Структура витрат</div>
+                            <canvas id="expenseChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ЖИВИЙ -->
-        <div id="panel-live" class="panel">
-            <div class="live-earnings">
-                <div class="earnings-header"><i class="fas fa-clock"></i><h3>💰 Живий заробіток</h3></div>
-                <div class="rate-controls">
-                    <div class="rate-field"><label>Ставка (€/год)</label><input type="number" id="hourlyRate" value="15" step="0.5"></div>
-                    <div class="rate-field"><label>Графік</label><select id="workSchedule"><option value="8x5">8×5</option><option value="6x5">6×5</option><option value="4x5">4×5</option><option value="8x4">8×4</option><option value="custom">Свій</option></select></div>
-                    <div class="rate-field" id="customScheduleField" style="display:none;"><label>Годин</label><input type="number" id="customHours" value="8" step="0.5"></div>
+            <!-- НАЛАШТУВАННЯ -->
+            <div id="panel-settings" class="panel">
+                <div class="profile-card">
+                    <div class="profile-avatar"><i class="fas fa-user"></i></div>
+                    <div class="profile-name" id="profileName">Користувач</div>
+                    <div class="profile-profession" id="profileProfession"><i class="fas fa-briefcase"></i> <span>Не вказано</span></div>
                 </div>
-                <div class="live-counter"><div class="counter-eur" id="liveEur">0.00 €</div><div class="counter-uah" id="liveUah">0.00 ₴</div><div>зароблено сьогодні</div></div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.8rem;"><span class="stat-chip">€/хв: <strong id="perMinute">0.00</strong></span><span class="stat-chip">Місяць: <strong id="monthlyEstimate">0 €</strong></span></div>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;"><button id="resetTodayBtn" style="background:white;"><i class="fas fa-sync-alt"></i> Скинути</button><button id="addToIncomeBtn" class="btn-primary"><i class="fas fa-plus-circle"></i> Додати в доходи</button></div>
+                <div class="white-card">
+                    <div class="section-header"><i class="fas fa-edit"></i> Особисті дані</div>
+                    <div class="add-form" style="flex-direction: column;">
+                        <input type="text" id="firstNameInput" placeholder="Ім'я">
+                        <input type="text" id="lastNameInput" placeholder="Прізвище">
+                        <select id="professionSelect" class="profession-select">
+                            <option value="">Оберіть професію</option>
+                            <option value="Дизайнер"><i class="fas fa-palette"></i> Дизайнер</option>
+                            <option value="Розробник"><i class="fas fa-code"></i> Розробник</option>
+                            <option value="Копірайтер"><i class="fas fa-pen-fancy"></i> Копірайтер</option>
+                            <option value="Маркетолог"><i class="fas fa-chart-line"></i> Маркетолог</option>
+                            <option value="Перекладач"><i class="fas fa-language"></i> Перекладач</option>
+                            <option value="SMM-менеджер"><i class="fas fa-hashtag"></i> SMM-менеджер</option>
+                            <option value="Фотограф"><i class="fas fa-camera"></i> Фотограф</option>
+                            <option value="Відеограф"><i class="fas fa-video"></i> Відеограф</option>
+                            <option value="Архітектор"><i class="fas fa-drafting-compass"></i> Архітектор</option>
+                            <option value="Консультант"><i class="fas fa-chalkboard-user"></i> Консультант</option>
+                        </select>
+                        <button id="saveProfileBtn" class="btn-primary"><i class="fas fa-save"></i> Зберегти</button>
+                    </div>
+                </div>
+                <div class="white-card">
+                    <div class="section-header"><i class="fas fa-palette"></i> Оформлення</div>
+                    <div class="profile-settings-row" id="darkModeToggle"><span><i class="fas fa-moon"></i> Темна тема</span><span id="darkModeStatus"><i class="fas fa-toggle-off"></i> Вимкнено</span></div>
+                    <div class="profile-settings-row" id="freelanceModeToggle"><span><i class="fas fa-briefcase"></i> Режим фрілансера</span><span id="freelanceStatus"><i class="fas fa-toggle-off"></i> Вимкнено</span></div>
+                </div>
+                <div class="white-card"><div class="section-header"><i class="fas fa-database"></i> Дані</div><button id="resetAllDataBtn" style="background:#e26d5c; color:white;"><i class="fas fa-trash-alt"></i> Скинути всі дані</button></div>
             </div>
-            <div class="piggy-bank-card">
-                <div style="display: flex; gap: 10px; align-items: center;"><div class="piggy-icon"><i class="fas fa-piggy-bank" style="font-size:1.8rem; color:#e6a017;"></i></div><div>Скарбничка<br><small>округлює витрати</small></div><div><span class="piggy-amount" id="piggyAmount">0 ₴</span></div></div>
-                <div style="display: flex; gap: 8px;"><button id="collectPiggyBtn" class="btn-primary" style="background:#e6a017;">Забрати</button><button id="clearPiggyBtn">Очистити</button></div>
-            </div>
-        </div>
 
-        <!-- ЦІЛЬ -->
-        <div id="panel-goal" class="panel">
-            <div class="goal-panel">
-                <div><span class="goal-label"><i class="fas fa-bullseye"></i> Фінансова ціль</span><div class="goal-amount" id="goalTargetDisplay">0 ₴</div><div>Накопичено: <strong id="savedAmount">0 ₴</strong></div></div>
-                <div class="progress-bar-bg"><div class="progress-fill" id="goalProgressFill"></div></div>
-                <div><input type="number" id="goalInput" placeholder="Сума" step="1000" value="50000" style="padding:0.5rem; border-radius:40px; border:1px solid #dee4ea;"><button id="setGoalBtn" class="btn-primary">Встановити</button></div>
+            <!-- ФРІЛАНС - ЗАКАЗИ -->
+            <div id="panel-freelance" class="panel">
+                <div class="white-card">
+                    <div class="section-header"><i class="fas fa-briefcase"></i> Мої закази</div>
+                    <div class="add-form">
+                        <input type="text" id="orderTitle" placeholder="Назва заказу">
+                        <input type="number" id="orderAmount" placeholder="Дохід (₴)" step="0.01">
+                        <input type="date" id="orderDate">
+                        <input type="time" id="orderTime">
+                        <button id="addOrderBtn" class="btn-primary"><i class="fas fa-plus-circle"></i> Додати</button>
+                    </div>
+                    
+                    <!-- КНОПКА ДЛЯ ПОКАЗУ СТАТИСТИКИ -->
+                    <button id="showStatsBtn" class="btn-primary show-stats-btn"><i class="fas fa-chart-line"></i> Показати статистику за період</button>
+                    
+                    <!-- КОНТЕЙНЕР СТАТИСТИКИ (ПРИХОВАНИЙ СПОЧАТКУ) -->
+                    <div id="statsContainer" class="stats-container">
+                        <div class="stat-row"><span><i class="fas fa-chart-line"></i> Загальний дохід за період:</span><span id="totalIncomePeriod">0 ₴</span></div>
+                        <div class="filter-period">
+                            <button class="period-btn active" data-period="week">Тиждень</button>
+                            <button class="period-btn" data-period="month">Місяць</button>
+                            <button class="period-btn" data-period="year">Рік</button>
+                            <button class="period-btn" data-period="custom">Свій період</button>
+                        </div>
+                        <div id="customRangeDiv" style="display:none;" class="custom-range">
+                            <input type="date" id="dateFrom"><input type="date" id="dateTo">
+                            <button id="applyCustomBtn" class="btn-primary">OK</button>
+                        </div>
+                        <canvas id="ordersChart" style="max-height: 180px;"></canvas>
+                    </div>
+                    
+                    <div style="margin-top: 12px;"><strong><i class="fas fa-list"></i> Список заказів:</strong></div>
+                    <div id="ordersList" class="transactions-list"></div>
+                    <button id="completeAllOrdersBtn" class="btn-primary" style="width:100%; margin-top:12px;"><i class="fas fa-check-double"></i> Всі закази виконані</button>
+                </div>
             </div>
-            <div class="stats-grid">
-                <div class="stat-card"><div class="stat-title">ДОХОДИ</div><div class="stat-value" id="totalIncome2">0 ₴</div></div>
-                <div class="stat-card"><div class="stat-title">ВИТРАТИ</div><div class="stat-value" id="totalExpense2">0 ₴</div></div>
-                <div class="stat-card"><div class="stat-title">БАЛАНС</div><div class="stat-value" id="totalBalance2">0 ₴</div></div>
-                <div class="stat-card"><div class="stat-title">ОПЕРАЦІЙ</div><div class="stat-value" id="totalTxCount2">0</div></div>
-            </div>
-        </div>
 
-        <!-- БЮДЖЕТ -->
-        <div id="panel-budget" class="panel">
-            <div class="white-card">
-                <div class="section-header"><i class="fas fa-chart-line"></i> Бюджети на категорії</div>
-                <div class="scrollable-list" id="budgetsList"></div>
-                <div class="add-asset-row"><input type="text" id="budgetCategory" placeholder="Категорія"><input type="number" id="budgetLimit" placeholder="Ліміт (₴)"><button id="addBudgetBtn" class="btn-primary"><i class="fas fa-plus"></i> Встановити</button></div>
+            <!-- ІНШІ ПАНЕЛІ -->
+            <div id="panel-live" class="panel">
+                <div class="live-earnings"><div class="earnings-header"><i class="fas fa-clock"></i><h3>💰 Живий заробіток</h3></div><div class="rate-controls"><div class="rate-field"><label>Ставка (€/год)</label><input type="number" id="hourlyRate" value="15" step="0.5"></div><div class="rate-field"><label>Графік</label><select id="workSchedule"><option value="8x5">8×5</option></select></div></div><div class="live-counter"><div class="counter-eur" id="liveEur">0.00 €</div><div class="counter-uah" id="liveUah">0.00 ₴</div><div>зароблено сьогодні</div></div><div style="display: flex; gap: 8px;"><button id="resetTodayBtn" style="background:white;"><i class="fas fa-sync-alt"></i> Скинути</button><button id="addToIncomeBtn" class="btn-primary"><i class="fas fa-plus-circle"></i> Додати в доходи</button></div></div>
+                <div class="piggy-bank-card"><div style="display: flex; gap: 10px; align-items: center;"><div class="piggy-icon"><i class="fas fa-piggy-bank"></i></div><div>Скарбничка<br><small>округлює витрати</small></div><div><span class="piggy-amount" id="piggyAmount">0 ₴</span></div></div><div style="display: flex; gap: 8px;"><button id="collectPiggyBtn" class="btn-primary" style="background:#e6a017;">Забрати</button><button id="clearPiggyBtn">Очистити</button></div></div>
             </div>
+            <div id="panel-goal" class="panel"><div class="goal-panel"><div class="goal-info"><span class="goal-label"><i class="fas fa-bullseye"></i> Фінансова ціль</span><span class="goal-amount" id="goalTargetDisplay">0 ₴</span><span style="color:#5c6f87;">· Накопичено:</span><strong id="savedAmount">0 ₴</strong></div><div class="goal-progress"><div class="progress-bar-bg"><div class="progress-fill" id="goalProgressFill"></div></div><div style="font-size:0.7rem; margin-top:4px;" id="progressPercent">0%</div></div><div class="goal-control"><input type="number" id="goalInput" placeholder="Сума цілі" step="1000" value="50000"><button id="setGoalBtn" class="btn-primary"><i class="fas fa-save"></i> Встановити</button></div></div><div class="stats-grid"><div class="stat-card"><div class="stat-title">ДОХОДИ</div><div class="stat-value" id="totalIncome2">0 ₴</div></div><div class="stat-card"><div class="stat-title">ВИТРАТИ</div><div class="stat-value" id="totalExpense2">0 ₴</div></div><div class="stat-card"><div class="stat-title">БАЛАНС</div><div class="stat-value" id="totalBalance2">0 ₴</div></div></div></div>
+            <div id="panel-budget" class="panel"><div class="white-card"><div class="section-header"><i class="fas fa-chart-line"></i> Бюджети на категорії</div><div class="scrollable-list" id="budgetsList"></div><div class="add-asset-row"><input type="text" id="budgetCategory" placeholder="Категорія"><input type="number" id="budgetLimit" placeholder="Ліміт (₴)"><button id="addBudgetBtn" class="btn-primary"><i class="fas fa-plus"></i> Встановити</button></div></div></div>
+            <div id="panel-recurring" class="panel"><div class="white-card"><div class="section-header"><i class="fas fa-sync-alt"></i> Регулярні платежі</div><div class="scrollable-list" id="recurringList"></div><div class="add-recurring-form"><input type="text" id="recurringTitle" placeholder="Назва"><input type="number" id="recurringAmount" placeholder="Сума"><select id="recurringPeriod"><option value="monthly">Щомісяця</option><option value="weekly">Щотижня</option></select><button id="addRecurringBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button></div><button id="processRecurringBtn" class="btn-primary" style="margin-top:1rem; width:100%;"><i class="fas fa-play"></i> Виконати регулярні платежі</button></div></div>
+            <div id="panel-reminders" class="panel"><div class="white-card"><div class="section-header"><i class="fas fa-bell"></i> Нагадування</div><div class="scrollable-list" id="remindersList"></div><div class="add-reminder-form"><input type="text" id="reminderTitle" placeholder="Що?"><input type="date" id="reminderDate"><input type="number" id="reminderAmount" placeholder="Сума"><button id="addReminderBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button></div></div></div>
+            <div id="panel-assets" class="panel"><div class="white-card"><div class="section-header"><i class="fas fa-charging-station"></i> Активи</div><div class="scrollable-list" id="assetsList"></div><div class="add-asset-row"><input type="text" id="assetName" placeholder="Назва"><input type="number" id="assetValue" placeholder="Вартість (₴)"><button id="addAssetBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button></div><div class="total-assets"><span>Загальна вартість:</span><strong id="totalAssetsSum">0 ₴</strong></div><canvas id="assetsChart"></canvas><button id="resetAssetsBtn" style="width:100%; margin-top:12px;"><i class="fas fa-trash-alt"></i> Очистити активи</button></div></div>
+            <footer><i class="fas fa-piggy-bank"></i> Скарбничка · Ваш скарб — це ви | Курс EUR = 51.86</footer>
         </div>
-
-        <!-- РЕГУЛЯРНІ -->
-        <div id="panel-recurring" class="panel">
-            <div class="white-card">
-                <div class="section-header"><i class="fas fa-sync-alt"></i> Регулярні платежі</div>
-                <div class="scrollable-list" id="recurringList"></div>
-                <div class="add-recurring-form"><input type="text" id="recurringTitle" placeholder="Назва"><input type="number" id="recurringAmount" placeholder="Сума"><select id="recurringPeriod"><option value="monthly">Щомісяця</option><option value="weekly">Щотижня</option></select><button id="addRecurringBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button></div>
-                <button id="processRecurringBtn" class="btn-primary full-width-btn"><i class="fas fa-play"></i> Виконати регулярні платежі зараз</button>
-            </div>
-        </div>
-
-        <!-- НАГАДУВАННЯ -->
-        <div id="panel-reminders" class="panel">
-            <div class="white-card">
-                <div class="section-header"><i class="fas fa-bell"></i> Нагадування</div>
-                <div class="scrollable-list" id="remindersList"></div>
-                <div class="add-reminder-form"><input type="text" id="reminderTitle" placeholder="Що?"><input type="date" id="reminderDate"><input type="number" id="reminderAmount" placeholder="Сума"><button id="addReminderBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button></div>
-            </div>
-        </div>
-
-        <!-- АКТИВИ -->
-        <div id="panel-assets" class="panel">
-            <div class="white-card">
-                <div class="section-header"><i class="fas fa-charging-station"></i> Активи</div>
-                <div class="scrollable-list" id="assetsList"></div>
-                <div class="add-asset-row"><input type="text" id="assetName" placeholder="Назва"><input type="number" id="assetValue" placeholder="Вартість (₴)"><button id="addAssetBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button></div>
-                <div class="total-assets"><span>Загальна вартість:</span><strong id="totalAssetsSum">0 ₴</strong></div>
-                <canvas id="assetsChart"></canvas>
-                <button id="resetAssetsBtn" class="full-width-btn" style="margin-top:12px;"><i class="fas fa-trash-alt"></i> Очистити активи</button>
-            </div>
-        </div>
-
-        <footer><i class="fas fa-piggy-bank"></i> Скарбничка · Ваш скарб — це ви | Курс EUR = 51.86</footer>
     </div>
 </div>
 
 <script>
-    // ВСЯ ЛОГІКА (ТАКА Ж САМА, ПРАЦЮЄ)
     let transactions = [], assets = [], reminders = [], budgets = [], recurringPayments = [], piggySavings = 0, currentFilter = "all";
-    let dailyLimit = 500, todaySpent = 0;
-    let expenseChart = null, assetsChart = null;
-    let financialGoal = 50000;
+    let dailyLimit = 500, todaySpent = 0, financialGoal = 50000;
+    let expenseChart = null, assetsChart = null, ordersChart = null;
     const EUR_RATE = 51.86;
-    let hourlyRate = 15, workHoursPerDay = 8, todayEarnedEur = 0, lastTimestamp = Date.now(), animationFrame = null;
+    let hourlyRate = 15, todayEarnedEur = 0, lastTimestamp = Date.now(), animationFrame = null;
     const expenseCats = ["Їжа", "Транспорт", "Розваги", "Здоров'я", "Дім", "Кафе", "Шопінг", "Інше"];
     const incomeCats = ["Зарплата", "Фриланс", "Подарунки", "Інвестиції", "Бізнес", "Інше"];
+    let orders = [];
+    let userProfile = { firstName: "", lastName: "", profession: "" };
+    let darkMode = false;
+    let freelanceMode = false;
+    let currentPeriod = "week";
+    let customFrom = "", customTo = "";
     
     function formatUAH(v) { return v.toLocaleString('uk-UA', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + " ₴"; }
     function formatEUR(v) { return v.toLocaleString('uk-UA', { minimumFractionDigits: 2 }) + " €"; }
+    function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
     
-    function buildCategorySelect() {
-        let type = document.getElementById("typeSelect").value;
-        let sel = document.getElementById("categorySelect");
-        let list = type === "income" ? incomeCats : expenseCats;
-        sel.innerHTML = "";
-        list.forEach(c => {
-            let opt = document.createElement("option");
-            opt.value = c;
-            opt.textContent = c;
-            sel.appendChild(opt);
-        });
+    function saveAll() {
+        localStorage.setItem("finance_data_full", JSON.stringify({ transactions, assets, financialGoal, piggySavings, reminders, budgets, recurringPayments, dailyLimit, orders, userProfile, darkMode, freelanceMode }));
+        localStorage.setItem("todayEarnedEur", todayEarnedEur);
+        localStorage.setItem("todayEarnedDate", new Date().toDateString());
     }
-    
-    function addTransaction() {
-        let desc = document.getElementById("descInput").value.trim();
-        let amount = parseFloat(document.getElementById("amountInput").value);
-        let type = document.getElementById("typeSelect").value;
-        let category = document.getElementById("categorySelect").value;
-        if (!desc || isNaN(amount) || amount <= 0) { alert("Введіть опис і суму"); return; }
-        let finalAmount = amount;
-        if (type === "expense") {
-            let roundedUp = Math.ceil(amount);
-            if (roundedUp > amount) { piggySavings += (roundedUp - amount); finalAmount = roundedUp; }
-        }
-        transactions.unshift({ id: Date.now(), description: desc, amount: finalAmount, type: type, category: category, date: new Date().toISOString() });
-        document.getElementById("descInput").value = "";
-        document.getElementById("amountInput").value = "";
-        saveAll();
-        renderAll();
-        document.getElementById("piggyAmount").innerHTML = formatUAH(piggySavings);
-        updateTodaySpent();
-        updateBudgets();
-    }
-    
-    function updateAllStats() {
-        let inc = 0, exp = 0;
-        transactions.forEach(t => { if (t.type === 'income') inc += t.amount; else exp += t.amount; });
-        let balance = inc - exp;
-        document.getElementById("totalIncome").innerHTML = formatUAH(inc);
-        document.getElementById("totalExpense").innerHTML = formatUAH(exp);
-        document.getElementById("totalBalance").innerHTML = formatUAH(balance);
-        document.getElementById("totalTxCount").innerHTML = transactions.length;
-        document.getElementById("totalIncome2").innerHTML = formatUAH(inc);
-        document.getElementById("totalExpense2").innerHTML = formatUAH(exp);
-        document.getElementById("totalBalance2").innerHTML = formatUAH(balance);
-        document.getElementById("totalTxCount2").innerHTML = transactions.length;
-        document.getElementById("balanceValue").innerHTML = formatUAH(balance);
-        document.getElementById("savedAmount").innerHTML = formatUAH(balance);
-        document.getElementById("goalTargetDisplay").innerHTML = formatUAH(financialGoal);
-        let percent = financialGoal > 0 ? Math.min(100, (balance / financialGoal) * 100) : 0;
-        document.getElementById("goalProgressFill").style.width = `${percent}%`;
-    }
-    
-    function renderTransactions() {
-        let container = document.getElementById("transactionsList");
-        let filtered = currentFilter === "all" ? [...transactions] : transactions.filter(t => t.type === currentFilter);
-        if (filtered.length === 0) { container.innerHTML = `<div style="text-align:center; padding:1rem;">Немає транзакцій</div>`; return; }
-        container.innerHTML = "";
-        filtered.sort((a, b) => b.id - a.id).forEach(tx => {
-            let div = document.createElement("div");
-            div.className = "transaction-item";
-            div.innerHTML = `<div><strong>${escapeHtml(tx.description)}</strong><div style="font-size:0.65rem;">${tx.category}</div></div><div><span class="${tx.type === 'income' ? 'income-amount' : 'expense-amount'}">${tx.type === 'income' ? '+ ' : '− '}${formatUAH(tx.amount)}</span><button class="delete-btn" data-id="${tx.id}"><i class="fas fa-trash-alt"></i></button></div>`;
-            container.appendChild(div);
-        });
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                let id = parseInt(btn.dataset.id);
-                transactions = transactions.filter(t => t.id !== id);
-                saveAll();
-                renderAll();
-                updateTodaySpent();
-                updateBudgets();
-            });
-        });
-    }
-    
-    function renderExpenseChart() {
-        let ctx = document.getElementById('expenseChart').getContext('2d');
-        let map = new Map();
-        transactions.filter(t => t.type === 'expense').forEach(t => { let cat = t.category || "Інше"; map.set(cat, (map.get(cat) || 0) + t.amount); });
-        let labels = Array.from(map.keys());
-        let values = Array.from(map.values());
-        if (expenseChart) expenseChart.destroy();
-        if (labels.length === 0) {
-            expenseChart = new Chart(ctx, { type: 'doughnut', data: { labels: ["Немає витрат"], datasets: [{ data: [1], backgroundColor: ["#cbdde9"] }] }, options: { plugins: { legend: { position: 'bottom' } } } });
-        } else {
-            expenseChart = new Chart(ctx, { type: 'doughnut', data: { labels, datasets: [{ data: values, backgroundColor: ['#2c9b77', '#46b390', '#62c4a2', '#1f7e64', '#dc9e6c', '#b6684a', '#789f8c', '#a3c4b5'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 9 } } } } } });
-        }
-    }
-    
-    function updateTodaySpent() {
-        let today = new Date().toISOString().split('T')[0];
-        todaySpent = transactions.filter(t => t.type === 'expense' && (t.date || new Date(t.id).toISOString()).split('T')[0] === today).reduce((s, t) => s + t.amount, 0);
-        let remaining = Math.max(0, dailyLimit - todaySpent);
-        document.getElementById("dailyLimitRemaining").innerHTML = formatUAH(remaining);
-        let percent = Math.min(100, (todaySpent / dailyLimit) * 100);
-        document.getElementById("dailyLimitFill").style.width = `${percent}%`;
-    }
-    
-    function updateBudgets() {
-        let now = new Date(), month = now.getMonth(), year = now.getFullYear(), expensesByCat = {};
-        transactions.filter(t => t.type === 'expense').forEach(t => { let d = new Date(t.date || t.id); if (d.getMonth() === month && d.getFullYear() === year) expensesByCat[t.category] = (expensesByCat[t.category] || 0) + t.amount; });
-        let container = document.getElementById("budgetsList");
-        if (budgets.length === 0) { container.innerHTML = `<div style="text-align:center; padding:1rem;">➕ Додайте бюджет</div>`; return; }
-        container.innerHTML = "";
-        budgets.forEach(b => {
-            let spent = expensesByCat[b.category] || 0, percent = Math.min(100, (spent / b.limit) * 100), div = document.createElement("div");
-            div.className = "budget-item";
-            div.innerHTML = `<span><strong>${b.category}</strong><div class="budget-progress-bar"><div class="budget-progress-fill" style="width:${percent}%; background:${percent >= 100 ? '#e26d5c' : '#2c9b77'}"></div></div></span><span>${formatUAH(spent)} / ${formatUAH(b.limit)} <button class="delete-budget" data-id="${b.id}"><i class="fas fa-trash-alt"></i></button></span>`;
-            container.appendChild(div);
-        });
-        document.querySelectorAll('.delete-budget').forEach(btn => btn.addEventListener('click', () => { budgets = budgets.filter(b => b.id !== parseInt(btn.dataset.id)); saveAll(); updateBudgets(); }));
-    }
-    
-    function renderRecurring() {
-        let container = document.getElementById("recurringList");
-        if (recurringPayments.length === 0) { container.innerHTML = `<div style="text-align:center; padding:1rem;">🔄 Немає регулярних платежів</div>`; return; }
-        container.innerHTML = "";
-        recurringPayments.forEach(r => {
-            let div = document.createElement("div");
-            div.className = "recurring-item";
-            div.innerHTML = `<span><i class="fas fa-calendar-alt"></i> ${r.title}</span><span>${formatUAH(r.amount)} <button class="delete-recurring" data-id="${r.id}"><i class="fas fa-trash-alt"></i></button></span>`;
-            container.appendChild(div);
-        });
-        document.querySelectorAll('.delete-recurring').forEach(btn => btn.addEventListener('click', () => { recurringPayments = recurringPayments.filter(r => r.id !== parseInt(btn.dataset.id)); saveAll(); renderRecurring(); }));
-    }
-    
-    function processRecurringPayments() { recurringPayments.forEach(r => { transactions.unshift({ id: Date.now(), description: `🔄 Регулярний: ${r.title}`, amount: r.amount, type: "expense", category: "Інше", date: new Date().toISOString() }); }); saveAll(); renderAll(); alert("Виконано!"); }
-    
-    function renderReminders() {
-        let container = document.getElementById("remindersList");
-        if (reminders.length === 0) { container.innerHTML = `<div style="text-align:center; padding:1rem;">📋 Немає нагадувань</div>`; return; }
-        container.innerHTML = "";
-        reminders.sort((a, b) => new Date(a.date) - new Date(b.date));
-        reminders.forEach(r => {
-            let today = new Date().toISOString().split('T')[0], isToday = r.date === today, div = document.createElement("div");
-            div.className = "reminder-item";
-            div.innerHTML = `<div><strong>${escapeHtml(r.title)}</strong><div style="font-size:0.7rem; color:#e6a017;"><i class="fas fa-calendar-alt"></i> ${r.date} ${isToday ? '🔔' : ''}</div><span>💰 ${formatUAH(r.amount)}</span></div><button class="delete-reminder" data-id="${r.id}"><i class="fas fa-trash-alt"></i></button>`;
-            container.appendChild(div);
-        });
-        document.querySelectorAll('.delete-reminder').forEach(btn => btn.addEventListener('click', () => { reminders = reminders.filter(r => r.id !== parseInt(btn.dataset.id)); saveAll(); renderReminders(); }));
-    }
-    
-    function addReminder() {
-        let title = document.getElementById("reminderTitle").value.trim();
-        let date = document.getElementById("reminderDate").value;
-        let amount = parseFloat(document.getElementById("reminderAmount").value);
-        if (!title || !date || isNaN(amount) || amount <= 0) { alert("Заповніть всі поля"); return; }
-        reminders.push({ id: Date.now(), title, date, amount });
-        document.getElementById("reminderTitle").value = "";
-        document.getElementById("reminderDate").value = "";
-        document.getElementById("reminderAmount").value = "";
-        saveAll();
-        renderReminders();
-    }
-    
-    function renderAssets() {
-        let container = document.getElementById("assetsList");
-        if (assets.length === 0) { container.innerHTML = `<div style="text-align:center; padding:1rem;">➕ Додайте актив</div>`; }
-        else {
-            container.innerHTML = "";
-            assets.forEach(a => {
-                let div = document.createElement("div");
-                div.className = "asset-item";
-                div.innerHTML = `<span>${escapeHtml(a.name)}</span><span><span style="font-weight:700; color:#1f6e8c;">${formatUAH(a.value)}</span><button class="delete-asset" data-id="${a.id}"><i class="fas fa-trash-alt"></i></button></span>`;
-                container.appendChild(div);
-            });
-            document.querySelectorAll('.delete-asset').forEach(btn => btn.addEventListener('click', () => { assets = assets.filter(a => a.id !== parseInt(btn.dataset.id)); saveAll(); renderAssets(); }));
-        }
-        let total = assets.reduce((s, a) => s + a.value, 0);
-        document.getElementById("totalAssetsSum").innerHTML = formatUAH(total);
-        renderAssetsChart();
-    }
-    
-    function addAsset() {
-        let name = document.getElementById("assetName").value.trim();
-        let val = parseFloat(document.getElementById("assetValue").value);
-        if (!name) alert("Введіть назву");
-        else { assets.push({ id: Date.now(), name, value: isNaN(val) ? 0 : val }); document.getElementById("assetName").value = ""; document.getElementById("assetValue").value = ""; saveAll(); renderAssets(); }
-    }
-    
-    function renderAssetsChart() {
-        let ctx = document.getElementById('assetsChart').getContext('2d');
-        if (assetsChart) assetsChart.destroy();
-        if (assets.length === 0) { assetsChart = new Chart(ctx, { type: 'bar', data: { labels: ["Немає"], datasets: [{ data: [0], backgroundColor: '#2c9b77' }] }, options: { responsive: true } }); return; }
-        assetsChart = new Chart(ctx, { type: 'bar', data: { labels: assets.map(a => a.name.length > 10 ? a.name.slice(0, 8) + '..' : a.name), datasets: [{ label: 'Вартість (₴)', data: assets.map(a => a.value), backgroundColor: '#2c9b77', borderRadius: 8 }] }, options: { responsive: true } });
-    }
-    
-    function setGoal() { let val = parseFloat(document.getElementById("goalInput").value); if (!isNaN(val) && val > 0) financialGoal = val; updateAllStats(); saveAll(); }
-    function resetTransactions() { if (confirm("Очистити всі транзакції?")) { transactions = []; saveAll(); renderAll(); updateTodaySpent(); updateBudgets(); } }
-    function resetAssets() { if (confirm("Видалити всі активи?")) { assets = []; saveAll(); renderAssets(); } }
-    function collectPiggy() { if (piggySavings <= 0) alert("Скарбничка порожня"); else { transactions.unshift({ id: Date.now(), description: "🐷 Забрано зі скарбнички", amount: piggySavings, type: "income", category: "Інше", date: new Date().toISOString() }); piggySavings = 0; saveAll(); renderAll(); } }
-    function clearPiggy() { if (confirm("Очистити скарбничку?")) { piggySavings = 0; saveAll(); document.getElementById("piggyAmount").innerHTML = formatUAH(0); } }
-    
-    function updateLiveEarnings() {
-        let now = Date.now(), secondsPassed = (now - lastTimestamp) / 1000;
-        if (secondsPassed > 0 && secondsPassed < 10) { todayEarnedEur += (hourlyRate / 3600) * secondsPassed; }
-        lastTimestamp = now;
-        document.getElementById("liveEur").innerHTML = formatEUR(todayEarnedEur);
-        document.getElementById("liveUah").innerHTML = formatUAH(todayEarnedEur * EUR_RATE);
-        document.getElementById("perMinute").innerHTML = (hourlyRate / 60).toFixed(2);
-        let monthly = hourlyRate * workHoursPerDay * 21;
-        document.getElementById("monthlyEstimate").innerHTML = formatEUR(monthly);
-        animationFrame = requestAnimationFrame(() => updateLiveEarnings());
-    }
-    
-    function initLiveEarnings() {
-        let saved = localStorage.getItem("todayEarnedEur"), savedDate = localStorage.getItem("todayEarnedDate"), today = new Date().toDateString();
-        if (savedDate === today && saved) todayEarnedEur = parseFloat(saved) || 0;
-        else todayEarnedEur = 0;
-        lastTimestamp = Date.now();
-        if (animationFrame) cancelAnimationFrame(animationFrame);
-        animationFrame = requestAnimationFrame(() => updateLiveEarnings());
-    }
-    
-    function saveTodayEarnings() { localStorage.setItem("todayEarnedEur", todayEarnedEur); localStorage.setItem("todayEarnedDate", new Date().toDateString()); }
-    function resetToday() { todayEarnedEur = 0; lastTimestamp = Date.now(); saveTodayEarnings(); }
-    function addToIncome() {
-        if (todayEarnedEur <= 0) { alert("Немає заробітку"); return; }
-        transactions.unshift({ id: Date.now(), description: "💶 Живий заробіток", amount: todayEarnedEur * EUR_RATE, type: "income", category: "Зарплата", date: new Date().toISOString() });
-        todayEarnedEur = 0;
-        saveTodayEarnings();
-        saveAll();
-        renderAll();
-    }
-    
-    function updateWorkSchedule() {
-        let schedule = document.getElementById("workSchedule").value;
-        if (schedule === "custom") {
-            document.getElementById("customScheduleField").style.display = "block";
-            workHoursPerDay = parseFloat(document.getElementById("customHours").value) || 8;
-        } else {
-            document.getElementById("customScheduleField").style.display = "none";
-            let map = { "8x5": 8, "6x5": 6, "4x5": 4, "8x4": 8 };
-            workHoursPerDay = map[schedule] || 8;
-        }
-    }
-    
-    function saveAll() { localStorage.setItem("finance_data_full", JSON.stringify({ transactions, assets, financialGoal, piggySavings, reminders, budgets, recurringPayments, dailyLimit })); saveTodayEarnings(); }
     
     function loadAll() {
         let data = localStorage.getItem("finance_data_full");
-        if (data) {
+        if(data) {
             try {
                 let p = JSON.parse(data);
                 transactions = p.transactions || [];
@@ -1016,92 +573,216 @@
                 budgets = p.budgets || [];
                 recurringPayments = p.recurringPayments || [];
                 dailyLimit = p.dailyLimit || 500;
-            } catch (e) { }
+                orders = p.orders || [];
+                userProfile = p.userProfile || { firstName: "", lastName: "", profession: "" };
+                darkMode = p.darkMode || false;
+                freelanceMode = p.freelanceMode || false;
+            } catch(e) {}
         }
-        document.getElementById("goalInput").value = financialGoal;
-        document.getElementById("piggyAmount").innerHTML = formatUAH(piggySavings);
-        renderAll();
-        renderAssets();
-        renderReminders();
-        updateBudgets();
-        renderRecurring();
-        updateAllStats();
+        let savedEur = localStorage.getItem("todayEarnedEur"), savedDate = localStorage.getItem("todayEarnedDate");
+        if(savedDate === new Date().toDateString() && savedEur) todayEarnedEur = parseFloat(savedEur) || 0;
+        else todayEarnedEur = 0;
+        
+        if(darkMode) document.body.classList.add('dark');
+        document.getElementById("firstNameInput").value = userProfile.firstName || "";
+        document.getElementById("lastNameInput").value = userProfile.lastName || "";
+        if(document.getElementById("professionSelect")) document.getElementById("professionSelect").value = userProfile.profession || "";
+        updateProfileDisplay();
+        updateFreelanceUI();
+        renderOrders();
+        renderAll(); renderAssets(); renderReminders(); updateBudgets(); renderRecurring();
         updateTodaySpent();
+        if(animationFrame) cancelAnimationFrame(animationFrame);
+        animationFrame = requestAnimationFrame(function updateLive() {
+            let now = Date.now(), sec = (now - lastTimestamp) / 1000;
+            if(sec > 0 && sec < 10) todayEarnedEur += (hourlyRate / 3600) * sec;
+            lastTimestamp = now;
+            let liveEur = document.getElementById("liveEur");
+            let liveUah = document.getElementById("liveUah");
+            if(liveEur) liveEur.innerHTML = formatEUR(todayEarnedEur);
+            if(liveUah) liveUah.innerHTML = formatUAH(todayEarnedEur * EUR_RATE);
+            animationFrame = requestAnimationFrame(updateLive);
+        });
     }
     
-    function renderAll() { updateAllStats(); renderExpenseChart(); renderTransactions(); updateTodaySpent(); updateBudgets(); }
+    function updateProfileDisplay() {
+        let fullName = (userProfile.firstName || userProfile.lastName) ? `${userProfile.firstName} ${userProfile.lastName}`.trim() : "Користувач";
+        let nameEl = document.getElementById("profileName");
+        if(nameEl) nameEl.innerText = fullName;
+        let profSpan = document.querySelector("#profileProfession span");
+        if(profSpan) profSpan.innerText = userProfile.profession || "Не вказано";
+    }
     
-    function switchPanel(panelId) {
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active-panel'));
+    function updateFreelanceUI() {
+        const freelanceTab = document.getElementById("freelanceTab");
+        if(freelanceTab) freelanceTab.style.display = freelanceMode ? "inline-flex" : "none";
+        let statusEl = document.getElementById("freelanceStatus");
+        if(statusEl) statusEl.innerHTML = freelanceMode ? '<i class="fas fa-toggle-on"></i> Увімкнено' : '<i class="fas fa-toggle-off"></i> Вимкнено';
+        if(!freelanceMode && document.getElementById("panel-freelance") && document.getElementById("panel-freelance").classList.contains("active-panel")) {
+            switchPanel("balance");
+        }
+    }
+    
+    function getFilteredOrdersByPeriod() {
+        let now = new Date();
+        let from = new Date();
+        if(currentPeriod === "week") from.setDate(now.getDate() - 7);
+        else if(currentPeriod === "month") from.setMonth(now.getMonth() - 1);
+        else if(currentPeriod === "year") from.setFullYear(now.getFullYear() - 1);
+        else if(currentPeriod === "custom" && customFrom && customTo) {
+            from = new Date(customFrom);
+            now = new Date(customTo);
+        }
+        return orders.filter(o => {
+            if(o.completed) return false;
+            let orderDate = new Date(o.date);
+            return orderDate >= from && orderDate <= now;
+        });
+    }
+    
+    function updateOrdersStats() {
+        let filtered = getFilteredOrdersByPeriod();
+        let total = filtered.reduce((s, o) => s + o.amount, 0);
+        let totalEl = document.getElementById("totalIncomePeriod");
+        if(totalEl) totalEl.innerHTML = formatUAH(total);
+        let groups = {};
+        filtered.forEach(o => { let date = o.date; if(!groups[date]) groups[date] = 0; groups[date] += o.amount; });
+        let labels = Object.keys(groups).sort();
+        let values = labels.map(l => groups[l]);
+        let ctx = document.getElementById("ordersChart");
+        if(ctx) {
+            if(ordersChart) ordersChart.destroy();
+            if(labels.length > 0) ordersChart = new Chart(ctx, { type: 'line', data: { labels: labels, datasets: [{ label: 'Дохід (₴)', data: values, borderColor: '#2c9b77', backgroundColor: 'rgba(44,155,119,0.1)', fill: true, tension: 0.3, pointBackgroundColor: '#2c9b77', pointBorderColor: '#ffffff', pointRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } } } });
+            else ordersChart = new Chart(ctx, { type: 'line', data: { labels: ["Немає даних"], datasets: [{ data: [0] }] }, options: { responsive: true } });
+        }
+    }
+    
+    function renderOrders() {
+        let container = document.getElementById("ordersList");
+        if(!container) return;
+        if(orders.length === 0) { container.innerHTML = `<div style="text-align:center; padding:1rem;"><i class="fas fa-inbox"></i> Немає заказів</div>`; return; }
+        container.innerHTML = "";
+        orders.forEach((order, idx) => {
+            let div = document.createElement("div");
+            div.className = "order-card";
+            div.innerHTML = `<div class="order-header"><span class="order-title">${escapeHtml(order.title)}</span><span class="order-amount">${formatUAH(order.amount)}</span></div><div class="order-details"><span><i class="fas fa-calendar"></i> ${order.date || "—"}</span><span><i class="fas fa-clock"></i> ${order.time || "—"}</span></div><div><span class="order-status ${order.completed ? 'status-completed' : 'status-active'}">${order.completed ? '✓ Виконано' : '⏳ В роботі'}</span></div><div class="order-actions">${!order.completed ? `<button class="complete-order" data-idx="${idx}"><i class="fas fa-check"></i> Виконано</button>` : ''}<button class="delete-order" data-idx="${idx}"><i class="fas fa-trash-alt"></i> Видалити</button></div>`;
+            container.appendChild(div);
+        });
+        document.querySelectorAll('.complete-order').forEach(btn => btn.addEventListener('click', (e) => { let idx = parseInt(btn.dataset.idx); if(orders[idx] && !orders[idx].completed) { orders[idx].completed = true; saveAll(); renderOrders(); if(document.getElementById("statsContainer").style.display === "block") updateOrdersStats(); } }));
+        document.querySelectorAll('.delete-order').forEach(btn => btn.addEventListener('click', (e) => { let idx = parseInt(btn.dataset.idx); orders.splice(idx, 1); saveAll(); renderOrders(); if(document.getElementById("statsContainer").style.display === "block") updateOrdersStats(); }));
+    }
+    
+    function addOrder() {
+        let title = document.getElementById("orderTitle")?.value.trim();
+        let amount = parseFloat(document.getElementById("orderAmount")?.value);
+        let date = document.getElementById("orderDate")?.value;
+        let time = document.getElementById("orderTime")?.value;
+        if(!title || isNaN(amount) || amount <= 0) { alert("Введіть назву та суму заказу"); return; }
+        orders.push({ id: Date.now(), title, amount, date: date || new Date().toISOString().split('T')[0], time: time || "", completed: false });
+        document.getElementById("orderTitle").value = "";
+        document.getElementById("orderAmount").value = "";
+        document.getElementById("orderDate").value = "";
+        document.getElementById("orderTime").value = "";
+        saveAll();
+        renderOrders();
+        if(document.getElementById("statsContainer").style.display === "block") updateOrdersStats();
+    }
+    
+    function completeAllOrders() {
+        let activeOrders = orders.filter(o => !o.completed);
+        if(activeOrders.length === 0) { alert("Немає активних заказів"); return; }
+        let total = activeOrders.reduce((sum, o) => sum + o.amount, 0);
+        if(confirm(`Додати ${formatUAH(total)} з ${activeOrders.length} заказів у доходи?`)) {
+            transactions.unshift({ id: Date.now(), description: "💼 Оплата за закази", amount: total, type: "income", category: "Фриланс", date: new Date().toISOString() });
+            orders.forEach(o => { if(!o.completed) o.completed = true; });
+            saveAll();
+            renderAll();
+            renderOrders();
+            if(document.getElementById("statsContainer").style.display === "block") updateOrdersStats();
+            alert("Готово!");
+        }
+    }
+    
+    function buildCategorySelect() { let type = document.getElementById("typeSelect").value; let sel = document.getElementById("categorySelect"); let list = type === "income" ? incomeCats : expenseCats; sel.innerHTML = ""; list.forEach(c => { let opt = document.createElement("option"); opt.value = c; opt.textContent = c; sel.appendChild(opt); }); }
+    function addTransaction() { let desc = document.getElementById("descInput").value.trim(); let amount = parseFloat(document.getElementById("amountInput").value); let type = document.getElementById("typeSelect").value; let category = document.getElementById("categorySelect").value; if(!desc || isNaN(amount) || amount <= 0) { alert("Введіть опис і суму"); return; } let final = amount; if(type === "expense") { let rounded = Math.ceil(amount); if(rounded > amount) { piggySavings += (rounded - amount); final = rounded; } } transactions.unshift({ id: Date.now(), description: desc, amount: final, type, category, date: new Date().toISOString() }); document.getElementById("descInput").value = ""; document.getElementById("amountInput").value = ""; saveAll(); renderAll(); document.getElementById("piggyAmount").innerHTML = formatUAH(piggySavings); updateTodaySpent(); updateBudgets(); }
+    function updateAllStats() { let inc=0,exp=0; transactions.forEach(t=>{if(t.type==='income') inc+=t.amount; else exp+=t.amount;}); let bal=inc-exp; document.getElementById("totalIncome").innerHTML=formatUAH(inc); document.getElementById("totalExpense").innerHTML=formatUAH(exp); document.getElementById("totalBalance").innerHTML=formatUAH(bal); document.getElementById("totalTxCount").innerHTML=transactions.length; document.getElementById("totalIncome2").innerHTML=formatUAH(inc); document.getElementById("totalExpense2").innerHTML=formatUAH(exp); document.getElementById("totalBalance2").innerHTML=formatUAH(bal); document.getElementById("balanceValue").innerHTML=formatUAH(bal); document.getElementById("savedAmount").innerHTML=formatUAH(bal); document.getElementById("goalTargetDisplay").innerHTML=formatUAH(financialGoal); let pct=financialGoal>0?Math.min(100,(bal/financialGoal)*100):0; document.getElementById("progressPercent").innerHTML=`${pct.toFixed(1)}%`; document.getElementById("goalProgressFill").style.width=`${pct}%`; }
+    function renderTransactions() { let container = document.getElementById("transactionsList"); if(!container) return; let filtered = currentFilter === "all" ? [...transactions] : transactions.filter(t => t.type === currentFilter); if(filtered.length === 0) { container.innerHTML = `<div style="text-align:center; padding:1.5rem;"><i class="fas fa-inbox"></i> Немає транзакцій</div>`; return; } container.innerHTML = ""; filtered.sort((a,b)=>b.id-a.id).forEach(tx => { let div = document.createElement("div"); div.className = "transaction-item"; div.innerHTML = `<div><div style="font-weight:600;">${escapeHtml(tx.description)}</div><div style="font-size:0.65rem; color:#7e95ae;">${tx.category || "Без категорії"}</div></div><div><span class="${tx.type==='income'?'income-amount':'expense-amount'}">${tx.type==='income'?'+ ':'− '}${formatUAH(tx.amount)}</span><button class="delete-btn" data-id="${tx.id}"><i class="fas fa-trash-alt"></i></button></div>`; container.appendChild(div); }); document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', () => { transactions = transactions.filter(t => t.id !== parseInt(btn.dataset.id)); saveAll(); renderAll(); updateTodaySpent(); updateBudgets(); })); }
+    function renderExpenseChart() { let ctx = document.getElementById('expenseChart'); if(!ctx) return; let map = new Map(); transactions.filter(t=>t.type==='expense').forEach(t=>{let cat=t.category||"Інше"; map.set(cat,(map.get(cat)||0)+t.amount);}); let labels=Array.from(map.keys()), values=Array.from(map.values()); if(expenseChart) expenseChart.destroy(); if(labels.length===0) expenseChart = new Chart(ctx, { type:'doughnut', data:{ labels:["Немає витрат"], datasets:[{ data:[1], backgroundColor:["#cbdde9"] }] }, options:{ plugins:{ legend:{ position:'bottom' } } } }); else expenseChart = new Chart(ctx, { type:'doughnut', data:{ labels, datasets:[{ data:values, backgroundColor:['#2c9b77','#46b390','#62c4a2','#1f7e64','#dc9e6c','#b6684a','#789f8c','#a3c4b5'], borderWidth:0 }] }, options:{ responsive:true, plugins:{ legend:{ position:'bottom', labels:{ font:{ size:9 } } } } } }); }
+    function updateTodaySpent() { let today = new Date().toISOString().split('T')[0]; todaySpent = transactions.filter(t => t.type === 'expense' && (t.date || new Date(t.id).toISOString()).split('T')[0] === today).reduce((s,t)=>s+t.amount,0); let remaining = Math.max(0, dailyLimit - todaySpent); document.getElementById("dailyLimitRemaining").innerHTML = formatUAH(remaining); let percent = Math.min(100, (todaySpent / dailyLimit) * 100); document.getElementById("dailyLimitFill").style.width = `${percent}%`; }
+    function updateBudgets() { let now=new Date(), month=now.getMonth(), year=now.getFullYear(), expensesByCat={}; transactions.filter(t=>t.type==='expense').forEach(t=>{let d=new Date(t.date||t.id); if(d.getMonth()===month && d.getFullYear()===year) expensesByCat[t.category]=(expensesByCat[t.category]||0)+t.amount;}); let container=document.getElementById("budgetsList"); if(!budgets.length){container.innerHTML="<div style='text-align:center; padding:1rem;'><i class='fas fa-chart-line'></i> Додайте бюджет на категорію</div>";return;} container.innerHTML=""; budgets.forEach(b=>{let spent=expensesByCat[b.category]||0, percent=Math.min(100,(spent/b.limit)*100), div=document.createElement("div"); div.className="budget-item"; div.innerHTML=`<span><strong>${b.category}</strong><div class="budget-progress-bar"><div class="budget-progress-fill" style="width:${percent}%; background:${percent>=100?'#e26d5c':'#2c9b77'}"></div></div></span><span>${formatUAH(spent)} / ${formatUAH(b.limit)} <span class="${percent>=100?'danger':''}">${percent.toFixed(0)}%</span><button class="delete-budget" data-id="${b.id}"><i class="fas fa-trash-alt"></i></button></span>`; container.appendChild(div);}); document.querySelectorAll('.delete-budget').forEach(btn=>btn.addEventListener('click',()=>{budgets=budgets.filter(b=>b.id!==parseInt(btn.dataset.id));saveAll();updateBudgets();})); }
+    function renderRecurring() { let container = document.getElementById("recurringList"); if(!recurringPayments.length){container.innerHTML="<div style='text-align:center; padding:1rem;'><i class='fas fa-sync-alt'></i> Немає регулярних платежів</div>";return;} container.innerHTML=""; recurringPayments.forEach(r=>{let div=document.createElement("div");div.className="recurring-item";div.innerHTML=`<span><i class="fas ${r.period==='monthly'?'fa-calendar-alt':'fa-calendar-week'}"></i> ${r.title}</span><span>${formatUAH(r.amount)} <span style="font-size:0.65rem;">${r.period==='monthly'?'щомісяця':'щотижня'}</span><button class="delete-recurring" data-id="${r.id}"><i class="fas fa-trash-alt"></i></button></span>`;container.appendChild(div);}); document.querySelectorAll('.delete-recurring').forEach(btn=>btn.addEventListener('click',()=>{recurringPayments=recurringPayments.filter(r=>r.id!==parseInt(btn.dataset.id));saveAll();renderRecurring();})); }
+    function processRecurringPayments(){let added=0; recurringPayments.forEach(r=>{transactions.unshift({id:Date.now(),description:`🔄 Регулярний: ${r.title}`,amount:r.amount,type:"expense",category:"Інше",date:new Date().toISOString()});added++;}); if(added>0){saveAll();renderAll();alert(`✅ Додано ${added} регулярних платежів`);}else alert("Немає регулярних платежів");}
+    function renderReminders() { let container = document.getElementById("remindersList"); if(!reminders.length){container.innerHTML="<div style='text-align:center; padding:1rem;'><i class='fas fa-bell'></i> Немає нагадувань</div>";return;} container.innerHTML=""; reminders.sort((a,b)=>new Date(a.date)-new Date(b.date)); reminders.forEach(r=>{let today=new Date().toISOString().split('T')[0],isToday=r.date===today,div=document.createElement("div");div.className="reminder-item";div.innerHTML=`<div><strong>${escapeHtml(r.title)}</strong><div style="font-size:0.7rem; color:#e6a017;"><i class="fas fa-calendar-alt"></i> ${r.date} ${isToday?'<span style="background:#ffd966; padding:2px 6px; border-radius:40px; font-size:0.6rem;">СЬОГОДНІ!</span>':''}</div><span>💰 ${formatUAH(r.amount)}</span></div><button class="delete-reminder" data-id="${r.id}"><i class="fas fa-trash-alt"></i></button>`;container.appendChild(div);}); document.querySelectorAll('.delete-reminder').forEach(btn=>btn.addEventListener('click',()=>{reminders=reminders.filter(r=>r.id!==parseInt(btn.dataset.id));saveAll();renderReminders();})); }
+    function addReminder(){let title=document.getElementById("reminderTitle").value.trim(),date=document.getElementById("reminderDate").value,amount=parseFloat(document.getElementById("reminderAmount").value);if(!title||!date||isNaN(amount)||amount<=0){alert("Заповніть всі поля");return;}reminders.push({id:Date.now(),title,date,amount});document.getElementById("reminderTitle").value="";document.getElementById("reminderDate").value="";document.getElementById("reminderAmount").value="";saveAll();renderReminders();}
+    function renderAssets(){let container=document.getElementById("assetsList");if(!assets.length)container.innerHTML="<div style='text-align:center; padding:1rem;'><i class='fas fa-chart-pie'></i> Додайте актив</div>";else{container.innerHTML="";assets.forEach(a=>{let div=document.createElement("div");div.className="asset-item";div.innerHTML=`<span>${escapeHtml(a.name)}</span><span><span style="font-weight:700; color:#1f6e8c;">${formatUAH(a.value)}</span><button class="delete-asset" data-id="${a.id}"><i class="fas fa-trash-alt"></i></button></span>`;container.appendChild(div);});document.querySelectorAll('.delete-asset').forEach(btn=>btn.addEventListener('click',()=>{assets=assets.filter(a=>a.id!==parseInt(btn.dataset.id));saveAll();renderAssets();}));}let total=assets.reduce((s,a)=>s+a.value,0);document.getElementById("totalAssetsSum").innerHTML=formatUAH(total);renderAssetsChart();}
+    function renderAssetsChart(){let ctx=document.getElementById('assetsChart');if(!ctx) return; if(assetsChart)assetsChart.destroy(); if(!assets.length){assetsChart=new Chart(ctx,{type:'bar',data:{labels:["Немає"],datasets:[{data:[0],backgroundColor:'#2c9b77'}]},options:{responsive:true,plugins:{legend:{display:false}}}});return;}assetsChart=new Chart(ctx,{type:'bar',data:{labels:assets.map(a=>a.name.length>12?a.name.slice(0,9)+'..':a.name),datasets:[{label:'Вартість (₴)',data:assets.map(a=>a.value),backgroundColor:'#2c9b77',borderRadius:8}]},options:{responsive:true}});}
+    function addAsset(){let name=document.getElementById("assetName").value.trim(),val=parseFloat(document.getElementById("assetValue").value);if(!name)alert("Введіть назву");else{assets.push({id:Date.now(),name,value:isNaN(val)?0:val});saveAll();renderAssets();}}
+    function setGoal(){let val=parseFloat(document.getElementById("goalInput").value);if(!isNaN(val)&&val>0)financialGoal=val;updateAllStats();saveAll();}
+    function resetTransactions(){if(confirm("Очистити всі транзакції?")){transactions=[];saveAll();renderAll();updateTodaySpent();updateBudgets();}}
+    function resetAssets(){if(confirm("Видалити всі активи?")){assets=[];saveAll();renderAssets();}}
+    function collectPiggy(){if(piggySavings<=0)alert("Скарбничка порожня");else{transactions.unshift({id:Date.now(),description:"🐷 Забрано зі скарбнички",amount: piggySavings,type:"income",category:"Інше",date:new Date().toISOString()});piggySavings=0;saveAll();renderAll();}}
+    function clearPiggy(){if(confirm("Очистити скарбничку?")){piggySavings=0;saveAll();document.getElementById("piggyAmount").innerHTML=formatUAH(0);}}
+    function renderAll(){updateAllStats();renderExpenseChart();renderTransactions();updateTodaySpent();updateBudgets();}
+    function switchPanel(panelId){
+        document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active-panel'));
         document.getElementById(`panel-${panelId}`).classList.add('active-panel');
-        document.querySelectorAll('.info-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.info-tab').forEach(t=>t.classList.remove('active'));
         document.querySelector(`.info-tab[data-panel="${panelId}"]`).classList.add('active');
     }
+    function resetToday(){todayEarnedEur=0;saveAll();}
+    function addToIncome(){if(todayEarnedEur<=0){alert("Немає заробітку");return;}transactions.unshift({id:Date.now(),description:"💶 Живий заробіток",amount:todayEarnedEur*EUR_RATE,type:"income",category:"Зарплата",date:new Date().toISOString()});todayEarnedEur=0;saveAll();renderAll();}
     
-    function escapeHtml(str) { if (!str) return ""; return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); }
-    
-    document.addEventListener("DOMContentLoaded", () => {
-        buildCategorySelect();
-        loadAll();
-        initLiveEarnings();
+    document.addEventListener("DOMContentLoaded",()=>{
+        buildCategorySelect(); loadAll();
+        document.getElementById("hourlyRate")?.addEventListener("input",(e)=>{hourlyRate=parseFloat(e.target.value)||0;});
+        document.getElementById("resetTodayBtn")?.addEventListener("click",resetToday);
+        document.getElementById("addToIncomeBtn")?.addEventListener("click",addToIncome);
+        document.getElementById("addBtn")?.addEventListener("click",addTransaction);
+        document.getElementById("addAssetBtn")?.addEventListener("click",addAsset);
+        document.getElementById("resetTransactionsBtn")?.addEventListener("click",resetTransactions);
+        document.getElementById("resetAssetsBtn")?.addEventListener("click",resetAssets);
+        document.getElementById("setGoalBtn")?.addEventListener("click",setGoal);
+        document.getElementById("collectPiggyBtn")?.addEventListener("click",collectPiggy);
+        document.getElementById("clearPiggyBtn")?.addEventListener("click",clearPiggy);
+        document.getElementById("addReminderBtn")?.addEventListener("click",addReminder);
+        document.getElementById("addBudgetBtn")?.addEventListener("click",()=>{let cat=document.getElementById("budgetCategory").value.trim(),lim=parseFloat(document.getElementById("budgetLimit").value);if(cat&&lim>0){budgets.push({id:Date.now(),category:cat,limit:lim});saveAll();updateBudgets();document.getElementById("budgetCategory").value="";document.getElementById("budgetLimit").value="";}});
+        document.getElementById("addRecurringBtn")?.addEventListener("click",()=>{let title=document.getElementById("recurringTitle").value.trim(),amt=parseFloat(document.getElementById("recurringAmount").value),period=document.getElementById("recurringPeriod").value;if(title&&amt>0){recurringPayments.push({id:Date.now(),title,amount:amt,period});saveAll();renderRecurring();document.getElementById("recurringTitle").value="";document.getElementById("recurringAmount").value="";}});
+        document.getElementById("processRecurringBtn")?.addEventListener("click",processRecurringPayments);
+        document.getElementById("setDailyLimitBtn")?.addEventListener("click",()=>{let l=parseFloat(prompt("Введіть денний ліміт витрат (₴):",dailyLimit));if(l>0){dailyLimit=l;saveAll();updateTodaySpent();}});
+        document.getElementById("typeSelect")?.addEventListener("change",buildCategorySelect);
+        document.querySelectorAll(".filter-btn").forEach(btn=>btn.addEventListener("click",()=>{currentFilter=btn.getAttribute("data-filter");document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderTransactions();}));
+        document.querySelectorAll(".info-tab").forEach(btn=>btn.addEventListener("click",()=>switchPanel(btn.getAttribute("data-panel"))));
+        document.getElementById("exportCsvBtn")?.addEventListener("click",()=>{if(!transactions.length){alert("Немає транзакцій");return;}let rows=[["Дата","Опис","Категорія","Тип","Сума"]];transactions.forEach(t=>{rows.push([new Date(t.id).toLocaleDateString(),t.description,t.category,t.type==="income"?"Дохід":"Витрата",t.amount.toFixed(2)]);});let csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");let blob=new Blob(["\uFEFF"+csv],{type:"text/csv"}),a=document.createElement("a"),url=URL.createObjectURL(blob);a.href=url;a.download=`skarbnychka_${Date.now()}.csv`;a.click();URL.revokeObjectURL(url);});
+        document.getElementById("settingsBtn")?.addEventListener("click",()=>switchPanel("settings"));
+        document.getElementById("saveProfileBtn")?.addEventListener("click",()=>{userProfile.firstName=document.getElementById("firstNameInput").value.trim();userProfile.lastName=document.getElementById("lastNameInput").value.trim();let profSelect=document.getElementById("professionSelect");userProfile.profession=profSelect?profSelect.value:"";updateProfileDisplay();saveAll();alert("Профіль збережено!");});
+        document.getElementById("darkModeToggle")?.addEventListener("click",()=>{darkMode=!darkMode;if(darkMode)document.body.classList.add('dark');else document.body.classList.remove('dark');saveAll();document.getElementById("darkModeStatus").innerHTML=darkMode?'<i class="fas fa-toggle-on"></i> Увімкнено':'<i class="fas fa-toggle-off"></i> Вимкнено';});
+        document.getElementById("freelanceModeToggle")?.addEventListener("click",()=>{freelanceMode=!freelanceMode;updateFreelanceUI();saveAll();});
+        document.getElementById("resetAllDataBtn")?.addEventListener("click",()=>{if(confirm("ВСІ ДАНІ БУДУТЬ ВИДАЛЕНІ!")){localStorage.clear();location.reload();}});
+        document.getElementById("addOrderBtn")?.addEventListener("click",addOrder);
+        document.getElementById("completeAllOrdersBtn")?.addEventListener("click",completeAllOrders);
         
-        document.getElementById("hourlyRate").addEventListener("input", (e) => { hourlyRate = parseFloat(e.target.value) || 0; });
-        document.getElementById("workSchedule").addEventListener("change", updateWorkSchedule);
-        document.getElementById("customHours").addEventListener("input", () => { if (document.getElementById("workSchedule").value === "custom") workHoursPerDay = parseFloat(document.getElementById("customHours").value) || 8; });
-        document.getElementById("resetTodayBtn").addEventListener("click", resetToday);
-        document.getElementById("addToIncomeBtn").addEventListener("click", addToIncome);
-        document.getElementById("addBtn").addEventListener("click", addTransaction);
-        document.getElementById("addAssetBtn").addEventListener("click", addAsset);
-        document.getElementById("resetTransactionsBtn").addEventListener("click", resetTransactions);
-        document.getElementById("resetAssetsBtn").addEventListener("click", resetAssets);
-        document.getElementById("setGoalBtn").addEventListener("click", setGoal);
-        document.getElementById("collectPiggyBtn").addEventListener("click", collectPiggy);
-        document.getElementById("clearPiggyBtn").addEventListener("click", clearPiggy);
-        document.getElementById("addReminderBtn").addEventListener("click", addReminder);
-        document.getElementById("addBudgetBtn").addEventListener("click", () => {
-            let cat = document.getElementById("budgetCategory").value.trim(), limit = parseFloat(document.getElementById("budgetLimit").value);
-            if (!cat || isNaN(limit) || limit <= 0) { alert("Введіть категорію та ліміт"); return; }
-            budgets.push({ id: Date.now(), category: cat, limit: limit });
-            document.getElementById("budgetCategory").value = "";
-            document.getElementById("budgetLimit").value = "";
-            saveAll();
-            updateBudgets();
+        // ПОКАЗ СТАТИСТИКИ ПРИ НАТИСКАННІ КНОПКИ
+        document.getElementById("showStatsBtn")?.addEventListener("click",()=>{
+            let statsContainer = document.getElementById("statsContainer");
+            if(statsContainer.style.display === "none" || statsContainer.style.display === "") {
+                statsContainer.style.display = "block";
+                updateOrdersStats();
+            } else {
+                statsContainer.style.display = "none";
+            }
         });
-        document.getElementById("addRecurringBtn").addEventListener("click", () => {
-            let title = document.getElementById("recurringTitle").value.trim(), amount = parseFloat(document.getElementById("recurringAmount").value), period = document.getElementById("recurringPeriod").value;
-            if (!title || isNaN(amount) || amount <= 0) { alert("Заповніть поля"); return; }
-            recurringPayments.push({ id: Date.now(), title, amount, period });
-            document.getElementById("recurringTitle").value = "";
-            document.getElementById("recurringAmount").value = "";
-            saveAll();
-            renderRecurring();
-        });
-        document.getElementById("processRecurringBtn").addEventListener("click", processRecurringPayments);
-        document.getElementById("setDailyLimitBtn").addEventListener("click", () => {
-            let newLimit = parseFloat(prompt("Денний ліміт:", dailyLimit));
-            if (!isNaN(newLimit) && newLimit > 0) { dailyLimit = newLimit; saveAll(); updateTodaySpent(); }
-        });
-        document.getElementById("typeSelect").addEventListener("change", buildCategorySelect);
-        document.querySelectorAll(".filter-btn").forEach(btn => btn.addEventListener("click", (e) => {
-            currentFilter = btn.getAttribute("data-filter");
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderTransactions();
-        }));
-        document.querySelectorAll(".info-tab").forEach(btn => btn.addEventListener("click", () => switchPanel(btn.getAttribute("data-panel"))));
-        document.getElementById("exportCsvBtn").addEventListener("click", () => {
-            if (!transactions.length) { alert("Немає транзакцій"); return; }
-            let rows = [["Дата", "Опис", "Категорія", "Тип", "Сума"]];
-            transactions.forEach(t => { rows.push([new Date(t.id).toLocaleDateString(), t.description, t.category, t.type === "income" ? "Дохід" : "Витрата", t.amount.toFixed(2)]); });
-            let csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
-            let blob = new Blob(["\uFEFF" + csv], { type: "text/csv" }), a = document.createElement("a"), url = URL.createObjectURL(blob);
-            a.href = url;
-            a.download = `skarbnychka_${Date.now()}.csv`;
-            a.click();
-            URL.revokeObjectURL(url);
-        });
-        updateWorkSchedule();
-        setInterval(() => saveTodayEarnings(), 5000);
+        
+        document.querySelectorAll(".period-btn").forEach(btn=>{btn.addEventListener("click",()=>{
+            document.querySelectorAll(".period-btn").forEach(b=>b.classList.remove("active"));
+            btn.classList.add("active");
+            currentPeriod=btn.dataset.period;
+            let customDiv=document.getElementById("customRangeDiv");
+            if(customDiv)customDiv.style.display=currentPeriod==="custom"?"flex":"none";
+            updateOrdersStats();
+        });});
+        document.getElementById("applyCustomBtn")?.addEventListener("click",()=>{customFrom=document.getElementById("dateFrom").value;customTo=document.getElementById("dateTo").value;if(customFrom&&customTo){currentPeriod="custom";updateOrdersStats();}else alert("Виберіть обидві дати");});
+        
+        setInterval(()=>saveAll(),5000);
     });
 </script>
 </body>
