@@ -599,6 +599,32 @@
                     <div class="profile-settings-row" id="freelanceModeToggle"><span><i class="fas fa-briefcase"></i> Режим фрілансера</span><span id="freelanceStatus"><i class="fas fa-toggle-off"></i> Вимкнено</span></div>
                     <div class="profile-settings-row" id="pfandModeToggle"><span><i class="fas fa-recycle"></i> Режим Пфанд</span><span id="pfandStatus"><i class="fas fa-toggle-off"></i> Вимкнено</span></div>
                 </div>
+                <div class="white-card">
+                    <div class="section-header"><i class="fab fa-telegram"></i> Telegram сповіщення</div>
+                    <div class="add-form" style="flex-direction: column; gap: 12px;">
+                        <input type="text" id="userChatId" placeholder="Ваш Telegram Chat ID" style="padding: 12px; font-size: 0.9rem; text-align: center; border: 1px solid #dee4ea; border-radius: 60px;">
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button id="saveChatIdBtn" style="flex: 1; justify-content: center; padding: 12px; background: linear-gradient(135deg, #1f6e8c, #2c9b77); color: white; border: none; border-radius: 60px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;"><i class="fas fa-save"></i> Зберегти Chat ID</button>
+                            <button id="testTelegramBtn" style="flex: 1; justify-content: center; padding: 12px; background: linear-gradient(135deg, #1f6e8c, #2c9b77); color: white; border: none; border-radius: 60px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;"><i class="fab fa-telegram"></i> Тест сповіщення</button>
+                        </div>
+                        
+                        <div style="margin-top: 15px; padding: 16px; background: #e6f4f0; border-radius: 24px; border-left: 4px solid #2c9b77;">
+                            <div style="font-weight: 700; margin-bottom: 12px; color: #1f6e8c; font-size: 0.85rem;">
+                                <i class="fab fa-telegram"></i> Як отримати свій Chat ID:
+                            </div>
+                            <ol style="margin-left: 20px; font-size: 0.75rem; color: #1e2f3e; line-height: 1.6;">
+                                <li>Відкрийте Telegram та знайдіть бота <strong>@Scarbnichka_bot</strong></li>
+                                <li>Надішліть боту команду <strong>/start</strong> або будь-яке повідомлення</li>
+                                <li>Бот одразу відповість і покаже ваш особистий <strong>Chat ID</strong></li>
+                                <li>Скопіюйте цей номер (тільки цифри) та вставте його у поле вище</li>
+                                <li>Натисніть «Зберегти Chat ID», а потім «Тест сповіщення» для перевірки</li>
+                            </ol>
+                            <div style="margin-top: 12px; font-size: 0.7rem; color: #e26d5c; background: #fff0ed; padding: 10px; border-radius: 16px;">
+                                <i class="fas fa-info-circle"></i> <strong>Важливо:</strong> Після збереження Chat ID, усі ваші нагадування автоматично дублюватимуться в Telegram у вказаний час!
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="white-card"><div class="section-header"><i class="fas fa-database"></i> Дані</div><button id="resetAllDataBtn" style="background:#e26d5c; color:white;"><i class="fas fa-trash-alt"></i> Скинути всі дані</button></div>
             </div>
 
@@ -693,7 +719,9 @@
             <div id="panel-goal" class="panel"><div class="goal-panel"><div class="goal-info"><span class="goal-label"><i class="fas fa-bullseye"></i> Фінансова ціль</span><span class="goal-amount" id="goalTargetDisplay">0 ₴</span><span style="color:#5c6f87;">· Накопичено:</span><strong id="savedAmount">0 ₴</strong></div><div class="goal-progress"><div class="progress-bar-bg"><div class="progress-fill" id="goalProgressFill"></div></div><div style="font-size:0.7rem; margin-top:4px;" id="progressPercent">0%</div></div><div class="goal-control"><input type="number" id="goalInput" placeholder="Сума цілі" step="1000" value="50000"><button id="setGoalBtn" class="btn-primary"><i class="fas fa-save"></i> Встановити</button></div></div><div class="stats-grid"><div class="stat-card"><div class="stat-title">ДОХОДИ</div><div class="stat-value" id="totalIncome2">0 ₴</div></div><div class="stat-card"><div class="stat-title">ВИТРАТИ</div><div class="stat-value" id="totalExpense2">0 ₴</div></div><div class="stat-card"><div class="stat-title">БАЛАНС</div><div class="stat-value" id="totalBalance2">0 ₴</div></div></div></div>
             <div id="panel-budget" class="panel"><div class="white-card"><div class="section-header"><i class="fas fa-chart-line"></i> Бюджети на категорії</div><div class="scrollable-list" id="budgetsList"></div><div class="add-asset-row"><input type="text" id="budgetCategory" placeholder="Категорія"><input type="number" id="budgetLimit" placeholder="Ліміт (₴)"><button id="addBudgetBtn" class="btn-primary"><i class="fas fa-plus"></i> Встановити</button></div></div></div>
             <div id="panel-recurring" class="panel"><div class="white-card"><div class="section-header"><i class="fas fa-sync-alt"></i> Регулярні платежі</div><div class="scrollable-list" id="recurringList"></div><div class="add-recurring-form"><input type="text" id="recurringTitle" placeholder="Назва"><input type="number" id="recurringAmount" placeholder="Сума"><select id="recurringPeriod"><option value="monthly">Щомісяця</option><option value="weekly">Щотижня</option></select><button id="addRecurringBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button></div><button id="processRecurringBtn" class="btn-primary" style="margin-top:1rem; width:100%;"><i class="fas fa-play"></i> Виконати</button></div></div>
-            <div id="panel-reminders" class="panel"><div class="white-card"><div class="section-header"><i class="fas fa-bell"></i> Нагадування</div><div class="scrollable-list" id="remindersList"></div><div class="add-reminder-form"><input type="text" id="reminderTitle" placeholder="Що?"><input type="date" id="reminderDate"><input type="number" id="reminderAmount" placeholder="Сума"><button id="addReminderBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button></div></div></div>
+            <div id="panel-reminders" class="panel"><div class="white-card"><div class="section-header"><i class="fas fa-bell"></i> Нагадування</div><div class="scrollable-list" id="remindersList"></div><div class="add-reminder-form"><input type="text" id="reminderTitle" placeholder="Що?"><input type="date" id="reminderDate"><input type="time" id="reminderTime" value="09:00"><input type="number" id="reminderAmount" placeholder="Сума"><button id="addReminderBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button></div><div style="margin-top: 12px; padding: 10px; background: #e6f4f0; border-radius: 16px; font-size: 0.7rem; color: #1f6e8c;">
+                    <i class="fab fa-telegram"></i> <strong>Telegram сповіщення:</strong> Якщо ви зберегли ваш Chat ID у налаштуваннях, то це нагадування прийде вам у Telegram <strong>точно у вказаний час</strong>!
+                </div></div></div>
             <div id="panel-assets" class="panel"><div class="white-card"><div class="section-header"><i class="fas fa-charging-station"></i> Активи</div><div class="scrollable-list" id="assetsList"></div><div class="add-asset-row"><input type="text" id="assetName" placeholder="Назва"><input type="number" id="assetValue" placeholder="Вартість (₴)"><button id="addAssetBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button></div><div class="total-assets"><span>Загальна вартість:</span><strong id="totalAssetsSum">0 ₴</strong></div><canvas id="assetsChart"></canvas><button id="resetAssetsBtn" style="width:100%; margin-top:12px;"><i class="fas fa-trash-alt"></i> Очистити</button></div></div>
             <footer><i class="fas fa-piggy-bank"></i> Скарбничка · Ваш скарб — це ви</footer>
         </div>
@@ -727,12 +755,99 @@
     let darkMode = false;
     let freelanceMode = false;
     let pfandMode = false;
+    let userChatId = '';
     
     const { jsPDF } = window.jspdf;
     
     function formatUAH(v) { return v.toLocaleString('uk-UA', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + " ₴"; }
     function formatEUR(v) { return v.toLocaleString('uk-UA', { minimumFractionDigits: 2 }) + " €"; }
     function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+    
+    // === ТЕЛЕГРАМ НАЛАШТУВАННЯ ===
+    const TELEGRAM_BOT_TOKEN = '8444455829:AAHQZPNG1CeCMPI4ngFDqHoUHboS8WrhKKI';
+    
+    async function sendTelegramMessage(message, chatId) {
+        if (!chatId) return false;
+        try {
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message,
+                    parse_mode: 'HTML'
+                })
+            });
+            const result = await response.json();
+            return result.ok;
+        } catch(error) {
+            console.error('Telegram помилка:', error);
+            return false;
+        }
+    }
+    
+    function saveChatId() {
+        userChatId = document.getElementById('userChatId')?.value.trim() || '';
+        if (userChatId) {
+            localStorage.setItem('user_chat_id', userChatId);
+            showToast('✅ Chat ID збережено! Тепер нагадування будуть приходити в Telegram.');
+        } else {
+            localStorage.removeItem('user_chat_id');
+            showToast('❌ Chat ID видалено. Сповіщення в Telegram вимкнено.');
+        }
+    }
+    
+    function loadChatId() {
+        userChatId = localStorage.getItem('user_chat_id') || '';
+        if (document.getElementById('userChatId')) {
+            document.getElementById('userChatId').value = userChatId;
+        }
+    }
+    
+    async function checkRemindersAndNotify() {
+        if (!userChatId) return;
+        
+        const now = new Date();
+        const today = now.toISOString().split('T')[0];
+        const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+        
+        for (const reminder of reminders) {
+            if (reminder.date === today && reminder.time) {
+                const reminderTime = reminder.time;
+                if (reminderTime === currentTime) {
+                    const lastSentKey = `telegram_sent_${reminder.id}_${today}_${reminderTime}`;
+                    if (!localStorage.getItem(lastSentKey)) {
+                        const message = `🔔 <b>Нагадування від Скарбнички</b>\n\n` +
+                            `📝 <b>Що:</b> ${escapeHtml(reminder.title)}\n` +
+                            `⏰ <b>Час:</b> ${reminderTime}\n` +
+                            `💰 <b>Сума:</b> ${reminder.amount.toFixed(2)} ₴\n\n` +
+                            `💡 Порада: не забудьте врахувати це у своєму бюджеті!`;
+                        
+                        const sent = await sendTelegramMessage(message, userChatId);
+                        if (sent) {
+                            localStorage.setItem(lastSentKey, 'sent');
+                            showToast(`📨 Telegram: нагадування "${reminder.title}" відправлено!`);
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Очищаємо старі записи
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('telegram_sent_')) {
+                const dateStr = key.split('_')[3];
+                const recordDate = new Date(dateStr);
+                if (recordDate < sevenDaysAgo) {
+                    localStorage.removeItem(key);
+                }
+            }
+        }
+    }
     
     function showLimitModal() {
         const modalDiv = document.createElement('div');
@@ -936,6 +1051,7 @@
         renderAll(); renderAssets(); renderReminders(); updateBudgets(); renderRecurring();
         updateTodaySpent();
         loadSettings();
+        loadChatId();
         fetchExchangeRates();
         if(animationFrame) cancelAnimationFrame(animationFrame);
         animationFrame = requestAnimationFrame(function updateLive() {
@@ -1092,8 +1208,38 @@
     function updateBudgets() { let now=new Date(), month=now.getMonth(), year=now.getFullYear(), expensesByCat={}; transactions.filter(t=>t.type==='expense').forEach(t=>{let d=new Date(t.date||t.id); if(d.getMonth()===month && d.getFullYear()===year) expensesByCat[t.category]=(expensesByCat[t.category]||0)+t.amount;}); let container=document.getElementById("budgetsList"); if(!budgets.length){container.innerHTML="<div style='text-align:center; padding:1rem;'><i class='fas fa-chart-line'></i> Додайте бюджет</div>";return;} container.innerHTML=""; budgets.forEach(b=>{let spent=expensesByCat[b.category]||0, percent=Math.min(100,(spent/b.limit)*100), div=document.createElement("div"); div.className="budget-item"; div.innerHTML=`<span><strong>${b.category}</strong><div class="budget-progress-bar"><div class="budget-progress-fill" style="width:${percent}%; background:${percent>=100?'#e26d5c':'#2c9b77'}"></div></div></span><span>${formatUAH(spent)} / ${formatUAH(b.limit)} <span>${percent.toFixed(0)}%</span><button class="delete-budget" data-id="${b.id}"><i class="fas fa-trash-alt"></i></button></span>`; container.appendChild(div);}); document.querySelectorAll('.delete-budget').forEach(btn=>btn.addEventListener('click',()=>{budgets=budgets.filter(b=>b.id!==parseInt(btn.dataset.id));saveAll();updateBudgets();showToast("Бюджет видалено");})); }
     function renderRecurring() { let container = document.getElementById("recurringList"); if(!recurringPayments.length){container.innerHTML="<div style='text-align:center; padding:1rem;'><i class='fas fa-sync-alt'></i> Немає платежів</div>";return;} container.innerHTML=""; recurringPayments.forEach(r=>{let div=document.createElement("div");div.className="recurring-item";div.innerHTML=`<span><i class="fas ${r.period==='monthly'?'fa-calendar-alt':'fa-calendar-week'}"></i> ${r.title}</span><span>${formatUAH(r.amount)} <span style="font-size:0.65rem;">${r.period==='monthly'?'щомісяця':'щотижня'}</span><button class="delete-recurring" data-id="${r.id}"><i class="fas fa-trash-alt"></i></button></span>`;container.appendChild(div);}); document.querySelectorAll('.delete-recurring').forEach(btn=>btn.addEventListener('click',()=>{recurringPayments=recurringPayments.filter(r=>r.id!==parseInt(btn.dataset.id));saveAll();renderRecurring();showToast("Платіж видалено");})); }
     function processRecurringPayments(){let added=0; recurringPayments.forEach(r=>{transactions.unshift({id:Date.now(),description:`🔄 Регулярний: ${r.title}`,amount:r.amount,type:"expense",category:"Інше",date:new Date().toISOString()});added++;}); if(added>0){saveAll();renderAll();showToast(`✅ Додано ${added} платежів`);}else showToast("Немає платежів",false);}
-    function renderReminders() { let container = document.getElementById("remindersList"); if(!reminders.length){container.innerHTML="<div style='text-align:center; padding:1rem;'><i class='fas fa-bell'></i> Немає нагадувань</div>";return;} container.innerHTML=""; reminders.sort((a,b)=>new Date(a.date)-new Date(b.date)); reminders.forEach(r=>{let today=new Date().toISOString().split('T')[0],isToday=r.date===today,div=document.createElement("div");div.className="reminder-item";div.innerHTML=`<div><strong>${escapeHtml(r.title)}</strong><div style="font-size:0.7rem; color:#e6a017;"><i class="fas fa-calendar-alt"></i> ${r.date} ${isToday?'<span style="background:#ffd966; padding:2px 6px; border-radius:40px; font-size:0.6rem;">СЬОГОДНІ!</span>':''}</div><span>💰 ${formatUAH(r.amount)}</span></div><button class="delete-reminder" data-id="${r.id}"><i class="fas fa-trash-alt"></i></button>`;container.appendChild(div);}); document.querySelectorAll('.delete-reminder').forEach(btn=>btn.addEventListener('click',()=>{reminders=reminders.filter(r=>r.id!==parseInt(btn.dataset.id));saveAll();renderReminders();showToast("Нагадування видалено");})); }
-    function addReminder(){let title=document.getElementById("reminderTitle").value.trim(),date=document.getElementById("reminderDate").value,amount=parseFloat(document.getElementById("reminderAmount").value);if(!title||!date||isNaN(amount)||amount<=0){showToast("Заповніть всі поля",false);return;}reminders.push({id:Date.now(),title,date,amount});document.getElementById("reminderTitle").value="";document.getElementById("reminderDate").value="";document.getElementById("reminderAmount").value="";saveAll();renderReminders();showToast("Нагадування додано");}
+    
+    function renderReminders() { 
+        let container = document.getElementById("remindersList"); 
+        if(!reminders.length){container.innerHTML="<div style='text-align:center; padding:1rem;'><i class='fas fa-bell'></i> Немає нагадувань</div>";return;} 
+        container.innerHTML = ""; 
+        reminders.sort((a,b)=>new Date(a.date)-new Date(b.date)); 
+        reminders.forEach(r=>{
+            let today=new Date().toISOString().split('T')[0], isToday=r.date===today;
+            let div=document.createElement("div");
+            div.className="reminder-item";
+            div.innerHTML=`<div><strong>${escapeHtml(r.title)}</strong><div style="font-size:0.7rem; color:#e6a017;"><i class="fas fa-calendar-alt"></i> ${r.date} о ${r.time || "00:00"} ${isToday?'<span style="background:#ffd966; padding:2px 6px; border-radius:40px; font-size:0.6rem;">СЬОГОДНІ!</span>':''}</div><span>💰 ${formatUAH(r.amount)}</span></div><button class="delete-reminder" data-id="${r.id}"><i class="fas fa-trash-alt"></i></button>`;
+            container.appendChild(div);
+        }); 
+        document.querySelectorAll('.delete-reminder').forEach(btn=>btn.addEventListener('click',()=>{reminders=reminders.filter(r=>r.id!==parseInt(btn.dataset.id));saveAll();renderReminders();showToast("Нагадування видалено");})); 
+    }
+    
+    function addReminder(){
+        let title=document.getElementById("reminderTitle").value.trim();
+        let date=document.getElementById("reminderDate").value;
+        let time=document.getElementById("reminderTime").value;
+        let amount=parseFloat(document.getElementById("reminderAmount").value);
+        if(!title||!date||!time||isNaN(amount)||amount<=0){showToast("Заповніть всі поля",false);return;}
+        reminders.push({id:Date.now(),title,date,time,amount});
+        document.getElementById("reminderTitle").value="";
+        document.getElementById("reminderDate").value="";
+        document.getElementById("reminderTime").value="09:00";
+        document.getElementById("reminderAmount").value="";
+        saveAll();
+        renderReminders();
+        showToast(`Нагадування "${title}" додано на ${date} о ${time}`);
+    }
+    
     function renderAssets(){let container=document.getElementById("assetsList");if(!assets.length)container.innerHTML="<div style='text-align:center; padding:1rem;'><i class='fas fa-chart-pie'></i> Додайте актив</div>";else{container.innerHTML="";assets.forEach(a=>{let div=document.createElement("div");div.className="asset-item";div.innerHTML=`<span>${escapeHtml(a.name)}</span><span><span style="font-weight:700; color:#1f6e8c;">${formatUAH(a.value)}</span><button class="delete-asset" data-id="${a.id}"><i class="fas fa-trash-alt"></i></button></span>`;container.appendChild(div);});document.querySelectorAll('.delete-asset').forEach(btn=>btn.addEventListener('click',()=>{assets=assets.filter(a=>a.id!==parseInt(btn.dataset.id));saveAll();renderAssets();showToast("Актив видалено");}));}let total=assets.reduce((s,a)=>s+a.value,0);document.getElementById("totalAssetsSum").innerHTML=formatUAH(total);renderAssetsChart();}
     function renderAssetsChart(){let ctx=document.getElementById('assetsChart');if(!ctx) return; if(assetsChart)assetsChart.destroy(); if(!assets.length){assetsChart=new Chart(ctx,{type:'bar',data:{labels:["Немає"],datasets:[{data:[0],backgroundColor:'#2c9b77'}]},options:{responsive:true,plugins:{legend:{display:false}}}});return;}assetsChart=new Chart(ctx,{type:'bar',data:{labels:assets.map(a=>a.name.length>12?a.name.slice(0,9)+'..':a.name),datasets:[{label:'Вартість (₴)',data:assets.map(a=>a.value),backgroundColor:'#2c9b77',borderRadius:8}]},options:{responsive:true}});}
     function addAsset(){let name=document.getElementById("assetName").value.trim(),val=parseFloat(document.getElementById("assetValue").value);if(!name)showToast("Введіть назву",false);else{assets.push({id:Date.now(),name,value:isNaN(val)?0:val});saveAll();renderAssets();showToast("Актив додано");}}
@@ -1157,6 +1303,28 @@
         document.getElementById("addOrderBtn")?.addEventListener("click",addOrder);
         document.getElementById("addPfandBtn")?.addEventListener("click", addPfand);
         document.getElementById("collectPfandBtn")?.addEventListener("click", collectPfand);
+        
+        // Telegram налаштування
+        document.getElementById("saveChatIdBtn")?.addEventListener("click", saveChatId);
+        document.getElementById("testTelegramBtn")?.addEventListener("click", async () => {
+            if (!userChatId) {
+                showToast("❌ Спочатку збережіть ваш Chat ID", false);
+                return;
+            }
+            const success = await sendTelegramMessage(
+                "✅ <b>Скарбничка</b>\n\nTelegram сповіщення працюють!\n\nВаші нагадування будуть приходити автоматично у вказаний час.",
+                userChatId
+            );
+            if (success) {
+                showToast("✅ Тестове повідомлення відправлено в Telegram!");
+            } else {
+                showToast("❌ Помилка. Перевірте Chat ID", false);
+            }
+        });
+        
+        // Перевірка нагадувань кожні 30 секунд
+        setInterval(() => { checkRemindersAndNotify(); }, 30 * 1000);
+        setTimeout(() => { checkRemindersAndNotify(); }, 5000);
         
         setInterval(()=>{ saveAll(); fetchExchangeRates(); }, 3600000);
         setInterval(()=>saveAll(),5000);
