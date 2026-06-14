@@ -348,6 +348,85 @@
         .work-day-check input { width: 16px; height: 16px; margin: 0; }
         .time-range { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
         
+        /* Модальне вікно для ліміту */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-container {
+            background: white;
+            border-radius: 40px;
+            width: 85%;
+            max-width: 320px;
+            padding: 24px 20px;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+            text-align: center;
+            animation: fadeInScale 0.2s ease;
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-container h3 {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1f6e8c, #2c9b77);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .modal-container input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 60px;
+            border: 1px solid #dee4ea;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+            outline: none;
+        }
+        .modal-container input:focus {
+            border-color: #2c9b77;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .modal-buttons button {
+            flex: 1;
+            padding: 10px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        body.dark .modal-container {
+            background: #14141f;
+            border: 1px solid #2a2a35;
+        }
+        body.dark .modal-container h3 {
+            background: linear-gradient(135deg, #ffffff, #dddddd);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        body.dark .modal-container input {
+            background: #20202e;
+            border-color: #353545;
+            color: white;
+        }
+        
         body.dark .app-container { background: #0a0a0f; }
         body.dark .white-card, body.dark .stat-card, body.dark .info-tabs, body.dark .balance-badge, 
         body.dark .goal-panel, body.dark .profile-card, body.dark .order-card, body.dark .settings-icon,
@@ -414,7 +493,6 @@
                 <button class="info-tab" data-panel="assets"><i class="fas fa-chart-pie"></i> Активи</button>
             </div>
 
-            <!-- ГОЛОВНА -->
             <div id="panel-balance" class="panel active-panel">
                 <div class="daily-limit-card">
                     <div><i class="fas fa-sun"></i> <strong>Сьогодні можна витратити</strong><div class="limit-number" id="dailyLimitRemaining">0 ₴</div></div>
@@ -466,7 +544,6 @@
                 </div>
             </div>
 
-            <!-- НАЛАШТУВАННЯ -->
             <div id="panel-settings" class="panel">
                 <div class="profile-card">
                     <div class="profile-avatar"><i class="fas fa-user"></i></div>
@@ -503,7 +580,6 @@
                 <div class="white-card"><div class="section-header"><i class="fas fa-database"></i> Дані</div><button id="resetAllDataBtn" style="background:#e26d5c; color:white;"><i class="fas fa-trash-alt"></i> Скинути всі дані</button></div>
             </div>
 
-            <!-- ЗАМОВЛЕННЯ -->
             <div id="panel-freelance" class="panel">
                 <div class="white-card">
                     <div class="section-header"><i class="fas fa-briefcase"></i> Замовлення</div>
@@ -518,10 +594,8 @@
                         </select>
                         <button id="addOrderBtn" class="btn-primary"><i class="fas fa-plus-circle"></i> Додати</button>
                     </div>
-                    
                     <div style="margin-top: 12px;"><strong><i class="fas fa-list"></i> Список замовлень:</strong></div>
                     <div id="ordersList" class="transactions-list"></div>
-                    
                     <div class="stat-row" style="margin-top: 12px;">
                         <span><i class="fas fa-chart-simple"></i> Сума активних замовлень:</span>
                         <span id="totalActiveOrders">0 ₴</span>
@@ -529,7 +603,6 @@
                 </div>
             </div>
 
-            <!-- ПФАНД -->
             <div id="panel-pfand" class="panel">
                 <div class="white-card">
                     <div class="section-header"><i class="fas fa-recycle"></i> Пфанд (Збір тари)</div>
@@ -548,7 +621,6 @@
                 </div>
             </div>
 
-            <!-- ЖИВИЙ ЗАРОБІТОК -->
             <div id="panel-live" class="panel">
                 <div class="live-earnings">
                     <div class="earnings-header"><i class="fas fa-clock"></i><h3>💰 Живий заробіток</h3></div>
@@ -556,7 +628,6 @@
                         <div class="rate-field"><label>Ставка (€/год)</label><input type="number" id="hourlyRate" value="15" step="0.5"></div>
                         <div class="rate-field"><label>Валюта ставки</label><select id="rateCurrency"><option value="EUR">EUR</option><option value="UAH">UAH</option></select></div>
                     </div>
-                    
                     <div style="background: rgba(0,0,0,0.2); border-radius: 24px; padding: 12px; margin: 12px 0;">
                         <div style="font-size:0.75rem; margin-bottom: 8px;"><i class="fas fa-calendar-alt"></i> Робочі дні:</div>
                         <div class="work-schedule-grid" id="workDaysContainer">
@@ -573,7 +644,6 @@
                             <div class="rate-field" style="flex:1"><label>Кінець</label><input type="time" id="workEnd" value="18:00"></div>
                         </div>
                     </div>
-                    
                     <div class="live-counter">
                         <div class="counter-eur" id="liveEur">0.00 €</div>
                         <div class="counter-uah" id="liveUah">0.00 ₴</div>
@@ -633,27 +703,56 @@
     function formatEUR(v) { return v.toLocaleString('uk-UA', { minimumFractionDigits: 2 }) + " €"; }
     function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
     
+    // модальне вікно для ліміту замість prompt
+    function showLimitModal() {
+        const modalDiv = document.createElement('div');
+        modalDiv.className = 'modal-overlay';
+        modalDiv.innerHTML = `
+            <div class="modal-container">
+                <h3>✏️ Денний ліміт</h3>
+                <input type="number" id="limitInput" placeholder="Сума (₴)" value="${dailyLimit || ''}" step="100">
+                <div class="modal-buttons">
+                    <button id="modalCancelBtn" style="background:#eef2f8;">Скасувати</button>
+                    <button id="modalConfirmBtn" class="btn-primary">Зберегти</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modalDiv);
+        const input = modalDiv.querySelector('#limitInput');
+        input.focus();
+        const closeModal = () => modalDiv.remove();
+        modalDiv.querySelector('#modalCancelBtn').addEventListener('click', closeModal);
+        modalDiv.querySelector('#modalConfirmBtn').addEventListener('click', () => {
+            let val = parseFloat(input.value);
+            if (!isNaN(val) && val >= 0) {
+                dailyLimit = val;
+                if(dailyLimit === 0) alert("Ліміт вимкнено");
+                saveAll();
+                updateTodaySpent();
+            } else if (input.value.trim() !== "") {
+                alert("Будь ласка, введіть коректну суму (≥0)");
+            }
+            closeModal();
+        });
+        modalDiv.addEventListener('click', (e) => { if(e.target === modalDiv) closeModal(); });
+    }
+    
     async function exportToPDF() {
         if(transactions.length === 0) { alert("Немає транзакцій для експорту"); return; }
-        
         const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
         const pageWidth = doc.internal.pageSize.getWidth();
         let y = 20;
-        
         doc.setFontSize(22);
         doc.setFont('helvetica', 'bold');
         doc.text("Скарбничка — Фінансовий звіт", pageWidth / 2, y, { align: 'center' });
         y += 8;
-        
         doc.setFontSize(10);
         doc.setFont('helvetica', 'normal');
         doc.text(`Дата створення: ${new Date().toLocaleDateString('uk-UA')} ${new Date().toLocaleTimeString('uk-UA')}`, pageWidth / 2, y, { align: 'center' });
         y += 12;
-        
         let totalInc = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
         let totalExp = transactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
         let balance = totalInc - totalExp;
-        
         doc.setFillColor(44, 155, 119);
         doc.rect(15, y, pageWidth - 30, 30, 'F');
         doc.setTextColor(255, 255, 255);
@@ -663,24 +762,20 @@
         doc.text(`Баланс: ${formatUAH(balance)}`, 20, y + 24);
         doc.setTextColor(0, 0, 0);
         y += 38;
-        
         doc.setFontSize(14);
         doc.setFont('helvetica', 'bold');
         doc.text("Деталі транзакцій:", 15, y);
         y += 8;
-        
         doc.setFontSize(9);
         doc.setFont('helvetica', 'bold');
         const headers = ["Дата", "Опис", "Категорія", "Тип", "Сума"];
         let colWidths = [30, 55, 35, 25, 35];
         let xStart = 15;
-        
         headers.forEach((h, i) => {
             doc.rect(xStart + colWidths.slice(0, i).reduce((a,b)=>a+b,0), y, colWidths[i], 8, 'S');
             doc.text(h, xStart + colWidths.slice(0, i).reduce((a,b)=>a+b,0) + 2, y + 5);
         });
         y += 8;
-        
         doc.setFont('helvetica', 'normal');
         let sorted = [...transactions].sort((a,b)=>b.id - a.id);
         for(let tx of sorted) {
@@ -695,7 +790,6 @@
             });
             y += 7;
         }
-        
         doc.save(`skarbnychka_zvit_${Date.now()}.pdf`);
     }
     
@@ -995,7 +1089,7 @@
         document.getElementById("addBudgetBtn")?.addEventListener("click",()=>{let cat=document.getElementById("budgetCategory").value.trim(),lim=parseFloat(document.getElementById("budgetLimit").value);if(cat&&lim>0){budgets.push({id:Date.now(),category:cat,limit:lim});saveAll();updateBudgets();document.getElementById("budgetCategory").value="";document.getElementById("budgetLimit").value="";}});
         document.getElementById("addRecurringBtn")?.addEventListener("click",()=>{let title=document.getElementById("recurringTitle").value.trim(),amt=parseFloat(document.getElementById("recurringAmount").value),period=document.getElementById("recurringPeriod").value;if(title&&amt>0){recurringPayments.push({id:Date.now(),title,amount:amt,period});saveAll();renderRecurring();document.getElementById("recurringTitle").value="";document.getElementById("recurringAmount").value="";}});
         document.getElementById("processRecurringBtn")?.addEventListener("click",processRecurringPayments);
-        document.getElementById("setDailyLimitBtn")?.addEventListener("click",()=>{let l=parseFloat(prompt("Денний ліміт (₴):",dailyLimit));if(!isNaN(l) && l >= 0){dailyLimit=l; if(dailyLimit === 0) alert("Ліміт вимкнено"); saveAll(); updateTodaySpent();}});
+        document.getElementById("setDailyLimitBtn")?.addEventListener("click", showLimitModal);
         document.getElementById("typeSelect")?.addEventListener("change",buildCategorySelect);
         document.querySelectorAll(".filter-btn").forEach(btn=>btn.addEventListener("click",()=>{currentFilter=btn.getAttribute("data-filter");document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderTransactions();}));
         document.querySelectorAll(".info-tab").forEach(btn=>btn.addEventListener("click",()=>switchPanel(btn.getAttribute("data-panel"))));
